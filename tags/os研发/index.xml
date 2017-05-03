@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Os研发 on Boxcounter的烂笔头</title>
+    <link>http://boxcounter.com/tags/os%E7%A0%94%E5%8F%91/</link>
+    <description>Recent content in Os研发 on Boxcounter的烂笔头</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 14 Nov 2013 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://boxcounter.com/tags/os%E7%A0%94%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>linux、osx下搭建操作系统开发环境 v1.1</title>
+      <link>http://boxcounter.com/technique/2013-11-14-linuxosx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83_v1.1/</link>
+      <pubDate>Thu, 14 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2013-11-14-linuxosx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83_v1.1/</guid>
+      <description>一、前言 本文档记录的内容既适用于x86也适用于x64，只是对于后者有一些环境要求。 之前开发使用的方法是：自己的引导代码+虚拟软盘。优点是搭建</description>
+    </item>
+    
+    <item>
+      <title>osx下搭建操作系统开发环境之64位交叉开发工具集（gcc&#43;gdb）v1.0</title>
+      <link>http://boxcounter.com/technique/2013-11-08-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B64%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc&#43;gdbv1.0/</link>
+      <pubDate>Fri, 08 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2013-11-08-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B64%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc&#43;gdbv1.0/</guid>
+      <description>一、前言 《osx下搭建操作系统开发环境之32位交叉开发工具集(gcc+gdb)》一文中讲解了32位交叉工具的构建。64位（专指x64，非IA</description>
+    </item>
+    
+    <item>
+      <title>osx下搭建操作系统开发环境之构建bochs v1.0</title>
+      <link>http://boxcounter.com/technique/2013-11-05-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B%E6%9E%84%E5%BB%BAbochs_v1.0/</link>
+      <pubDate>Tue, 05 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2013-11-05-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B%E6%9E%84%E5%BB%BAbochs_v1.0/</guid>
+      <description>一、前言 我编译bochs的目的是为了启用gdb调试功能。bochs提供的调试器功能较简单，开发过程中还是gdb更趁手。本文记录的方法是我一点</description>
+    </item>
+    
+    <item>
+      <title>osx下搭建操作系统开发环境之32位交叉开发工具集（gcc&#43;gdb）v1.1</title>
+      <link>http://boxcounter.com/technique/2013-09-07-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B32%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc&#43;gdbv1.1/</link>
+      <pubDate>Mon, 04 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2013-09-07-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B32%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc&#43;gdbv1.1/</guid>
+      <description>一、前言 《linux、osx下搭建操作系统开发环境的完整步骤》一文中讲解了一些基本的搭建方法，并提供了一个nasm汇编编写的简单的系统内核源</description>
+    </item>
+    
+  </channel>
+</rss>

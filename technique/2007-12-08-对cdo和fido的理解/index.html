@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Boxcounter的烂笔头</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="/css/hugo-bootswatch.css">
+  </head>
+  <body>
+
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="/" class="navbar-brand">Boxcounter的烂笔头</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav navbar-right">
+           <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="sections">Sections<span class="caret"></span></a>
+              <ul class="dropdown-menu" aria-labelledby="download">
+              
+                <li><a href="/"></a></li>
+              
+                <li><a href="/essay">essay</a></li>
+              
+                <li><a href="/reading">reading</a></li>
+              
+                <li><a href="/technique">technique</a></li>
+              
+              </ul>
+            </li> 
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container">
+        <h1><a href="http://boxcounter.com/technique/2007-12-08-%E5%AF%B9cdo%E5%92%8Cfido%E7%9A%84%E7%90%86%E8%A7%A3/">对&#39;CDO&#39;和&#39;FiDO&#39;的理解</a></h1>
+        <hr />
+        <span class="post-time">2007-12-08</span>
+
+        <div class="post">
+            <p>下面是我对于CDO、FiDO的理解，不一定正确，但是还是记录下来，以后学习清楚来再来修正。</p>
+
+<ol>
+<li>&lsquo;CDO&rsquo;是提供给R3级进程和其它驱动程序的，可以理解为它是我们过滤驱动程序的外交官。负责接收来自R3进程和其它驱动的IO请求（&rsquo;CDO&rsquo;仅仅只负责接收，处理过程由&rsquo;FiDO&rsquo;完成）。</li>
+<li>&lsquo;FiDO&rsquo;提供真正Irp、FastIO处理函数，是我们的过滤驱动程序的功能核心。</li>
+<li>&lsquo;CDO&rsquo;不需要挂载到别的驱动上。而&rsquo;FiDO&rsquo;则根据需要挂载到目标对象上。</li>
+<li>一个过滤驱动程序的&rsquo;CDO&rsquo;最多只可以有1个，&rsquo;FiDO&rsquo;可以有多个。</li>
+</ol>
+
+        </div>
+
+              
+<footer>
+  <div class="pull-right small text-muted">Power by <a href="https://gohugo.io/">Hugo</a> and Theme by <a href="Hugo">Bootswatch</a></div>
+</footer>
+
+     </div>
+
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/bootswatch.js"></script>
+    </body>
+</html>
+
+

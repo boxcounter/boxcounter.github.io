@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Techniques on Boxcounter的烂笔头</title>
+    <link>http://boxcounter.com/technique/</link>
+    <description>Recent content in Techniques on Boxcounter的烂笔头</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 24 Apr 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://boxcounter.com/technique/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Swoole连接超时分析</title>
+      <link>http://boxcounter.com/technique/2017-04-24-swoole%E8%BF%9E%E6%8E%A5%E8%B6%85%E6%97%B6%E5%88%86%E6%9E%90/</link>
+      <pubDate>Mon, 24 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2017-04-24-swoole%E8%BF%9E%E6%8E%A5%E8%B6%85%E6%97%B6%E5%88%86%E6%9E%90/</guid>
+      <description>一、简述 我们的产品中使用Swoole来构建长连接服务，用于C/S之间的实时数据交互。同时也编写了一个监控程序monitor来定时检查长连接服</description>
+    </item>
+    
+    <item>
+      <title>Host key verification failed的另类触发</title>
+      <link>http://boxcounter.com/technique/2016-11-26-host-key-verification-failed/</link>
+      <pubDate>Sat, 26 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2016-11-26-host-key-verification-failed/</guid>
+      <description>最近几天在编写、测试部署脚本，准备配合Jenkins进行自动化的持续集成，因此需要全程静默执行，未想触发了一个SSH key问题，卡了我好几个</description>
+    </item>
+    
+    <item>
+      <title>macOS tar的特殊行为</title>
+      <link>http://boxcounter.com/technique/2016-11-26-macos-tar%E7%9A%84%E7%89%B9%E6%AE%8A%E8%A1%8C%E4%B8%BA/</link>
+      <pubDate>Sat, 26 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2016-11-26-macos-tar%E7%9A%84%E7%89%B9%E6%AE%8A%E8%A1%8C%E4%B8%BA/</guid>
+      <description>这周在编写自动部署脚本的过程遇到一个有趣的问题 —— 我把脚本打包成tgz文件，然后scp到被部署服务器上。解压之后发现多出来好些隐藏文件。比如</description>
+    </item>
+    
+    <item>
+      <title>RefBase::weakref_type::attemptIncStrong的理解</title>
+      <link>http://boxcounter.com/technique/2015-09-05-weakref_type.attemptincstrong/</link>
+      <pubDate>Sat, 05 Sep 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2015-09-05-weakref_type.attemptincstrong/</guid>
+      <description>见中文注释内容： bool RefBase::weakref_type::attemptIncStrong(const void* id) { incWeak(id); weakref_impl* const impl = static_cast&amp;lt;weakref_impl*&amp;gt;(this); int32_t curCount = impl-&amp;gt;mStrong; LOG_ASSERT(curCount &amp;gt;= 0, &amp;quot;attemptIncStrong called on %p after underflow&amp;quot;, this); while (curCount &amp;gt; 0 &amp;amp;&amp;amp; curCount != INITIAL_STRONG_VALUE) { if (android_atomic_cmpxchg(curCount, curCount+1, &amp;amp;impl-&amp;gt;mStrong) == 0) { break; } curCount = impl-&amp;gt;mStrong; } if (curCount &amp;lt;= 0 || curCount == INITIAL_STRONG_VALUE) { bool allow; if (curCount == INITIAL_STRONG_VALUE)</description>
+    </item>
+    
+    <item>
+      <title>baselineAligned属性</title>
+      <link>http://boxcounter.com/technique/2015-09-01-baselinealigned/</link>
+      <pubDate>Tue, 01 Sep 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2015-09-01-baselinealigned/</guid>
+      <description>在使用LinearLayout+TextView的过程中遇到一个看似诡异的问题，显示效果如下： 其中两个灰色方块是使用代码动态创建的TextV</description>
+    </item>
+    
+    <item>
+      <title>ImageView.ScaleType</title>
+      <link>http://boxcounter.com/technique/2015-08-13-imageview-scaletype/</link>
+      <pubDate>Thu, 13 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2015-08-13-imageview-scaletype/</guid>
+      <description>开启了「Show layout bounds」。左侧是宽图、右侧是竖图：</description>
+    </item>
+    
+    <item>
+      <title>Android下列表视图的性能优化</title>
+      <link>http://boxcounter.com/technique/2015-08-01-android%E4%B8%8B%E5%88%97%E8%A1%A8%E8%A7%86%E5%9B%BE%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Sat, 01 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2015-08-01-android%E4%B8%8B%E5%88%97%E8%A1%A8%E8%A7%86%E5%9B%BE%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</guid>
+      <description>前言 Android下使用列表控件，如RecyclerView和ListView，很容易遇到滚动不流畅的问题。本文记录我的一次性能优化过程。 常</description>
+    </item>
+    
+    <item>
+      <title>一起疑似内存泄漏</title>
+      <link>http://boxcounter.com/technique/2014-01-12-suspected-memory-leak/</link>
+      <pubDate>Sun, 12 Jan 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2014-01-12-suspected-memory-leak/</guid>
+      <description>上周遇到一起极其诡异的内存泄漏。现象是： 某种测试方法可以使程序物理内存使用量（top命令的RES列）持续上升。当停止测试之后，程序内存使用量</description>
+    </item>
+    
+    <item>
+      <title>隔栏、断言、防御型和攻击型编程的思考</title>
+      <link>http://boxcounter.com/technique/2014-01-12-assert-defensive-offensive-programming/</link>
+      <pubDate>Sun, 12 Jan 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2014-01-12-assert-defensive-offensive-programming/</guid>
+      <description>一、前言 本文的内容最初源自我重温《代码大全》时候读到的一段内容，然后和同事讨论又引发了自己的一些思索。最后觉得这值得写下来，一来我一直很喜欢</description>
+    </item>
+    
+    <item>
+      <title>linux、osx下搭建操作系统开发环境 v1.1</title>
+      <link>http://boxcounter.com/technique/2013-11-14-linuxosx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83_v1.1/</link>
+      <pubDate>Thu, 14 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2013-11-14-linuxosx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83_v1.1/</guid>
+      <description>一、前言 本文档记录的内容既适用于x86也适用于x64，只是对于后者有一些环境要求。 之前开发使用的方法是：自己的引导代码+虚拟软盘。优点是搭建</description>
+    </item>
+    
+    <item>
+      <title>osx下搭建操作系统开发环境之64位交叉开发工具集（gcc&#43;gdb）v1.0</title>
+      <link>http://boxcounter.com/technique/2013-11-08-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B64%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc&#43;gdbv1.0/</link>
+      <pubDate>Fri, 08 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2013-11-08-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B64%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc&#43;gdbv1.0/</guid>
+      <description>一、前言 《osx下搭建操作系统开发环境之32位交叉开发工具集(gcc+gdb)》一文中讲解了32位交叉工具的构建。64位（专指x64，非IA</description>
+    </item>
+    
+    <item>
+      <title>osx下搭建操作系统开发环境之构建bochs v1.0</title>
+      <link>http://boxcounter.com/technique/2013-11-05-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B%E6%9E%84%E5%BB%BAbochs_v1.0/</link>
+      <pubDate>Tue, 05 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2013-11-05-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B%E6%9E%84%E5%BB%BAbochs_v1.0/</guid>
+      <description>一、前言 我编译bochs的目的是为了启用gdb调试功能。bochs提供的调试器功能较简单，开发过程中还是gdb更趁手。本文记录的方法是我一点</description>
+    </item>
+    
+    <item>
+      <title>osx下搭建操作系统开发环境之32位交叉开发工具集（gcc&#43;gdb）v1.1</title>
+      <link>http://boxcounter.com/technique/2013-09-07-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B32%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc&#43;gdbv1.1/</link>
+      <pubDate>Mon, 04 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2013-09-07-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B32%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc&#43;gdbv1.1/</guid>
+      <description>一、前言 《linux、osx下搭建操作系统开发环境的完整步骤》一文中讲解了一些基本的搭建方法，并提供了一个nasm汇编编写的简单的系统内核源</description>
+    </item>
+    
+    <item>
+      <title>osx下解决emacs执行中文路径命令出错的方法</title>
+      <link>http://boxcounter.com/technique/2013-08-08-osx%E4%B8%8B%E8%A7%A3%E5%86%B3emacs%E6%89%A7%E8%A1%8C%E4%B8%AD%E6%96%87%E8%B7%AF%E5%BE%84%E5%91%BD%E4%BB%A4%E5%87%BA%E9%94%99%E7%9A%84%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Mon, 12 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2013-08-08-osx%E4%B8%8B%E8%A7%A3%E5%86%B3emacs%E6%89%A7%E8%A1%8C%E4%B8%AD%E6%96%87%E8%B7%AF%E5%BE%84%E5%91%BD%E4%BB%A4%E5%87%BA%E9%94%99%E7%9A%84%E6%96%B9%E6%B3%95/</guid>
+      <description>我第一次发现这个问题是在使用auctex编译中文名tex文件的时候发现的，后来发现不仅仅是auctex，M－!执行shell命令中如果包含中</description>
+    </item>
+    
+    <item>
+      <title>内核资源泄漏样本之一</title>
+      <link>http://boxcounter.com/technique/2012-11-02-%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC%E4%B9%8B%E4%B8%80/</link>
+      <pubDate>Fri, 02 Nov 2012 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2012-11-02-%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC%E4%B9%8B%E4%B8%80/</guid>
+      <description>又遇到一个很好玩的内核资源泄漏样本，分享一下。 某台WinXP sp3系统出现了死机现象，该现象是在安装了我的驱动后才出现的，第一反应是“MD，</description>
+    </item>
+    
+    <item>
+      <title>64位系统的对齐问题</title>
+      <link>http://boxcounter.com/technique/2012-10-25-64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Thu, 25 Oct 2012 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2012-10-25-64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/</guid>
+      <description>今天在技术群里有位童鞋问了一个问题： On 64-bit Windows, if a data structure is misaligned, routines that manipulate the structure, such as RtlCopyMemory and memcpy, will not fault. Instead, they will raise an exception. For example: &amp;gt; #pragma pack (1) // also set by /Zp switch &amp;gt; struct Buffer { &amp;gt; ULONG size; &amp;gt; void *ptr; &amp;gt; };</description>
+    </item>
+    
+    <item>
+      <title>有关STATUS_THREAD_IS_TERMINATING</title>
+      <link>http://boxcounter.com/technique/2012-10-16-%E6%9C%89%E5%85%B3status_thread_is_terminating/</link>
+      <pubDate>Tue, 16 Oct 2012 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2012-10-16-%E6%9C%89%E5%85%B3status_thread_is_terminating/</guid>
+      <description>手头有个驱动，因为客户需求的原因，只在x86的2k3和xp系统上做过测试，今天在把它往x64 win7系统移植的时候遇到这么一个问题： 在PsS</description>
+    </item>
+    
+    <item>
+      <title>ZeroMemory与类对象</title>
+      <link>http://boxcounter.com/technique/2012-09-20-zeromemory%E4%B8%8E%E7%B1%BB%E5%AF%B9%E8%B1%A1/</link>
+      <pubDate>Thu, 20 Sep 2012 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2012-09-20-zeromemory%E4%B8%8E%E7%B1%BB%E5%AF%B9%E8%B1%A1/</guid>
+      <description>今天看到一段同事的代码： ZeroMemory(&amp;amp;m_PacketInfo, sizeof(packet_info)); struct packet_info { string m_strModule; //模块 string m_strProtocol; //协议 string m_strClientHostIP; //客户端IP string m_strClientHostPort; //客户端端口 ... }; 按照我的经验，这种对类对象进行ZeroMe</description>
+    </item>
+    
+    <item>
+      <title>又一个内核资源泄漏样本</title>
+      <link>http://boxcounter.com/technique/2012-08-15-%E5%8F%88%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</link>
+      <pubDate>Wed, 15 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2012-08-15-%E5%8F%88%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</guid>
+      <description>这两天在处理一个内核资源泄漏的问题，整个分析过程比较典型，记在这里以便以后参考。 这个问题发生在测试部同事的真实机上，于是抓内核DMP用的是s</description>
+    </item>
+    
+    <item>
+      <title>VS2010编译regex库的问题</title>
+      <link>http://boxcounter.com/technique/2012-05-31-vs2010%E7%BC%96%E8%AF%91regex%E5%BA%93%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Thu, 31 May 2012 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2012-05-31-vs2010%E7%BC%96%E8%AF%91regex%E5%BA%93%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <description>今天把一些VS 2005工程升级到VS 2010，在升级过程中，遇到regex库编译错误。如下： error C2332: &#39;struct&#39; : missing tag name error C3306: &#39;regex::detail::&#39;: unnamed class template is not allowed error C2143: syntax error : missing &#39;;&#39; before</description>
+    </item>
+    
+    <item>
+      <title>关于STATUS_INVALID_DEVICE_OBJECT_PARAMETER和STATUS_MOUNT_POINT_NOT_RESOLVED</title>
+      <link>http://boxcounter.com/technique/2012-05-20-%E5%85%B3%E4%BA%8Estatus_invalid_device_object_parameter%E5%92%8Cstatus_mount_point_not_resolved/</link>
+      <pubDate>Sun, 20 May 2012 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2012-05-20-%E5%85%B3%E4%BA%8Estatus_invalid_device_object_parameter%E5%92%8Cstatus_mount_point_not_resolved/</guid>
+      <description>很久之前，我写了篇关于STATUS_INVALID_DEVICE_OBJECT_PARAMETER的blog，里面提到使用STATUS_RE</description>
+    </item>
+    
+    <item>
+      <title>一个内核资源泄漏样本（待更新文中链接）</title>
+      <link>http://boxcounter.com/technique/2012-04-05-%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</link>
+      <pubDate>Thu, 05 Apr 2012 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2012-04-05-%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</guid>
+      <description>开发过程中，我习惯会一直开着verifier进行测试，绝大部分非逻辑错误都能被揪出来。 这两天测试部的同事反馈说貌似驱动有资源泄漏，我第一反应</description>
+    </item>
+    
+    <item>
+      <title>灵异现象？</title>
+      <link>http://boxcounter.com/technique/2012-03-04-%E7%81%B5%E5%BC%82%E7%8E%B0%E8%B1%A1/</link>
+      <pubDate>Sun, 04 Mar 2012 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2012-03-04-%E7%81%B5%E5%BC%82%E7%8E%B0%E8%B1%A1/</guid>
+      <description>前两天遇到一个灵异现象，记录下来。 cchFullHeaderLen += strlen(&amp;quot;Request-Line: &amp;quot;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszVerb) + strlen(&amp;quot; &amp;quot;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszObjectName) + (NULL != pSessionData-&amp;gt;HttpOpenReq.lpszVersion) ? (strlen(&amp;quot; &amp;quot;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszVersion)) : 0 + strlen(&amp;quot;\r\n&amp;quot;); 调试的过程中发现，pSessionData-&amp;gt;Htt</description>
+    </item>
+    
+    <item>
+      <title>TEB KPCR GS in x64</title>
+      <link>http://boxcounter.com/technique/2012-02-08-teb-kpcr-gs-in-x64/</link>
+      <pubDate>Wed, 08 Feb 2012 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2012-02-08-teb-kpcr-gs-in-x64/</guid>
+      <description>在x86中，如果折腾TEB或者KPCR，可能需要处理fs:[0x???]这样的地址，在x86中，咱们可以通过dg命令来手动查看： kd&amp;gt; dg @fs P Si Gr</description>
+    </item>
+    
+    <item>
+      <title>无锁数组</title>
+      <link>http://boxcounter.com/technique/2012-01-15-%E6%97%A0%E9%94%81%E6%95%B0%E7%BB%84/</link>
+      <pubDate>Sun, 15 Jan 2012 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2012-01-15-%E6%97%A0%E9%94%81%E6%95%B0%E7%BB%84/</guid>
+      <description>项目里有一个地方可能要去掉用于链表的锁，但是又得保证读写互斥。于是琢磨了一个土办法： （琢磨时的目标是用于异步发送日志，即多个日志存储者，一个</description>
+    </item>
+    
+    <item>
+      <title>SEH分析笔记（X64篇）</title>
+      <link>http://boxcounter.com/technique/2011-11-04-seh-x64/</link>
+      <pubDate>Fri, 04 Nov 2011 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2011-11-04-seh-x64/</guid>
+      <description>2015-07-25，注：因为排版过于复杂繁琐，目前仅提供html文件，请谅解。 SEH分析笔记（x64篇）_v1.0.0.zip</description>
+    </item>
+    
+    <item>
+      <title>关于完成例程（Completion Routine）</title>
+      <link>http://boxcounter.com/technique/2011-10-26-%E5%85%B3%E4%BA%8E%E5%AE%8C%E6%88%90%E4%BE%8B%E7%A8%8Bcompletion-routine/</link>
+      <pubDate>Wed, 26 Oct 2011 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2011-10-26-%E5%85%B3%E4%BA%8E%E5%AE%8C%E6%88%90%E4%BE%8B%E7%A8%8Bcompletion-routine/</guid>
+      <description>通常使用完成例程有这么三步： 调用IoCopyCurrentIrpStackLocationToNext(&amp;hellip;)函数，把当前的IR</description>
+    </item>
+    
+    <item>
+      <title>卷的文件系统识别、卷的挂载以及路径解析</title>
+      <link>http://boxcounter.com/technique/2011-10-25-%E5%8D%B7%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AF%86%E5%88%AB%E5%8D%B7%E7%9A%84%E6%8C%82%E8%BD%BD%E4%BB%A5%E5%8F%8A%E8%B7%AF%E5%BE%84%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Tue, 25 Oct 2011 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2011-10-25-%E5%8D%B7%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AF%86%E5%88%AB%E5%8D%B7%E7%9A%84%E6%8C%82%E8%BD%BD%E4%BB%A5%E5%8F%8A%E8%B7%AF%E5%BE%84%E8%A7%A3%E6%9E%90/</guid>
+      <description>前段时间琢磨文件过滤驱动的时候碰到一个棘手的问题，当时挂上wrk内核分析，发现了问题的关键点。分析的过程中明显感觉自己对IoMgr、ObjM</description>
+    </item>
+    
+    <item>
+      <title>有关IoEnumerateRegisteredFiltersList</title>
+      <link>http://boxcounter.com/technique/2011-10-25-%E6%9C%89%E5%85%B3ioenumerateregisteredfilterslist/</link>
+      <pubDate>Tue, 25 Oct 2011 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2011-10-25-%E6%9C%89%E5%85%B3ioenumerateregisteredfilterslist/</guid>
+      <description>有关于IoEnumerateRegisteredFiltersList 昨天逆一个驱动的时候发现静态分析出来的逻辑跟动态调试的逻辑不一致，继续</description>
+    </item>
+    
+    <item>
+      <title>SEH分析笔记（X86篇）</title>
+      <link>http://boxcounter.com/technique/2011-10-19-seh-x86/</link>
+      <pubDate>Wed, 19 Oct 2011 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2011-10-19-seh-x86/</guid>
+      <description>v1.0.2 2015-07-25，注：因为排版过于复杂繁琐，目前仅提供html文件，请谅解。 SEH分析笔记（x86篇）_v1.0.2.zip</description>
+    </item>
+    
+    <item>
+      <title>先考虑性能？先考虑结构化？</title>
+      <link>http://boxcounter.com/technique/2009-10-02-%E5%85%88%E8%80%83%E8%99%91%E6%80%A7%E8%83%BD%E5%85%88%E8%80%83%E8%99%91%E7%BB%93%E6%9E%84%E5%8C%96/</link>
+      <pubDate>Fri, 02 Oct 2009 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2009-10-02-%E5%85%88%E8%80%83%E8%99%91%E6%80%A7%E8%83%BD%E5%85%88%E8%80%83%E8%99%91%E7%BB%93%E6%9E%84%E5%8C%96/</guid>
+      <description>在《代码大全》上看到一段话，正是我近来经常纠结的一个问题：编码的时候，是优先考虑性能，还是优先考虑结构化？ 更常见的担心来自于编码层。你可能会</description>
+    </item>
+    
+    <item>
+      <title>驱动中获取进程完整路径名</title>
+      <link>http://boxcounter.com/technique/2009-07-23-%E9%A9%B1%E5%8A%A8%E4%B8%AD%E8%8E%B7%E5%8F%96%E8%BF%9B%E7%A8%8B%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%E5%90%8D/</link>
+      <pubDate>Thu, 23 Jul 2009 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2009-07-23-%E9%A9%B1%E5%8A%A8%E4%B8%AD%E8%8E%B7%E5%8F%96%E8%BF%9B%E7%A8%8B%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%E5%90%8D/</guid>
+      <description>在OSR上无意中看到一篇文章，关于获取进程完整路径的。贴过来，最后有一点小调整。 原文地址：http://www.osronline.com/</description>
+    </item>
+    
+    <item>
+      <title>关于将本层的IO_STACK_LOCATION拷贝到下一层的两种方法</title>
+      <link>http://boxcounter.com/technique/2007-12-10-%E5%85%B3%E4%BA%8E%E5%B0%86%E6%9C%AC%E5%B1%82%E7%9A%84io_stack_location%E6%8B%B7%E8%B4%9D%E5%88%B0%E4%B8%8B%E4%B8%80%E5%B1%82%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Mon, 10 Dec 2007 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2007-12-10-%E5%85%B3%E4%BA%8E%E5%B0%86%E6%9C%AC%E5%B1%82%E7%9A%84io_stack_location%E6%8B%B7%E8%B4%9D%E5%88%B0%E4%B8%8B%E4%B8%80%E5%B1%82%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/</guid>
+      <description>两种方法： 调用MS提供的标准方法IoCopyCurrentIrpStackLocationToNext(&amp;hellip;) 方法二： PIO_STACK_LOCATION IrpSp; PIO_STACK_LOCATION NextIrpSp; IrpSp</description>
+    </item>
+    
+    <item>
+      <title>对&#39;CDO&#39;和&#39;FiDO&#39;的理解</title>
+      <link>http://boxcounter.com/technique/2007-12-08-%E5%AF%B9cdo%E5%92%8Cfido%E7%9A%84%E7%90%86%E8%A7%A3/</link>
+      <pubDate>Sat, 08 Dec 2007 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2007-12-08-%E5%AF%B9cdo%E5%92%8Cfido%E7%9A%84%E7%90%86%E8%A7%A3/</guid>
+      <description>下面是我对于CDO、FiDO的理解，不一定正确，但是还是记录下来，以后学习清楚来再来修正。 &amp;lsquo;CDO&amp;rsquo;是提供给R3级进</description>
+    </item>
+    
+  </channel>
+</rss>

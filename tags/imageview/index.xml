@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Imageview on Boxcounter的烂笔头</title>
+    <link>http://boxcounter.com/tags/imageview/</link>
+    <description>Recent content in Imageview on Boxcounter的烂笔头</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 13 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://boxcounter.com/tags/imageview/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ImageView.ScaleType</title>
+      <link>http://boxcounter.com/technique/2015-08-13-imageview-scaletype/</link>
+      <pubDate>Thu, 13 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2015-08-13-imageview-scaletype/</guid>
+      <description>开启了「Show layout bounds」。左侧是宽图、右侧是竖图：</description>
+    </item>
+    
+  </channel>
+</rss>

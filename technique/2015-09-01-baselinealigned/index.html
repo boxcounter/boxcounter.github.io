@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Boxcounter的烂笔头</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="/css/hugo-bootswatch.css">
+  </head>
+  <body>
+
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="/" class="navbar-brand">Boxcounter的烂笔头</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav navbar-right">
+           <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="sections">Sections<span class="caret"></span></a>
+              <ul class="dropdown-menu" aria-labelledby="download">
+              
+                <li><a href="/"></a></li>
+              
+                <li><a href="/essay">essay</a></li>
+              
+                <li><a href="/reading">reading</a></li>
+              
+                <li><a href="/technique">technique</a></li>
+              
+              </ul>
+            </li> 
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container">
+        <h1><a href="http://boxcounter.com/technique/2015-09-01-baselinealigned/">baselineAligned属性</a></h1>
+        <hr />
+        <span class="post-time">2015-09-01</span>
+
+        <div class="post">
+            <p>在使用LinearLayout+TextView的过程中遇到一个看似诡异的问题，显示效果如下：</p>
+
+<p><img src="/images/2015-09-01/baselineAligned.png" width="300"/></p>
+
+<p>其中两个灰色方块是使用代码动态创建的TextView。它们的父LinearLayout是这样的：</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&lt;LinearLayout
+    android:id=<span style="color: #a31515">&quot;@+id/ll_files&quot;</span>
+    android:layout_width=<span style="color: #a31515">&quot;wrap_content&quot;</span>
+    android:layout_height=<span style="color: #a31515">&quot;100dp&quot;</span>
+    android:layout_marginTop=<span style="color: #a31515">&quot;7.5dp&quot;</span>
+    android:orientation=<span style="color: #a31515">&quot;horizontal&quot;</span>
+    /&gt;
+</pre></div>
+
+
+<p>不知道是什么原因，导致第一个TextView「下挫」了一些。仔细检查了它的margin和padding都是0、符合预期，但top是29。</p>
+
+<p>仔细阅读了一遍代码和布局文件，确定我并没有误调整top，那么问题应该出现在动态layout过程中。那就开始调试分析吧。</p>
+
+<p>顺着LinearLayout.onLayout()追踪到了LinearLayout.layoutHorizontal()，发现了这样一段代码：</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #2b91af">void</span> layoutHorizontal(<span style="color: #2b91af">int</span> left, <span style="color: #2b91af">int</span> top, <span style="color: #2b91af">int</span> right, <span style="color: #2b91af">int</span> bottom) {
+    <span style="color: #008000">// 若干无关代码，略</span>
+    
+    <span style="color: #2b91af">int</span> childBaseline = -1;
+    
+    <span style="color: #0000ff">final</span> LinearLayout.LayoutParams lp =
+            (LinearLayout.LayoutParams) child.getLayoutParams();
+    
+    <span style="color: #0000ff">if</span> (baselineAligned &amp;&amp; lp.height != LayoutParams.MATCH_PARENT) {
+        childBaseline = child.getBaseline();
+    }
+    
+    <span style="color: #008000">// 若干无关代码，略</span>
+    
+    <span style="color: #0000ff">switch</span> (gravity &amp; Gravity.VERTICAL_GRAVITY_MASK) {
+        <span style="color: #0000ff">case</span> Gravity.TOP:
+            childTop = paddingTop + lp.topMargin;
+            <span style="color: #0000ff">if</span> (childBaseline != -1) {
+                childTop += maxAscent[INDEX_TOP] - childBaseline;  <span style="color: #008000">// &lt;==== A</span>
+            }
+            <span style="color: #0000ff">break</span>;
+    
+    <span style="color: #008000">// 若干无关代码，略</span>
+}
+</pre></div>
+
+
+<p>当执行完A行时，childTop等于29。问题出在这里，再反向阅读代码，跟踪到了两个关键变量：</p>
+
+<ol>
+<li>baselineAligned为true；</li>
+<li>childBaseline不为0；</li>
+</ol>
+
+<p>这时我想起文本的<a href="https://zh.wikipedia.org/wiki/%E5%9F%BA%E7%B7%9A">baseline属性</a>。</p>
+
+<p>继续查阅文档、代码，得到两个结论：</p>
+
+<ol>
+<li>LinearLayout的baselineAligned默认为true；</li>
+<li>TextView重写了getBaseline()，返回了有效值；</li>
+</ol>
+
+<p>定位了问题症结，解决方案也就不难找了：将LinearLayout的android:baselineAligned改为false。</p>
+
+        </div>
+
+              
+<footer>
+  <div class="pull-right small text-muted">Power by <a href="https://gohugo.io/">Hugo</a> and Theme by <a href="Hugo">Bootswatch</a></div>
+</footer>
+
+     </div>
+
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/bootswatch.js"></script>
+    </body>
+</html>
+
+

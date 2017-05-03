@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Boxcounter的烂笔头</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="/css/hugo-bootswatch.css">
+  </head>
+  <body>
+
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="/" class="navbar-brand">Boxcounter的烂笔头</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav navbar-right">
+           <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="sections">Sections<span class="caret"></span></a>
+              <ul class="dropdown-menu" aria-labelledby="download">
+              
+                <li><a href="/"></a></li>
+              
+                <li><a href="/essay">essay</a></li>
+              
+                <li><a href="/reading">reading</a></li>
+              
+                <li><a href="/technique">technique</a></li>
+              
+              </ul>
+            </li> 
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container">
+        <h1><a href="http://boxcounter.com/technique/2012-03-04-%E7%81%B5%E5%BC%82%E7%8E%B0%E8%B1%A1/">灵异现象？</a></h1>
+        <hr />
+        <span class="post-time">2012-03-04</span>
+
+        <div class="post">
+            <p>前两天遇到一个灵异现象，记录下来。</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>cchFullHeaderLen += strlen(<span style="color: #a31515">&quot;Request-Line: &quot;</span>) +
+    strlen(pSessionData-&gt;HttpOpenReq.lpszVerb) +
+    strlen(<span style="color: #a31515">&quot; &quot;</span>) +
+    strlen(pSessionData-&gt;HttpOpenReq.lpszObjectName) +
+    (NULL != pSessionData-&gt;HttpOpenReq.lpszVersion) ? (strlen(<span style="color: #a31515">&quot; &quot;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszVersion)) : 0 +
+    strlen(<span style="color: #a31515">&quot;\r\n&quot;</span>);
+</pre></div>
+
+
+<p>调试的过程中发现，pSessionData-&gt;HttpOpenReq.lpszVersion为NULL，但是依然会执行“(strlen(&rdquo; &ldquo;) + strlen(pSessionData-&gt;HttpOpenReq.lpszVersion))”。</p>
+
+<p>确认不是编码错误后，反汇编调试：</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>Boxr<span style="border: 1px solid #FF0000">!</span>MyFunction+0x2b2
+<span style="border: 1px solid #FF0000">6</span>a515742  xor     edx,edx
+<span style="border: 1px solid #FF0000">6</span>a515744  cmp     <span style="color: #2b91af">dword</span> ptr [ecx+23Ch],0
+<span style="border: 1px solid #FF0000">6</span>a51574b  setne   dl
+<span style="border: 1px solid #FF0000">6</span>a51574e  add     esi,edx
+<span style="border: 1px solid #FF0000">6</span>a515750  je      Boxr<span style="border: 1px solid #FF0000">!</span>MyFunction+0x2ed (6a51577d)
+<span style="border: 1px solid #FF0000">6</span>a515752  push    offset Boxr<span style="border: 1px solid #FF0000">!</span>std::_Arithmetic_traits::_Rank+0xc88 (6a5fc0f8)
+<span style="border: 1px solid #FF0000">6</span>a515757  call    Boxr<span style="border: 1px solid #FF0000">!</span>strlen (6a5b5bd0)
+<span style="border: 1px solid #FF0000">6</span>a51575c  add     esp,4
+</pre></div>
+
+
+<p>其中ecx+23Ch就是pSessionData-&gt;HttpOpenReq.lpszVersion，查看如下：</p>
+
+<pre><code>0:005&gt; dd ecx+23c
+0a27b18c  00000000 
+</code></pre>
+
+<p>确认pSessionData-&gt;HttpOpenReq.lpszVersion确实为NULL。<br />
+理论上6a515750处的跳转会执行的，但是没有。单步跟踪：</p>
+
+<pre><code>0:005&gt; p
+eax=00000014 ebx=00cc000c ecx=0a27af50 edx=00000000 esi=00000027 edi=0485d5ec
+eip=6a515744 esp=0485d518 ebp=0485d5f8 iopl=0         nv up ei pl zr na pe nc
+cs=001b  ss=0023  ds=0023  es=0023  fs=003b  gs=0000             efl=00000246
+Boxr!MyFunction+0x2b4:
+6a515744  cmp     dword ptr [ecx+23Ch],0 ds:0023:0a27b18c=00000000
+
+0:005&gt; p
+eax=00000014 ebx=00cc000c ecx=0a27af50 edx=00000000 esi=00000027 edi=0485d5ec
+eip=6a51574b esp=0485d518 ebp=0485d5f8 iopl=0         nv up ei pl zr na pe nc
+cs=001b  ss=0023  ds=0023  es=0023  fs=003b  gs=0000             efl=00000246
+Boxr!MyFunction+0x2bb:
+6a51574b  setne   dl
+
+0:005&gt; r zf
+zf=1
+
+0:005&gt; p
+eax=00000014 ebx=00cc000c ecx=0a27af50 edx=00000000 esi=00000027 edi=0485d5ec
+eip=6a51574e esp=0485d518 ebp=0485d5f8 iopl=0         nv up ei pl zr na pe nc
+cs=001b  ss=0023  ds=0023  es=0023  fs=003b  gs=0000             efl=00000246
+Boxr!MyFunction+0x2be:
+6a51574e  add     esi,edx
+
+0:005&gt; r zf
+zf=1
+
+0:005&gt; p
+eax=00000014 ebx=00cc000c ecx=0a27af50 edx=00000000 esi=00000027 edi=0485d5ec
+eip=6a515750 esp=0485d518 ebp=0485d5f8 iopl=0         nv up ei pl nz na pe nc
+cs=001b  ss=0023  ds=0023  es=0023  fs=003b  gs=0000             efl=00000206
+Boxr!MyFunction+0x2c0:
+6a515750  je      Boxr!MyFunction+0x2ed (6a51577d) [br=0]
+
+0:005&gt; r zf
+zf=0
+</code></pre>
+
+<p>可以看出，原本是准备要跳转的，但是</p>
+
+<pre><code>6a51574e  add     esi,edx
+</code></pre>
+
+<p>这条指令改变了zf寄存器，于是没有跳转。</p>
+
+<p>那这条指令是干什么的呢？怎么会有这么一条指令？<br />
+最开始怀疑是编译器优化出问题了。<br />
+于是准备以发现编译器优化错误为主体写一篇BLOG。</p>
+
+<p>但是在整理本文的过程中，仔细分析了一遍汇编代码，发现，丫是个低级错误 - 运算符优先级错误……<br />
+实际上，C代码真正的执行逻辑是这样的：</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>cchFullHeaderLen += (strlen(<span style="color: #a31515">&quot;Request-Line: &quot;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszVerb) + strlen(<span style="color: #a31515">&quot; &quot;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszObjectName) + (NULL != pSessionData-&gt;HttpOpenReq.lpszVersion) ) 
+   ? (strlen(<span style="color: #a31515">&quot; &quot;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszVersion)) : ( 0 + strlen(<span style="color: #a31515">&quot;\r\n&quot;</span>) );
+</pre></div>
+</p>
+
+<p>我的编码风格PPT又多了一条素材……</p>
+
+        </div>
+
+              
+<footer>
+  <div class="pull-right small text-muted">Power by <a href="https://gohugo.io/">Hugo</a> and Theme by <a href="Hugo">Bootswatch</a></div>
+</footer>
+
+     </div>
+
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/bootswatch.js"></script>
+    </body>
+</html>
+
+

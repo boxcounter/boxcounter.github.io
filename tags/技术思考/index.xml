@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>技术思考 on Boxcounter的烂笔头</title>
+    <link>http://boxcounter.com/tags/%E6%8A%80%E6%9C%AF%E6%80%9D%E8%80%83/</link>
+    <description>Recent content in 技术思考 on Boxcounter的烂笔头</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 12 Jan 2014 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://boxcounter.com/tags/%E6%8A%80%E6%9C%AF%E6%80%9D%E8%80%83/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>隔栏、断言、防御型和攻击型编程的思考</title>
+      <link>http://boxcounter.com/technique/2014-01-12-assert-defensive-offensive-programming/</link>
+      <pubDate>Sun, 12 Jan 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2014-01-12-assert-defensive-offensive-programming/</guid>
+      <description>一、前言 本文的内容最初源自我重温《代码大全》时候读到的一段内容，然后和同事讨论又引发了自己的一些思索。最后觉得这值得写下来，一来我一直很喜欢</description>
+    </item>
+    
+    <item>
+      <title>先考虑性能？先考虑结构化？</title>
+      <link>http://boxcounter.com/technique/2009-10-02-%E5%85%88%E8%80%83%E8%99%91%E6%80%A7%E8%83%BD%E5%85%88%E8%80%83%E8%99%91%E7%BB%93%E6%9E%84%E5%8C%96/</link>
+      <pubDate>Fri, 02 Oct 2009 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2009-10-02-%E5%85%88%E8%80%83%E8%99%91%E6%80%A7%E8%83%BD%E5%85%88%E8%80%83%E8%99%91%E7%BB%93%E6%9E%84%E5%8C%96/</guid>
+      <description>在《代码大全》上看到一段话，正是我近来经常纠结的一个问题：编码的时候，是优先考虑性能，还是优先考虑结构化？ 更常见的担心来自于编码层。你可能会</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Boxcounter的烂笔头</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="/css/hugo-bootswatch.css">
+  </head>
+  <body>
+
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="/" class="navbar-brand">Boxcounter的烂笔头</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav navbar-right">
+           <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="sections">Sections<span class="caret"></span></a>
+              <ul class="dropdown-menu" aria-labelledby="download">
+              
+                <li><a href="/"></a></li>
+              
+                <li><a href="/essay">essay</a></li>
+              
+                <li><a href="/reading">reading</a></li>
+              
+                <li><a href="/technique">technique</a></li>
+              
+              </ul>
+            </li> 
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container">
+        <h1><a href="http://boxcounter.com/technique/2009-07-23-%E9%A9%B1%E5%8A%A8%E4%B8%AD%E8%8E%B7%E5%8F%96%E8%BF%9B%E7%A8%8B%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%E5%90%8D/">驱动中获取进程完整路径名</a></h1>
+        <hr />
+        <span class="post-time">2009-07-23</span>
+
+        <div class="post">
+            <p>在OSR上无意中看到一篇文章，关于获取进程完整路径的。贴过来，最后有一点小调整。</p>
+
+<p>原文地址：<a href="http://www.osronline.com/article.cfm?id=472">http://www.osronline.com/article.cfm?id=472</a></p>
+
+<blockquote>
+<p>Over the years developers have needed or wanted to know the name of the image executing in a given process. Traditionally, this was often done using PsGetProcessImageFile Name, which returns the contents of a field in the EPROCESS structure used by the Windows OS to maintain per-process state information.
+As we can see from the information in the local debugger session (See Figure 1) the process image file is little more than a field within the EPROCESS structure. Notice that the EPROCESS address is in EBP+8, making it the first - and only - parameter to this function.</p>
+
+<p>Connected to Windows XP 2600 x86 compatible target, ptr64 FALSE
+Symbol search path is: srv*c:\symbols\websymbols*<a href="http://msdl.microsoft.com/download/symbols">http://msdl.microsoft.com/download/symbols</a>
+Executable search path is:</p>
+
+<hr />
+
+<p>WARNING: Local kernel debugging requires booting with /debug to work optimally.</p>
+
+<hr />
+
+<p>Windows XP Kernel Version 2600 (Service Pack 2) MP (2 procs) Free x86 compatible
+Product: winNt, suite: Terminalserver SingleUserTS
+Built by: 2600.xpsp_sp2_gdr.050301-1519
+Kernel base = 0x804d7000 PsLoadedModuleList = 0x805624a0
+Debug session time: Mon Aug  7 13:29:53.486 2006 (GMT-4)
+System Uptime: 2 days 11:08:38.140
+lkd&gt; .reload
+Connected to Windows XP 2600 x86 compatible target, ptr64 FALSE
+Loading Kernel Symbols
+&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;
+Loading User Symbols
+&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;
+Loading unloaded module list
+&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..*** ERROR: Symbol file could not be found.  Defaulted to export symbols for C
+lkd&gt; u nt!PsGetProcessImageFileName
+Nt!PsGetProcessImageFileName:
+8050a14a  8bff mov edi,edi
+8050a14c  55 push ebp
+8050a14d  8bec mov ebp,esp
+8050a14f  8b4508 mov eax,dword ptr [ebp+8]
+8050a152  0574010000 add eax,174h
+8050a157  5d pop ebp
+8050a158  c20400 ret 4
+8050a15b  8bce mov ecx,esi</p>
+
+<p>Figure 1 - Local Debug Session of PsGetProcessImageFileName</p>
+
+<p>Unfortunately, there are some issues with this approach:</p>
+
+<p>Though well-known, this function is undocumented.
+More seriously, the information contained in this field is severely limited. It contains only the first 16 (ASCII) characters of the image file name.
+It is actually the second issue that often creates problems for programmers because the name of the image file means essentially nothing. For example, we&rsquo;ve seen kernel-mode drivers in the past that validate the name of their service by checking this field. The most egregious case we&rsquo;ve seen is when the service was called svchost.exe, which is a common name that is often spoofed.</p>
+
+<p>The Proposal
+We suggest a different model for acquiring this information, as shown in Figure 2.</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&gt; <span style="color: #0000ff">typedef</span> NTSTATUS (*QUERY_INFO_PROCESS) (
+&gt;     __in HANDLE ProcessHandle,
+&gt;     __in PROCESSINFOCLASS ProcessInformationClass,
+&gt;     __out_bcount(ProcessInformationLength) PVOID ProcessInformation,
+&gt;     __in ULONG ProcessInformationLength,
+&gt;     __out_opt PULONG ReturnLength
+&gt;     );
+&gt; 
+&gt; QUERY_INFO_PROCESS ZwQueryInformationProcess;
+&gt; 
+&gt; NTSTATUS GetProcessImageName(PUNICODE_STRING ProcessImageName)
+&gt; {
+&gt;     NTSTATUS status;
+&gt;     ULONG returnedLength;
+&gt;     ULONG bufferLength;
+&gt;     PVOID buffer;
+&gt;     PUNICODE_STRING imageName;
+&gt;     
+&gt;     PAGED_CODE(); <span style="color: #008000">// this eliminates the possibility of the IDLE Thread/Process</span>
+&gt; 
+&gt;     <span style="color: #0000ff">if</span> (NULL == ZwQueryInformationProcess) {
+&gt; 
+&gt;         UNICODE_STRING routineName;
+&gt; 
+&gt;         RtlInitUnicodeString(&amp;routineName, <span style="color: #a31515">L&quot;ZwQueryInformationProcess&quot;</span>);
+&gt; 
+&gt;         ZwQueryInformationProcess = 
+&gt;                (QUERY_INFO_PROCESS) MmGetSystemRoutineAddress(&amp;routineName);
+&gt; 
+&gt;         <span style="color: #0000ff">if</span> (NULL == ZwQueryInformationProcess) {
+&gt;             DbgPrint(<span style="color: #a31515">&quot;Cannot resolve ZwQueryInformationProcess\n&quot;</span>);
+&gt;         }
+&gt;     }
+&gt;     <span style="color: #008000">//</span>
+&gt;     <span style="color: #008000">// Step one - get the size we need</span>
+&gt;     <span style="color: #008000">//</span>
+&gt;     status = ZwQueryInformationProcess( NtCurrentProcess(), 
+&gt;                                         ProcessImageFileName,
+&gt;                                         NULL, <span style="color: #008000">// buffer</span>
+&gt;                                         0, <span style="color: #008000">// buffer size</span>
+&gt;                                         &amp;returnedLength);
+&gt; 
+&gt;     <span style="color: #0000ff">if</span> (STATUS_INFO_LENGTH_MISMATCH != status) {
+&gt; 
+&gt;         <span style="color: #0000ff">return</span> status;
+&gt; 
+&gt;     }
+&gt; 
+&gt;     <span style="color: #008000">//</span>
+&gt;     <span style="color: #008000">// Is the passed-in buffer going to be big enough for us?  </span>
+&gt;     <span style="color: #008000">// This function returns a single contguous buffer model...</span>
+&gt;     <span style="color: #008000">//</span>
+&gt;     bufferLength = returnedLength - <span style="color: #0000ff">sizeof</span>(UNICODE_STRING);
+&gt;     
+&gt;     <span style="color: #0000ff">if</span> (ProcessImageName-&gt;MaximumLength &lt; bufferLength) {
+&gt; 
+&gt;         ProcessImageName-&gt;Length = (USHORT) bufferLength;
+&gt; 
+&gt;         <span style="color: #0000ff">return</span> STATUS_BUFFER_OVERFLOW;
+&gt;         
+&gt;     }
+&gt; 
+&gt;     <span style="color: #008000">//</span>
+&gt;     <span style="color: #008000">// If we get here, the buffer IS going to be big enough for us, so </span>
+&gt;     <span style="color: #008000">// let&#39;s allocate some storage.</span>
+&gt;     <span style="color: #008000">//</span>
+&gt;     buffer = ExAllocatePoolWithTag(PagedPool, returnedLength, <span style="border: 1px solid #FF0000">&#39;</span>ipgD<span style="border: 1px solid #FF0000">&#39;</span>);
+&gt; 
+&gt;     <span style="color: #0000ff">if</span> (NULL == buffer) {
+&gt; 
+&gt;         <span style="color: #0000ff">return</span> STATUS_INSUFFICIENT_RESOURCES;
+&gt;         
+&gt;     }
+&gt; 
+&gt;     <span style="color: #008000">//</span>
+&gt;     <span style="color: #008000">// Now lets go get the data</span>
+&gt;     <span style="color: #008000">//</span>
+&gt;     status = ZwQueryInformationProcess( NtCurrentProcess(), 
+&gt;                                         ProcessImageFileName,
+&gt;                                         buffer,
+&gt;                                         returnedLength,
+&gt;                                         &amp;returnedLength);
+&gt; 
+&gt;     <span style="color: #0000ff">if</span> (NT_SUCCESS(status)) {
+&gt;         <span style="color: #008000">//</span>
+&gt;         <span style="color: #008000">// Ah, we got what we needed</span>
+&gt;         <span style="color: #008000">//</span>
+&gt;         imageName = (PUNICODE_STRING) buffer;
+&gt; 
+&gt;         RtlCopyUnicodeString(ProcessImageName, imageName);
+&gt;         
+&gt;     }
+&gt; 
+&gt;     <span style="color: #008000">//</span>
+&gt;     <span style="color: #008000">// free our buffer</span>
+&gt;     <span style="color: #008000">//</span>
+&gt;     ExFreePool(buffer);
+&gt; 
+&gt;     <span style="color: #008000">//</span>
+&gt;     <span style="color: #008000">// And tell the caller what happened.</span>
+&gt;     <span style="color: #008000">//    </span>
+&gt;     <span style="color: #0000ff">return</span> status;
+&gt;     
+&gt; }
+&gt; 
+</pre></div>
+
+Figure 2 - A New Proposal</p>
+
+<p>The function itself is fairly straight-forward. It does rely on use of a single undocumented function (ZwQueryInformationProcess), but note that its counterpart (NtQueryInformationProcess) is documented. We need to use the Zw variant in order to use a kernel memory buffer.</p>
+
+<p>The key element is that Windows has always stored the full path name to the executable image in order to provide this information in the auditing subsystem. This API exploits that existing stored path name.</p>
+
+<p>Other Process Names
+This function has been implemented to extract the process name for the current process. However, you can use one of the two methods listed below to obtain the process name for a different process:</p>
+
+<ol>
+<li><p>If you have a handle for the process, you can use that value instead of the NtCurrentProcess() macro. (Note that in our experience, we usually have a process object and not a process handle - the two are not interchangeable).</p></li>
+
+<li><p>If you have an EPROCESS address, you can use KeStackAttachProcess/KeUnstackDetachProcess to attach to the process. This technique is rather heavy-weight, so it may be a good idea to cache the information if you need to perform this operation regularly.</p></li>
+</ol>
+
+<p>When using the second technique, it is important to note that the name that is returned is a cached name. This cache is not updated if the name of the original file changes after the name is first cached. In other words, if the executable image is renamed, which is typically allowed for a running executable, the name returned will be the name of the original file.</p>
+
+<p>This issue is not unique. We have also observed that some file systems return the original name even after a rename (e.g., the CIFS client implementation does this on Windows XP). Thus, it may require additional processing such as through a file system filter driver to protect against similar events. For example, you may encounter a security product that relies on knowing the specific name of the image.Alternatives?
+There are other options that a driver could also pursue such as registering for process creation/teardown events (PsSetCreateProcessNotifyRoutine) or image loading (PsSetLoadImageNotifyRoutine).</p>
+
+<p>PsSetCreateProcessNotifyRoutine has limitations on the number of drivers that can register using this API. Since there is a fixed size table in the Windows OS, it is possible for this call to fail. When this occurs, a driver needs to ensure it can handle such a failure. PsSetLoadImageNotifyRoutine has the same limitation (fixed size table), but is called for all image loads, not just the original process image. Therefore, it includes drivers, DLLs, executables, etc.</p>
+
+<p>Summary
+The bottom line is that all of these approaches provide a useful name because they include the full path name. This is vastly superior to using the short ASCII eye-catching name that is stored in the EPROCESS structure. A word of caution - if you decide to use the debug level name, use it for nothing more than debugging  since it is not reliable and cannot be relied on for any sort of security check.</p>
+
+<p>We chose to use the proposed technique because it works in all circumstances and does not rely upon a registration that might potentially fail. In your own driver you might implement both this mechanism and a cache-based mechanism tied to the process creation logic.[/quote]</p>
+</blockquote>
+
+<p>文章里对于如何获取其他进程，提供了两种方法，但是都不太方便，在我的驱动里，我是在PsSetCreateProcessNotifyRoutine的回调函数里获取进程路径，能得到的进程信息是PID，于是动手改了下上面的代码，如下：</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>NTSTATUS
+    GetProcessImagePath(
+        IN  HANDLE   hProcessId,
+        OUT PUNICODE_STRING ProcessImagePath
+    )
+{
+    NTSTATUS Status = STATUS_UNSUCCESSFUL;
+    HANDLE hProcess = NULL;
+    PEPROCESS pEprocess = NULL;
+    ULONG returnedLength = 0;
+    ULONG bufferLength = 0;
+    PVOID buffer = NULL;
+    PUNICODE_STRING imageName = NULL;
+    <span style="color: #0000ff">static</span> QUERY_INFO_PROCESS ZwQueryInformationProcess = NULL;
+
+    <span style="color: #008000">//PAGED_CODE; // this eliminates the possibility of the IDLE Thread/Process</span>
+
+    <span style="color: #0000ff">if</span> (NULL == ZwQueryInformationProcess)
+    {
+        UNICODE_STRING routineName;
+
+        RtlInitUnicodeString(&amp;routineName, <span style="color: #a31515">L&quot;ZwQueryInformationProcess&quot;</span>);
+
+        ZwQueryInformationProcess =
+               (QUERY_INFO_PROCESS) MmGetSystemRoutineAddress(&amp;routineName);
+
+        <span style="color: #0000ff">if</span> (NULL == ZwQueryInformationProcess) {
+            KdPrint((<span style="color: #a31515">&quot;[%s?] %4u %s: Cannot get &#39;ZwQueryInformationProcess&#39;.\n&quot;</span>, CODE_ID));
+            <span style="color: #0000ff">goto</span> __FINALLY;
+        }
+    }
+
+    Status = PsLookupProcessByProcessId(hProcessId, &amp;pEprocess);
+    <span style="color: #0000ff">if</span> (!NT_SUCCESS(Status))
+    {
+        KdPrint((<span style="color: #a31515">&quot;[%s?] %4u %s: PsLookupProcessByProcessId failed(%s).\n&quot;</span>,
+                CODE_ID, StatusStr(Status)));
+        <span style="color: #0000ff">goto</span> __FINALLY;
+    }
+
+    Status = ObOpenObjectByPointer(pEprocess,           <span style="color: #008000">// Object</span>
+                                   OBJ_KERNEL_HANDLE,   <span style="color: #008000">//HandleAttributes</span>
+                                   NULL,                <span style="color: #008000">// PassedAccessState OPTIONAL</span>
+                                   GENERIC_READ,        <span style="color: #008000">// DesiredAccess</span>
+                                   *PsProcessType,      <span style="color: #008000">// ObjectType</span>
+                                   KernelMode,          <span style="color: #008000">// AccessMode</span>
+                                   &amp;hProcess);
+    <span style="color: #0000ff">if</span> (!NT_SUCCESS(Status))
+    {
+        KdPrint((<span style="color: #a31515">&quot;[%s?] %4u %s: ObOpenObjectByPointer failed(%s).\n&quot;</span>,
+                CODE_ID, StatusStr(Status)));
+        <span style="color: #0000ff">goto</span> __FINALLY;
+    }
+
+    <span style="color: #008000">//</span>
+    <span style="color: #008000">// Step one - get the size we need</span>
+    <span style="color: #008000">//</span>
+    Status = ZwQueryInformationProcess( hProcess,
+                                        ProcessImageFileName,
+                                        NULL, <span style="color: #008000">// buffer</span>
+                                        0, <span style="color: #008000">// buffer size</span>
+                                        &amp;returnedLength);
+
+
+    <span style="color: #0000ff">if</span> (STATUS_INFO_LENGTH_MISMATCH != Status)
+    {
+        KdPrint((<span style="color: #a31515">&quot;[%s?] %4u %s: ZwQueryInformationProcess@1 failed(%s).\n&quot;</span>,
+                CODE_ID, StatusStr(Status)));
+        <span style="color: #0000ff">goto</span> __FINALLY;
+    }
+
+    <span style="color: #008000">//</span>
+    <span style="color: #008000">// Is the passed-in buffer going to be big enough for us?</span>
+    <span style="color: #008000">// This function returns a single contguous buffer model...</span>
+    <span style="color: #008000">//</span>
+    bufferLength = returnedLength - <span style="color: #0000ff">sizeof</span>(UNICODE_STRING);
+
+    <span style="color: #0000ff">if</span> (ProcessImagePath-&gt;MaximumLength &lt; bufferLength)
+    {
+        ProcessImagePath-&gt;Length = (USHORT) bufferLength;
+<span style="color: #008000">//        KdPrint((&quot;[%s] %4u %s: STATUS_BUFFER_OVERFLOW \n&quot;, CODE_ID));</span>
+        Status = STATUS_BUFFER_OVERFLOW;
+        <span style="color: #0000ff">goto</span> __FINALLY;
+    }
+
+    <span style="color: #008000">//</span>
+    <span style="color: #008000">// If we get here, the buffer IS going to be big enough for us, so</span>
+    <span style="color: #008000">// let&#39;s allocate some storage.</span>
+    <span style="color: #008000">//</span>
+    buffer = ExAllocatePoolWithTag(PagedPool, returnedLength, <span style="border: 1px solid #FF0000">&#39;</span>ipgD<span style="border: 1px solid #FF0000">&#39;</span>);
+    <span style="color: #0000ff">if</span> (NULL == buffer)
+    {
+        KdPrint((<span style="color: #a31515">&quot;[%s?] %4u %s: STATUS_INSUFFICIENT_RESOURCES\n&quot;</span>, CODE_ID));
+        Status = STATUS_INSUFFICIENT_RESOURCES;
+        <span style="color: #0000ff">goto</span> __FINALLY;
+    }
+
+    <span style="color: #008000">//</span>
+    <span style="color: #008000">// Now lets go get the data</span>
+    <span style="color: #008000">//</span>
+    Status = ZwQueryInformationProcess( hProcess,
+                                        ProcessImageFileName,
+                                        buffer,
+                                        returnedLength,
+                                        &amp;returnedLength);
+
+    <span style="color: #0000ff">if</span> (NT_SUCCESS(Status)) {
+        <span style="color: #008000">//</span>
+        <span style="color: #008000">// Ah, we got what we needed</span>
+        <span style="color: #008000">//</span>
+        imageName = (PUNICODE_STRING) buffer;
+
+        RtlCopyUnicodeString(ProcessImagePath, imageName);
+
+    }
+    <span style="color: #0000ff">else</span>
+    {
+        KdPrint((<span style="color: #a31515">&quot;[%s?] %4u %s: ZwQueryInformationProcess@1 failed(%s).\n&quot;</span>,
+                CODE_ID, StatusStr(Status)));
+    }
+
+__FINALLY:
+
+    <span style="color: #0000ff">if</span> (NULL != pEprocess)
+    {
+        ObDereferenceObject(pEprocess);
+    }
+
+    <span style="color: #0000ff">if</span> (NULL != hProcess)
+    {
+        ZwClose(hProcess);
+    }
+
+    <span style="color: #008000">//</span>
+    <span style="color: #008000">// free our buffer</span>
+    <span style="color: #008000">//</span>
+    <span style="color: #0000ff">if</span> (NULL != buffer)
+    {
+        ExFreePool(buffer);
+    }
+
+    <span style="color: #008000">//</span>
+    <span style="color: #008000">// And tell the caller what happened.</span>
+    <span style="color: #008000">//</span>
+    <span style="color: #0000ff">return</span> Status;
+}
+</pre></div>
+</p>
+
+<p>更新历史：
+2012-4-5，修正错误结束分支中的资源泄漏bug</p>
+
+        </div>
+
+              
+<footer>
+  <div class="pull-right small text-muted">Power by <a href="https://gohugo.io/">Hugo</a> and Theme by <a href="Hugo">Bootswatch</a></div>
+</footer>
+
+     </div>
+
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/bootswatch.js"></script>
+    </body>
+</html>
+
+

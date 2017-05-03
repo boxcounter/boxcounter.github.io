@@ -1,0 +1,99 @@
+body{
+    padding-top:50px;
+    font-size: 16px;
+    background-color: #fff;
+}
+footer{
+    padding-top:50px;
+    padding-bottom: 50px;
+}
+
+hr {
+	border-top: 1px solid #e7e7e7;
+}
+
+pre {
+	word-wrap: inherit;
+}
+
+pre code {
+	white-space: inherit;
+}
+
+blockquote {
+	font-size: 16px;
+	color: #777;
+}
+
+table {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+table tr,
+table td,
+table th {
+	border: 1px solid #eee;
+	padding: 8px;
+}
+
+table tbody tr:nth-child(odd) {
+	background-color: #fcfbfb;
+}
+
+.post {
+	margin-top: 10px;
+}
+
+.post h1 {
+	font-size: 24px;
+	margin-top: 32px;
+	margin-bottom: 12px;
+}
+
+.post h2 {
+	font-size: 20px;
+	margin-top: 32px;
+	margin-bottom: 12px;
+}
+
+.post h3 {
+	font-size: 18px;
+	margin-top: 32px;
+	margin-bottom: 12px;
+}
+
+.post img {
+	max-width: 100%;
+	/*border: 1px solid #eee;*/
+}
+
+.post-list:first-child {
+	margin-top: 20px;
+}
+
+.post-list {
+	position: relative;
+	padding-left: 95px;
+	margin-bottom: 10px;
+	/*min-height: 30px;*/
+}
+
+.post-list h5 {
+	margin: 0;
+	padding: 0;
+	font-size: 16px;
+	font-weight: normal;
+}
+
+.post-list-time {
+	position: absolute;
+	top: -3px;
+	left: 0;
+	color: #999;
+}
+
+.post-time {
+	color: #999;
+	margin-bottom: 15px;
+}
