@@ -53,7 +53,8 @@
 <ol>
 <li>调用MS提供的标准方法IoCopyCurrentIrpStackLocationToNext(&hellip;)</li>
 <li>方法二：
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>PIO_STACK_LOCATION IrpSp;   
+
+PIO_STACK_LOCATION IrpSp;   
 PIO_STACK_LOCATION NextIrpSp;   
   
 IrpSp = IoGetCurrentIrpStackLocation(Irp);   
@@ -61,8 +62,7 @@ NextIrpSp = IoGetNextIrpStackLocation(Irp);
   
 *NextIrpSp = *IrpSp;   
   
-<span style="color: #0000ff">return</span> IoCallDriver(NextDeviceObject, Irp);
-</pre></div>
+return IoCallDriver(NextDeviceObject, Irp);
 <br /></li>
 </ol>
 
@@ -72,14 +72,14 @@ NextIrpSp = IoGetNextIrpStackLocation(Irp);
 
 <p>再反观方法一IoCopyCurrentIrpStackLocationToNext(&hellip;)，在Ntddk.h有，有这个“函数”的定义：</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #0000ff">#define IoCopyCurrentIrpStackLocationToNext( Irp ) { \   </span>
-PIO_STACK_LOCATION __irpSp;        <span style="border: 1px solid #FF0000">\</span>   
-PIO_STACK_LOCATION __nextIrpSp;    <span style="border: 1px solid #FF0000">\</span>   
-__irpSp = IoGetCurrentIrpStackLocation( (Irp) );     <span style="border: 1px solid #FF0000">\</span>   
-__nextIrpSp = IoGetNextIrpStackLocation( (Irp) );    <span style="border: 1px solid #FF0000">\</span>   
-RtlCopyMemory(__nextIrpSp, __irpSp, FIELD_OFFSET(IO_STACK_LOCATION, CompletionRoutine)); <span style="border: 1px solid #FF0000">\</span>     
-__nextIrpSp-&gt;Control = 0; }
-</pre></div>
+
+#define IoCopyCurrentIrpStackLocationToNext( Irp ) { \   
+PIO_STACK_LOCATION __irpSp;        \   
+PIO_STACK_LOCATION __nextIrpSp;    \   
+__irpSp = IoGetCurrentIrpStackLocation( (Irp) );     \   
+__nextIrpSp = IoGetNextIrpStackLocation( (Irp) );    \   
+RtlCopyMemory(__nextIrpSp, __irpSp, FIELD_OFFSET(IO_STACK_LOCATION, CompletionRoutine)); \     
+__nextIrpSp->Control = 0; }
 
 
 <p>原来这是个宏，重点看RtlCopyMemory调用的最后一个参数：这个宏只拷贝了CompletionRoutine成员之前的部分。方法一、方法二的区别就在这里。而实际上后者相对于前者，并没有什么优点，所以还是尽量使用方法一比较好。</p>

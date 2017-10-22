@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mysql on Boxcounter的烂笔头</title>
+    <link>http://boxcounter.com/tags/mysql/</link>
+    <description>Recent content in Mysql on Boxcounter的烂笔头</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 15 Sep 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://boxcounter.com/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>read committed与statement-based replication</title>
+      <link>http://boxcounter.com/technique/2017-09-15-read-commited-statement-based-replication/</link>
+      <pubDate>Fri, 15 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2017-09-15-read-commited-statement-based-replication/</guid>
+      <description>疑问 在MySQL的Transaction Isolation Level文档里读到这么一句话： If you use READ COMMITTED, you must use row-based binary logging. 这引发了我的好奇心：为什么呢？READ COM</description>
+    </item>
+    
+  </channel>
+</rss>

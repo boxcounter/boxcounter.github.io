@@ -102,113 +102,112 @@ It is actually the second issue that often creates problems for programmers beca
 <p>The Proposal
 We suggest a different model for acquiring this information, as shown in Figure 2.</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&gt; <span style="color: #0000ff">typedef</span> NTSTATUS (*QUERY_INFO_PROCESS) (
-&gt;     __in HANDLE ProcessHandle,
-&gt;     __in PROCESSINFOCLASS ProcessInformationClass,
-&gt;     __out_bcount(ProcessInformationLength) PVOID ProcessInformation,
-&gt;     __in ULONG ProcessInformationLength,
-&gt;     __out_opt PULONG ReturnLength
-&gt;     );
-&gt; 
-&gt; QUERY_INFO_PROCESS ZwQueryInformationProcess;
-&gt; 
-&gt; NTSTATUS GetProcessImageName(PUNICODE_STRING ProcessImageName)
-&gt; {
-&gt;     NTSTATUS status;
-&gt;     ULONG returnedLength;
-&gt;     ULONG bufferLength;
-&gt;     PVOID buffer;
-&gt;     PUNICODE_STRING imageName;
-&gt;     
-&gt;     PAGED_CODE(); <span style="color: #008000">// this eliminates the possibility of the IDLE Thread/Process</span>
-&gt; 
-&gt;     <span style="color: #0000ff">if</span> (NULL == ZwQueryInformationProcess) {
-&gt; 
-&gt;         UNICODE_STRING routineName;
-&gt; 
-&gt;         RtlInitUnicodeString(&amp;routineName, <span style="color: #a31515">L&quot;ZwQueryInformationProcess&quot;</span>);
-&gt; 
-&gt;         ZwQueryInformationProcess = 
-&gt;                (QUERY_INFO_PROCESS) MmGetSystemRoutineAddress(&amp;routineName);
-&gt; 
-&gt;         <span style="color: #0000ff">if</span> (NULL == ZwQueryInformationProcess) {
-&gt;             DbgPrint(<span style="color: #a31515">&quot;Cannot resolve ZwQueryInformationProcess\n&quot;</span>);
-&gt;         }
-&gt;     }
-&gt;     <span style="color: #008000">//</span>
-&gt;     <span style="color: #008000">// Step one - get the size we need</span>
-&gt;     <span style="color: #008000">//</span>
-&gt;     status = ZwQueryInformationProcess( NtCurrentProcess(), 
-&gt;                                         ProcessImageFileName,
-&gt;                                         NULL, <span style="color: #008000">// buffer</span>
-&gt;                                         0, <span style="color: #008000">// buffer size</span>
-&gt;                                         &amp;returnedLength);
-&gt; 
-&gt;     <span style="color: #0000ff">if</span> (STATUS_INFO_LENGTH_MISMATCH != status) {
-&gt; 
-&gt;         <span style="color: #0000ff">return</span> status;
-&gt; 
-&gt;     }
-&gt; 
-&gt;     <span style="color: #008000">//</span>
-&gt;     <span style="color: #008000">// Is the passed-in buffer going to be big enough for us?  </span>
-&gt;     <span style="color: #008000">// This function returns a single contguous buffer model...</span>
-&gt;     <span style="color: #008000">//</span>
-&gt;     bufferLength = returnedLength - <span style="color: #0000ff">sizeof</span>(UNICODE_STRING);
-&gt;     
-&gt;     <span style="color: #0000ff">if</span> (ProcessImageName-&gt;MaximumLength &lt; bufferLength) {
-&gt; 
-&gt;         ProcessImageName-&gt;Length = (USHORT) bufferLength;
-&gt; 
-&gt;         <span style="color: #0000ff">return</span> STATUS_BUFFER_OVERFLOW;
-&gt;         
-&gt;     }
-&gt; 
-&gt;     <span style="color: #008000">//</span>
-&gt;     <span style="color: #008000">// If we get here, the buffer IS going to be big enough for us, so </span>
-&gt;     <span style="color: #008000">// let&#39;s allocate some storage.</span>
-&gt;     <span style="color: #008000">//</span>
-&gt;     buffer = ExAllocatePoolWithTag(PagedPool, returnedLength, <span style="border: 1px solid #FF0000">&#39;</span>ipgD<span style="border: 1px solid #FF0000">&#39;</span>);
-&gt; 
-&gt;     <span style="color: #0000ff">if</span> (NULL == buffer) {
-&gt; 
-&gt;         <span style="color: #0000ff">return</span> STATUS_INSUFFICIENT_RESOURCES;
-&gt;         
-&gt;     }
-&gt; 
-&gt;     <span style="color: #008000">//</span>
-&gt;     <span style="color: #008000">// Now lets go get the data</span>
-&gt;     <span style="color: #008000">//</span>
-&gt;     status = ZwQueryInformationProcess( NtCurrentProcess(), 
-&gt;                                         ProcessImageFileName,
-&gt;                                         buffer,
-&gt;                                         returnedLength,
-&gt;                                         &amp;returnedLength);
-&gt; 
-&gt;     <span style="color: #0000ff">if</span> (NT_SUCCESS(status)) {
-&gt;         <span style="color: #008000">//</span>
-&gt;         <span style="color: #008000">// Ah, we got what we needed</span>
-&gt;         <span style="color: #008000">//</span>
-&gt;         imageName = (PUNICODE_STRING) buffer;
-&gt; 
-&gt;         RtlCopyUnicodeString(ProcessImageName, imageName);
-&gt;         
-&gt;     }
-&gt; 
-&gt;     <span style="color: #008000">//</span>
-&gt;     <span style="color: #008000">// free our buffer</span>
-&gt;     <span style="color: #008000">//</span>
-&gt;     ExFreePool(buffer);
-&gt; 
-&gt;     <span style="color: #008000">//</span>
-&gt;     <span style="color: #008000">// And tell the caller what happened.</span>
-&gt;     <span style="color: #008000">//    </span>
-&gt;     <span style="color: #0000ff">return</span> status;
-&gt;     
-&gt; }
-&gt; 
-</pre></div>
-
+<p>
+> typedef NTSTATUS (*QUERY_INFO_PROCESS) (
+>     __in HANDLE ProcessHandle,
+>     __in PROCESSINFOCLASS ProcessInformationClass,
+>     __out_bcount(ProcessInformationLength) PVOID ProcessInformation,
+>     __in ULONG ProcessInformationLength,
+>     __out_opt PULONG ReturnLength
+>     );
+> 
+> QUERY_INFO_PROCESS ZwQueryInformationProcess;
+> 
+> NTSTATUS GetProcessImageName(PUNICODE_STRING ProcessImageName)
+> {
+>     NTSTATUS status;
+>     ULONG returnedLength;
+>     ULONG bufferLength;
+>     PVOID buffer;
+>     PUNICODE_STRING imageName;
+>     
+>     PAGED_CODE(); // this eliminates the possibility of the IDLE Thread/Process
+> 
+>     if (NULL == ZwQueryInformationProcess) {
+> 
+>         UNICODE_STRING routineName;
+> 
+>         RtlInitUnicodeString(&routineName, L"ZwQueryInformationProcess");
+> 
+>         ZwQueryInformationProcess = 
+>                (QUERY_INFO_PROCESS) MmGetSystemRoutineAddress(&routineName);
+> 
+>         if (NULL == ZwQueryInformationProcess) {
+>             DbgPrint("Cannot resolve ZwQueryInformationProcess\n");
+>         }
+>     }
+>     //
+>     // Step one - get the size we need
+>     //
+>     status = ZwQueryInformationProcess( NtCurrentProcess(), 
+>                                         ProcessImageFileName,
+>                                         NULL, // buffer
+>                                         0, // buffer size
+>                                         &returnedLength);
+> 
+>     if (STATUS_INFO_LENGTH_MISMATCH != status) {
+> 
+>         return status;
+> 
+>     }
+> 
+>     //
+>     // Is the passed-in buffer going to be big enough for us?  
+>     // This function returns a single contguous buffer model...
+>     //
+>     bufferLength = returnedLength - sizeof(UNICODE_STRING);
+>     
+>     if (ProcessImageName->MaximumLength < bufferLength) {
+> 
+>         ProcessImageName->Length = (USHORT) bufferLength;
+> 
+>         return STATUS_BUFFER_OVERFLOW;
+>         
+>     }
+> 
+>     //
+>     // If we get here, the buffer IS going to be big enough for us, so 
+>     // let's allocate some storage.
+>     //
+>     buffer = ExAllocatePoolWithTag(PagedPool, returnedLength, 'ipgD');
+> 
+>     if (NULL == buffer) {
+> 
+>         return STATUS_INSUFFICIENT_RESOURCES;
+>         
+>     }
+> 
+>     //
+>     // Now lets go get the data
+>     //
+>     status = ZwQueryInformationProcess( NtCurrentProcess(), 
+>                                         ProcessImageFileName,
+>                                         buffer,
+>                                         returnedLength,
+>                                         &returnedLength);
+> 
+>     if (NT_SUCCESS(status)) {
+>         //
+>         // Ah, we got what we needed
+>         //
+>         imageName = (PUNICODE_STRING) buffer;
+> 
+>         RtlCopyUnicodeString(ProcessImageName, imageName);
+>         
+>     }
+> 
+>     //
+>     // free our buffer
+>     //
+>     ExFreePool(buffer);
+> 
+>     //
+>     // And tell the caller what happened.
+>     //    
+>     return status;
+>     
+> }
+> 
 Figure 2 - A New Proposal</p>
 
 <p>The function itself is fairly straight-forward. It does rely on use of a single undocumented function (ZwQueryInformationProcess), but note that its counterpart (NtQueryInformationProcess) is documented. We need to use the Zw variant in order to use a kernel memory buffer.</p>
@@ -239,7 +238,8 @@ The bottom line is that all of these approaches provide a useful name because th
 
 <p>文章里对于如何获取其他进程，提供了两种方法，但是都不太方便，在我的驱动里，我是在PsSetCreateProcessNotifyRoutine的回调函数里获取进程路径，能得到的进程信息是PID，于是动手改了下上面的代码，如下：</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>NTSTATUS
+
+NTSTATUS
     GetProcessImagePath(
         IN  HANDLE   hProcessId,
         OUT PUNICODE_STRING ProcessImagePath
@@ -252,141 +252,140 @@ The bottom line is that all of these approaches provide a useful name because th
     ULONG bufferLength = 0;
     PVOID buffer = NULL;
     PUNICODE_STRING imageName = NULL;
-    <span style="color: #0000ff">static</span> QUERY_INFO_PROCESS ZwQueryInformationProcess = NULL;
+    static QUERY_INFO_PROCESS ZwQueryInformationProcess = NULL;
 
-    <span style="color: #008000">//PAGED_CODE; // this eliminates the possibility of the IDLE Thread/Process</span>
+    //PAGED_CODE; // this eliminates the possibility of the IDLE Thread/Process
 
-    <span style="color: #0000ff">if</span> (NULL == ZwQueryInformationProcess)
+    if (NULL == ZwQueryInformationProcess)
     {
         UNICODE_STRING routineName;
 
-        RtlInitUnicodeString(&amp;routineName, <span style="color: #a31515">L&quot;ZwQueryInformationProcess&quot;</span>);
+        RtlInitUnicodeString(&routineName, L"ZwQueryInformationProcess");
 
         ZwQueryInformationProcess =
-               (QUERY_INFO_PROCESS) MmGetSystemRoutineAddress(&amp;routineName);
+               (QUERY_INFO_PROCESS) MmGetSystemRoutineAddress(&routineName);
 
-        <span style="color: #0000ff">if</span> (NULL == ZwQueryInformationProcess) {
-            KdPrint((<span style="color: #a31515">&quot;[%s?] %4u %s: Cannot get &#39;ZwQueryInformationProcess&#39;.\n&quot;</span>, CODE_ID));
-            <span style="color: #0000ff">goto</span> __FINALLY;
+        if (NULL == ZwQueryInformationProcess) {
+            KdPrint(("[%s?] %4u %s: Cannot get 'ZwQueryInformationProcess'.\n", CODE_ID));
+            goto __FINALLY;
         }
     }
 
-    Status = PsLookupProcessByProcessId(hProcessId, &amp;pEprocess);
-    <span style="color: #0000ff">if</span> (!NT_SUCCESS(Status))
+    Status = PsLookupProcessByProcessId(hProcessId, &pEprocess);
+    if (!NT_SUCCESS(Status))
     {
-        KdPrint((<span style="color: #a31515">&quot;[%s?] %4u %s: PsLookupProcessByProcessId failed(%s).\n&quot;</span>,
+        KdPrint(("[%s?] %4u %s: PsLookupProcessByProcessId failed(%s).\n",
                 CODE_ID, StatusStr(Status)));
-        <span style="color: #0000ff">goto</span> __FINALLY;
+        goto __FINALLY;
     }
 
-    Status = ObOpenObjectByPointer(pEprocess,           <span style="color: #008000">// Object</span>
-                                   OBJ_KERNEL_HANDLE,   <span style="color: #008000">//HandleAttributes</span>
-                                   NULL,                <span style="color: #008000">// PassedAccessState OPTIONAL</span>
-                                   GENERIC_READ,        <span style="color: #008000">// DesiredAccess</span>
-                                   *PsProcessType,      <span style="color: #008000">// ObjectType</span>
-                                   KernelMode,          <span style="color: #008000">// AccessMode</span>
-                                   &amp;hProcess);
-    <span style="color: #0000ff">if</span> (!NT_SUCCESS(Status))
+    Status = ObOpenObjectByPointer(pEprocess,           // Object
+                                   OBJ_KERNEL_HANDLE,   //HandleAttributes
+                                   NULL,                // PassedAccessState OPTIONAL
+                                   GENERIC_READ,        // DesiredAccess
+                                   *PsProcessType,      // ObjectType
+                                   KernelMode,          // AccessMode
+                                   &hProcess);
+    if (!NT_SUCCESS(Status))
     {
-        KdPrint((<span style="color: #a31515">&quot;[%s?] %4u %s: ObOpenObjectByPointer failed(%s).\n&quot;</span>,
+        KdPrint(("[%s?] %4u %s: ObOpenObjectByPointer failed(%s).\n",
                 CODE_ID, StatusStr(Status)));
-        <span style="color: #0000ff">goto</span> __FINALLY;
+        goto __FINALLY;
     }
 
-    <span style="color: #008000">//</span>
-    <span style="color: #008000">// Step one - get the size we need</span>
-    <span style="color: #008000">//</span>
+    //
+    // Step one - get the size we need
+    //
     Status = ZwQueryInformationProcess( hProcess,
                                         ProcessImageFileName,
-                                        NULL, <span style="color: #008000">// buffer</span>
-                                        0, <span style="color: #008000">// buffer size</span>
-                                        &amp;returnedLength);
+                                        NULL, // buffer
+                                        0, // buffer size
+                                        &returnedLength);
 
 
-    <span style="color: #0000ff">if</span> (STATUS_INFO_LENGTH_MISMATCH != Status)
+    if (STATUS_INFO_LENGTH_MISMATCH != Status)
     {
-        KdPrint((<span style="color: #a31515">&quot;[%s?] %4u %s: ZwQueryInformationProcess@1 failed(%s).\n&quot;</span>,
+        KdPrint(("[%s?] %4u %s: ZwQueryInformationProcess@1 failed(%s).\n",
                 CODE_ID, StatusStr(Status)));
-        <span style="color: #0000ff">goto</span> __FINALLY;
+        goto __FINALLY;
     }
 
-    <span style="color: #008000">//</span>
-    <span style="color: #008000">// Is the passed-in buffer going to be big enough for us?</span>
-    <span style="color: #008000">// This function returns a single contguous buffer model...</span>
-    <span style="color: #008000">//</span>
-    bufferLength = returnedLength - <span style="color: #0000ff">sizeof</span>(UNICODE_STRING);
+    //
+    // Is the passed-in buffer going to be big enough for us?
+    // This function returns a single contguous buffer model...
+    //
+    bufferLength = returnedLength - sizeof(UNICODE_STRING);
 
-    <span style="color: #0000ff">if</span> (ProcessImagePath-&gt;MaximumLength &lt; bufferLength)
+    if (ProcessImagePath->MaximumLength < bufferLength)
     {
-        ProcessImagePath-&gt;Length = (USHORT) bufferLength;
-<span style="color: #008000">//        KdPrint((&quot;[%s] %4u %s: STATUS_BUFFER_OVERFLOW \n&quot;, CODE_ID));</span>
+        ProcessImagePath->Length = (USHORT) bufferLength;
+//        KdPrint(("[%s] %4u %s: STATUS_BUFFER_OVERFLOW \n", CODE_ID));
         Status = STATUS_BUFFER_OVERFLOW;
-        <span style="color: #0000ff">goto</span> __FINALLY;
+        goto __FINALLY;
     }
 
-    <span style="color: #008000">//</span>
-    <span style="color: #008000">// If we get here, the buffer IS going to be big enough for us, so</span>
-    <span style="color: #008000">// let&#39;s allocate some storage.</span>
-    <span style="color: #008000">//</span>
-    buffer = ExAllocatePoolWithTag(PagedPool, returnedLength, <span style="border: 1px solid #FF0000">&#39;</span>ipgD<span style="border: 1px solid #FF0000">&#39;</span>);
-    <span style="color: #0000ff">if</span> (NULL == buffer)
+    //
+    // If we get here, the buffer IS going to be big enough for us, so
+    // let's allocate some storage.
+    //
+    buffer = ExAllocatePoolWithTag(PagedPool, returnedLength, 'ipgD');
+    if (NULL == buffer)
     {
-        KdPrint((<span style="color: #a31515">&quot;[%s?] %4u %s: STATUS_INSUFFICIENT_RESOURCES\n&quot;</span>, CODE_ID));
+        KdPrint(("[%s?] %4u %s: STATUS_INSUFFICIENT_RESOURCES\n", CODE_ID));
         Status = STATUS_INSUFFICIENT_RESOURCES;
-        <span style="color: #0000ff">goto</span> __FINALLY;
+        goto __FINALLY;
     }
 
-    <span style="color: #008000">//</span>
-    <span style="color: #008000">// Now lets go get the data</span>
-    <span style="color: #008000">//</span>
+    //
+    // Now lets go get the data
+    //
     Status = ZwQueryInformationProcess( hProcess,
                                         ProcessImageFileName,
                                         buffer,
                                         returnedLength,
-                                        &amp;returnedLength);
+                                        &returnedLength);
 
-    <span style="color: #0000ff">if</span> (NT_SUCCESS(Status)) {
-        <span style="color: #008000">//</span>
-        <span style="color: #008000">// Ah, we got what we needed</span>
-        <span style="color: #008000">//</span>
+    if (NT_SUCCESS(Status)) {
+        //
+        // Ah, we got what we needed
+        //
         imageName = (PUNICODE_STRING) buffer;
 
         RtlCopyUnicodeString(ProcessImagePath, imageName);
 
     }
-    <span style="color: #0000ff">else</span>
+    else
     {
-        KdPrint((<span style="color: #a31515">&quot;[%s?] %4u %s: ZwQueryInformationProcess@1 failed(%s).\n&quot;</span>,
+        KdPrint(("[%s?] %4u %s: ZwQueryInformationProcess@1 failed(%s).\n",
                 CODE_ID, StatusStr(Status)));
     }
 
 __FINALLY:
 
-    <span style="color: #0000ff">if</span> (NULL != pEprocess)
+    if (NULL != pEprocess)
     {
         ObDereferenceObject(pEprocess);
     }
 
-    <span style="color: #0000ff">if</span> (NULL != hProcess)
+    if (NULL != hProcess)
     {
         ZwClose(hProcess);
     }
 
-    <span style="color: #008000">//</span>
-    <span style="color: #008000">// free our buffer</span>
-    <span style="color: #008000">//</span>
-    <span style="color: #0000ff">if</span> (NULL != buffer)
+    //
+    // free our buffer
+    //
+    if (NULL != buffer)
     {
         ExFreePool(buffer);
     }
 
-    <span style="color: #008000">//</span>
-    <span style="color: #008000">// And tell the caller what happened.</span>
-    <span style="color: #008000">//</span>
-    <span style="color: #0000ff">return</span> Status;
+    //
+    // And tell the caller what happened.
+    //
+    return Status;
 }
-</pre></div>
-</p>
+
 
 <p>更新历史：
 2012-4-5，修正错误结束分支中的资源泄漏bug</p>

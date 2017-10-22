@@ -132,41 +132,42 @@ make install-target-libgcc
 <h1 id="五-测试源码">五、测试源码</h1>
 
 <p>　　现在咱有了交叉编译器了，试试效果吧：
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008000">// kernel.c</span>
-<span style="color: #0000ff">#include</span> <span style="color: #008000">&quot;multiboot2.h&quot;</span><span style="color: #0000ff"></span>
+
+// kernel.c
+#include "multiboot2.h"
 
 
-<span style="color: #0000ff">#define INFO_REQ_COUNT  2</span>
+#define INFO_REQ_COUNT  2
 
-<span style="color: #0000ff">struct</span> antos_multiboot_header_tag_information_request
+struct antos_multiboot_header_tag_information_request
 {
-    <span style="color: #0000ff">struct</span> multiboot_header_tag_information_request info_req __attribute__((aligned(MULTIBOOT_TAG_ALIGN)));
+    struct multiboot_header_tag_information_request info_req __attribute__((aligned(MULTIBOOT_TAG_ALIGN)));
     multiboot_uint32_t req[INFO_REQ_COUNT];
 } __attribute__((packed));
 
 
-<span style="color: #0000ff">struct</span> antos_multiboot_header
+struct antos_multiboot_header
 {
-    <span style="color: #0000ff">struct</span> multiboot_header header __attribute__((aligned(MULTIBOOT_TAG_ALIGN)));
-    <span style="color: #0000ff">struct</span> antos_multiboot_header_tag_information_request info_req __attribute__((aligned(MULTIBOOT_TAG_ALIGN)));
-    <span style="color: #0000ff">struct</span> multiboot_header_tag end __attribute__((aligned(MULTIBOOT_TAG_ALIGN)));
+    struct multiboot_header header __attribute__((aligned(MULTIBOOT_TAG_ALIGN)));
+    struct antos_multiboot_header_tag_information_request info_req __attribute__((aligned(MULTIBOOT_TAG_ALIGN)));
+    struct multiboot_header_tag end __attribute__((aligned(MULTIBOOT_TAG_ALIGN)));
 } __attribute__((packed));
 
 
-<span style="color: #0000ff">struct</span> antos_multiboot_header amb =
+struct antos_multiboot_header amb =
 {
     {
         MULTIBOOT2_HEADER_MAGIC,
         MULTIBOOT_ARCHITECTURE_I386,
-        <span style="color: #0000ff">sizeof</span>(<span style="color: #0000ff">struct</span> antos_multiboot_header),
-        -(MULTIBOOT2_HEADER_MAGIC + MULTIBOOT_ARCHITECTURE_I386 + <span style="color: #0000ff">sizeof</span>(<span style="color: #0000ff">struct</span> antos_multiboot_header))
+        sizeof(struct antos_multiboot_header),
+        -(MULTIBOOT2_HEADER_MAGIC + MULTIBOOT_ARCHITECTURE_I386 + sizeof(struct antos_multiboot_header))
     },
 
     {
         {
             MULTIBOOT_HEADER_TAG_INFORMATION_REQUEST,
             MULTIBOOT_HEADER_TAG_OPTIONAL,
-            <span style="color: #0000ff">sizeof</span>(<span style="color: #0000ff">struct</span> antos_multiboot_header_tag_information_request)
+            sizeof(struct antos_multiboot_header_tag_information_request)
         },
         MULTIBOOT_TAG_TYPE_BASIC_MEMINFO,
         MULTIBOOT_TAG_TYPE_FRAMEBUFFER
@@ -175,23 +176,22 @@ make install-target-libgcc
     {
         MULTIBOOT_HEADER_TAG_END,
         MULTIBOOT_HEADER_TAG_OPTIONAL,
-        <span style="color: #0000ff">sizeof</span>(<span style="color: #0000ff">struct</span> multiboot_header_tag)
+        sizeof(struct multiboot_header_tag)
     }
 };
 
 
-<span style="color: #2b91af">void</span> breakpoint()
+void breakpoint()
 {
-    <span style="color: #0000ff">asm</span>(<span style="color: #a31515">&quot;xchg %bx, %bx&quot;</span>);
+    asm("xchg %bx, %bx");
 }
 
 
-<span style="color: #2b91af">int</span> _start()
+int _start()
 {
     breakpoint();
-    <span style="color: #0000ff">return</span> 0;
+    return 0;
 }
-</pre></div>
 </p>
 
 <p>　　multiboot2.h头文件是从grub2.0.0的源码里拷贝过来的，主要定义了符合multiboot2规范的数据结构。<br />

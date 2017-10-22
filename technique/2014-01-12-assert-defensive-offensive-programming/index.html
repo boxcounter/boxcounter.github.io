@@ -57,18 +57,18 @@
 <h1 id="二-常用的断言宏">二、常用的断言宏</h1>
 
 <p>　　先贴一段我常用的断言宏，后面讲述的时候所说的ASSERT是通指下面这一组ASSERT*。
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #0000ff">#ifdef DEBUG</span>
-<span style="color: #0000ff">#define ASSERT(x) assert(x)</span>
-<span style="color: #0000ff">#else</span>
-<span style="color: #0000ff">#define ASSERT(x)</span>
-<span style="color: #0000ff">#endif</span>
 
-<span style="color: #0000ff">#define ASSERT_RETURN(x)            {ASSERT(x); if(!(x)) {return;}}</span>
-<span style="color: #0000ff">#define ASSERT_RETURN_VAL(x, ret)   {ASSERT(x); if(!(x)) {return ret;}}</span>
-<span style="color: #0000ff">#define ASSERT_GOTO(x, label)       {ASSERT(x); if(!(x)) {goto label;}}</span>
-<span style="color: #0000ff">#define ASSERT_BREAK(x)             {ASSERT(x); if(!(x)) {break;}}</span>
-<span style="color: #0000ff">#define ASSERT_CONTINUE(x)          {ASSERT(x); if(!(x)) {continue;}}</span>
-</pre></div>
+#ifdef DEBUG
+#define ASSERT(x) assert(x)
+#else
+#define ASSERT(x)
+#endif
+
+#define ASSERT_RETURN(x)            {ASSERT(x); if(!(x)) {return;}}
+#define ASSERT_RETURN_VAL(x, ret)   {ASSERT(x); if(!(x)) {return ret;}}
+#define ASSERT_GOTO(x, label)       {ASSERT(x); if(!(x)) {goto label;}}
+#define ASSERT_BREAK(x)             {ASSERT(x); if(!(x)) {break;}}
+#define ASSERT_CONTINUE(x)          {ASSERT(x); if(!(x)) {continue;}}
 </p>
 
 <h1 id="三-隔栏与断言">三、隔栏与断言</h1>

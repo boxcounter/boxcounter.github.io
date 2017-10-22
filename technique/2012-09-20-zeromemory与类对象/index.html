@@ -50,17 +50,17 @@
         <div class="post">
             <p>今天看到一段同事的代码：</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>ZeroMemory(&amp;m_PacketInfo, <span style="color: #0000ff">sizeof</span>(packet_info));
 
-<span style="color: #0000ff">struct</span> packet_info
+ZeroMemory(&m_PacketInfo, sizeof(packet_info));
+
+struct packet_info
 {
-    string m_strModule;                 <span style="color: #008000">//模块</span>
-    string m_strProtocol;               <span style="color: #008000">//协议</span>
-    string m_strClientHostIP;           <span style="color: #008000">//客户端IP</span>
-    string m_strClientHostPort;         <span style="color: #008000">//客户端端口</span>
+    string m_strModule;                 //模块
+    string m_strProtocol;               //协议
+    string m_strClientHostIP;           //客户端IP
+    string m_strClientHostPort;         //客户端端口
     ...
 };
-</pre></div>
 
 
 <p>按照我的经验，这种对类对象进行ZeroMemory或者memset的代码会导致程序崩掉。因为会覆盖掉类对象中的关键域，比如虚表。但是同事在vs2005中这样做却很正常。让我很奇怪，于是花了点时间分析了下。</p>
@@ -84,38 +84,38 @@ QueueTest!string
 
 <p>于是写了一小段测试代码</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #0000ff">class</span> <span style="color: #2b91af">Father</span>
+
+class Father
 {
-<span style="color: #0000ff">public</span>:
+public:
     Father() {}
     ~Father(){}
 
-    <span style="color: #0000ff">virtual</span> <span style="color: #2b91af">void</span> Show()
+    virtual void Show()
     {
-        printf(<span style="color: #a31515">&quot;Father\n&quot;</span>);
+        printf("Father\n");
     }
 };
 
-<span style="color: #0000ff">class</span> <span style="color: #2b91af">Son</span>: <span style="color: #0000ff">public</span> Father
+class Son: public Father
 {
-<span style="color: #0000ff">public</span>:
-    <span style="color: #2b91af">void</span> Show()
+public:
+    void Show()
     {
-        printf(<span style="color: #a31515">&quot;Son\n&quot;</span>);
+        printf("Son\n");
     }
 };
 
-<span style="color: #2b91af">void</span> main()
+void main()
 {
     Son son;
 
     son.Show();
-    ZeroMemory(&amp;son, <span style="color: #0000ff">sizeof</span>(Son));
+    ZeroMemory(&son, sizeof(Son));
     son.Show();
 
     ...
 }
-</pre></div>
 
 
 <p>我对这段代码的预期是，因为有继承以及虚函数，所以会有虚表。ZeroMemory会导致虚表被破坏，然后在第二次Show的时候非法访问。但实际运行效果依然正常。</p>
@@ -159,17 +159,17 @@ QueueTest!main:
 <p>再想想什么时候才需要虚表呢？动态绑定。<br />
 于是改了改测试代码，如下（Father和Son的定义不变）：</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #2b91af">void</span> main()
+
+void main()
 {
     Son son;
-    Father *pson = (Father*)&amp;son;
+    Father *pson = (Father*)&son;
 
-    pson-&gt;Show();
-    ZeroMemory(&amp;son, <span style="color: #0000ff">sizeof</span>(Son));
-    pson-&gt;Show();
+    pson->Show();
+    ZeroMemory(&son, sizeof(Son));
+    pson->Show();
     ...
 }
-</pre></div>
 
 
 <p>　　看看反汇编码：</p>

@@ -51,7 +51,8 @@
             <p>项目里有一个地方可能要去掉用于链表的锁，但是又得保证读写互斥。于是琢磨了一个土办法：
 （琢磨时的目标是用于异步发送日志，即多个日志存储者，一个发送者，接收者在另一个进程不用管它）</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #0000ff">#define N 200</span>
+
+#define N 200
 PVOID g_Buffer[N] = {0};
 UINT  g_uSaveIndex = 0;
 
@@ -63,27 +64,27 @@ VOID
     UINT uMySaveIndex = 0;
     PVOID pOldLog = NULL;
 
-    <span style="color: #008000">//</span>
-    <span style="color: #008000">// 获取目前可以操作的数组下标</span>
-    <span style="color: #008000">//</span>
-    uMySaveIndex = InterlockedIncrement(&amp;g_uSaveIndex) % N;
+    //
+    // 获取目前可以操作的数组下标
+    //
+    uMySaveIndex = InterlockedIncrement(&g_uSaveIndex) % N;
 
-    <span style="color: #008000">//</span>
-    <span style="color: #008000">// 存储日志</span>
-    <span style="color: #008000">//</span>
+    //
+    // 存储日志
+    //
     pOldLog = InterlockedExchangePointer(g_Buffer[uMySaveIndex], pLog);
-    <span style="color: #0000ff">if</span> (NULL != pOldLog)
+    if (NULL != pOldLog)
     {
-        <span style="color: #008000">//</span>
-        <span style="color: #008000">//     这个数组单元有老日志，释放这条老日志。</span>
-        <span style="color: #008000">//     （这条老日志距离本条日志中间已经有2000条日志了，</span>
-        <span style="color: #008000">// 这么久都没有发送出去，说明日志存储速度可能远大于发送速度，</span>
-        <span style="color: #008000">// 只能抛弃一部分日志了。</span>
-        <span style="color: #008000">//     如果不希望抛弃任何日志，那可以考虑使用链表，而不是用数组。</span>
-        <span style="color: #008000">//</span>
+        //
+        //     这个数组单元有老日志，释放这条老日志。
+        //     （这条老日志距离本条日志中间已经有2000条日志了，
+        // 这么久都没有发送出去，说明日志存储速度可能远大于发送速度，
+        // 只能抛弃一部分日志了。
+        //     如果不希望抛弃任何日志，那可以考虑使用链表，而不是用数组。
+        //
     }
 
-    <span style="color: #0000ff">return</span>;
+    return;
 }
 
 VOID 
@@ -91,19 +92,18 @@ VOID
         VOID
     )
 {
-    <span style="color: #0000ff">static</span> UINT uSendIndex = 0;
+    static UINT uSendIndex = 0;
     PVOID pLogToSend = NULL;
 
     pLogToSend = InterlockedExchangePointer(g_Buffer[uSendIndex++ % N], NULL);
 
-    <span style="color: #008000">//</span>
-    <span style="color: #008000">// 发送并清理日志</span>
-    <span style="color: #008000">// ...</span>
-    <span style="color: #008000">//</span>
+    //
+    // 发送并清理日志
+    // ...
+    //
 
-    <span style="color: #0000ff">return</span>;
+    return;
 }
-</pre></div>
 
 
         </div>

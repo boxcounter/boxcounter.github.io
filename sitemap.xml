@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://boxcounter.com/technique/2017-04-24-swoole%E8%BF%9E%E6%8E%A5%E8%B6%85%E6%97%B6%E5%88%86%E6%9E%90/</loc>
-    <lastmod>2017-04-24T00:00:00+00:00</lastmod>
+    <loc>http://boxcounter.com/reading/2017-10-21-%E7%BB%8F%E6%B5%8E%E6%80%9D%E6%83%B3%E5%8F%B2/</loc>
+    <lastmod>2017-10-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://boxcounter.com/reading/2017-04-24-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</loc>
+    <loc>http://boxcounter.com/reading/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</loc>
+    <lastmod>2017-10-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://boxcounter.com/technique/2017-09-15-read-commited-statement-based-replication/</loc>
+    <lastmod>2017-09-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://boxcounter.com/technique/2017-04-24-swoole%E8%BF%9E%E6%8E%A5%E8%B6%85%E6%97%B6%E5%88%86%E6%9E%90/</loc>
     <lastmod>2017-04-24T00:00:00+00:00</lastmod>
   </url>
   
@@ -274,7 +285,7 @@
   
   <url>
     <loc>http://boxcounter.com/</loc>
-    <lastmod>2017-04-24T00:00:00+00:00</lastmod>
+    <lastmod>2017-10-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -308,6 +319,12 @@
   </url>
   
   <url>
+    <loc>http://boxcounter.com/tags/mysql/</loc>
+    <lastmod>2017-09-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://boxcounter.com/tags/os%E7%A0%94%E5%8F%91/</loc>
     <lastmod>2013-11-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -315,7 +332,7 @@
   
   <url>
     <loc>http://boxcounter.com/reading/</loc>
-    <lastmod>2017-04-24T00:00:00+00:00</lastmod>
+    <lastmod>2017-10-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -339,7 +356,7 @@
   
   <url>
     <loc>http://boxcounter.com/technique/</loc>
-    <lastmod>2017-04-24T00:00:00+00:00</lastmod>
+    <lastmod>2017-09-15T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -351,7 +368,7 @@
   
   <url>
     <loc>http://boxcounter.com/tags/%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/</loc>
-    <lastmod>2017-04-24T00:00:00+00:00</lastmod>
+    <lastmod>2017-09-15T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -369,13 +386,13 @@
   
   <url>
     <loc>http://boxcounter.com/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/</loc>
-    <lastmod>2016-10-26T00:00:00+00:00</lastmod>
+    <lastmod>2017-10-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://boxcounter.com/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2016-10-26T00:00:00+00:00</lastmod>
+    <lastmod>2017-10-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

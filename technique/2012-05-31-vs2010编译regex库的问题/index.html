@@ -58,14 +58,14 @@ error C2059: syntax error : ';'
 
 <p>　　出现该错误的代码来自restack.h，如下：</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #0000ff">namespace</span> detail
+
+namespace detail
 {
 
-<span style="color: #008000">// For compile-time assertions that generate</span>
-<span style="color: #008000">// no run-time overhead.</span>
-<span style="color: #0000ff">template</span>&lt; <span style="color: #2b91af">bool</span> f &gt; <span style="color: #0000ff">struct</span> <span style="color: #0000ff">static_assert</span>;
-<span style="color: #0000ff">template</span>   <span style="color: #0000ff">struct</span> <span style="color: #0000ff">static_assert</span> { <span style="color: #0000ff">static_assert</span>() {} };
-</pre></div>
+// For compile-time assertions that generate
+// no run-time overhead.
+template< bool f > struct static_assert;
+template   struct static_assert { static_assert() {} };
 
 
 <p>　　该问题的原因是regex定义的static_assert模板与VS 2010的关键字冲突，将regex中的改名，比如改成_static_assert后就正常了。</p>

@@ -71,7 +71,7 @@
       <pubDate>Sun, 04 Mar 2012 00:00:00 +0000</pubDate>
       
       <guid>http://boxcounter.com/technique/2012-03-04-%E7%81%B5%E5%BC%82%E7%8E%B0%E8%B1%A1/</guid>
-      <description>前两天遇到一个灵异现象，记录下来。 cchFullHeaderLen += strlen(&amp;quot;Request-Line: &amp;quot;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszVerb) + strlen(&amp;quot; &amp;quot;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszObjectName) + (NULL != pSessionData-&amp;gt;HttpOpenReq.lpszVersion) ? (strlen(&amp;quot; &amp;quot;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszVersion)) : 0 + strlen(&amp;quot;\r\n&amp;quot;); 调试的过程中发现，pSessionData-&amp;gt;Htt</description>
+      <description>前两天遇到一个灵异现象，记录下来。 cchFullHeaderLen += strlen(&#34;Request-Line: &#34;) + strlen(pSessionData-HttpOpenReq.lpszVerb) + strlen(&#34; &#34;) + strlen(pSessionData-HttpOpenReq.lpszObjectName) + (NULL != pSessionData-HttpOpenReq.lpszVersion) ? (strlen(&#34; &#34;) + strlen(pSessionData-HttpOpenReq.lpszVersion)) : 0 + strlen(&#34;\r\n&#34;); 调试的过程中发现，pSessionData-&amp;gt;Htt</description>
     </item>
     
   </channel>

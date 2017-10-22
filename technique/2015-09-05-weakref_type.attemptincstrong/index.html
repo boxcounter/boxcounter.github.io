@@ -50,103 +50,103 @@
         <div class="post">
             <p>见中文注释内容：</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #2b91af">bool</span> RefBase::weakref_type::attemptIncStrong(<span style="color: #0000ff">const</span> <span style="color: #2b91af">void</span>* id)
+
+bool RefBase::weakref_type::attemptIncStrong(const void* id)
 {
     incWeak(id);
     
-    weakref_impl* <span style="color: #0000ff">const</span> impl = <span style="color: #0000ff">static_cast</span>&lt;weakref_impl*&gt;(<span style="color: #0000ff">this</span>);
+    weakref_impl* const impl = static_cast<weakref_impl*>(this);
     
-    <span style="color: #2b91af">int32_t</span> curCount = impl-&gt;mStrong;
-    LOG_ASSERT(curCount &gt;= 0, <span style="color: #a31515">&quot;attemptIncStrong called on %p after underflow&quot;</span>,
-               <span style="color: #0000ff">this</span>);
-    <span style="color: #0000ff">while</span> (curCount &gt; 0 &amp;&amp; curCount != INITIAL_STRONG_VALUE) {
-        <span style="color: #0000ff">if</span> (android_atomic_cmpxchg(curCount, curCount+1, &amp;impl-&gt;mStrong) == 0) {
-            <span style="color: #0000ff">break</span>;
+    int32_t curCount = impl->mStrong;
+    LOG_ASSERT(curCount >= 0, "attemptIncStrong called on %p after underflow",
+               this);
+    while (curCount > 0 && curCount != INITIAL_STRONG_VALUE) {
+        if (android_atomic_cmpxchg(curCount, curCount+1, &impl->mStrong) == 0) {
+            break;
         }
-        curCount = impl-&gt;mStrong;
+        curCount = impl->mStrong;
     }
     
-    <span style="color: #0000ff">if</span> (curCount &lt;= 0 || curCount == INITIAL_STRONG_VALUE) {
-        <span style="color: #2b91af">bool</span> allow;
-        <span style="color: #0000ff">if</span> (curCount == INITIAL_STRONG_VALUE) {
-            <span style="color: #008000">// Attempting to acquire first strong reference...  this is allowed</span>
-            <span style="color: #008000">// if the object does NOT have a longer lifetime (meaning the</span>
-            <span style="color: #008000">// implementation doesn&#39;t need to see this), or if the implementation</span>
-            <span style="color: #008000">// allows it to happen.</span>
-            <span style="color: #008000">//</span>
-            <span style="color: #008000">// ====&gt;</span>
-            <span style="color: #008000">// 未曾被强引用过，如果也不受弱引用影响，那肯定还未被销毁。</span>
-            <span style="color: #008000">// &lt;====</span>
-            <span style="color: #008000">//</span>
-            allow = (impl-&gt;mFlags&amp;OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK
-                  || impl-&gt;mBase-&gt;onIncStrongAttempted(FIRST_INC_STRONG, id);
-        } <span style="color: #0000ff">else</span> {
-            <span style="color: #008000">// Attempting to revive the object...  this is allowed</span>
-            <span style="color: #008000">// if the object DOES have a longer lifetime (so we can safely</span>
-            <span style="color: #008000">// call the object with only a weak ref) and the implementation</span>
-            <span style="color: #008000">// allows it to happen.</span>
-            <span style="color: #008000">//</span>
-            <span style="color: #008000">// ====&gt;</span>
-            <span style="color: #008000">// 曾经被强引用过，如果不受弱引用影响，那么在RefBase.decStrong()中已经被销毁了，无法revive。</span>
-            <span style="color: #008000">// 所以，一定要受弱引用影响。</span>
-            <span style="color: #008000">// &lt;====</span>
-            <span style="color: #008000">//</span>
-            allow = (impl-&gt;mFlags&amp;OBJECT_LIFETIME_WEAK) == OBJECT_LIFETIME_WEAK
-                  &amp;&amp; impl-&gt;mBase-&gt;onIncStrongAttempted(FIRST_INC_STRONG, id);
+    if (curCount <= 0 || curCount == INITIAL_STRONG_VALUE) {
+        bool allow;
+        if (curCount == INITIAL_STRONG_VALUE) {
+            // Attempting to acquire first strong reference...  this is allowed
+            // if the object does NOT have a longer lifetime (meaning the
+            // implementation doesn't need to see this), or if the implementation
+            // allows it to happen.
+            //
+            // ====>
+            // 未曾被强引用过，如果也不受弱引用影响，那肯定还未被销毁。
+            // <====
+            //
+            allow = (impl->mFlags&OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK
+                  || impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id);
+        } else {
+            // Attempting to revive the object...  this is allowed
+            // if the object DOES have a longer lifetime (so we can safely
+            // call the object with only a weak ref) and the implementation
+            // allows it to happen.
+            //
+            // ====>
+            // 曾经被强引用过，如果不受弱引用影响，那么在RefBase.decStrong()中已经被销毁了，无法revive。
+            // 所以，一定要受弱引用影响。
+            // <====
+            //
+            allow = (impl->mFlags&OBJECT_LIFETIME_WEAK) == OBJECT_LIFETIME_WEAK
+                  && impl->mBase->onIncStrongAttempted(FIRST_INC_STRONG, id);
         }
-        <span style="color: #0000ff">if</span> (!allow) {
+        if (!allow) {
             decWeak(id);
-            <span style="color: #0000ff">return</span> false;
+            return false;
         }
-        curCount = android_atomic_inc(&amp;impl-&gt;mStrong);
-        <span style="color: #008000">// If the strong reference count has already been incremented by</span>
-        <span style="color: #008000">// someone else, the implementor of onIncStrongAttempted() is holding</span>
-        <span style="color: #008000">// an unneeded reference.  So call onLastStrongRef() here to remove it.</span>
-        <span style="color: #008000">// (No, this is not pretty.)  Note that we MUST NOT do this if we</span>
-        <span style="color: #008000">// are in fact acquiring the first reference.</span>
-        <span style="color: #0000ff">if</span> (curCount &gt; 0 &amp;&amp; curCount &lt; INITIAL_STRONG_VALUE) {
-            impl-&gt;mBase-&gt;onLastStrongRef(id);
+        curCount = android_atomic_inc(&impl->mStrong);
+        // If the strong reference count has already been incremented by
+        // someone else, the implementor of onIncStrongAttempted() is holding
+        // an unneeded reference.  So call onLastStrongRef() here to remove it.
+        // (No, this is not pretty.)  Note that we MUST NOT do this if we
+        // are in fact acquiring the first reference.
+        if (curCount > 0 && curCount < INITIAL_STRONG_VALUE) {
+            impl->mBase->onLastStrongRef(id);
         }
     }
     
-    impl-&gt;addWeakRef(id);
-    impl-&gt;addStrongRef(id);
-<span style="color: #0000ff">#if PRINT_REFS</span>
-    LOGD(<span style="color: #a31515">&quot;attemptIncStrong of %p from %p: cnt=%d\n&quot;</span>, <span style="color: #0000ff">this</span>, id, curCount);
-<span style="color: #0000ff">#endif</span>
-    <span style="color: #0000ff">if</span> (curCount == INITIAL_STRONG_VALUE) {
-        android_atomic_add(-INITIAL_STRONG_VALUE, &amp;impl-&gt;mStrong);
-        impl-&gt;mBase-&gt;onFirstRef();
+    impl->addWeakRef(id);
+    impl->addStrongRef(id);
+#if PRINT_REFS
+    LOGD("attemptIncStrong of %p from %p: cnt=%d\n", this, id, curCount);
+#endif
+    if (curCount == INITIAL_STRONG_VALUE) {
+        android_atomic_add(-INITIAL_STRONG_VALUE, &impl->mStrong);
+        impl->mBase->onFirstRef();
     }
     
-    <span style="color: #0000ff">return</span> true;
+    return true;
 }
-</pre></div>
 
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #2b91af">void</span> RefBase::decStrong(<span style="color: #0000ff">const</span> <span style="color: #2b91af">void</span>* id) <span style="color: #0000ff">const</span>
+<p>
+void RefBase::decStrong(const void* id) const
 {
-    weakref_impl* <span style="color: #0000ff">const</span> refs = mRefs;
-    refs-&gt;removeStrongRef(id);
-    <span style="color: #0000ff">const</span> <span style="color: #2b91af">int32_t</span> c = android_atomic_dec(&amp;refs-&gt;mStrong);
-<span style="color: #0000ff">#if PRINT_REFS</span>
-    LOGD(<span style="color: #a31515">&quot;decStrong of %p from %p: cnt=%d\n&quot;</span>, <span style="color: #0000ff">this</span>, id, c);
-<span style="color: #0000ff">#endif</span>
-    LOG_ASSERT(c &gt;= 1, <span style="color: #a31515">&quot;decStrong() called on %p too many times&quot;</span>, refs);
-    <span style="color: #0000ff">if</span> (c == 1) {
-        <span style="color: #0000ff">const_cast</span>&lt;RefBase*&gt;(<span style="color: #0000ff">this</span>)-&gt;onLastStrongRef(id);
-        <span style="color: #0000ff">if</span> ((refs-&gt;mFlags&amp;OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK) {
-            <span style="color: #0000ff">if</span> (refs-&gt;mDestroyer) {
-                refs-&gt;mDestroyer-&gt;destroy(<span style="color: #0000ff">this</span>);
-            } <span style="color: #0000ff">else</span> {
-                <span style="color: #0000ff">delete</span> <span style="color: #0000ff">this</span>;
+    weakref_impl* const refs = mRefs;
+    refs->removeStrongRef(id);
+    const int32_t c = android_atomic_dec(&refs->mStrong);
+#if PRINT_REFS
+    LOGD("decStrong of %p from %p: cnt=%d\n", this, id, c);
+#endif
+    LOG_ASSERT(c >= 1, "decStrong() called on %p too many times", refs);
+    if (c == 1) {
+        const_cast<RefBase*>(this)->onLastStrongRef(id);
+        if ((refs->mFlags&OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK) {
+            if (refs->mDestroyer) {
+                refs->mDestroyer->destroy(this);
+            } else {
+                delete this;
             }
         }
     }
-    refs-&gt;removeWeakRef(id);
-    refs-&gt;decWeak(id);
+    refs->removeWeakRef(id);
+    refs->decWeak(id);
 }
-</pre></div>
 </p>
 
 <hr />

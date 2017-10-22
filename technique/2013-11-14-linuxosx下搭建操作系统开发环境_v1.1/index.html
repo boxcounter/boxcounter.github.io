@@ -259,63 +259,63 @@ Please choose one: [2]
 
 <h1 id="五-编写最简单的系统内核">五、编写最简单的系统内核</h1>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="border: 1px solid #FF0000">//</span> kernel.asm<span style="border: 1px solid #FF0000">源码</span>
-<span style="border: 1px solid #FF0000">[</span><span style="color: #0000ff">section</span> .kernel]
-<span style="border: 1px solid #FF0000">[</span><span style="color: #0000ff">bits</span> 32]
+<p>
+// kernel.asm源码
+[section .kernel]
+[bits 32]
 
-load_base<span style="color: #0000ff"> equ</span> 0x100000
+load_base equ 0x100000
 
-<span style="color: #008000">;</span>
-<span style="color: #008000">; multiboot header</span>
-<span style="color: #008000">;</span>
-<span style="color: #0000ff">align</span> 8
+;
+; multiboot header
+;
+align 8
 multiboot_header:
-MBH_magic<span style="color: #0000ff">            equ</span> 0xE85250D6
-MBH_architecture<span style="color: #0000ff">     equ</span> 0            <span style="color: #008000">; 32-bit protected mode</span>
-MBH_header_length<span style="color: #0000ff">    equ</span> multiboot_header_end - multiboot_header
-MBH_checksum<span style="color: #0000ff">         equ</span> -(MBH_header_length + MBH_magic + MBH_architecture)
+MBH_magic            equ 0xE85250D6
+MBH_architecture     equ 0            ; 32-bit protected mode
+MBH_header_length    equ multiboot_header_end - multiboot_header
+MBH_checksum         equ -(MBH_header_length + MBH_magic + MBH_architecture)
 
-<span style="color: #0000ff">dd</span> MBH_magic
-<span style="color: #0000ff">dd</span> MBH_architecture
-<span style="color: #0000ff">dd</span> MBH_header_length
-<span style="color: #0000ff">dd</span> MBH_checksum
+dd MBH_magic
+dd MBH_architecture
+dd MBH_header_length
+dd MBH_checksum
 
-<span style="color: #008000">; tags</span>
+; tags
 info_request_tag:
-<span style="color: #0000ff">dw</span> 1
-<span style="color: #0000ff">dw</span> 0
-<span style="color: #0000ff">dd</span> info_request_tag_end - info_request_tag
-<span style="color: #0000ff">dd</span> 5
-<span style="color: #0000ff">dd</span> 6
+dw 1
+dw 0
+dd info_request_tag_end - info_request_tag
+dd 5
+dd 6
 info_request_tag_end:
-<span style="color: #0000ff">align</span> 8
+align 8
 address_tag:
-<span style="color: #0000ff">dw</span> 2
-<span style="color: #0000ff">dw</span> 0
-<span style="color: #0000ff">dd</span> address_tag_end - address_tag
-<span style="color: #0000ff">dd</span> load_base                 <span style="color: #008000">; header_addr</span>
-<span style="color: #0000ff">dd</span> load_base                 <span style="color: #008000">; load_addr</span>
-<span style="color: #0000ff">dd</span> 0                         <span style="color: #008000">; load_end_addr</span>
-<span style="color: #0000ff">dd</span> 0                         <span style="color: #008000">; bss_end_addr</span>
+dw 2
+dw 0
+dd address_tag_end - address_tag
+dd load_base                 ; header_addr
+dd load_base                 ; load_addr
+dd 0                         ; load_end_addr
+dd 0                         ; bss_end_addr
 address_tag_end:
-<span style="color: #0000ff">align</span> 8
+align 8
 entry_address_tag:
-<span style="color: #0000ff">dw</span> 3
-<span style="color: #0000ff">dw</span> 0
-<span style="color: #0000ff">dd</span> entry_address_tag_end - entry_address_tag
-<span style="color: #0000ff">dd</span> load_base + kernel_entry
+dw 3
+dw 0
+dd entry_address_tag_end - entry_address_tag
+dd load_base + kernel_entry
 entry_address_tag_end:
-<span style="color: #0000ff">align</span> 8
-<span style="color: #008000">; end tag</span>
-<span style="color: #0000ff">dw</span> 0
-<span style="color: #0000ff">dw</span> 0
-<span style="color: #0000ff">dd</span> 8
+align 8
+; end tag
+dw 0
+dw 0
+dd 8
 multiboot_header_end:
 
 kernel_entry:
-xchg bx, bx                 <span style="color: #008000">; magic breakpoint</span>
-jmp <span style="color: #0000ff">$</span>
-</pre></div>
+xchg bx, bx                 ; magic breakpoint
+jmp $
 <br />
 　　编译</p>
 
