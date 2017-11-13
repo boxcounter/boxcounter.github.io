@@ -50,30 +50,26 @@
         <div class="post">
             <p>前两天遇到一个灵异现象，记录下来。</p>
 
-
-cchFullHeaderLen += strlen("Request-Line: ") +
-    strlen(pSessionData->HttpOpenReq.lpszVerb) +
-    strlen(" ") +
-    strlen(pSessionData->HttpOpenReq.lpszObjectName) +
-    (NULL != pSessionData->HttpOpenReq.lpszVersion) ? (strlen(" ") + strlen(pSessionData->HttpOpenReq.lpszVersion)) : 0 +
-    strlen("\r\n");
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">cchFullHeaderLen += strlen(<span style="color:#a31515"></span><span style="color:#a31515">&#34;Request-Line: &#34;</span>) +
+    strlen(pSessionData-&gt;HttpOpenReq.lpszVerb) +
+    strlen(<span style="color:#a31515"></span><span style="color:#a31515">&#34; &#34;</span>) +
+    strlen(pSessionData-&gt;HttpOpenReq.lpszObjectName) +
+    (NULL != pSessionData-&gt;HttpOpenReq.lpszVersion) ? (strlen(<span style="color:#a31515"></span><span style="color:#a31515">&#34; &#34;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszVersion)) : 0 +
+    strlen(<span style="color:#a31515"></span><span style="color:#a31515">&#34;</span><span style="color:#a31515">\r\n</span><span style="color:#a31515">&#34;</span>);</code></pre></div>
 
 <p>调试的过程中发现，pSessionData-&gt;HttpOpenReq.lpszVersion为NULL，但是依然会执行“(strlen(&rdquo; &ldquo;) + strlen(pSessionData-&gt;HttpOpenReq.lpszVersion))”。</p>
 
 <p>确认不是编码错误后，反汇编调试：</p>
 
-
-Boxr!MyFunction+0x2b2
-6a515742  xor     edx,edx
-6a515744  cmp     dword ptr [ecx+23Ch],0
-6a51574b  setne   dl
-6a51574e  add     esi,edx
-6a515750  je      Boxr!MyFunction+0x2ed (6a51577d)
-6a515752  push    offset Boxr!std::_Arithmetic_traits::_Rank+0xc88 (6a5fc0f8)
-6a515757  call    Boxr!strlen (6a5b5bd0)
-6a51575c  add     esp,4
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nasm" data-lang="nasm">Boxr<span style="">!</span>MyFunction+0x2b2
+<span style="">6</span>a515742  xor     edx,edx
+<span style="">6</span>a515744  cmp     <span style="color:#2b91af">dword</span> ptr [ecx+23Ch],0
+<span style="">6</span>a51574b  setne   dl
+<span style="">6</span>a51574e  add     esi,edx
+<span style="">6</span>a515750  je      Boxr<span style="">!</span>MyFunction+0x2ed (6a51577d)
+<span style="">6</span>a515752  push    offset Boxr<span style="">!</span>std::_Arithmetic_traits::_Rank+0xc88 (6a5fc0f8)
+<span style="">6</span>a515757  call    Boxr<span style="">!</span>strlen (6a5b5bd0)
+<span style="">6</span>a51575c  add     esp,4</code></pre></div>
 
 <p>其中ecx+23Ch就是pSessionData-&gt;HttpOpenReq.lpszVersion，查看如下：</p>
 
@@ -136,10 +132,8 @@ zf=0
 <p>但是在整理本文的过程中，仔细分析了一遍汇编代码，发现，丫是个低级错误 - 运算符优先级错误……<br />
 实际上，C代码真正的执行逻辑是这样的：</p>
 
-
-cchFullHeaderLen += (strlen("Request-Line: ") + strlen(pSessionData->HttpOpenReq.lpszVerb) + strlen(" ") + strlen(pSessionData->HttpOpenReq.lpszObjectName) + (NULL != pSessionData->HttpOpenReq.lpszVersion) ) 
-   ? (strlen(" ") + strlen(pSessionData->HttpOpenReq.lpszVersion)) : ( 0 + strlen("\r\n") );
-
+<p><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">cchFullHeaderLen += (strlen(<span style="color:#a31515"></span><span style="color:#a31515">&#34;Request-Line: &#34;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszVerb) + strlen(<span style="color:#a31515"></span><span style="color:#a31515">&#34; &#34;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszObjectName) + (NULL != pSessionData-&gt;HttpOpenReq.lpszVersion) ) 
+   ? (strlen(<span style="color:#a31515"></span><span style="color:#a31515">&#34; &#34;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszVersion)) : ( 0 + strlen(<span style="color:#a31515"></span><span style="color:#a31515">&#34;</span><span style="color:#a31515">\r\n</span><span style="color:#a31515">&#34;</span>) );</code></pre></div></p>
 
 <p>我的编码风格PPT又多了一条素材……</p>
 

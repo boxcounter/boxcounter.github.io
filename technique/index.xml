@@ -53,7 +53,7 @@
       <pubDate>Sat, 05 Sep 2015 00:00:00 +0000</pubDate>
       
       <guid>http://boxcounter.com/technique/2015-09-05-weakref_type.attemptincstrong/</guid>
-      <description>见中文注释内容： bool RefBase::weakref_type::attemptIncStrong(const void* id) { incWeak(id); weakref_impl* const impl = static_cast(this); int32_t curCount = impl-mStrong; LOG_ASSERT(curCount = 0, &#34;attemptIncStrong called on %p after underflow&#34;, this); while (curCount 0 &amp;&amp; curCount != INITIAL_STRONG_VALUE) { if (android_atomic_cmpxchg(curCount, curCount+1, &amp;impl-mStrong) == 0) { break; } curCount = impl-mStrong; } if (curCount // 未曾被强引用过，如果也不受</description>
+      <description>见中文注释内容： bool RefBase::weakref_type::attemptIncStrong(const void* id) { incWeak(id); weakref_impl* const impl = static_cast&amp;lt;weakref_impl*&amp;gt;(this); int32_t curCount = impl-&amp;gt;mStrong; LOG_ASSERT(curCount &amp;gt;= 0, &amp;#34;attemptIncStrong called on %p after underflow&amp;#34;, this); while (curCount &amp;gt; 0 &amp;amp;&amp;amp; curCount != INITIAL_STRONG_VALUE) { if (android_atomic_cmpxchg(curCount, curCount+1, &amp;amp;impl-&amp;gt;mStrong) == 0) { break; } curCount = impl-&amp;gt;mStrong; } if (curCount &amp;lt;= 0 || curCount == INITIAL_STRONG_VALUE) { bool allow; if (curCount == INITIAL_STRONG_VALUE)</description>
     </item>
     
     <item>
@@ -161,7 +161,7 @@
       <pubDate>Thu, 25 Oct 2012 00:00:00 +0000</pubDate>
       
       <guid>http://boxcounter.com/technique/2012-10-25-64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/</guid>
-      <description>今天在技术群里有位童鞋问了一个问题： On 64-bit Windows, if a data structure is misaligned, routines that manipulate the structure, such as RtlCopyMemory and memcpy, will not fault. Instead, they will raise an exception. For example: #pragma pack (1) // also set by /Zp switch struct Buffer { ULONG size; void *ptr; }; void SetPointer(void *p) { struct</description>
+      <description>今天在技术群里有位童鞋问了一个问题： On 64-bit Windows, if a data structure is misaligned, routines that manipulate the structure, such as RtlCopyMemory and memcpy, will not fault. Instead, they will raise an exception. For example: &amp;gt; #pragma pack (1) // also set by /Zp switch &amp;gt; struct Buffer { &amp;gt; ULONG size; &amp;gt; void *ptr; &amp;gt; };</description>
     </item>
     
     <item>
@@ -179,7 +179,7 @@
       <pubDate>Thu, 20 Sep 2012 00:00:00 +0000</pubDate>
       
       <guid>http://boxcounter.com/technique/2012-09-20-zeromemory%E4%B8%8E%E7%B1%BB%E5%AF%B9%E8%B1%A1/</guid>
-      <description>今天看到一段同事的代码： ZeroMemory(&amp;m_PacketInfo, sizeof(packet_info)); struct packet_info { string m_strModule; //模块 string m_strProtocol; //协议 string m_strClientHostIP; //客户端IP string m_strClientHostPort; //客户端端口 ... }; 按照我的经验，这种对类对象进行ZeroMe</description>
+      <description>今天看到一段同事的代码： ZeroMemory(&amp;amp;m_PacketInfo, sizeof(packet_info)); struct packet_info { string m_strModule; //模块 string m_strProtocol; //协议 string m_strClientHostIP; //客户端IP string m_strClientHostPort; //客户端端口 ... }; 按照我的经验，这种对类对象进行ZeroMe</description>
     </item>
     
     <item>
@@ -210,6 +210,15 @@
     </item>
     
     <item>
+      <title>有关STATUS_INVALID_DEVICE_OBJECT_PARAMETER</title>
+      <link>http://boxcounter.com/technique/2012-05-19-status_invalid_device_object_parameter/</link>
+      <pubDate>Sat, 19 May 2012 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2012-05-19-status_invalid_device_object_parameter/</guid>
+      <description>这两天遇到一个问题，记录在这里。 我有两个FS过滤驱动，这里称它们为 A 和 B，A 在 B 之上，其中 B 是个重定向驱动。下面是问题描述： A 调用 FltCreateFile 打开 C: 中</description>
+    </item>
+    
+    <item>
       <title>一个内核资源泄漏样本（待更新文中链接）</title>
       <link>http://boxcounter.com/technique/2012-04-05-%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</link>
       <pubDate>Thu, 05 Apr 2012 00:00:00 +0000</pubDate>
@@ -224,7 +233,7 @@
       <pubDate>Sun, 04 Mar 2012 00:00:00 +0000</pubDate>
       
       <guid>http://boxcounter.com/technique/2012-03-04-%E7%81%B5%E5%BC%82%E7%8E%B0%E8%B1%A1/</guid>
-      <description>前两天遇到一个灵异现象，记录下来。 cchFullHeaderLen += strlen(&#34;Request-Line: &#34;) + strlen(pSessionData-HttpOpenReq.lpszVerb) + strlen(&#34; &#34;) + strlen(pSessionData-HttpOpenReq.lpszObjectName) + (NULL != pSessionData-HttpOpenReq.lpszVersion) ? (strlen(&#34; &#34;) + strlen(pSessionData-HttpOpenReq.lpszVersion)) : 0 + strlen(&#34;\r\n&#34;); 调试的过程中发现，pSessionData-&amp;gt;Htt</description>
+      <description>前两天遇到一个灵异现象，记录下来。 cchFullHeaderLen += strlen(&amp;#34;Request-Line: &amp;#34;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszVerb) + strlen(&amp;#34; &amp;#34;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszObjectName) + (NULL != pSessionData-&amp;gt;HttpOpenReq.lpszVersion) ? (strlen(&amp;#34; &amp;#34;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszVersion)) : 0 + strlen(&amp;#34;\r\n&amp;#34;); 调试的过程中发现，pSessionData-&amp;gt;Htt</description>
     </item>
     
     <item>

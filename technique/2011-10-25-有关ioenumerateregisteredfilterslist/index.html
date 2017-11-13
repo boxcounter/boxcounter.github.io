@@ -51,14 +51,12 @@
             <p>有关于IoEnumerateRegisteredFiltersList
 昨天逆一个驱动的时候发现静态分析出来的逻辑跟动态调试的逻辑不一致，继续跟下去，发现分歧处在IoEnumerateRegisteredFiltersList函数，原型如下：</p>
 
-
-NTSTATUS
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">NTSTATUS
     IoEnumerateRegisteredFiltersList(
         IN  PDRIVER_OBJECT  *DriverObjectList,
         IN  ULONG  DriverObjectListSize,
         OUT PULONG  ActualNumberDriverObjects
-    );
-
+    );</code></pre></div>
 
 <p>其中对DriverObjectList参数的解释，在WDK 7600.16385.1 的文档中是这样：</p>
 
@@ -69,55 +67,51 @@ NTSTATUS
 <p>WDK是说，DriverObjectList中的DrvObj是按照顺序排列的，离FSD最远的排最头（第一个元素），反之则排在最末尾。<br />
 可实际调试的结果正好相反，查看了下wrk代码，</p>
 
-
-NTSTATUS
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">NTSTATUS
     IoEnumerateRegisteredFiltersList(
         IN  PDRIVER_OBJECT  *DriverObjectList,
         IN  ULONG           DriverObjectListSize,
         OUT PULONG          ActualNumberDriverObjects
     )
 {
-    // ...... 无关代码，略
- 
+    <span style="color:#008000">// ...... 无关代码，略
+</span><span style="color:#008000"></span> 
     entry = IopFsNotifyChangeQueueHead.Flink;
  
-    while ((numListEntries > 0) && (entry != &IopFsNotifyChangeQueueHead)) {
+    <span style="color:#00f">while</span> ((numListEntries &gt; 0) &amp;&amp; (entry != &amp;IopFsNotifyChangeQueueHead)) {
  
         nPacket = CONTAINING_RECORD( entry, NOTIFICATION_PACKET, ListEntry );
  
-        ObReferenceObject(nPacket->DriverObject);
+        ObReferenceObject(nPacket-&gt;DriverObject);
  
-        *DriverObjectList = nPacket->DriverObject;
+        *DriverObjectList = nPacket-&gt;DriverObject;
         DriverObjectList++;
  
-        entry = entry->Flink;
+        entry = entry-&gt;Flink;
         numListEntries--;
     }
  
-    // ...... 无关代码，略
-}
-
+    <span style="color:#008000">// ...... 无关代码，略
+</span><span style="color:#008000"></span>}</code></pre></div>
 
 <p>可以看出，返回的DriverObjectList中的DrvObj都是从IopFsNotifyChangeQueueHead链表中取出的，而且两个链表中的元素摆放顺序是一致的。</p>
 
 <p>那再来看看IopFsNotifyChangeQueueHead中的元素是按什么顺序摆放的：
-
-NTSTATUS
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">NTSTATUS
     IoRegisterFsRegistrationChange(
         IN PDRIVER_OBJECT DriverObject,
         IN PDRIVER_FS_NOTIFICATION DriverNotificationRoutine
     )
 {
-    // ...... 无关代码，略
+    <span style="color:#008000">// ...... 无关代码，略
+</span><span style="color:#008000"></span> 
+    nPacket-&gt;DriverObject = DriverObject;
+    nPacket-&gt;NotificationRoutine = DriverNotificationRoutine;
  
-    nPacket->DriverObject = DriverObject;
-    nPacket->NotificationRoutine = DriverNotificationRoutine;
+    InsertTailList( &amp;IopFsNotifyChangeQueueHead, &amp;nPacket-&gt;ListEntry );
  
-    InsertTailList( &IopFsNotifyChangeQueueHead, &nPacket->ListEntry );
- 
-    // ...... 无关代码，略
-}
-
+    <span style="color:#008000">// ...... 无关代码，略
+</span><span style="color:#008000"></span>}</code></pre></div>
 可以看出，顺序是先来后到，也就是先调用IoRegisterFsRegistrationChange的DrvObj被插在链表的前面。而一般来说，先Attach到FSD的Driver，先调用IoRegisterFsRegistrationChange（一般驱动逻辑如此，你要硬写个驱动挂上去后死活非要在10分钟后Register，我这没辙）。</p>
 
 <p>半路总结下：实际的逻辑和WDK文档上说的不一致。<br />

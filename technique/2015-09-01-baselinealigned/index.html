@@ -54,15 +54,13 @@
 
 <p>其中两个灰色方块是使用代码动态创建的TextView。它们的父LinearLayout是这样的：</p>
 
-
-<LinearLayout
-    android:id="@+id/ll_files"
-    android:layout_width="wrap_content"
-    android:layout_height="100dp"
-    android:layout_marginTop="7.5dp"
-    android:orientation="horizontal"
-    />
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">&lt;LinearLayout
+    android:id=<span style="color:#a31515">&#34;@+id/ll_files&#34;</span>
+    android:layout_width=<span style="color:#a31515">&#34;wrap_content&#34;</span>
+    android:layout_height=<span style="color:#a31515">&#34;100dp&#34;</span>
+    android:layout_marginTop=<span style="color:#a31515">&#34;7.5dp&#34;</span>
+    android:orientation=<span style="color:#a31515">&#34;horizontal&#34;</span>
+    /&gt;</code></pre></div>
 
 <p>不知道是什么原因，导致第一个TextView「下挫」了一些。仔细检查了它的margin和padding都是0、符合预期，但top是29。</p>
 
@@ -70,32 +68,30 @@
 
 <p>顺着LinearLayout.onLayout()追踪到了LinearLayout.layoutHorizontal()，发现了这样一段代码：</p>
 
-
-void layoutHorizontal(int left, int top, int right, int bottom) {
-    // 若干无关代码，略
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#2b91af">void</span> layoutHorizontal(<span style="color:#2b91af">int</span> left, <span style="color:#2b91af">int</span> top, <span style="color:#2b91af">int</span> right, <span style="color:#2b91af">int</span> bottom) {
+    <span style="color:#008000">// 若干无关代码，略
+</span><span style="color:#008000"></span>    
+    <span style="color:#2b91af">int</span> childBaseline = -1;
     
-    int childBaseline = -1;
-    
-    final LinearLayout.LayoutParams lp =
+    <span style="color:#00f">final</span> LinearLayout.LayoutParams lp =
             (LinearLayout.LayoutParams) child.getLayoutParams();
     
-    if (baselineAligned && lp.height != LayoutParams.MATCH_PARENT) {
+    <span style="color:#00f">if</span> (baselineAligned &amp;&amp; lp.height != LayoutParams.MATCH_PARENT) {
         childBaseline = child.getBaseline();
     }
     
-    // 若干无关代码，略
-    
-    switch (gravity & Gravity.VERTICAL_GRAVITY_MASK) {
-        case Gravity.TOP:
+    <span style="color:#008000">// 若干无关代码，略
+</span><span style="color:#008000"></span>    
+    <span style="color:#00f">switch</span> (gravity &amp; Gravity.VERTICAL_GRAVITY_MASK) {
+        <span style="color:#00f">case</span> Gravity.TOP:
             childTop = paddingTop + lp.topMargin;
-            if (childBaseline != -1) {
-                childTop += maxAscent[INDEX_TOP] - childBaseline;  // <==== A
-            }
-            break;
+            <span style="color:#00f">if</span> (childBaseline != -1) {
+                childTop += maxAscent[INDEX_TOP] - childBaseline;  <span style="color:#008000">// &lt;==== A
+</span><span style="color:#008000"></span>            }
+            <span style="color:#00f">break</span>;
     
-    // 若干无关代码，略
-}
-
+    <span style="color:#008000">// 若干无关代码，略
+</span><span style="color:#008000"></span>}</code></pre></div>
 
 <p>当执行完A行时，childTop等于29。问题出在这里，再反向阅读代码，跟踪到了两个关键变量：</p>
 

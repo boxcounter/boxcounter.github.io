@@ -259,64 +259,62 @@ Please choose one: [2]
 
 <h1 id="五-编写最简单的系统内核">五、编写最简单的系统内核</h1>
 
-<p>
-// kernel.asm源码
-[section .kernel]
-[bits 32]
+<p><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nasm" data-lang="nasm"><span style="">//</span> kernel.asm源码
+<span style="">[</span><span style="color:#00f">section</span> .kernel]
+<span style="">[</span><span style="color:#00f">bits</span> 32]
 
-load_base equ 0x100000
+load_base<span style="color:#00f"> equ</span> 0x100000
 
-;
-; multiboot header
-;
-align 8
+<span style="color:#008000">;</span>
+<span style="color:#008000">; multiboot header</span>
+<span style="color:#008000">;</span>
+<span style="color:#00f">align</span> 8
 multiboot_header:
-MBH_magic            equ 0xE85250D6
-MBH_architecture     equ 0            ; 32-bit protected mode
-MBH_header_length    equ multiboot_header_end - multiboot_header
-MBH_checksum         equ -(MBH_header_length + MBH_magic + MBH_architecture)
+MBH_magic<span style="color:#00f">            equ</span> 0xE85250D6
+MBH_architecture<span style="color:#00f">     equ</span> 0            <span style="color:#008000">; 32-bit protected mode</span>
+MBH_header_length<span style="color:#00f">    equ</span> multiboot_header_end - multiboot_header
+MBH_checksum<span style="color:#00f">         equ</span> -(MBH_header_length + MBH_magic + MBH_architecture)
 
-dd MBH_magic
-dd MBH_architecture
-dd MBH_header_length
-dd MBH_checksum
+<span style="color:#00f">dd</span> MBH_magic
+<span style="color:#00f">dd</span> MBH_architecture
+<span style="color:#00f">dd</span> MBH_header_length
+<span style="color:#00f">dd</span> MBH_checksum
 
-; tags
+<span style="color:#008000">; tags</span>
 info_request_tag:
-dw 1
-dw 0
-dd info_request_tag_end - info_request_tag
-dd 5
-dd 6
+<span style="color:#00f">dw</span> 1
+<span style="color:#00f">dw</span> 0
+<span style="color:#00f">dd</span> info_request_tag_end - info_request_tag
+<span style="color:#00f">dd</span> 5
+<span style="color:#00f">dd</span> 6
 info_request_tag_end:
-align 8
+<span style="color:#00f">align</span> 8
 address_tag:
-dw 2
-dw 0
-dd address_tag_end - address_tag
-dd load_base                 ; header_addr
-dd load_base                 ; load_addr
-dd 0                         ; load_end_addr
-dd 0                         ; bss_end_addr
+<span style="color:#00f">dw</span> 2
+<span style="color:#00f">dw</span> 0
+<span style="color:#00f">dd</span> address_tag_end - address_tag
+<span style="color:#00f">dd</span> load_base                 <span style="color:#008000">; header_addr</span>
+<span style="color:#00f">dd</span> load_base                 <span style="color:#008000">; load_addr</span>
+<span style="color:#00f">dd</span> 0                         <span style="color:#008000">; load_end_addr</span>
+<span style="color:#00f">dd</span> 0                         <span style="color:#008000">; bss_end_addr</span>
 address_tag_end:
-align 8
+<span style="color:#00f">align</span> 8
 entry_address_tag:
-dw 3
-dw 0
-dd entry_address_tag_end - entry_address_tag
-dd load_base + kernel_entry
+<span style="color:#00f">dw</span> 3
+<span style="color:#00f">dw</span> 0
+<span style="color:#00f">dd</span> entry_address_tag_end - entry_address_tag
+<span style="color:#00f">dd</span> load_base + kernel_entry
 entry_address_tag_end:
-align 8
-; end tag
-dw 0
-dw 0
-dd 8
+<span style="color:#00f">align</span> 8
+<span style="color:#008000">; end tag</span>
+<span style="color:#00f">dw</span> 0
+<span style="color:#00f">dw</span> 0
+<span style="color:#00f">dd</span> 8
 multiboot_header_end:
 
 kernel_entry:
-xchg bx, bx                 ; magic breakpoint
-jmp $
-<br />
+xchg bx, bx                 <span style="color:#008000">; magic breakpoint</span>
+jmp <span style="color:#00f">$</span></code></pre></div><br />
 　　编译</p>
 
 <pre><code>nasm kernel.asm -o kernel.bin

@@ -35,7 +35,7 @@
       <pubDate>Thu, 25 Oct 2012 00:00:00 +0000</pubDate>
       
       <guid>http://boxcounter.com/technique/2012-10-25-64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/</guid>
-      <description>今天在技术群里有位童鞋问了一个问题： On 64-bit Windows, if a data structure is misaligned, routines that manipulate the structure, such as RtlCopyMemory and memcpy, will not fault. Instead, they will raise an exception. For example: #pragma pack (1) // also set by /Zp switch struct Buffer { ULONG size; void *ptr; }; void SetPointer(void *p) { struct</description>
+      <description>今天在技术群里有位童鞋问了一个问题： On 64-bit Windows, if a data structure is misaligned, routines that manipulate the structure, such as RtlCopyMemory and memcpy, will not fault. Instead, they will raise an exception. For example: &amp;gt; #pragma pack (1) // also set by /Zp switch &amp;gt; struct Buffer { &amp;gt; ULONG size; &amp;gt; void *ptr; &amp;gt; };</description>
     </item>
     
     <item>
@@ -44,7 +44,7 @@
       <pubDate>Thu, 20 Sep 2012 00:00:00 +0000</pubDate>
       
       <guid>http://boxcounter.com/technique/2012-09-20-zeromemory%E4%B8%8E%E7%B1%BB%E5%AF%B9%E8%B1%A1/</guid>
-      <description>今天看到一段同事的代码： ZeroMemory(&amp;m_PacketInfo, sizeof(packet_info)); struct packet_info { string m_strModule; //模块 string m_strProtocol; //协议 string m_strClientHostIP; //客户端IP string m_strClientHostPort; //客户端端口 ... }; 按照我的经验，这种对类对象进行ZeroMe</description>
+      <description>今天看到一段同事的代码： ZeroMemory(&amp;amp;m_PacketInfo, sizeof(packet_info)); struct packet_info { string m_strModule; //模块 string m_strProtocol; //协议 string m_strClientHostIP; //客户端IP string m_strClientHostPort; //客户端端口 ... }; 按照我的经验，这种对类对象进行ZeroMe</description>
     </item>
     
     <item>
@@ -54,6 +54,15 @@
       
       <guid>http://boxcounter.com/technique/2012-05-20-%E5%85%B3%E4%BA%8Estatus_invalid_device_object_parameter%E5%92%8Cstatus_mount_point_not_resolved/</guid>
       <description>很久之前，我写了篇关于STATUS_INVALID_DEVICE_OBJECT_PARAMETER的blog，里面提到使用STATUS_RE</description>
+    </item>
+    
+    <item>
+      <title>有关STATUS_INVALID_DEVICE_OBJECT_PARAMETER</title>
+      <link>http://boxcounter.com/technique/2012-05-19-status_invalid_device_object_parameter/</link>
+      <pubDate>Sat, 19 May 2012 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2012-05-19-status_invalid_device_object_parameter/</guid>
+      <description>这两天遇到一个问题，记录在这里。 我有两个FS过滤驱动，这里称它们为 A 和 B，A 在 B 之上，其中 B 是个重定向驱动。下面是问题描述： A 调用 FltCreateFile 打开 C: 中</description>
     </item>
     
     <item>

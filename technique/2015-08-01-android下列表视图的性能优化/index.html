@@ -92,46 +92,42 @@
 
 <p>布局方式可能会是这样：</p>
 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">&lt;LinearLayout android:orientation=<span style="color:#a31515">&#34;vertical&#34;</span> &gt;
 
-<LinearLayout android:orientation="vertical" >
+    <span style="color:#008000">&lt;!-- 赞区域 --&gt;</span>
+    &lt;LinearLayout android:orientation=<span style="color:#a31515">&#34;horizontal&#34;</span> &gt;
+        &lt;ImageView /&gt;   <span style="color:#008000">&lt;!-- 心形图标 --&gt;</span>
+        &lt;GridLayout /&gt;  <span style="color:#008000">&lt;!-- 头像形式的赞 --&gt;</span>
+        &lt;TextView /&gt;    <span style="color:#008000">&lt;!-- 文字形式的赞 --&gt;</span>
+    &lt;/LinearLayout&gt;
 
-    <!-- 赞区域 -->
-    <LinearLayout android:orientation="horizontal" >
-        <ImageView />   <!-- 心形图标 -->
-        <GridLayout />  <!-- 头像形式的赞 -->
-        <TextView />    <!-- 文字形式的赞 -->
-    </LinearLayout>
+    <span style="color:#008000">&lt;!-- 评论区域 --&gt;</span>
+    &lt;LinearLayout android:orientation=<span style="color:#a31515">&#34;horizontal&#34;</span> &gt;
+        &lt;ImageView /&gt;   <span style="color:#008000">&lt;!-- 评论图标 --&gt;</span>
+        &lt;LinearLayout
+            android:orientation=<span style="color:#a31515">&#34;vertical&#34;</span>
+            /&gt; <span style="color:#008000">&lt;!-- 评论列表容器 --&gt;</span>
+    &lt;/LinearLayout&gt;
 
-    <!-- 评论区域 -->
-    <LinearLayout android:orientation="horizontal" >
-        <ImageView />   <!-- 评论图标 -->
-        <LinearLayout
-            android:orientation="vertical"
-            /> <!-- 评论列表容器 -->
-    </LinearLayout>
-
-</LinearLayout>
-
+&lt;/LinearLayout&gt;</code></pre></div>
 
 <p>根据赞的显示方式来设置<code>GridLayout</code>和<code>TextView</code>的Visibility。</p>
 
 <p>我的方法是：根据需要动态改变布局结构、保正显示效果的同时精简数量和层级。优化后是这样：</p>
 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">&lt;LinearLayout android:orientation=<span style="color:#a31515">&#34;vertical&#34;</span> &gt;
 
-<LinearLayout android:orientation="vertical" >
+    <span style="color:#008000">&lt;!-- 赞区域 --&gt;</span>
+    &lt;ViewStub android:background=<span style="color:#a31515">&#34;heart.9.png&#34;</span> /&gt;
 
-    <!-- 赞区域 -->
-    <ViewStub android:background="heart.9.png" />
+    <span style="color:#008000">&lt;!-- 评论区域 --&gt;</span>
+    &lt;LinearLayout
+        android:orientation=<span style="color:#a31515">&#34;vertical&#34;</span>
+        android:background=<span style="color:#a31515">&#34;comment.9.png&#34;</span>
+        android:paddingStart=<span style="color:#a31515">&#34;?dp&#34;</span>
+        /&gt; <span style="color:#008000">&lt;!-- 评论列表容器 --&gt;</span>
 
-    <!-- 评论区域 -->
-    <LinearLayout
-        android:orientation="vertical"
-        android:background="comment.9.png"
-        android:paddingStart="?dp"
-        /> <!-- 评论列表容器 -->
-
-</LinearLayout>
-
+&lt;/LinearLayout&gt;</code></pre></div>
 
 <p>首先，原赞区域的<code>GridLayout</code>和<code>TextView</code>都放到单独的布局文件中，原布局中换上<code>ViewStub</code>，根据需要动态inflate。其次，赞和评论图标改成.9图作为<code>Background</code>、并辅以<code>paddingStart</code>（具体数值由评论图标的宽度计算得到）。</p>
 
@@ -155,42 +151,38 @@
 
 <p>需要引入一点业务数据结构来辅助说明。</p>
 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#008000">// 约定：为了行文简洁，本文中所有代码都隐藏了诸如public关键字、构造函数等非核心内容。
+</span><span style="color:#008000"></span>
+<span style="color:#008000">// 主题
+</span><span style="color:#008000"></span><span style="color:#00f">class</span> <span style="color:#2b91af">Topic</span> {
+    String mText;               <span style="color:#008000">// 文字内容。
+</span><span style="color:#008000"></span>    List&lt;String&gt; mImages;       <span style="color:#008000">// 图片链接。
+</span><span style="color:#008000"></span>    List&lt;User&gt; mLikes;          <span style="color:#008000">// 点赞的用户。
+</span><span style="color:#008000"></span>    List&lt;Comment&gt; mComments;    <span style="color:#008000">// 评论。
+</span><span style="color:#008000"></span>    User mCreater;              <span style="color:#008000">// 发表人。
+</span><span style="color:#008000"></span>    <span style="color:#2b91af">long</span> mCreateTime;           <span style="color:#008000">// 发表的时间戳。
+</span><span style="color:#008000"></span>}
 
-// 约定：为了行文简洁，本文中所有代码都隐藏了诸如public关键字、构造函数等非核心内容。
+<span style="color:#008000">// 评论
+</span><span style="color:#008000"></span><span style="color:#00f">class</span> <span style="color:#2b91af">Comment</span> {
+    String mText;   <span style="color:#008000">// 文字内容。
+</span><span style="color:#008000"></span>    User mCreater;  <span style="color:#008000">// 发表人。
+</span><span style="color:#008000"></span>}
 
-// 主题
-class Topic {
-    String mText;               // 文字内容。
-    List<String> mImages;       // 图片链接。
-    List<User> mLikes;          // 点赞的用户。
-    List<Comment> mComments;    // 评论。
-    User mCreater;              // 发表人。
-    long mCreateTime;           // 发表的时间戳。
-}
-
-// 评论
-class Comment {
-    String mText;   // 文字内容。
-    User mCreater;  // 发表人。
-}
-
-// 用户
-class User {
-    String mName;       // 用户名称。
-    String mAvatarUrl;  // 头像的下载地址。
-}
-
+<span style="color:#008000">// 用户
+</span><span style="color:#008000"></span><span style="color:#00f">class</span> <span style="color:#2b91af">User</span> {
+    String mName;       <span style="color:#008000">// 用户名称。
+</span><span style="color:#008000"></span>    String mAvatarUrl;  <span style="color:#008000">// 头像的下载地址。
+</span><span style="color:#008000"></span>}</code></pre></div>
 
 <p>这其中有部分数据是可以预处理的，得到的数据结构如下：</p>
 
-
-class PreprocessResult {
-    CharSequence mText;             // 包含Spannable（比如超链接）的正文。
-    String mLikes;                  // 用逗号分隔的文字形式的点赞用户的名称。
-    List<CharSequence> mComments;   // 包含Spannable的评论列表。
-    String mCreateTime;             // 发表时间。
-}
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#00f">class</span> <span style="color:#2b91af">PreprocessResult</span> {
+    CharSequence mText;             <span style="color:#008000">// 包含Spannable（比如超链接）的正文。
+</span><span style="color:#008000"></span>    String mLikes;                  <span style="color:#008000">// 用逗号分隔的文字形式的点赞用户的名称。
+</span><span style="color:#008000"></span>    List&lt;CharSequence&gt; mComments;   <span style="color:#008000">// 包含Spannable的评论列表。
+</span><span style="color:#008000"></span>    String mCreateTime;             <span style="color:#008000">// 发表时间。
+</span><span style="color:#008000"></span>}</code></pre></div>
 
 <p>然后在<code>onBindViewHolder()</code>中就可以直接将<code>PreprocessResult</code>的内容设置到相应的view上，避免在UI线程中动态处理造成掉帧。</p>
 
@@ -206,15 +198,14 @@ class PreprocessResult {
 
 <p>因为这个项目的业务逻辑决定了主题、评论的文字内容不会被修改，只有增删。于是采用的优化方法是：对于主题正文和评论，用<code>StaticLayout</code>配合自定义View展示文字。自定义View代码如下：</p>
 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#00f">public</span> <span style="color:#00f">class</span> <span style="color:#2b91af">StaticLayoutView</span> <span style="color:#00f">extends</span> View {
+    <span style="color:#00f">private</span> StaticLayout mLayout;
 
-public class StaticLayoutView extends View {
-    private StaticLayout mLayout;
-
-    public void setLayout(StaticLayout layout) {
+    <span style="color:#00f">public</span> <span style="color:#2b91af">void</span> setLayout(StaticLayout layout) {
         mLayout = layout;
 
-        int height = layout.getHeight();
-        if ((mLayout.getWidth() != layout.getWidth()) ||
+        <span style="color:#2b91af">int</span> height = layout.getHeight();
+        <span style="color:#00f">if</span> ((mLayout.getWidth() != layout.getWidth()) ||
                 (mLayoutHeight != height)) {
             requestLayout();
         }
@@ -223,11 +214,11 @@ public class StaticLayoutView extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    <span style="color:#00f">protected</span> <span style="color:#2b91af">void</span> onDraw(Canvas canvas) {
+        <span style="color:#00f">super</span>.onDraw(canvas);
 
         canvas.save();
-        if (null != mLayout) {
+        <span style="color:#00f">if</span> (<span style="color:#00f">null</span> != mLayout) {
             canvas.translate(getPaddingLeft(), getPaddingTop());
             mLayout.draw(canvas);
         }
@@ -235,26 +226,23 @@ public class StaticLayoutView extends View {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if (null != mLayout) {
+    <span style="color:#00f">protected</span> <span style="color:#2b91af">void</span> onMeasure(<span style="color:#2b91af">int</span> widthMeasureSpec, <span style="color:#2b91af">int</span> heightMeasureSpec) {
+        <span style="color:#00f">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        <span style="color:#00f">if</span> (<span style="color:#00f">null</span> != mLayout) {
             setMeasuredDimension(getMeasuredWidth(),
                     mLayoutHeight + getPaddingTop() + getPaddingBottom());
         }
     }
-}
-
+}</code></pre></div>
 
 <p>StaticLayoutView相比TextView简单、高效很多，更重要的是<code>StaticLayout</code>可以在非UI线程创建、初始化。于是前述「预处理」过程中的数据结构变为：</p>
 
-
-class PreprocessResult {
-    StaticLayout mText;             // <= 之前是CharSequence
-    String mLikes;
-    List<StaticLayout> mComments;   // <= 之前是List<CharSequence>
-    String mCreateTime;
-}
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#00f">class</span> <span style="color:#2b91af">PreprocessResult</span> {
+    StaticLayout mText;             <span style="color:#008000">// &lt;= 之前是CharSequence
+</span><span style="color:#008000"></span>    String mLikes;
+    List&lt;StaticLayout&gt; mComments;   <span style="color:#008000">// &lt;= 之前是List&lt;CharSequence&gt;
+</span><span style="color:#008000"></span>    String mCreateTime;
+}</code></pre></div>
 
 <p>优化后，在高强度测试环境下，平均帧率从34上升至47。实际环境中的平均帧率约为51。</p>
 

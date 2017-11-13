@@ -17,7 +17,7 @@
       <pubDate>Sat, 05 Sep 2015 00:00:00 +0000</pubDate>
       
       <guid>http://boxcounter.com/technique/2015-09-05-weakref_type.attemptincstrong/</guid>
-      <description>见中文注释内容： bool RefBase::weakref_type::attemptIncStrong(const void* id) { incWeak(id); weakref_impl* const impl = static_cast(this); int32_t curCount = impl-mStrong; LOG_ASSERT(curCount = 0, &#34;attemptIncStrong called on %p after underflow&#34;, this); while (curCount 0 &amp;&amp; curCount != INITIAL_STRONG_VALUE) { if (android_atomic_cmpxchg(curCount, curCount+1, &amp;impl-mStrong) == 0) { break; } curCount = impl-mStrong; } if (curCount // 未曾被强引用过，如果也不受</description>
+      <description>见中文注释内容： bool RefBase::weakref_type::attemptIncStrong(const void* id) { incWeak(id); weakref_impl* const impl = static_cast&amp;lt;weakref_impl*&amp;gt;(this); int32_t curCount = impl-&amp;gt;mStrong; LOG_ASSERT(curCount &amp;gt;= 0, &amp;#34;attemptIncStrong called on %p after underflow&amp;#34;, this); while (curCount &amp;gt; 0 &amp;amp;&amp;amp; curCount != INITIAL_STRONG_VALUE) { if (android_atomic_cmpxchg(curCount, curCount+1, &amp;amp;impl-&amp;gt;mStrong) == 0) { break; } curCount = impl-&amp;gt;mStrong; } if (curCount &amp;lt;= 0 || curCount == INITIAL_STRONG_VALUE) { bool allow; if (curCount == INITIAL_STRONG_VALUE)</description>
     </item>
     
     <item>

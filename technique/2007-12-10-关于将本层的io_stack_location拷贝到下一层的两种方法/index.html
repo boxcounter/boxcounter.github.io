@@ -53,8 +53,7 @@
 <ol>
 <li>调用MS提供的标准方法IoCopyCurrentIrpStackLocationToNext(&hellip;)</li>
 <li>方法二：
-
-PIO_STACK_LOCATION IrpSp;   
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">PIO_STACK_LOCATION IrpSp;   
 PIO_STACK_LOCATION NextIrpSp;   
   
 IrpSp = IoGetCurrentIrpStackLocation(Irp);   
@@ -62,8 +61,7 @@ NextIrpSp = IoGetNextIrpStackLocation(Irp);
   
 *NextIrpSp = *IrpSp;   
   
-return IoCallDriver(NextDeviceObject, Irp);
-<br /></li>
+<span style="color:#00f">return</span> IoCallDriver(NextDeviceObject, Irp);</code></pre></div><br /></li>
 </ol>
 
 <p>两种方法都挺常用。但是今天再看DDK中一篇OSR的分析文章里提到一个采用方法二可能会导致的一个很隐蔽的BUG：</p>
@@ -72,15 +70,13 @@ return IoCallDriver(NextDeviceObject, Irp);
 
 <p>再反观方法一IoCopyCurrentIrpStackLocationToNext(&hellip;)，在Ntddk.h有，有这个“函数”的定义：</p>
 
-
-#define IoCopyCurrentIrpStackLocationToNext( Irp ) { \   
-PIO_STACK_LOCATION __irpSp;        \   
-PIO_STACK_LOCATION __nextIrpSp;    \   
-__irpSp = IoGetCurrentIrpStackLocation( (Irp) );     \   
-__nextIrpSp = IoGetNextIrpStackLocation( (Irp) );    \   
-RtlCopyMemory(__nextIrpSp, __irpSp, FIELD_OFFSET(IO_STACK_LOCATION, CompletionRoutine)); \     
-__nextIrpSp->Control = 0; }
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00f">#define IoCopyCurrentIrpStackLocationToNext( Irp ) { \   
+</span><span style="color:#00f"></span>PIO_STACK_LOCATION __irpSp;        <span style="">\</span>   
+PIO_STACK_LOCATION __nextIrpSp;    <span style="">\</span>   
+__irpSp = IoGetCurrentIrpStackLocation( (Irp) );     <span style="">\</span>   
+__nextIrpSp = IoGetNextIrpStackLocation( (Irp) );    <span style="">\</span>   
+RtlCopyMemory(__nextIrpSp, __irpSp, FIELD_OFFSET(IO_STACK_LOCATION, CompletionRoutine)); <span style="">\</span>     
+__nextIrpSp-&gt;Control = 0; }</code></pre></div>
 
 <p>原来这是个宏，重点看RtlCopyMemory调用的最后一个参数：这个宏只拷贝了CompletionRoutine成员之前的部分。方法一、方法二的区别就在这里。而实际上后者相对于前者，并没有什么优点，所以还是尽量使用方法一比较好。</p>
 
