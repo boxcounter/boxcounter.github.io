@@ -63,7 +63,8 @@
 </span><span style="color:#008000"></span>    string m_strClientHostIP;           <span style="color:#008000">//客户端IP
 </span><span style="color:#008000"></span>    string m_strClientHostPort;         <span style="color:#008000">//客户端端口
 </span><span style="color:#008000"></span>    ...
-};</code></pre></div>
+};
+</code></pre></div>
 
 <p>按照我的经验，这种对类对象进行ZeroMemory或者memset的代码会导致程序崩掉。因为会覆盖掉类对象中的关键域，比如虚表。但是同事在vs2005中这样做却很正常。让我很奇怪，于是花了点时间分析了下。</p>
 
@@ -94,7 +95,7 @@ QueueTest!string
 
     <span style="color:#00f">virtual</span> <span style="color:#2b91af">void</span> Show()
     {
-        printf(<span style="color:#a31515"></span><span style="color:#a31515">&#34;Father</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>);
+        printf(<span style="color:#a31515">&#34;Father</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>);
     }
 };
 
@@ -103,7 +104,7 @@ QueueTest!string
 <span style="color:#00f">public</span>:
     <span style="color:#2b91af">void</span> Show()
     {
-        printf(<span style="color:#a31515"></span><span style="color:#a31515">&#34;Son</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>);
+        printf(<span style="color:#a31515">&#34;Son</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>);
     }
 };
 
@@ -116,7 +117,8 @@ QueueTest!string
     son.Show();
 
     ...
-}</code></pre></div>
+}
+</code></pre></div>
 
 <p>我对这段代码的预期是，因为有继承以及虚函数，所以会有虚表。ZeroMemory会导致虚表被破坏，然后在第二次Show的时候非法访问。但实际运行效果依然正常。</p>
 
@@ -168,7 +170,8 @@ QueueTest!main:
     ZeroMemory(&amp;son, <span style="color:#00f">sizeof</span>(Son));
     pson-&gt;Show();
     ...
-}</code></pre></div>
+}
+</code></pre></div>
 
 <p>　　看看反汇编码：</p>
 

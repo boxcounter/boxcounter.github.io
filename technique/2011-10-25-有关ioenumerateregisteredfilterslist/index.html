@@ -60,7 +60,8 @@
         IN  PDRIVER_OBJECT  *DriverObjectList,
         IN  ULONG  DriverObjectListSize,
         OUT PULONG  ActualNumberDriverObjects
-    );</code></pre></div>
+    );
+</code></pre></div>
 
 <p>其中对DriverObjectList参数的解释，在WDK 7600.16385.1 的文档中是这样：</p>
 
@@ -96,7 +97,8 @@
     }
  
     <span style="color:#008000">// ...... 无关代码，略
-</span><span style="color:#008000"></span>}</code></pre></div>
+</span><span style="color:#008000"></span>}
+</code></pre></div>
 
 <p>可以看出，返回的DriverObjectList中的DrvObj都是从IopFsNotifyChangeQueueHead链表中取出的，而且两个链表中的元素摆放顺序是一致的。</p>
 
@@ -115,7 +117,8 @@
     InsertTailList( &amp;IopFsNotifyChangeQueueHead, &amp;nPacket-&gt;ListEntry );
  
     <span style="color:#008000">// ...... 无关代码，略
-</span><span style="color:#008000"></span>}</code></pre></div>
+</span><span style="color:#008000"></span>}
+</code></pre></div>
 可以看出，顺序是先来后到，也就是先调用IoRegisterFsRegistrationChange的DrvObj被插在链表的前面。而一般来说，先Attach到FSD的Driver，先调用IoRegisterFsRegistrationChange（一般驱动逻辑如此，你要硬写个驱动挂上去后死活非要在10分钟后Register，我这没辙）。</p>
 
 <p>半路总结下：实际的逻辑和WDK文档上说的不一致。<br />

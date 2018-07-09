@@ -92,13 +92,30 @@ b8d9ba50 8081f881 808eeca7 b8d9bb44 808eeca7 nt!IovCallDriver+0x110
 <p>FltCreateFile 在我的虚拟机中是调用 FltCreateFileEx 来完成的，而后者又是由 IoCreateFileSpecifyDeviceObjectHint 来实现，来看看 FltCreateFile 的函数原型：</p>
 
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="background-color:#e5e5e5;display:block;width:100%"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span></span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="display:block;width:100%;background-color:#e5e5e5"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">NTSTATUS
 FltCreateFile(
 __in PFLT_FILTER Filter,
-<span style="background-color:#e5e5e5;display:block;width:100%">__in_opt PFLT_INSTANCE Instance,
+<span style="display:block;width:100%;background-color:#e5e5e5">__in_opt PFLT_INSTANCE Instance,
 </span>__out PHANDLE FileHandle,
 __in ACCESS_MASK DesiredAccess,
 __in POBJECT_ATTRIBUTES ObjectAttributes,
@@ -159,9 +176,27 @@ fltMgr!_FLT_INSTANCE
 
 <p>注意其中 0x1c 偏移处的 DeviceObject，这个就是传递给 IoCreateFileSpecifyDeviceObjectHint 的 DOHint，来看下这个函数的原型：
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style=";border-spacing:0;padding:0;margin:0;border:0;width:100%;overflow:auto;display:block;"><tr><td style=";vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 1</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 2</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 3</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 4</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 5</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 6</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 7</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 8</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;"> 9</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">10</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">11</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">12</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">13</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">14</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">15</span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">16</span><span style="background-color:#e5e5e5;display:block;width:100%"><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">17</span></span><span style="color:#7f7f7f;margin-right:0.4em;padding:00.4em00.4em;display:block;">18</span></code></pre></td>
-<td style=";vertical-align:top;padding:0;margin:0;border:0;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="display:block;width:100%;background-color:#e5e5e5"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">NTSTATUS
 IoCreateFileSpecifyDeviceObjectHint(
 __out PHANDLE FileHandle,
@@ -178,7 +213,7 @@ __in ULONG EaLength,
 __in CREATE_FILE_TYPE CreateFileType,
 __in_opt PVOID InternalParameters,
 __in ULONG Options,
-<span style="background-color:#e5e5e5;display:block;width:100%">__in PVOID DeviceObject
+<span style="display:block;width:100%;background-color:#e5e5e5">__in PVOID DeviceObject
 </span>);</code></pre></td></tr></table>
 </div>
 </div></p>

@@ -186,7 +186,7 @@ make install-target-libgcc
 
 <span style="color:#2b91af">void</span> breakpoint()
 {
-    <span style="color:#00f">asm</span>(<span style="color:#a31515"></span><span style="color:#a31515">&#34;xchg %bx, %bx&#34;</span>);
+    <span style="color:#00f">asm</span>(<span style="color:#a31515">&#34;xchg %bx, %bx&#34;</span>);
 }
 
 
@@ -194,7 +194,8 @@ make install-target-libgcc
 {
     breakpoint();
     <span style="color:#00f">return</span> 0;
-}</code></pre></div></p>
+}
+</code></pre></div></p>
 
 <p>　　multiboot2.h头文件是从grub2.0.0的源码里拷贝过来的，主要定义了符合multiboot2规范的数据结构。<br />
 　　编译方法：</p>

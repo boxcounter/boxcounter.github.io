@@ -61,7 +61,7 @@
     weakref_impl* <span style="color:#00f">const</span> impl = <span style="color:#00f">static_cast</span>&lt;weakref_impl*&gt;(<span style="color:#00f">this</span>);
     
     int32_t curCount = impl-&gt;mStrong;
-    LOG_ASSERT(curCount &gt;= 0, <span style="color:#a31515"></span><span style="color:#a31515">&#34;attemptIncStrong called on %p after underflow&#34;</span>,
+    LOG_ASSERT(curCount &gt;= 0, <span style="color:#a31515">&#34;attemptIncStrong called on %p after underflow&#34;</span>,
                <span style="color:#00f">this</span>);
     <span style="color:#00f">while</span> (curCount &gt; 0 &amp;&amp; curCount != INITIAL_STRONG_VALUE) {
         <span style="color:#00f">if</span> (android_atomic_cmpxchg(curCount, curCount+1, &amp;impl-&gt;mStrong) == 0) {
@@ -116,7 +116,7 @@
     impl-&gt;addWeakRef(id);
     impl-&gt;addStrongRef(id);
 <span style="color:#00f">#if PRINT_REFS
-</span><span style="color:#00f"></span>    LOGD(<span style="color:#a31515"></span><span style="color:#a31515">&#34;attemptIncStrong of %p from %p: cnt=%d</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>, <span style="color:#00f">this</span>, id, curCount);
+</span><span style="color:#00f"></span>    LOGD(<span style="color:#a31515">&#34;attemptIncStrong of %p from %p: cnt=%d</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>, <span style="color:#00f">this</span>, id, curCount);
 <span style="color:#00f">#endif
 </span><span style="color:#00f"></span>    <span style="color:#00f">if</span> (curCount == INITIAL_STRONG_VALUE) {
         android_atomic_add(-INITIAL_STRONG_VALUE, &amp;impl-&gt;mStrong);
@@ -124,7 +124,8 @@
     }
     
     <span style="color:#00f">return</span> true;
-}</code></pre></div>
+}
+</code></pre></div>
 
 <p><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#2b91af">void</span> RefBase::decStrong(<span style="color:#00f">const</span> <span style="color:#2b91af">void</span>* id) <span style="color:#00f">const</span>
 {
@@ -132,9 +133,9 @@
     refs-&gt;removeStrongRef(id);
     <span style="color:#00f">const</span> int32_t c = android_atomic_dec(&amp;refs-&gt;mStrong);
 <span style="color:#00f">#if PRINT_REFS
-</span><span style="color:#00f"></span>    LOGD(<span style="color:#a31515"></span><span style="color:#a31515">&#34;decStrong of %p from %p: cnt=%d</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>, <span style="color:#00f">this</span>, id, c);
+</span><span style="color:#00f"></span>    LOGD(<span style="color:#a31515">&#34;decStrong of %p from %p: cnt=%d</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>, <span style="color:#00f">this</span>, id, c);
 <span style="color:#00f">#endif
-</span><span style="color:#00f"></span>    LOG_ASSERT(c &gt;= 1, <span style="color:#a31515"></span><span style="color:#a31515">&#34;decStrong() called on %p too many times&#34;</span>, refs);
+</span><span style="color:#00f"></span>    LOG_ASSERT(c &gt;= 1, <span style="color:#a31515">&#34;decStrong() called on %p too many times&#34;</span>, refs);
     <span style="color:#00f">if</span> (c == 1) {
         <span style="color:#00f">const_cast</span>&lt;RefBase*&gt;(<span style="color:#00f">this</span>)-&gt;onLastStrongRef(id);
         <span style="color:#00f">if</span> ((refs-&gt;mFlags&amp;OBJECT_LIFETIME_WEAK) != OBJECT_LIFETIME_WEAK) {
@@ -147,7 +148,8 @@
     }
     refs-&gt;removeWeakRef(id);
     refs-&gt;decWeak(id);
-}</code></pre></div></p>
+}
+</code></pre></div></p>
 
 <hr />
 

@@ -54,12 +54,13 @@
         <div class="post">
             <p>前两天遇到一个灵异现象，记录下来。</p>
 
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">cchFullHeaderLen += strlen(<span style="color:#a31515"></span><span style="color:#a31515">&#34;Request-Line: &#34;</span>) +
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">cchFullHeaderLen += strlen(<span style="color:#a31515">&#34;Request-Line: &#34;</span>) +
     strlen(pSessionData-&gt;HttpOpenReq.lpszVerb) +
-    strlen(<span style="color:#a31515"></span><span style="color:#a31515">&#34; &#34;</span>) +
+    strlen(<span style="color:#a31515">&#34; &#34;</span>) +
     strlen(pSessionData-&gt;HttpOpenReq.lpszObjectName) +
-    (NULL != pSessionData-&gt;HttpOpenReq.lpszVersion) ? (strlen(<span style="color:#a31515"></span><span style="color:#a31515">&#34; &#34;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszVersion)) : 0 +
-    strlen(<span style="color:#a31515"></span><span style="color:#a31515">&#34;</span><span style="color:#a31515">\r\n</span><span style="color:#a31515">&#34;</span>);</code></pre></div>
+    (NULL != pSessionData-&gt;HttpOpenReq.lpszVersion) ? (strlen(<span style="color:#a31515">&#34; &#34;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszVersion)) : 0 +
+    strlen(<span style="color:#a31515">&#34;</span><span style="color:#a31515">\r\n</span><span style="color:#a31515">&#34;</span>);
+</code></pre></div>
 
 <p>调试的过程中发现，pSessionData-&gt;HttpOpenReq.lpszVersion为NULL，但是依然会执行“(strlen(&rdquo; &ldquo;) + strlen(pSessionData-&gt;HttpOpenReq.lpszVersion))”。</p>
 
@@ -136,8 +137,9 @@ zf=0
 <p>但是在整理本文的过程中，仔细分析了一遍汇编代码，发现，丫是个低级错误 - 运算符优先级错误……<br />
 实际上，C代码真正的执行逻辑是这样的：</p>
 
-<p><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">cchFullHeaderLen += (strlen(<span style="color:#a31515"></span><span style="color:#a31515">&#34;Request-Line: &#34;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszVerb) + strlen(<span style="color:#a31515"></span><span style="color:#a31515">&#34; &#34;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszObjectName) + (NULL != pSessionData-&gt;HttpOpenReq.lpszVersion) ) 
-   ? (strlen(<span style="color:#a31515"></span><span style="color:#a31515">&#34; &#34;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszVersion)) : ( 0 + strlen(<span style="color:#a31515"></span><span style="color:#a31515">&#34;</span><span style="color:#a31515">\r\n</span><span style="color:#a31515">&#34;</span>) );</code></pre></div></p>
+<p><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">cchFullHeaderLen += (strlen(<span style="color:#a31515">&#34;Request-Line: &#34;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszVerb) + strlen(<span style="color:#a31515">&#34; &#34;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszObjectName) + (NULL != pSessionData-&gt;HttpOpenReq.lpszVersion) ) 
+   ? (strlen(<span style="color:#a31515">&#34; &#34;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszVersion)) : ( 0 + strlen(<span style="color:#a31515">&#34;</span><span style="color:#a31515">\r\n</span><span style="color:#a31515">&#34;</span>) );
+</code></pre></div></p>
 
 <p>我的编码风格PPT又多了一条素材……</p>
 

@@ -47,46 +47,14 @@
 
 
     <div class="container">
-        <h1><a href="http://boxcounter.com/technique/2012-05-31-vs2010%E7%BC%96%E8%AF%91regex%E5%BA%93%E7%9A%84%E9%97%AE%E9%A2%98/">VS2010编译regex库的问题</a></h1>
-        <hr />
-        <span class="post-time">2012-05-31</span>
-
-        <div class="post">
-            <p>今天把一些VS 2005工程升级到VS 2010，在升级过程中，遇到regex库编译错误。如下：</p>
-
-<pre><code>error C2332: 'struct' : missing tag name
-error C3306: 'regex::detail::': unnamed class template is not allowed
-error C2143: syntax error : missing ';' before 'static_assert'
-error C2059: syntax error : ';'
-</code></pre>
-
-<p>　　出现该错误的代码来自restack.h，如下：</p>
-
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00f">namespace</span> detail
-{
-
-<span style="color:#008000">// For compile-time assertions that generate
-</span><span style="color:#008000">// no run-time overhead.
-</span><span style="color:#008000"></span><span style="color:#00f">template</span>&lt; <span style="color:#2b91af">bool</span> f &gt; <span style="color:#00f">struct</span> <span style="color:#00f">static_assert</span>;
-<span style="color:#00f">template</span>   <span style="color:#00f">struct</span> <span style="color:#00f">static_assert</span> { <span style="color:#00f">static_assert</span>() {} };
-</code></pre></div>
-
-<p>　　该问题的原因是regex定义的static_assert模板与VS 2010的关键字冲突，将regex中的改名，比如改成_static_assert后就正常了。</p>
-
-<p>　　参考资料：</p>
-
-<ul>
-<li><a href="http://social.msdn.microsoft.com/Forums/eu/vcgeneral/thread/56800d4b-eb9d-43c0-b06a-38c1ebb117bc">Greta Parser and VS 2010</a></li>
-</ul>
-
-        </div>
+        
 
               
 <footer>
   <div class="pull-right small text-muted">Power by <a href="https://gohugo.io/">Hugo</a> and Theme by <a href="Hugo">Bootswatch</a></div>
 </footer>
 
-     </div>
+    </div>
 
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="/js/bootstrap.min.js"></script>

@@ -136,7 +136,7 @@ We suggest a different model for acquiring this information, as shown in Figure 
 &gt;                (QUERY_INFO_PROCESS) MmGetSystemRoutineAddress(&amp;routineName);
 &gt; 
 &gt;         <span style="color:#00f">if</span> (NULL == ZwQueryInformationProcess) {
-&gt;             DbgPrint(<span style="color:#a31515"></span><span style="color:#a31515">&#34;Cannot resolve ZwQueryInformationProcess</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>);
+&gt;             DbgPrint(<span style="color:#a31515">&#34;Cannot resolve ZwQueryInformationProcess</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>);
 &gt;         }
 &gt;     }
 &gt;     <span style="color:#008000">//
@@ -210,7 +210,8 @@ We suggest a different model for acquiring this information, as shown in Figure 
 </span><span style="color:#008000"></span>&gt;     <span style="color:#00f">return</span> status;
 &gt;     
 &gt; }
-&gt; </code></pre></div>
+&gt; 
+</code></pre></div>
 Figure 2 - A New Proposal</p>
 
 <p>The function itself is fairly straight-forward. It does rely on use of a single undocumented function (ZwQueryInformationProcess), but note that its counterpart (NtQueryInformationProcess) is documented. We need to use the Zw variant in order to use a kernel memory buffer.</p>
@@ -268,7 +269,7 @@ The bottom line is that all of these approaches provide a useful name because th
                (QUERY_INFO_PROCESS) MmGetSystemRoutineAddress(&amp;routineName);
 
         <span style="color:#00f">if</span> (NULL == ZwQueryInformationProcess) {
-            KdPrint((<span style="color:#a31515"></span><span style="color:#a31515">&#34;[%s?] %4u %s: Cannot get &#39;ZwQueryInformationProcess&#39;.</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>, CODE_ID));
+            KdPrint((<span style="color:#a31515">&#34;[%s?] %4u %s: Cannot get &#39;ZwQueryInformationProcess&#39;.</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>, CODE_ID));
             <span style="color:#00f">goto</span> __FINALLY;
         }
     }
@@ -276,7 +277,7 @@ The bottom line is that all of these approaches provide a useful name because th
     Status = PsLookupProcessByProcessId(hProcessId, &amp;pEprocess);
     <span style="color:#00f">if</span> (!NT_SUCCESS(Status))
     {
-        KdPrint((<span style="color:#a31515"></span><span style="color:#a31515">&#34;[%s?] %4u %s: PsLookupProcessByProcessId failed(%s).</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>,
+        KdPrint((<span style="color:#a31515">&#34;[%s?] %4u %s: PsLookupProcessByProcessId failed(%s).</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>,
                 CODE_ID, StatusStr(Status)));
         <span style="color:#00f">goto</span> __FINALLY;
     }
@@ -290,7 +291,7 @@ The bottom line is that all of these approaches provide a useful name because th
 </span><span style="color:#008000"></span>                                   &amp;hProcess);
     <span style="color:#00f">if</span> (!NT_SUCCESS(Status))
     {
-        KdPrint((<span style="color:#a31515"></span><span style="color:#a31515">&#34;[%s?] %4u %s: ObOpenObjectByPointer failed(%s).</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>,
+        KdPrint((<span style="color:#a31515">&#34;[%s?] %4u %s: ObOpenObjectByPointer failed(%s).</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>,
                 CODE_ID, StatusStr(Status)));
         <span style="color:#00f">goto</span> __FINALLY;
     }
@@ -307,7 +308,7 @@ The bottom line is that all of these approaches provide a useful name because th
 
     <span style="color:#00f">if</span> (STATUS_INFO_LENGTH_MISMATCH != Status)
     {
-        KdPrint((<span style="color:#a31515"></span><span style="color:#a31515">&#34;[%s?] %4u %s: ZwQueryInformationProcess@1 failed(%s).</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>,
+        KdPrint((<span style="color:#a31515">&#34;[%s?] %4u %s: ZwQueryInformationProcess@1 failed(%s).</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>,
                 CODE_ID, StatusStr(Status)));
         <span style="color:#00f">goto</span> __FINALLY;
     }
@@ -333,7 +334,7 @@ The bottom line is that all of these approaches provide a useful name because th
 </span><span style="color:#008000"></span>    buffer = ExAllocatePoolWithTag(PagedPool, returnedLength, <span style="">&#39;</span>ipgD<span style="">&#39;</span>);
     <span style="color:#00f">if</span> (NULL == buffer)
     {
-        KdPrint((<span style="color:#a31515"></span><span style="color:#a31515">&#34;[%s?] %4u %s: STATUS_INSUFFICIENT_RESOURCES</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>, CODE_ID));
+        KdPrint((<span style="color:#a31515">&#34;[%s?] %4u %s: STATUS_INSUFFICIENT_RESOURCES</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>, CODE_ID));
         Status = STATUS_INSUFFICIENT_RESOURCES;
         <span style="color:#00f">goto</span> __FINALLY;
     }
@@ -358,7 +359,7 @@ The bottom line is that all of these approaches provide a useful name because th
     }
     <span style="color:#00f">else</span>
     {
-        KdPrint((<span style="color:#a31515"></span><span style="color:#a31515">&#34;[%s?] %4u %s: ZwQueryInformationProcess@1 failed(%s).</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>,
+        KdPrint((<span style="color:#a31515">&#34;[%s?] %4u %s: ZwQueryInformationProcess@1 failed(%s).</span><span style="color:#a31515">\n</span><span style="color:#a31515">&#34;</span>,
                 CODE_ID, StatusStr(Status)));
     }
 
@@ -386,7 +387,8 @@ __FINALLY:
 </span><span style="color:#008000"></span>    <span style="color:#008000">// And tell the caller what happened.
 </span><span style="color:#008000"></span>    <span style="color:#008000">//
 </span><span style="color:#008000"></span>    <span style="color:#00f">return</span> Status;
-}</code></pre></div></p>
+}
+</code></pre></div></p>
 
 <p>更新历史：
 2012-4-5，修正错误结束分支中的资源泄漏bug</p>
