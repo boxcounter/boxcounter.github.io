@@ -137,9 +137,9 @@ zf=0
 <p>但是在整理本文的过程中，仔细分析了一遍汇编代码，发现，丫是个低级错误 - 运算符优先级错误……<br />
 实际上，C代码真正的执行逻辑是这样的：</p>
 
-<p><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">cchFullHeaderLen += (strlen(<span style="color:#a31515">&#34;Request-Line: &#34;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszVerb) + strlen(<span style="color:#a31515">&#34; &#34;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszObjectName) + (NULL != pSessionData-&gt;HttpOpenReq.lpszVersion) ) 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">cchFullHeaderLen += (strlen(<span style="color:#a31515">&#34;Request-Line: &#34;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszVerb) + strlen(<span style="color:#a31515">&#34; &#34;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszObjectName) + (NULL != pSessionData-&gt;HttpOpenReq.lpszVersion) ) 
    ? (strlen(<span style="color:#a31515">&#34; &#34;</span>) + strlen(pSessionData-&gt;HttpOpenReq.lpszVersion)) : ( 0 + strlen(<span style="color:#a31515">&#34;</span><span style="color:#a31515">\r\n</span><span style="color:#a31515">&#34;</span>) );
-</code></pre></div></p>
+</code></pre></div>
 
 <p>我的编码风格PPT又多了一条素材……</p>
 
