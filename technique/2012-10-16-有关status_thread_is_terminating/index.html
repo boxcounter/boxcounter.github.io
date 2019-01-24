@@ -52,7 +52,7 @@
         <span class="post-time">2012-10-16</span>
 
         <div class="post">
-            <p>手头有个驱动，因为客户需求的原因，只在x86的2k3和xp系统上做过测试，今天在把它往x64 win7系统移植的时候遇到这么一个问题：<br />
+            <p>　　手头有个驱动，因为客户需求的原因，只在x86的2k3和xp系统上做过测试，今天在把它往x64 win7系统移植的时候遇到这么一个问题：<br />
 　　在PsSetCreateProcessNotifyRoutine注册的回调函数中，通过FltSendMessage发通知给应用层接收者。在发送“进程退出”事件时FltSendMessage总是会返回STATUS_THREAD_IS_TERMINATING（0xC000004B）。</p>
 
 <p>　　琢磨了一会，找到了问题关键，分析过程如下：</p>
