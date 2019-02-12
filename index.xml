@@ -6,27 +6,36 @@
     <description>Recent content on Boxcounter的烂笔头</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 04 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 11 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://boxcounter.com/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>书评：《UML和模式应用》</title>
-      <link>http://boxcounter.com/reading/2019-02-04-applying-uml-and-patterns/</link>
-      <pubDate>Mon, 04 Feb 2019 00:00:00 +0000</pubDate>
+      <title>书评：《架构整洁之道》</title>
+      <link>http://boxcounter.com/reading/2019-02-12-clean-architecture/</link>
+      <pubDate>Mon, 11 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://boxcounter.com/reading/2019-02-04-applying-uml-and-patterns/</guid>
-      <description>豆瓣评分：8.1 （354人评价） goodreads 评分：3.81 (5分制，904人评价） 我的评分：8（好书，值得再读） 除了英文，UML 应该是最容易被程序员忽</description>
+      <guid>http://boxcounter.com/reading/2019-02-12-clean-architecture/</guid>
+      <description>豆瓣评分：8.9 （89人评价） goodreads 评分：4.23 (5分制，1224人评价） 我的评分：8（好书，值得再读） 最初在网店发现这本书时，一看到书名我就</description>
+    </item>
+    
+    <item>
+      <title>书评：《微服务设计》</title>
+      <link>http://boxcounter.com/reading/2019-02-07-building-microservices/</link>
+      <pubDate>Fri, 08 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/reading/2019-02-07-building-microservices/</guid>
+      <description>豆瓣评分：8.2 （505人评价） goodreads 评分：4.16 (5分制，2410人评价） 我的评分：7（好书，值得再读） “麻雀虽小，五脏俱全”。 本书用208</description>
     </item>
     
     <item>
       <title>读书记录</title>
       <link>http://boxcounter.com/reading/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</link>
-      <pubDate>Mon, 04 Feb 2019 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 08 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>http://boxcounter.com/reading/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</guid>
-      <description>记录我读完的书，从2014年开始记录。主要记录有点厚度的，薄手册和零散资料不记。 分类 评分 简述 举例 9~10 经典书籍，值得反复阅读 《史记》(10)、《</description>
+      <description>.markdown-body table td, .markdown-body table th { padding: 6px 13px; border: 1px solid #dfe2e5; white-space: nowrap; } .col-xs-12, .col-md-8, .col-md-offset-2, .col-lg-6 { margin-left: 10px; max-width: 100%; } 记录我读完的书，从2014年开始记录。主要记录有点厚度的，薄手册和零散资料不记。 分类 评</description>
     </item>
     
     <item>

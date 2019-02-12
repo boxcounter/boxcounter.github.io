@@ -1,57 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>Boxcounter的烂笔头</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen">
-    <link rel="stylesheet" href="/css/hugo-bootswatch.css">
-  </head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.54.0" />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Boxcounter" />
+  <meta property="og:url" content="http://boxcounter.com/technique/2013-08-08-osx%E4%B8%8B%E8%A7%A3%E5%86%B3emacs%E6%89%A7%E8%A1%8C%E4%B8%AD%E6%96%87%E8%B7%AF%E5%BE%84%E5%91%BD%E4%BB%A4%E5%87%BA%E9%94%99%E7%9A%84%E6%96%B9%E6%B3%95/" />
+  <link rel="canonical" href="http://boxcounter.com/technique/2013-08-08-osx%E4%B8%8B%E8%A7%A3%E5%86%B3emacs%E6%89%A7%E8%A1%8C%E4%B8%AD%E6%96%87%E8%B7%AF%E5%BE%84%E5%91%BD%E4%BB%A4%E5%87%BA%E9%94%99%E7%9A%84%E6%96%B9%E6%B3%95/" /><script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "http://boxcounter.com/"
+      },
+      "articleSection" : "technique",
+      "name" : "osx下解决emacs执行中文路径命令出错的方法",
+      "headline" : "osx下解决emacs执行中文路径命令出错的方法",
+      "description" : "我第一次发现这个问题是在使用auctex编译中文名tex文件的时候发现的，后来发现不仅仅是auctex，M－!执行shell命令中如果包含中",
+      "inLanguage" : "en-US",
+      "author" : "Boxcounter",
+      "creator" : "Boxcounter",
+      "publisher": "Boxcounter",
+      "accountablePerson" : "Boxcounter",
+      "copyrightHolder" : "Boxcounter",
+      "copyrightYear" : "2013",
+      "datePublished": "2013-08-12 00:00:00 &#43;0000 UTC",
+      "dateModified" : "2013-08-12 00:00:00 &#43;0000 UTC",
+      "url" : "http://boxcounter.com/technique/2013-08-08-osx%E4%B8%8B%E8%A7%A3%E5%86%B3emacs%E6%89%A7%E8%A1%8C%E4%B8%AD%E6%96%87%E8%B7%AF%E5%BE%84%E5%91%BD%E4%BB%A4%E5%87%BA%E9%94%99%E7%9A%84%E6%96%B9%E6%B3%95/",
+      "keywords" : [ "Emacs", ]
+  }
+</script>
+<title>osx下解决emacs执行中文路径命令出错的方法 - Boxcounter的烂笔头</title>
+  <meta property="og:title" content="osx下解决emacs执行中文路径命令出错的方法 - Boxcounter的烂笔头" />
+  <meta property="og:type" content="article" />
+  <meta name="description" content="我第一次发现这个问题是在使用auctex编译中文名tex文件的时候发现的，后来发现不仅仅是auctex，M－!执行shell命令中如果包含中" />
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/flexboxgrid@6.3.1/dist/flexboxgrid.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/tomorrow.min.css"
+  />
+  <link rel="stylesheet" href="/css/index.css">
+  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="Boxcounter的烂笔头">
+  
+  <script>
+    
+
+    (function(undefined) {}).call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
+  </script>
+
+  
+</head>
+
+
   <body>
-
-    <div class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <a href="/" class="navbar-brand">Boxcounter的烂笔头</a>
-          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-        <div class="navbar-collapse collapse" id="navbar-main">
-          <ul class="nav navbar-nav navbar-right">
-           <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="sections">Sections<span class="caret"></span></a>
-              <ul class="dropdown-menu" aria-labelledby="download">
-              
-                <li><a href="/"></a></li>
-              
-                <li><a href="/categories">categories</a></li>
-              
-                <li><a href="/essay">essay</a></li>
-              
-                <li><a href="/reading">reading</a></li>
-              
-                <li><a href="/tags">tags</a></li>
-              
-                <li><a href="/technique">technique</a></li>
-              
-              </ul>
-            </li> 
-          </ul>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="container">
-        <h1><a href="http://boxcounter.com/technique/2013-08-08-osx%E4%B8%8B%E8%A7%A3%E5%86%B3emacs%E6%89%A7%E8%A1%8C%E4%B8%AD%E6%96%87%E8%B7%AF%E5%BE%84%E5%91%BD%E4%BB%A4%E5%87%BA%E9%94%99%E7%9A%84%E6%96%B9%E6%B3%95/">osx下解决emacs执行中文路径命令出错的方法</a></h1>
-        <hr />
-        <span class="post-time">2013-08-12</span>
-
-        <div class="post">
+    <article class="post " id="article">
+      <div class="row">
+        <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+          <a href="/">
+            <div class="head-line"></div>
+          </a>
+          <header class="post-header">
+            <h1 class="post-title">osx下解决emacs执行中文路径命令出错的方法</h1>
+            <div class="row">
+              <div class="col-xs-6">
+                <time class="post-date" datetime="2013-08-12 00:00:00 UTC">
+                  12 Aug 2013
+                </time>
+              </div>
+              <div class="col-xs-6">
+                <div class="post-author">
+                  <a target="_blank" href="http://boxcounter.com/">@Boxcounter</a>
+                </div>
+              </div>
+            </div>
+          </header>
+    
+          <div class="post-content markdown-body">
             <p>我第一次发现这个问题是在使用auctex编译中文名tex文件的时候发现的，后来发现不仅仅是auctex，M－!执行shell命令中如果包含中文路径或文件名也失败，最后搜了一些资料测试了几种，发现了这个解决方案。</p>
 
 <p>在emacs配置文件中增加如下一行：</p>
@@ -71,19 +106,27 @@
 
 <p>暂未处理，后续处理了再补在这里。</p>
 
+          </div>
+          
+          
         </div>
+      </div>
+    </article>
 
-              
-<footer>
-  <div class="pull-right small text-muted">Power by <a href="https://gohugo.io/">Hugo</a> and Theme by <a href="Hugo">Bootswatch</a></div>
-</footer>
+    <script src="/js/highlight.pack.js"></script>
+<script src="https://unpkg.com/quicklink@0.1.1/dist/quicklink.umd.js"></script>
 
-     </div>
+<script>
+  hljs.initHighlightingOnLoad();
+  
+  var posts = document.getElementById('posts-list');
+  posts && quicklink({
+    el: posts,
+    priority: true,
+  });
+</script>
 
-        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-        <script src="/js/bootstrap.min.js"></script>
-        <script src="/js/bootswatch.js"></script>
-    </body>
+    
+
+  </body>
 </html>
-
-

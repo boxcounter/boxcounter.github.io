@@ -1,57 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>Boxcounter的烂笔头</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen">
-    <link rel="stylesheet" href="/css/hugo-bootswatch.css">
-  </head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.54.0" />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Boxcounter" />
+  <meta property="og:url" content="http://boxcounter.com/technique/2011-10-25-%E5%8D%B7%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AF%86%E5%88%AB%E5%8D%B7%E7%9A%84%E6%8C%82%E8%BD%BD%E4%BB%A5%E5%8F%8A%E8%B7%AF%E5%BE%84%E8%A7%A3%E6%9E%90/" />
+  <link rel="canonical" href="http://boxcounter.com/technique/2011-10-25-%E5%8D%B7%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AF%86%E5%88%AB%E5%8D%B7%E7%9A%84%E6%8C%82%E8%BD%BD%E4%BB%A5%E5%8F%8A%E8%B7%AF%E5%BE%84%E8%A7%A3%E6%9E%90/" /><script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "http://boxcounter.com/"
+      },
+      "articleSection" : "technique",
+      "name" : "卷的文件系统识别、卷的挂载以及路径解析",
+      "headline" : "卷的文件系统识别、卷的挂载以及路径解析",
+      "description" : "前段时间琢磨文件过滤驱动的时候碰到一个棘手的问题，当时挂上wrk内核分析，发现了问题的关键点。分析的过程中明显感觉自己对IoMgr、ObjM",
+      "inLanguage" : "en-US",
+      "author" : "Boxcounter",
+      "creator" : "Boxcounter",
+      "publisher": "Boxcounter",
+      "accountablePerson" : "Boxcounter",
+      "copyrightHolder" : "Boxcounter",
+      "copyrightYear" : "2011",
+      "datePublished": "2011-10-25 00:00:00 &#43;0000 UTC",
+      "dateModified" : "2011-10-25 00:00:00 &#43;0000 UTC",
+      "url" : "http://boxcounter.com/technique/2011-10-25-%E5%8D%B7%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AF%86%E5%88%AB%E5%8D%B7%E7%9A%84%E6%8C%82%E8%BD%BD%E4%BB%A5%E5%8F%8A%E8%B7%AF%E5%BE%84%E8%A7%A3%E6%9E%90/",
+      "keywords" : [ "技术研究", ]
+  }
+</script>
+<title>卷的文件系统识别、卷的挂载以及路径解析 - Boxcounter的烂笔头</title>
+  <meta property="og:title" content="卷的文件系统识别、卷的挂载以及路径解析 - Boxcounter的烂笔头" />
+  <meta property="og:type" content="article" />
+  <meta name="description" content="前段时间琢磨文件过滤驱动的时候碰到一个棘手的问题，当时挂上wrk内核分析，发现了问题的关键点。分析的过程中明显感觉自己对IoMgr、ObjM" />
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/flexboxgrid@6.3.1/dist/flexboxgrid.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/tomorrow.min.css"
+  />
+  <link rel="stylesheet" href="/css/index.css">
+  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="Boxcounter的烂笔头">
+  
+  <script>
+    
+
+    (function(undefined) {}).call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
+  </script>
+
+  
+</head>
+
+
   <body>
-
-    <div class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <a href="/" class="navbar-brand">Boxcounter的烂笔头</a>
-          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-        <div class="navbar-collapse collapse" id="navbar-main">
-          <ul class="nav navbar-nav navbar-right">
-           <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="sections">Sections<span class="caret"></span></a>
-              <ul class="dropdown-menu" aria-labelledby="download">
-              
-                <li><a href="/"></a></li>
-              
-                <li><a href="/categories">categories</a></li>
-              
-                <li><a href="/essay">essay</a></li>
-              
-                <li><a href="/reading">reading</a></li>
-              
-                <li><a href="/tags">tags</a></li>
-              
-                <li><a href="/technique">technique</a></li>
-              
-              </ul>
-            </li> 
-          </ul>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="container">
-        <h1><a href="http://boxcounter.com/technique/2011-10-25-%E5%8D%B7%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AF%86%E5%88%AB%E5%8D%B7%E7%9A%84%E6%8C%82%E8%BD%BD%E4%BB%A5%E5%8F%8A%E8%B7%AF%E5%BE%84%E8%A7%A3%E6%9E%90/">卷的文件系统识别、卷的挂载以及路径解析</a></h1>
-        <hr />
-        <span class="post-time">2011-10-25</span>
-
-        <div class="post">
+    <article class="post " id="article">
+      <div class="row">
+        <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+          <a href="/">
+            <div class="head-line"></div>
+          </a>
+          <header class="post-header">
+            <h1 class="post-title">卷的文件系统识别、卷的挂载以及路径解析</h1>
+            <div class="row">
+              <div class="col-xs-6">
+                <time class="post-date" datetime="2011-10-25 00:00:00 UTC">
+                  25 Oct 2011
+                </time>
+              </div>
+              <div class="col-xs-6">
+                <div class="post-author">
+                  <a target="_blank" href="http://boxcounter.com/">@Boxcounter</a>
+                </div>
+              </div>
+            </div>
+          </header>
+    
+          <div class="post-content markdown-body">
             
 
 <p>前段时间琢磨文件过滤驱动的时候碰到一个棘手的问题，当时挂上wrk内核分析，发现了问题的关键点。分析的过程中明显感觉自己对IoMgr、ObjMgr、Fsd、Volume这些组件的结构关系掌握得很烂，于是最近这几天专门又挂上wrk内核，一点一点的追踪。有了一点收获，记录在这里，备忘。顺便也许会给一些朋友一点点帮助。</p>
@@ -167,19 +202,27 @@ MS为什么不把FSD和磁盘驱动堆叠成一个设备栈，而要用vpb来链
 <li>disk.sys源码</li>
 </ol>
 
+          </div>
+          
+          
         </div>
+      </div>
+    </article>
 
-              
-<footer>
-  <div class="pull-right small text-muted">Power by <a href="https://gohugo.io/">Hugo</a> and Theme by <a href="Hugo">Bootswatch</a></div>
-</footer>
+    <script src="/js/highlight.pack.js"></script>
+<script src="https://unpkg.com/quicklink@0.1.1/dist/quicklink.umd.js"></script>
 
-     </div>
+<script>
+  hljs.initHighlightingOnLoad();
+  
+  var posts = document.getElementById('posts-list');
+  posts && quicklink({
+    el: posts,
+    priority: true,
+  });
+</script>
 
-        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-        <script src="/js/bootstrap.min.js"></script>
-        <script src="/js/bootswatch.js"></script>
-    </body>
+    
+
+  </body>
 </html>
-
-

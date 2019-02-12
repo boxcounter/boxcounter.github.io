@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.54.0" />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Boxcounter" />
+  <meta property="og:url" content="http://boxcounter.com/reading/2019-02-12-clean-architecture/" />
+  <link rel="canonical" href="http://boxcounter.com/reading/2019-02-12-clean-architecture/" /><script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "http://boxcounter.com/"
+      },
+      "articleSection" : "reading",
+      "name" : "书评：《架构整洁之道》",
+      "headline" : "书评：《架构整洁之道》",
+      "description" : "豆瓣评分：8.9 （89人评价） goodreads 评分：4.23 (5分制，1224人评价） 我的评分：8（好书，值得再读） 最初在网店发现这本书时，一看到书名我就",
+      "inLanguage" : "en-US",
+      "author" : "Boxcounter",
+      "creator" : "Boxcounter",
+      "publisher": "Boxcounter",
+      "accountablePerson" : "Boxcounter",
+      "copyrightHolder" : "Boxcounter",
+      "copyrightYear" : "2019",
+      "datePublished": "2019-02-11 00:00:00 &#43;0000 UTC",
+      "dateModified" : "2019-02-11 00:00:00 &#43;0000 UTC",
+      "url" : "http://boxcounter.com/reading/2019-02-12-clean-architecture/",
+      "keywords" : [  ]
+  }
+</script>
+<title>书评：《架构整洁之道》 - Boxcounter的烂笔头</title>
+  <meta property="og:title" content="书评：《架构整洁之道》 - Boxcounter的烂笔头" />
+  <meta property="og:type" content="article" />
+  <meta name="description" content="豆瓣评分：8.9 （89人评价） goodreads 评分：4.23 (5分制，1224人评价） 我的评分：8（好书，值得再读） 最初在网店发现这本书时，一看到书名我就" />
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/flexboxgrid@6.3.1/dist/flexboxgrid.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/tomorrow.min.css"
+  />
+  <link rel="stylesheet" href="/css/index.css">
+  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="Boxcounter的烂笔头">
+  
+  <script>
+    
+
+    (function(undefined) {}).call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
+  </script>
+
+  
+</head>
+
+
+  <body>
+    <article class="post " id="article">
+      <div class="row">
+        <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+          <a href="/">
+            <div class="head-line"></div>
+          </a>
+          <header class="post-header">
+            <h1 class="post-title">书评：《架构整洁之道》</h1>
+            <div class="row">
+              <div class="col-xs-6">
+                <time class="post-date" datetime="2019-02-11 00:00:00 UTC">
+                  11 Feb 2019
+                </time>
+              </div>
+              <div class="col-xs-6">
+                <div class="post-author">
+                  <a target="_blank" href="http://boxcounter.com/">@Boxcounter</a>
+                </div>
+              </div>
+            </div>
+          </header>
+    
+          <div class="post-content markdown-body">
+            <ul>
+<li><a href="https://book.douban.com/subject/30333919/">豆瓣评分</a>：8.9 （89人评价）</li>
+<li><a href="https://www.goodreads.com/book/show/18043011-clean-architecture">goodreads</a> 评分：4.23 (5分制，1224人评价）</li>
+<li>我的评分：8（好书，值得再读）</li>
+</ul>
+
+<p>最初在网店发现这本书时，一看到书名我就很开心：Uncle Bob 出新书啦。扫了一眼目录，又心生疑惑：全书分为6个部分，第3个部分才讲到 SOLID 原则。这些原则在他的巨著《敏捷软件开发：原则、模式与实践》里已经花大量篇幅讲解了。莫不成连 Uncle Bob 也炒起冷饭了？</p>
+
+<p>（没错，上句话是典型的欲扬先抑反问句~ 接下来我要开始夸了~）</p>
+
+<p>拿到书已经是春节长假的尾巴了，连着几天读完后不由得感叹：Uncle 还是那个 Uncle，真是一本好书。</p>
+
+<p>首先说说让我疑惑的“炒冷饭”问题。全书324页，其中只有30页是讲 SOLID 原则的，每个原则只用寥寥几页就介绍完了。介绍的目的也是为了给主旨做铺垫。</p>
+
+<p>书的前80页介绍了一些基础知识，比如三种编程范式（结构化编程、面向对象编程、函数式编程）和 SOLID（SRP、OCP、LSP、ISP、DIP）。即便熟悉作者的其他作品，也能从中得到一些新启发。比如作者对三种编程范式的一句话归纳分别是这样的：</p>
+
+<blockquote>
+<p>• 结构化编程对程序控制权的直接转移进行了限制和规范。<br />
+• 面向对象编程对程序控制权的间接转移进行了限制和规范。<br />
+• 函数式编程对程序中的赋值进行了限制和规范。</p>
+</blockquote>
+
+<p>并总结：</p>
+
+<blockquote>
+<p>这些范式主要是为了告诉我们不能做什么，而不是可以做什么。</p>
+</blockquote>
+
+<p>乍一看，不知所云。但紧接着作者用仅仅26页就把道理明明白白的摆了出来。</p>
+
+<p>这之后，就是那30页的 SOLID 原则了，与《敏捷软件开发》一书不同，这次每个原则的示例更加简练。不论是自己琢磨，还是向人布道，都很合适。</p>
+
+<p>读完这80页不禁赞叹：Uncle Bob 以理服人的功力越发深厚了。佩服佩服。</p>
+
+<p>在剩余篇章里，作者讲解了如何通过管理依赖关系、剖析划分边界、分离业务逻辑与实现细节等方法设计出整洁的架构。（当然，这其中也包含了对著名的 Clean Architecture 的讲解 :-) ）</p>
+
+<p>在书的尾声部分，作者强调了“数据库只是实现细节”、“Web 是实现细节”、“应用程序框架是实现细节”，这些都不是架构设计的核心。</p>
+
+<p>而由 Simon Brown 撰写的第34章“拾遗”，则讲解了不同封装模式（按层封装、按功能封装、按端口和适配器封装、按组件封装）的异同以及封装与组织形式的区别。也是不可多得的好内容。</p>
+
+<p>这本书适合有几年开发经验、不满足于平铺直述”码“代码、追求整洁设计的研发工程师。当然，也适合喜欢 Uncle Bob 作品的同好。</p>
+
+<p>需要多啰嗦一句：Uncle Bob 是一位有数十年从业经验的资深工程师，书中有一些概念（如领域、业务实体、SOLID）在他是信手拈来，但部分读者可能会感到陌生。对于这些朋友，我推荐两本书：《领域驱动设计》和《敏捷软件开发：原则、模式与实践》。</p>
+
+<p>另，在写这篇书评的时候，我无意间发现很久以前摘录的一段关于架构设计的话，分享给大家：</p>
+
+<blockquote>
+<p>在一个项目的整体结构之内，总有空间展示个性和匠心 …… 百年之后，我们的技艺或许如今日的土建工程师看到中世纪大教堂建造者使用的技法一样陈旧，但是我们的匠心会得到尊重。</p>
+
+<p>—— 据说出自《程序员修炼之道（The Pragmatic Programmer）》</p>
+</blockquote>
+
+          </div>
+          
+          
+        </div>
+      </div>
+    </article>
+
+    <script src="/js/highlight.pack.js"></script>
+<script src="https://unpkg.com/quicklink@0.1.1/dist/quicklink.umd.js"></script>
+
+<script>
+  hljs.initHighlightingOnLoad();
+  
+  var posts = document.getElementById('posts-list');
+  posts && quicklink({
+    el: posts,
+    priority: true,
+  });
+</script>
+
+    
+
+  </body>
+</html>
