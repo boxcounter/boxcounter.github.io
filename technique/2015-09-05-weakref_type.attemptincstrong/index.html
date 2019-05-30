@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.54.0" />
+  <meta name="generator" content="Hugo 0.55.6" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,12 +14,12 @@
       "@type" : "BlogPosting",
       "mainEntityOfPage": {
            "@type": "WebPage",
-           "@id": "http://boxcounter.com/"
+           "@id": "http:\/\/boxcounter.com\/"
       },
       "articleSection" : "technique",
       "name" : "RefBase::weakref_type::attemptIncStrong的理解",
       "headline" : "RefBase::weakref_type::attemptIncStrong的理解",
-      "description" : "见中文注释内容： bool RefBase::weakref_type::attemptIncStrong(const void* id) { incWeak(id); weakref_impl* const impl = static_cast&lt;weakref_impl*&gt;(this); int32_t curCount = impl-&gt;mStrong; LOG_ASSERT(curCount &gt;= 0, &#34;attemptIncStrong called on %p after underflow&#34;, this); while (curCount &gt; 0 &amp;&amp; curCount != INITIAL_STRONG_VALUE) { if (android_atomic_cmpxchg(curCount, curCount+1, &amp;impl-&gt;mStrong) == 0) { break; } curCount = impl-&gt;mStrong; } if (curCount &lt;= 0 || curCount == INITIAL_STRONG_VALUE) { bool allow; if (curCount == INITIAL_STRONG_VALUE)",
+      "description" : "见中文注释内容： bool RefBase::weakref_type::attemptIncStrong(const void* id) { incWeak(id); weakref_impl* const impl = static_cast\x26lt;weakref_impl*\x26gt;(this); int32_t curCount = impl-\x26gt;mStrong; LOG_ASSERT(curCount \x26gt;= 0, \x26#34;attemptIncStrong called on %p after underflow\x26#34;, this); while (curCount \x26gt; 0 \x26amp;\x26amp; curCount != INITIAL_STRONG_VALUE) { if (android_atomic_cmpxchg(curCount, curCount\x2b1, \x26amp;impl-\x26gt;mStrong) == 0) { break; } curCount = impl-\x26gt;mStrong; } if (curCount \x26lt;= 0 || curCount == INITIAL_STRONG_VALUE) { bool allow; if (curCount == INITIAL_STRONG_VALUE)",
       "inLanguage" : "en-US",
       "author" : "Boxcounter",
       "creator" : "Boxcounter",
@@ -27,9 +27,9 @@
       "accountablePerson" : "Boxcounter",
       "copyrightHolder" : "Boxcounter",
       "copyrightYear" : "2015",
-      "datePublished": "2015-09-05 00:00:00 &#43;0000 UTC",
-      "dateModified" : "2015-09-05 00:00:00 &#43;0000 UTC",
-      "url" : "http://boxcounter.com/technique/2015-09-05-weakref_type.attemptincstrong/",
+      "datePublished": "2015-09-05 00:00:00 \x2b0000 UTC",
+      "dateModified" : "2015-09-05 00:00:00 \x2b0000 UTC",
+      "url" : "http:\/\/boxcounter.com\/technique\/2015-09-05-weakref_type.attemptincstrong\/",
       "keywords" : [ "Android", ]
   }
 </script>
