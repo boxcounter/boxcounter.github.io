@@ -6,10 +6,19 @@
     <description>Recent content in Techniques on Boxcounter的烂笔头</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 15 Sep 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 02 Jun 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://boxcounter.com/technique/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>依赖倒置原则（Dependency inversion principle）</title>
+      <link>http://boxcounter.com/technique/2019-06-02-dependency-inversion-principle/</link>
+      <pubDate>Sun, 02 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/technique/2019-06-02-dependency-inversion-principle/</guid>
+      <description>依赖倒置原则（Dependency Inversion Principle）是 Uncle Bob 提出的一个应用于 OOP 的原则。维基百科上对它的说明是这样的： 该原则规定： 1. 高层次的</description>
+    </item>
     
     <item>
       <title>read committed与statement-based replication</title>

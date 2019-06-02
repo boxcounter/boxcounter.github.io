@@ -4,8 +4,19 @@
   
   <url>
     <loc>http://boxcounter.com/</loc>
-    <lastmod>2019-05-30T00:00:00+00:00</lastmod>
+    <lastmod>2019-06-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://boxcounter.com/technique/</loc>
+    <lastmod>2019-06-02T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://boxcounter.com/technique/2019-06-02-dependency-inversion-principle/</loc>
+    <lastmod>2019-06-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -64,12 +75,6 @@
   
   <url>
     <loc>http://boxcounter.com/tags/mysql/</loc>
-    <lastmod>2017-09-15T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://boxcounter.com/technique/</loc>
     <lastmod>2017-09-15T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
