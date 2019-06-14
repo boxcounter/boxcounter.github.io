@@ -17,7 +17,7 @@
       <pubDate>Sun, 02 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>http://boxcounter.com/technique/2019-06-02-dependency-inversion-principle/</guid>
-      <description>依赖倒置原则（Dependency Inversion Principle）是 Uncle Bob 提出的一个应用于 OOP 的原则。维基百科上对它的说明是这样的： 该原则规定： 1. 高层次的</description>
+      <description>依赖倒置原则（Dependency Inversion Principle）是 Uncle Bob 提出的一个 OOP 的原则。维基百科上对它的说明是这样的： 该原则规定： 1. 高层次的模块不</description>
     </item>
     
     <item>

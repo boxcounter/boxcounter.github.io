@@ -6,10 +6,19 @@
     <description>Recent content on Boxcounter的烂笔头</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 02 Jun 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 14 Jun 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://boxcounter.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>读书记录</title>
+      <link>http://boxcounter.com/reading/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Fri, 14 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/reading/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</guid>
+      <description>.markdown-body table td, .markdown-body table th { padding: 6px 13px; border: 1px solid #dfe2e5; white-space: nowrap; } .col-xs-12, .col-md-8, .col-md-offset-2, .col-lg-6 { margin-left: 10px; max-width: 100%; } 记录我读完的书，从2014年开始记录。主要记录有点厚度的，薄手册和零散资料不记。 分类 评</description>
+    </item>
     
     <item>
       <title>依赖倒置原则（Dependency inversion principle）</title>
@@ -17,16 +26,7 @@
       <pubDate>Sun, 02 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>http://boxcounter.com/technique/2019-06-02-dependency-inversion-principle/</guid>
-      <description>依赖倒置原则（Dependency Inversion Principle）是 Uncle Bob 提出的一个应用于 OOP 的原则。维基百科上对它的说明是这样的： 该原则规定： 1. 高层次的</description>
-    </item>
-    
-    <item>
-      <title>读书记录</title>
-      <link>http://boxcounter.com/reading/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</link>
-      <pubDate>Thu, 30 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>http://boxcounter.com/reading/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</guid>
-      <description>.markdown-body table td, .markdown-body table th { padding: 6px 13px; border: 1px solid #dfe2e5; white-space: nowrap; } .col-xs-12, .col-md-8, .col-md-offset-2, .col-lg-6 { margin-left: 10px; max-width: 100%; } 记录我读完的书，从2014年开始记录。主要记录有点厚度的，薄手册和零散资料不记。 分类 评</description>
+      <description>依赖倒置原则（Dependency Inversion Principle）是 Uncle Bob 提出的一个 OOP 的原则。维基百科上对它的说明是这样的： 该原则规定： 1. 高层次的模块不</description>
     </item>
     
     <item>
