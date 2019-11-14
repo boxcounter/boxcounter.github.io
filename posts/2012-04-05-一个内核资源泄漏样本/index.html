@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.59.1" />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="" />
+  <meta property="og:url" content="http://example.org/posts/2012-04-05-%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/" />
+  <link rel="canonical" href="http://example.org/posts/2012-04-05-%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/" /><script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "http:\/\/example.org\/"
+      },
+      "articleSection" : "posts",
+      "name" : "一个内核资源泄漏样本（待更新文中链接）",
+      "headline" : "一个内核资源泄漏样本（待更新文中链接）",
+      "description" : "开发过程中，我习惯会一直开着verifier进行测试，绝大部分非逻辑错误都能被揪出来。 这两天测试部的同事反馈说貌似驱动有资源泄漏，我第一反应",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2012",
+      "datePublished": "2012-04-05 00:00:00 \x2b0000 UTC",
+      "dateModified" : "2012-04-05 00:00:00 \x2b0000 UTC",
+      "url" : "http:\/\/example.org\/posts\/2012-04-05-%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC\/",
+      "keywords" : [ "故障分析", ]
+  }
+</script>
+<title>一个内核资源泄漏样本（待更新文中链接） - My New Hugo Site</title>
+  <meta property="og:title" content="一个内核资源泄漏样本（待更新文中链接） - My New Hugo Site" />
+  <meta property="og:type" content="article" />
+  <meta name="description" content="开发过程中，我习惯会一直开着verifier进行测试，绝大部分非逻辑错误都能被揪出来。 这两天测试部的同事反馈说貌似驱动有资源泄漏，我第一反应" />
+
+  <link rel="stylesheet" href="/css/flexboxgrid-6.3.1.min.css" />
+  <link rel="stylesheet"
+    href="/css/github-markdown.min.css" />
+  <link rel="stylesheet" href="/css/highlight/tomorrow.min.css" />
+  <link rel="stylesheet" href="/css/index.css">
+  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="My New Hugo Site">
+  
+  <link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker" rel="stylesheet">
+  
+  
+
+  
+</head>
+
+
+<body>
+  <article class="post " id="article">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="site-header">
+          
+<header>
+  <div class="signatures site-title">
+    <a href="/"></a>
+  </div>
+</header>
+<div class="row end-xs">
+  
+  
+</div>
+<div class="header-line"></div>
+
+        </div>
+        <header class="post-header">
+          <h1 class="post-title">一个内核资源泄漏样本（待更新文中链接）</h1>
+          
+          <div class="row post-desc">
+            <div class="col-xs-6">
+              
+              <time class="post-date" datetime="2012-04-05 00:00:00 UTC">
+                05 Apr 2012
+              </time>
+              
+            </div>
+            <div class="col-xs-6">
+              
+            </div>
+          </div>
+          
+        </header>
+
+        <div class="post-content markdown-body">
+          <p>开发过程中，我习惯会一直开着verifier进行测试，绝大部分非逻辑错误都能被揪出来。<br />
+这两天测试部的同事反馈说貌似驱动有资源泄漏，我第一反应是“不会吧，有资源泄漏verifer早崩了”。<br />
+测试了一下，发现还真是驱动嫌疑最大，于是开启verifer和压力测试工具，跑了一会，停掉驱动。发现没有bsod，一脑子不理解。<br />
+看了下驱动停止后，内核内存情况：</p>
+
+<pre><code>0: kd&gt; !poolused 7
+   Sorting by  NonPaged Pool Consumed
+
+  Pool Used:
+            NonPaged                    Paged
+ Tag    Allocs    Frees     Diff     Used *  Allocs    Frees     Diff     Used
+ Proc    12980        1    12979  8618056 *       0        0        0        0  Process objects , Binary: nt!ps
+ LSwi        1        0        1  2576384 *       0        0        0        0  initial work context 
+ SePa   955604   942626    12978  2247904 *      17       16        1       16  Process audit image names and captured polity structures , Binary: nt!se
+ TCPt    47617    47580       37  1423848 *       1        1        0        0  TCP/IP network protocol , Binary: TCP
+ SeTd   372125   359104    13021   833344 *  372125   359104    13021  1145088  Security Token dynamic part , Binary: nt!se
+ .... 省略若干不相干信息
+ SEY6        0        0        0        0 *       1        1        0        0  UNKNOWN pooltag 'SEY6', please update pooltag.txt
+ SEYC  1448369  1448369        0        0 *       0        0        0        0  UNKNOWN pooltag 'SEYC', please update pooltag.txt
+ SEYB        0        0        0        0 *   47738    47738        0        0  UNKNOWN pooltag 'SEYB', please update pooltag.txt
+ SEY5        0        0        0        0 *       1        1        0        0  UNKNOWN pooltag 'SEY5', please update pooltag.txt
+ SEYA    46294    46294        0        0 *       0        0        0        0  UNKNOWN pooltag 'SEYA', please update pooltag.txt
+ SEY4  1186033  1186033        0        0 *       0        0        0        0  UNKNOWN pooltag 'SEY4', please update pooltag.txt
+ SEY3        1        1        0        0 *       1        1        0        0  UNKNOWN pooltag 'SEY3', please update pooltag.txt
+ SEY9        0        0        0        0 *   47008    47008        0        0  UNKNOWN pooltag 'SEY9', please update pooltag.txt
+ SEY2        0        0        0        0 *       1        1        0        0  UNKNOWN pooltag 'SEY2', please update pooltag.txt
+ SEY1        0        0        0        0 *   54507    54507        0        0  UNKNOWN pooltag 'SEY1', please update pooltag.txt
+ SEYD  1419958  1419958        0        0 *       0        0        0        0  UNKNOWN pooltag 'SEYD', please update pooltag.txt
+ .... 省略若干不相干信息
+ TOTAL    79306657 79234060    72597 22806272 38472704 38412253    60451 29841272
+</code></pre>
+
+<p>其中SEY?就是我的驱动使用的tag，发现没有泄漏，更一头雾水了。最后瞅到第一行，nnd，&rsquo;Proc&rsquo;这个tag明显有问题，基本没释放。<br />
+检查了一下代码，发现之前从网上摘的一段获取进程路径的函数，里面的错误结束分支没有释放EPREOCESS和句柄……<br />
+赶紧改掉了，这个bug存在了好多年啊，横跨我的几个驱动，之前从osr上摘下来的时候只是稍微调整了一下功能，没有再仔细审查……<br />
+警钟警钟~<br />
+有从我那篇<a href="http://www.boxcounter.com/">《驱动中获取进程完整路径名》（@TODO）</a>里拷代码的朋友也赶紧更新吧，对不住大伙~</p>
+
+<p>几点体会：</p>
+
+<ol>
+<li>别偷懒。不是自己写的代码更要仔细检查，哪怕出自osr这种权威级论坛。</li>
+<li>verifer不是万能的（至少在win2k3之前的版本），别偷懒。</li>
+<li>别偷懒。</li>
+</ol>
+
+        </div>
+        
+
+        
+
+<div class="releated-content">
+  <h3>Related Posts</h3>
+  <ul>
+    
+    <li><a href="/posts/2012-03-04-%E7%81%B5%E5%BC%82%E7%8E%B0%E8%B1%A1/">灵异现象？</a></li>
+    
+  </ul>
+</div>
+
+
+        
+        
+        <div style="height: 50px;"></div>
+        
+        
+
+        <div class="site-footer">
+  
+  
+</div>
+
+      </div>
+    </div>
+  </article>
+
+  <script src="/js/highlight.pack.js"></script>
+
+
+<script>
+  hljs.initHighlightingOnLoad();
+  
+  
+  
+    
+    
+  
+</script>
+
+  
+
+</body>
+
+</html>

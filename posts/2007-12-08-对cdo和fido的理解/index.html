@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.59.1" />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="" />
+  <meta property="og:url" content="http://example.org/posts/2007-12-08-%E5%AF%B9cdo%E5%92%8Cfido%E7%9A%84%E7%90%86%E8%A7%A3/" />
+  <link rel="canonical" href="http://example.org/posts/2007-12-08-%E5%AF%B9cdo%E5%92%8Cfido%E7%9A%84%E7%90%86%E8%A7%A3/" /><script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "http:\/\/example.org\/"
+      },
+      "articleSection" : "posts",
+      "name" : "对\x27CDO\x27和\x27FiDO\x27的理解",
+      "headline" : "对\x27CDO\x27和\x27FiDO\x27的理解",
+      "description" : "下面是我对于CDO、FiDO的理解，不一定正确，但是还是记录下来，以后学习清楚来再来修正。 \x26lsquo;CDO\x26rsquo;是提供给R3级进",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2007",
+      "datePublished": "2007-12-08 00:00:00 \x2b0000 UTC",
+      "dateModified" : "2007-12-08 00:00:00 \x2b0000 UTC",
+      "url" : "http:\/\/example.org\/posts\/2007-12-08-%E5%AF%B9cdo%E5%92%8Cfido%E7%9A%84%E7%90%86%E8%A7%A3\/",
+      "keywords" : [ "技术研究", ]
+  }
+</script>
+<title>对&#39;CDO&#39;和&#39;FiDO&#39;的理解 - My New Hugo Site</title>
+  <meta property="og:title" content="对&#39;CDO&#39;和&#39;FiDO&#39;的理解 - My New Hugo Site" />
+  <meta property="og:type" content="article" />
+  <meta name="description" content="下面是我对于CDO、FiDO的理解，不一定正确，但是还是记录下来，以后学习清楚来再来修正。 &lsquo;CDO&rsquo;是提供给R3级进" />
+
+  <link rel="stylesheet" href="/css/flexboxgrid-6.3.1.min.css" />
+  <link rel="stylesheet"
+    href="/css/github-markdown.min.css" />
+  <link rel="stylesheet" href="/css/highlight/tomorrow.min.css" />
+  <link rel="stylesheet" href="/css/index.css">
+  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="My New Hugo Site">
+  
+  <link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker" rel="stylesheet">
+  
+  
+
+  
+</head>
+
+
+<body>
+  <article class="post " id="article">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="site-header">
+          
+<header>
+  <div class="signatures site-title">
+    <a href="/"></a>
+  </div>
+</header>
+<div class="row end-xs">
+  
+  
+</div>
+<div class="header-line"></div>
+
+        </div>
+        <header class="post-header">
+          <h1 class="post-title">对&#39;CDO&#39;和&#39;FiDO&#39;的理解</h1>
+          
+          <div class="row post-desc">
+            <div class="col-xs-6">
+              
+              <time class="post-date" datetime="2007-12-08 00:00:00 UTC">
+                08 Dec 2007
+              </time>
+              
+            </div>
+            <div class="col-xs-6">
+              
+            </div>
+          </div>
+          
+        </header>
+
+        <div class="post-content markdown-body">
+          <p>下面是我对于CDO、FiDO的理解，不一定正确，但是还是记录下来，以后学习清楚来再来修正。</p>
+
+<ol>
+<li>&lsquo;CDO&rsquo;是提供给R3级进程和其它驱动程序的，可以理解为它是我们过滤驱动程序的外交官。负责接收来自R3进程和其它驱动的IO请求（&rsquo;CDO&rsquo;仅仅只负责接收，处理过程由&rsquo;FiDO&rsquo;完成）。</li>
+<li>&lsquo;FiDO&rsquo;提供真正Irp、FastIO处理函数，是我们的过滤驱动程序的功能核心。</li>
+<li>&lsquo;CDO&rsquo;不需要挂载到别的驱动上。而&rsquo;FiDO&rsquo;则根据需要挂载到目标对象上。</li>
+<li>一个过滤驱动程序的&rsquo;CDO&rsquo;最多只可以有1个，&rsquo;FiDO&rsquo;可以有多个。</li>
+</ol>
+
+        </div>
+        
+
+        
+
+
+        
+        
+        <div style="height: 50px;"></div>
+        
+        
+
+        <div class="site-footer">
+  
+  
+</div>
+
+      </div>
+    </div>
+  </article>
+
+  <script src="/js/highlight.pack.js"></script>
+
+
+<script>
+  hljs.initHighlightingOnLoad();
+  
+  
+  
+    
+    
+  
+</script>
+
+  
+
+</body>
+
+</html>

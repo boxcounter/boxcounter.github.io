@@ -1,76 +1,76 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>故障分析 on Boxcounter的烂笔头</title>
-    <link>http://boxcounter.com/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/</link>
-    <description>Recent content in 故障分析 on Boxcounter的烂笔头</description>
+    <title>故障分析 on My New Hugo Site</title>
+    <link>http://example.org/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/</link>
+    <description>Recent content in 故障分析 on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
+    <language>en-us</language>
     <lastBuildDate>Sun, 12 Jan 2014 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://boxcounter.com/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://example.org/tags/%E6%95%85%E9%9A%9C%E5%88%86%E6%9E%90/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>一起疑似内存泄漏</title>
-      <link>http://boxcounter.com/technique/2014-01-12-suspected-memory-leak/</link>
+      <link>http://example.org/posts/2014-01-12-suspected-memory-leak/</link>
       <pubDate>Sun, 12 Jan 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://boxcounter.com/technique/2014-01-12-suspected-memory-leak/</guid>
+      <guid>http://example.org/posts/2014-01-12-suspected-memory-leak/</guid>
       <description>上周遇到一起极其诡异的内存泄漏。现象是： 某种测试方法可以使程序物理内存使用量（top命令的RES列）持续上升。当停止测试之后，程序内存使用量</description>
     </item>
     
     <item>
       <title>内核资源泄漏样本之一</title>
-      <link>http://boxcounter.com/technique/2012-11-02-%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC%E4%B9%8B%E4%B8%80/</link>
+      <link>http://example.org/posts/2012-11-02-%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC%E4%B9%8B%E4%B8%80/</link>
       <pubDate>Fri, 02 Nov 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://boxcounter.com/technique/2012-11-02-%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC%E4%B9%8B%E4%B8%80/</guid>
+      <guid>http://example.org/posts/2012-11-02-%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC%E4%B9%8B%E4%B8%80/</guid>
       <description>又遇到一个很好玩的内核资源泄漏样本，分享一下。 某台WinXP sp3系统出现了死机现象，该现象是在安装了我的驱动后才出现的，第一反应是“MD，</description>
     </item>
     
     <item>
       <title>有关STATUS_THREAD_IS_TERMINATING</title>
-      <link>http://boxcounter.com/technique/2012-10-16-%E6%9C%89%E5%85%B3status_thread_is_terminating/</link>
+      <link>http://example.org/posts/2012-10-16-%E6%9C%89%E5%85%B3status_thread_is_terminating/</link>
       <pubDate>Tue, 16 Oct 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://boxcounter.com/technique/2012-10-16-%E6%9C%89%E5%85%B3status_thread_is_terminating/</guid>
+      <guid>http://example.org/posts/2012-10-16-%E6%9C%89%E5%85%B3status_thread_is_terminating/</guid>
       <description>手头有个驱动，因为客户需求的原因，只在x86的2k3和xp系统上做过测试，今天在把它往x64 win7系统移植的时候遇到这么一个问题： 在PsS</description>
     </item>
     
     <item>
       <title>又一个内核资源泄漏样本</title>
-      <link>http://boxcounter.com/technique/2012-08-15-%E5%8F%88%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</link>
+      <link>http://example.org/posts/2012-08-15-%E5%8F%88%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</link>
       <pubDate>Wed, 15 Aug 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://boxcounter.com/technique/2012-08-15-%E5%8F%88%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</guid>
+      <guid>http://example.org/posts/2012-08-15-%E5%8F%88%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</guid>
       <description>这两天在处理一个内核资源泄漏的问题，整个分析过程比较典型，记在这里以便以后参考。 这个问题发生在测试部同事的真实机上，于是抓内核DMP用的是s</description>
     </item>
     
     <item>
       <title>VS2010编译regex库的问题</title>
-      <link>http://boxcounter.com/technique/2012-05-31-vs2010%E7%BC%96%E8%AF%91regex%E5%BA%93%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <link>http://example.org/posts/2012-05-31-vs2010%E7%BC%96%E8%AF%91regex%E5%BA%93%E7%9A%84%E9%97%AE%E9%A2%98/</link>
       <pubDate>Thu, 31 May 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://boxcounter.com/technique/2012-05-31-vs2010%E7%BC%96%E8%AF%91regex%E5%BA%93%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <guid>http://example.org/posts/2012-05-31-vs2010%E7%BC%96%E8%AF%91regex%E5%BA%93%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
       <description>今天把一些VS 2005工程升级到VS 2010，在升级过程中，遇到regex库编译错误。如下： error C2332: &#39;struct&#39; : missing tag name error C3306: &#39;regex::detail::&#39;: unnamed class template is not allowed error C2143: syntax error : missing &#39;;&#39; before</description>
     </item>
     
     <item>
       <title>一个内核资源泄漏样本（待更新文中链接）</title>
-      <link>http://boxcounter.com/technique/2012-04-05-%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</link>
+      <link>http://example.org/posts/2012-04-05-%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</link>
       <pubDate>Thu, 05 Apr 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://boxcounter.com/technique/2012-04-05-%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</guid>
+      <guid>http://example.org/posts/2012-04-05-%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</guid>
       <description>开发过程中，我习惯会一直开着verifier进行测试，绝大部分非逻辑错误都能被揪出来。 这两天测试部的同事反馈说貌似驱动有资源泄漏，我第一反应</description>
     </item>
     
     <item>
       <title>灵异现象？</title>
-      <link>http://boxcounter.com/technique/2012-03-04-%E7%81%B5%E5%BC%82%E7%8E%B0%E8%B1%A1/</link>
+      <link>http://example.org/posts/2012-03-04-%E7%81%B5%E5%BC%82%E7%8E%B0%E8%B1%A1/</link>
       <pubDate>Sun, 04 Mar 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://boxcounter.com/technique/2012-03-04-%E7%81%B5%E5%BC%82%E7%8E%B0%E8%B1%A1/</guid>
+      <guid>http://example.org/posts/2012-03-04-%E7%81%B5%E5%BC%82%E7%8E%B0%E8%B1%A1/</guid>
       <description>前两天遇到一个灵异现象，记录下来。 cchFullHeaderLen += strlen(&amp;#34;Request-Line: &amp;#34;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszVerb) + strlen(&amp;#34; &amp;#34;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszObjectName) + (NULL != pSessionData-&amp;gt;HttpOpenReq.lpszVersion) ? (strlen(&amp;#34; &amp;#34;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszVersion)) : 0 + strlen(&amp;#34;\r\n&amp;#34;); 调试的过程中发现，pSessionData-&amp;gt;Htt</description>
     </item>
     

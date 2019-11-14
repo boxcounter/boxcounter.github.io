@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.59.1" />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="" />
+  <meta property="og:url" content="http://example.org/posts/2016-11-26-host-key-verification-failed/" />
+  <link rel="canonical" href="http://example.org/posts/2016-11-26-host-key-verification-failed/" /><script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "http:\/\/example.org\/"
+      },
+      "articleSection" : "posts",
+      "name" : "Host key verification failed的另类触发",
+      "headline" : "Host key verification failed的另类触发",
+      "description" : "最近几天在编写、测试部署脚本，准备配合Jenkins进行自动化的持续集成，因此需要全程静默执行，未想触发了一个SSH key问题，卡了我好几个",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2016",
+      "datePublished": "2016-11-26 00:00:00 \x2b0000 UTC",
+      "dateModified" : "2016-11-26 00:00:00 \x2b0000 UTC",
+      "url" : "http:\/\/example.org\/posts\/2016-11-26-host-key-verification-failed\/",
+      "keywords" : [ "SSH", ]
+  }
+</script>
+<title>Host key verification failed的另类触发 - My New Hugo Site</title>
+  <meta property="og:title" content="Host key verification failed的另类触发 - My New Hugo Site" />
+  <meta property="og:type" content="article" />
+  <meta name="description" content="最近几天在编写、测试部署脚本，准备配合Jenkins进行自动化的持续集成，因此需要全程静默执行，未想触发了一个SSH key问题，卡了我好几个" />
+
+  <link rel="stylesheet" href="/css/flexboxgrid-6.3.1.min.css" />
+  <link rel="stylesheet"
+    href="/css/github-markdown.min.css" />
+  <link rel="stylesheet" href="/css/highlight/tomorrow.min.css" />
+  <link rel="stylesheet" href="/css/index.css">
+  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="My New Hugo Site">
+  
+  <link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker" rel="stylesheet">
+  
+  
+
+  
+</head>
+
+
+<body>
+  <article class="post " id="article">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="site-header">
+          
+<header>
+  <div class="signatures site-title">
+    <a href="/"></a>
+  </div>
+</header>
+<div class="row end-xs">
+  
+  
+</div>
+<div class="header-line"></div>
+
+        </div>
+        <header class="post-header">
+          <h1 class="post-title">Host key verification failed的另类触发</h1>
+          
+          <div class="row post-desc">
+            <div class="col-xs-6">
+              
+              <time class="post-date" datetime="2016-11-26 00:00:00 UTC">
+                26 Nov 2016
+              </time>
+              
+            </div>
+            <div class="col-xs-6">
+              
+            </div>
+          </div>
+          
+        </header>
+
+        <div class="post-content markdown-body">
+          
+
+<p>最近几天在编写、测试部署脚本，准备配合Jenkins进行自动化的持续集成，因此需要全程静默执行，未想触发了一个SSH key问题，卡了我好几个小时……</p>
+
+<h1 id="问题现象">问题现象</h1>
+
+<p>从GitHub上clone过仓库的码农们都知道，用SSH比HTTPs更可靠。但SSH初次连接服务器时，通常会询问是否接受连接，比如这样：</p>
+
+<blockquote>
+<p>The authenticity of host &lsquo;github.com (192.30.252.1)&rsquo; can&rsquo;t be established.<br />
+RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.<br />
+Are you sure you want to continue connecting (yes/no)?</p>
+</blockquote>
+
+<p>通常大家手输yes就可以继续clone代码了。而静默执行的脚本通常会在建立连接之前将目标站点保存到<code>known_hosts</code>，以跳过询问。</p>
+
+<p>在我的脚本里是这样的：</p>
+
+<pre><code>ssh_dir=&quot;${HOME}/.ssh&quot;
+...
+ssh-keyscan -v -t rsa ssh.github.com &gt; ${ssh_dir}/known_hosts
+git clone git@github.com:...
+...
+</code></pre>
+
+<p>但诡异的是在Jenkins部署过程中并没有生效，还是在建立SSH连接时卡住然后报错「Host key verification failed」。如果打开pty选项，则会如前面那样询问是否接受连接。而在我的本地虚拟机中则完全正常、全程安静地我都不好意思。</p>
+
+<h1 id="初步尝试">初步尝试</h1>
+
+<p>有怀疑过：</p>
+
+<ul>
+<li>是不是SSH目录或其中文件的权限设置不对，导致SSH无法读取？</li>
+<li>是不是known_hosts没有生效？格式不对？</li>
+</ul>
+
+<p>搜遍资料、试遍方法，几个小时过去了，依然没有进展。眼瞅着就没法轻松过周末了……</p>
+
+<h1 id="新思路">新思路</h1>
+
+<p>于是换了个思路，跳过Jenkins、直接SSH到被部署服务器上，手动执行脚本：</p>
+
+<pre><code>chmod u+x ./init.sh
+sudo ./init.sh
+</code></pre>
+
+<p>又看到了熟悉的询问，悬着手腕琢磨接下来该怎么办，转念一想「要不yes了看看它自己能不能保存到known_hosts、保存的格式是怎样的」。动手之前先<code>mv known_hosts known_hosts.old</code>待会好diff。</p>
+
+<h1 id="峰回路转">峰回路转</h1>
+
+<p>输入yes，峰回路转 —— 并没有生成known_host。</p>
+
+<p>又陷入思考「难道权限不够？不对啊，我已经sudo了」，一想到sudo，顿时一个激灵 —— 当前是root帐号！赶紧<code>sudo ls -la /root/.ssh/</code>，果然躺着一个known_hosts文件。</p>
+
+<p>到此，我才弄明白问题的原因：</p>
+
+<ol>
+<li>因为sudo，脚本是以root帐号身份执行，会去<code>/root/.ssh/known_hosts</code>找known_hosts；</li>
+<li>脚本的ssh-keyscan将ssh.github.com保存进了<code>~/.ssh/known_hosts</code>，被部署服务器使用的是非root帐号；</li>
+</ol>
+
+<p>SSH就没找到ssh-keyscan的结果，所以询问。而之所以在本地虚拟机里一切正常是因为我偷懒用的是root帐号。</p>
+
+<p>再一细想，我真是糊涂，怎么会整个脚本都sudo呢，这样岂不是git clone等等命令都是以root用户身份执行了吗……</p>
+
+<h1 id="解决">解决</h1>
+
+<p>找到了问题症结，解决也就简单了，花了十分钟把需要权限的命令都加上sudo，<code>echo xxx &gt; $file</code>都改成<code>echo xxx | sudo tee $file</code>，去掉Jenkins构建步骤里的sudo 。</p>
+
+<p>Jenkins部署成功，欢度周末～</p>
+
+        </div>
+        
+
+        
+
+
+        
+        
+        <div style="height: 50px;"></div>
+        
+        
+
+        <div class="site-footer">
+  
+  
+</div>
+
+      </div>
+    </div>
+  </article>
+
+  <script src="/js/highlight.pack.js"></script>
+
+
+<script>
+  hljs.initHighlightingOnLoad();
+  
+  
+  
+    
+    
+  
+</script>
+
+  
+
+</body>
+
+</html>

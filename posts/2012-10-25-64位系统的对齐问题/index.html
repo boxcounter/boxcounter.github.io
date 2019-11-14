@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.59.1" />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="" />
+  <meta property="og:url" content="http://example.org/posts/2012-10-25-64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/" />
+  <link rel="canonical" href="http://example.org/posts/2012-10-25-64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/" /><script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "http:\/\/example.org\/"
+      },
+      "articleSection" : "posts",
+      "name" : "64位系统的对齐问题",
+      "headline" : "64位系统的对齐问题",
+      "description" : "今天在技术群里有位童鞋问了一个问题： On 64-bit Windows, if a data structure is misaligned, routines that manipulate the structure, such as RtlCopyMemory and memcpy, will not fault. Instead, they will raise an exception. For example: \x26gt; #pragma pack (1) \/\/ also set by \/Zp switch \x26gt; struct Buffer { \x26gt; ULONG size; \x26gt; void *ptr; \x26gt; };",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2012",
+      "datePublished": "2012-10-25 00:00:00 \x2b0000 UTC",
+      "dateModified" : "2012-10-25 00:00:00 \x2b0000 UTC",
+      "url" : "http:\/\/example.org\/posts\/2012-10-25-64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98\/",
+      "keywords" : [ "技术研究", ]
+  }
+</script>
+<title>64位系统的对齐问题 - My New Hugo Site</title>
+  <meta property="og:title" content="64位系统的对齐问题 - My New Hugo Site" />
+  <meta property="og:type" content="article" />
+  <meta name="description" content="今天在技术群里有位童鞋问了一个问题： On 64-bit Windows, if a data structure is misaligned, routines that manipulate the structure, such as RtlCopyMemory and memcpy, will not fault. Instead, they will raise an exception. For example: &gt; #pragma pack (1) // also set by /Zp switch &gt; struct Buffer { &gt; ULONG size; &gt; void *ptr; &gt; };" />
+
+  <link rel="stylesheet" href="/css/flexboxgrid-6.3.1.min.css" />
+  <link rel="stylesheet"
+    href="/css/github-markdown.min.css" />
+  <link rel="stylesheet" href="/css/highlight/tomorrow.min.css" />
+  <link rel="stylesheet" href="/css/index.css">
+  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="My New Hugo Site">
+  
+  <link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker" rel="stylesheet">
+  
+  
+
+  
+</head>
+
+
+<body>
+  <article class="post " id="article">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="site-header">
+          
+<header>
+  <div class="signatures site-title">
+    <a href="/"></a>
+  </div>
+</header>
+<div class="row end-xs">
+  
+  
+</div>
+<div class="header-line"></div>
+
+        </div>
+        <header class="post-header">
+          <h1 class="post-title">64位系统的对齐问题</h1>
+          
+          <div class="row post-desc">
+            <div class="col-xs-6">
+              
+              <time class="post-date" datetime="2012-10-25 00:00:00 UTC">
+                25 Oct 2012
+              </time>
+              
+            </div>
+            <div class="col-xs-6">
+              
+            </div>
+          </div>
+          
+        </header>
+
+        <div class="post-content markdown-body">
+          <p>　　今天在技术群里有位童鞋问了一个问题：</p>
+
+<blockquote>
+<p>On 64-bit Windows, if a data structure is misaligned, routines that manipulate the structure, such as RtlCopyMemory and memcpy, will not fault. Instead, they will raise an exception. For example:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#f92672">&gt;</span>  <span style="color:#960050;background-color:#1e0010">#</span>pragma pack (<span style="color:#ae81ff">1</span>) <span style="color:#75715e">// also set by /Zp switch 
+</span><span style="color:#75715e"></span><span style="color:#f92672">&gt;</span>  <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Buffer</span> {
+<span style="color:#f92672">&gt;</span>      ULONG size;
+<span style="color:#f92672">&gt;</span>      <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>ptr;
+<span style="color:#f92672">&gt;</span>  };
+<span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&gt;</span>  <span style="color:#66d9ef">void</span> SetPointer(<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>p) {
+<span style="color:#f92672">&gt;</span>      <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Buffer</span> s;
+<span style="color:#f92672">&gt;</span>      s.ptr <span style="color:#f92672">=</span> p;  <span style="color:#75715e">/* will cause alignment fault */</span>
+<span style="color:#f92672">&gt;</span>      ...
+<span style="color:#f92672">&gt;</span>  }
+<span style="color:#f92672">&gt;</span> 
+</code></pre></div>
+
+<p>You could use the UNALIGNED macro to fix this:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#f92672">&gt;</span>  <span style="color:#66d9ef">void</span> SetPointer(<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>p) {
+<span style="color:#f92672">&gt;</span>      <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Buffer</span> s;
+<span style="color:#f92672">&gt;</span>      <span style="color:#f92672">*</span>(UNALIGNED <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>s.ptr <span style="color:#f92672">=</span> p;
+<span style="color:#f92672">&gt;</span>  }
+<span style="color:#f92672">&gt;</span> 
+</code></pre></div>
+</blockquote>
+
+<p>　　我搜了一下，这段话来自<a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff559744.aspx">Porting Issues Checklist</a>这篇文章。</p>
+
+<p>　　他的问题是：「我对这句 s.ptr = p 不太明白。为什么会引发对齐错误，什么意思？」</p>
+
+<p>　　我的回答（当时的原话，貌似有点凌乱，群里讨论嘛，想一句说一句，见谅）：</p>
+
+<ol>
+<li>因为s这个结构体的首地址是被编译器默认对齐的。由于「#pragma pack (1)」，s.ptr肯定不在对齐的地址上。所以访问s.ptr时会触犯x64 win的对齐规定，于是抛出异常。</li>
+<li>对于x86架构，对于类似这种没有对齐的地址访问，win内核会自动帮你处理好，用户感觉不到这个问题的存在。但实际上会导致系统性能下降。<br />
+到了x64架构，win决定不帮用户擦屁股了。于是就会抛出异常。</li>
+<li>x64是按照8字节对齐，&amp;s是对齐的，那s.ptr是处在 （N*8 + 4）的地址上，于是没有对齐。</li>
+</ol>
+
+<p>　　这时另一位提了一个问题：「#pragma pack (1) 了，对齐地址是按1的倍数来的，为什么会s.ptr不在对齐的地址上啊？」<br />
+　　我的回答：「pragma pack的对齐只是影响编译器对结构体的padding，这个俗称的对齐，跟硬件手册里的对齐，不是一回事。」</p>
+
+<p>　　回答完后觉得心理有点不踏实，主要的不确定点是回答3中的「x64是按照8字节对齐」。翻了下手册，果然没这么简单。<br />
+　　（x64架构的）cpu的对齐是根据数据类型的不同而不同的，对于第一个问题，s.ptr是个指针，确实是按照8个字节来对齐的，所以我的回答没有问题。<br />
+　　更具体的对齐在《AMD64 Architecture Programmer&rsquo;s Manual Volume 2: System Programming》的「8.2.17  #AC—Alignment-Check Exception (Vector 17)」，如下图：<br />
+　　<img src="/images/2012-10-25/Data-Type-Alignment.jpg"/></p>
+
+<p>　　还有个问题，为什么不对齐就会影响性能？<br />
+　　以x64位下的void* 数据类型为例，void<em>是8个字节大小。如果某void</em> p没有按照8字节对齐，比如下图所示：</p>
+
+<pre><code>addr:      N*8           (N+1)*8
+           |               |
+offset:     0 1 2 3 4 5 6 7
+          +-+-+-+-+-+-+-+-+-+
+          | |X|X|X|X|X|X|X|X|
+          +-----------------+
+            ^
+            |
+            p
+</code></pre>
+
+<p>　　如果按照8字节对齐，即ptr处在N*8的位置，那么当需要访问ptr的时候，把ptr的值从mem读到cpu cache，只需要一次读取操作（从N*8到N*8+7，正好8个字节）。<br />
+　　但是如果如上图所示，那么就不得不读两次，第一次也是从N*8到(N+1)*8，第二次读取(N+1)*8到(N+1)*8+7，然后还要把第一次读的后7个字节和第二次读的第一个字节拼起来。此外，在多核环境下，为了保证对ptr的读取操作的原子性，还必须额外消耗一个bus control。另外，unaligned的ptr还有可能分布在两个cache line中，导致更多额外的处理成本（每次对ptr的修改操作会影响两个cache line，造成更严重的<a href="http://software.intel.com/en-us/articles/avoiding-and-identifying-false-sharing-among-threads/">False Sharing</a>）。</p>
+
+<p>　　再多想想，有人可能会问：对于WORD类型，只要求2字节对齐，那如果具体的内存是这样呢：</p>
+
+<pre><code>addr:      N*8
+           |
+offset:     0 1 2 3 4 5 6 7
+          +-+-+-+-+-+-+-+-+
+          | | |X|X| | | | |
+          +---------------+
+</code></pre>
+
+<p>　　这样虽然是按照2字节对齐，但是并没有在N*8的位置，会不会有性能损耗？</p>
+
+<p>　　理论上是有的，因为读取到cpu cache后，还有个+2的操作（理论上有，但我不确定到电路那一层，+0和+2的耗时是不是就等价了）。但即便有这个+2的操作，也没太大影响，因为对cpu cache的操作是非常非常快的，而mem-&gt;cpu cache这个操作相对来说就非常耗时了。<br />
+　　总结：性能损耗主要是因为多了一次mem-&gt;cpu cache操作。</p>
+
+<p>　　注：<br />
+　　在整理这篇文章之前，我不确定多一次读操作是不是导致性能损耗的主要原因，于是请教sinster师傅，对话如下：</p>
+
+<blockquote>
+<p>Boxcounter 18:43:11<br />
+贾佳师傅，请教个问题：<br />
+访问unaligned的数据会造成性能下降，比如64位系统，某个void*类型的数据如果是unaligned。那么访问它时会导致2次从内存到cpu cache的读操作，而如果它是aligned，则只需要一次。<br />
+是因为这个原因吗？</p>
+
+<p>sinister 18:43:55<br />
+是，有些系统直接CORE DUMP了。<br />
+sinister 18:44:44<br />
+一些RISC的，POWER,SPARC,EPIC 都这样</p>
+</blockquote>
+
+<p>　　后记1：<br />
+　　提问的童鞋说在x64 WinXP系统里，即使不对齐也没有因为异常而中断下来。<br />
+　　我试了下，确实如此，x64 win7系统，挂着windbg内核调试，单步步过unaligned操作，并没有任何提示和中断等异样。恢复到一个没有任何调试设置的快照，也是如此。应用层也是一样。</p>
+
+<p>　　继续琢磨，在AMD手册里翻到这么几段资料：</p>
+
+<ol>
+<li>还是在「8.2.17  #AC—Alignment-Check Exception (Vector 17)」<br />
+<blockquote>
+After a processor reset, #AC exceptions are disabled. Software enables the #AC exception by setting<br />
+the following register bits:<br />
+• CR0.AM=1.<br />
+• RFLAGS.AC=1.<br />
+When the above register bits are set, an #AC can occur only when CPL=3. #AC never occurs when<br />
+CPL &lt; 3.<br />
+</blockquote></li>
+
+<li><p>CR0中AM标志在第18bit，RFLAGS的AC标志也是在18bit
+查看了下我的虚拟机：</p>
+
+<pre><code>0: kd&gt; r efl
+efl=00000246
+
+0: kd&gt; .formats 0x246
+  ......
+  Binary:  00000000 00000000 00000000 00000000 00000000 00000000 00000010 01000110
+  ......
+
+
+0: kd&gt; r cr0
+cr0=0000000080050031
+
+0: kd&gt; .formats 0x0000000080050031 
+  ......
+  Binary:  11111111 11111111 11111111 11111111 10000000 00000101 00000000 00110001
+  ......
+</code></pre>
+
+<p>可见两个18bit都是0，并没有启用#AC异常。
+为了避免是内核调试器对虚拟系统的干扰造成的，我用livekd抓了个本机系统DMP来分析：</p>
+
+<pre><code>0: kd&gt; r cr0
+cr0=0000000080050033
+
+0: kd&gt; .formats 0000000080050033
+  ......
+  Binary:  11111111 11111111 11111111 11111111 10000000 00000101 00000000 00110011
+  ......
+
+0: kd&gt; r efl
+efl=00000286
+
+0: kd&gt; .formats 00000286
+  ......
+  Binary:  00000000 00000000 00000000 00000000 00000000 00000000 00000010 10000110
+  ......
+</code></pre>
+
+<p>结果是一样的，也没有启用#AC异常。</p></li>
+</ol>
+
+<p>　　不明白为什么，难道MSDN上那篇文章里的64bit仅指IA64？<br />
+　　目前暂没什么好的思路，先记到这里吧。（如果有朋友知道原因，请不吝赐教。）</p>
+
+<p>　　后记2：<br />
+　　发现一篇相关的文章：<a href="http://stackoverflow.com/questions/5498102/how-to-debug-unaligned-accesses-on-amd64-using-visual-studio">How to debug unaligned accesses on amd64 using Visual Studio?</a><br />
+　　其中有一条回复是：</p>
+
+<blockquote>
+<p>&ldquo;How do real world Windows developers track unaligned accesses in their code?&rdquo;. Being a primarily Windows developer myself, I think they just never do it, unless the code has to run on Itanium. And if it has to run on Itanium, the exception will tell the places. What is the real overhead of unaligned access on x86? BTW, you can still use assembly on x64, in .asm files, just not inline assembly.</p>
+</blockquote>
+
+<p>　　后记3（2013-01-06）：<br />
+　　群里的朋友分享了新资料：<a href="http://msdn.microsoft.com/en-us/library/ms177389.aspx">__unaligned</a>，里面有这么一段话：</p>
+
+<blockquote>
+<p>The __unaligned modifier is valid for the x64 and Itanium compilers but affects only applications that target an IPF computer. This modifier describes the alignment of the addressed data only; the pointer itself is assumed to be aligned.<br />
+The Itanium processor generates an alignment fault when it accesses misaligned data, and the time to process the fault weakens performance. Use the __unaligned modifier to cause the processor to read data one byte at a time and avoid the fault. This modifier is not required for x64 applications because the x64 processor handles misaligned data without faulting.</p>
+</blockquote>
+
+<p>　　也就是说，确实只有在IA64环境才会凸显出来。</p>
+
+        </div>
+        
+
+        
+
+<div class="releated-content">
+  <h3>Related Posts</h3>
+  <ul>
+    
+    <li><a href="/posts/2012-09-20-zeromemory%E4%B8%8E%E7%B1%BB%E5%AF%B9%E8%B1%A1/">ZeroMemory与类对象</a></li>
+    
+    <li><a href="/posts/2012-05-20-%E5%85%B3%E4%BA%8Estatus_invalid_device_object_parameter%E5%92%8Cstatus_mount_point_not_resolved/">关于STATUS_INVALID_DEVICE_OBJECT_PARAMETER和STATUS_MOUNT_POINT_NOT_RESOLVED</a></li>
+    
+    <li><a href="/posts/2012-05-19-status_invalid_device_object_parameter/">有关STATUS_INVALID_DEVICE_OBJECT_PARAMETER</a></li>
+    
+  </ul>
+</div>
+
+
+        
+        
+        <div style="height: 50px;"></div>
+        
+        
+
+        <div class="site-footer">
+  
+  
+</div>
+
+      </div>
+    </div>
+  </article>
+
+  <script src="/js/highlight.pack.js"></script>
+
+
+<script>
+  hljs.initHighlightingOnLoad();
+  
+  
+  
+    
+    
+  
+</script>
+
+  
+
+</body>
+
+</html>

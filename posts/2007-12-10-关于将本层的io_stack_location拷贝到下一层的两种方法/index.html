@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.59.1" />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="" />
+  <meta property="og:url" content="http://example.org/posts/2007-12-10-%E5%85%B3%E4%BA%8E%E5%B0%86%E6%9C%AC%E5%B1%82%E7%9A%84io_stack_location%E6%8B%B7%E8%B4%9D%E5%88%B0%E4%B8%8B%E4%B8%80%E5%B1%82%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/" />
+  <link rel="canonical" href="http://example.org/posts/2007-12-10-%E5%85%B3%E4%BA%8E%E5%B0%86%E6%9C%AC%E5%B1%82%E7%9A%84io_stack_location%E6%8B%B7%E8%B4%9D%E5%88%B0%E4%B8%8B%E4%B8%80%E5%B1%82%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/" /><script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "http:\/\/example.org\/"
+      },
+      "articleSection" : "posts",
+      "name" : "关于将本层的IO_STACK_LOCATION拷贝到下一层的两种方法",
+      "headline" : "关于将本层的IO_STACK_LOCATION拷贝到下一层的两种方法",
+      "description" : "两种方法： 调用MS提供的标准方法IoCopyCurrentIrpStackLocationToNext(\x26hellip;) 方法二： PIO_STACK_LOCATION IrpSp; PIO_STACK_LOCATION NextIrpSp; IrpSp",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2007",
+      "datePublished": "2007-12-10 00:00:00 \x2b0000 UTC",
+      "dateModified" : "2007-12-10 00:00:00 \x2b0000 UTC",
+      "url" : "http:\/\/example.org\/posts\/2007-12-10-%E5%85%B3%E4%BA%8E%E5%B0%86%E6%9C%AC%E5%B1%82%E7%9A%84io_stack_location%E6%8B%B7%E8%B4%9D%E5%88%B0%E4%B8%8B%E4%B8%80%E5%B1%82%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95\/",
+      "keywords" : [ "技术研究", ]
+  }
+</script>
+<title>关于将本层的IO_STACK_LOCATION拷贝到下一层的两种方法 - My New Hugo Site</title>
+  <meta property="og:title" content="关于将本层的IO_STACK_LOCATION拷贝到下一层的两种方法 - My New Hugo Site" />
+  <meta property="og:type" content="article" />
+  <meta name="description" content="两种方法： 调用MS提供的标准方法IoCopyCurrentIrpStackLocationToNext(&hellip;) 方法二： PIO_STACK_LOCATION IrpSp; PIO_STACK_LOCATION NextIrpSp; IrpSp" />
+
+  <link rel="stylesheet" href="/css/flexboxgrid-6.3.1.min.css" />
+  <link rel="stylesheet"
+    href="/css/github-markdown.min.css" />
+  <link rel="stylesheet" href="/css/highlight/tomorrow.min.css" />
+  <link rel="stylesheet" href="/css/index.css">
+  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="My New Hugo Site">
+  
+  <link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker" rel="stylesheet">
+  
+  
+
+  
+</head>
+
+
+<body>
+  <article class="post " id="article">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="site-header">
+          
+<header>
+  <div class="signatures site-title">
+    <a href="/"></a>
+  </div>
+</header>
+<div class="row end-xs">
+  
+  
+</div>
+<div class="header-line"></div>
+
+        </div>
+        <header class="post-header">
+          <h1 class="post-title">关于将本层的IO_STACK_LOCATION拷贝到下一层的两种方法</h1>
+          
+          <div class="row post-desc">
+            <div class="col-xs-6">
+              
+              <time class="post-date" datetime="2007-12-10 00:00:00 UTC">
+                10 Dec 2007
+              </time>
+              
+            </div>
+            <div class="col-xs-6">
+              
+            </div>
+          </div>
+          
+        </header>
+
+        <div class="post-content markdown-body">
+          <p>两种方法：</p>
+
+<ol>
+<li>调用MS提供的标准方法IoCopyCurrentIrpStackLocationToNext(&hellip;)</li>
+<li>方法二：
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">PIO_STACK_LOCATION IrpSp;   
+PIO_STACK_LOCATION NextIrpSp;   
+  
+IrpSp <span style="color:#f92672">=</span> IoGetCurrentIrpStackLocation(Irp);   
+NextIrpSp <span style="color:#f92672">=</span> IoGetNextIrpStackLocation(Irp);   
+  
+<span style="color:#f92672">*</span>NextIrpSp <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>IrpSp;   
+  
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">IoCallDriver</span>(NextDeviceObject, Irp);
+</code></pre></div><br /></li>
+</ol>
+
+<p>两种方法都挺常用。但是今天再看DDK中一篇OSR的分析文章里提到一个采用方法二可能会导致的一个很隐蔽的BUG：</p>
+
+<p>方法二把本层（La）的整个IO_STACK_LOCATION都拷贝到了下一层(Lb)，而IO_STACK_LOCATION中有两个成员CompletionRoutine、Context，即完成例程和完成例程的上下文参数。也就是说方法二会让Lb层拥有这两个原本不一定会属于它的成员。如果这两个成员都是NULL，那还好。一旦这两个成员有有效的内容，那么就会导致&rdquo;an eventual blue screen&rdquo;。</p>
+
+<p>再反观方法一IoCopyCurrentIrpStackLocationToNext(&hellip;)，在Ntddk.h有，有这个“函数”的定义：</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#define IoCopyCurrentIrpStackLocationToNext( Irp ) { \   
+</span><span style="color:#75715e"></span>PIO_STACK_LOCATION __irpSp;        <span style="color:#960050;background-color:#1e0010">\</span>   
+PIO_STACK_LOCATION __nextIrpSp;    <span style="color:#960050;background-color:#1e0010">\</span>   
+__irpSp <span style="color:#f92672">=</span> IoGetCurrentIrpStackLocation( (Irp) );     <span style="color:#960050;background-color:#1e0010">\</span>   
+__nextIrpSp <span style="color:#f92672">=</span> IoGetNextIrpStackLocation( (Irp) );    <span style="color:#960050;background-color:#1e0010">\</span>   
+RtlCopyMemory(__nextIrpSp, __irpSp, FIELD_OFFSET(IO_STACK_LOCATION, CompletionRoutine)); <span style="color:#960050;background-color:#1e0010">\</span>     
+__nextIrpSp<span style="color:#f92672">-&gt;</span>Control <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; }
+</code></pre></div>
+
+<p>原来这是个宏，重点看RtlCopyMemory调用的最后一个参数：这个宏只拷贝了CompletionRoutine成员之前的部分。方法一、方法二的区别就在这里。而实际上后者相对于前者，并没有什么优点，所以还是尽量使用方法一比较好。</p>
+
+        </div>
+        
+
+        
+
+<div class="releated-content">
+  <h3>Related Posts</h3>
+  <ul>
+    
+    <li><a href="/posts/2007-12-08-%E5%AF%B9cdo%E5%92%8Cfido%E7%9A%84%E7%90%86%E8%A7%A3/">对&#39;CDO&#39;和&#39;FiDO&#39;的理解</a></li>
+    
+  </ul>
+</div>
+
+
+        
+        
+        <div style="height: 50px;"></div>
+        
+        
+
+        <div class="site-footer">
+  
+  
+</div>
+
+      </div>
+    </div>
+  </article>
+
+  <script src="/js/highlight.pack.js"></script>
+
+
+<script>
+  hljs.initHighlightingOnLoad();
+  
+  
+  
+    
+    
+  
+</script>
+
+  
+
+</body>
+
+</html>

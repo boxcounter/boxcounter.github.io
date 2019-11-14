@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.59.1" />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="" />
+  <meta property="og:url" content="http://example.org/posts/2016-11-26-macos-tar%E7%9A%84%E7%89%B9%E6%AE%8A%E8%A1%8C%E4%B8%BA/" />
+  <link rel="canonical" href="http://example.org/posts/2016-11-26-macos-tar%E7%9A%84%E7%89%B9%E6%AE%8A%E8%A1%8C%E4%B8%BA/" /><script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "http:\/\/example.org\/"
+      },
+      "articleSection" : "posts",
+      "name" : "macOS tar的特殊行为",
+      "headline" : "macOS tar的特殊行为",
+      "description" : "这周在编写自动部署脚本的过程遇到一个有趣的问题 —— 我把脚本打包成tgz文件，然后scp到被部署服务器上。解压之后发现多出来好些隐藏文件。比如",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2016",
+      "datePublished": "2016-11-26 00:00:00 \x2b0000 UTC",
+      "dateModified" : "2016-11-26 00:00:00 \x2b0000 UTC",
+      "url" : "http:\/\/example.org\/posts\/2016-11-26-macos-tar%E7%9A%84%E7%89%B9%E6%AE%8A%E8%A1%8C%E4%B8%BA\/",
+      "keywords" : [ "macOS","tar", ]
+  }
+</script>
+<title>macOS tar的特殊行为 - My New Hugo Site</title>
+  <meta property="og:title" content="macOS tar的特殊行为 - My New Hugo Site" />
+  <meta property="og:type" content="article" />
+  <meta name="description" content="这周在编写自动部署脚本的过程遇到一个有趣的问题 —— 我把脚本打包成tgz文件，然后scp到被部署服务器上。解压之后发现多出来好些隐藏文件。比如" />
+
+  <link rel="stylesheet" href="/css/flexboxgrid-6.3.1.min.css" />
+  <link rel="stylesheet"
+    href="/css/github-markdown.min.css" />
+  <link rel="stylesheet" href="/css/highlight/tomorrow.min.css" />
+  <link rel="stylesheet" href="/css/index.css">
+  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="My New Hugo Site">
+  
+  <link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker" rel="stylesheet">
+  
+  
+
+  
+</head>
+
+
+<body>
+  <article class="post " id="article">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="site-header">
+          
+<header>
+  <div class="signatures site-title">
+    <a href="/"></a>
+  </div>
+</header>
+<div class="row end-xs">
+  
+  
+</div>
+<div class="header-line"></div>
+
+        </div>
+        <header class="post-header">
+          <h1 class="post-title">macOS tar的特殊行为</h1>
+          
+          <div class="row post-desc">
+            <div class="col-xs-6">
+              
+              <time class="post-date" datetime="2016-11-26 00:00:00 UTC">
+                26 Nov 2016
+              </time>
+              
+            </div>
+            <div class="col-xs-6">
+              
+            </div>
+          </div>
+          
+        </header>
+
+        <div class="post-content markdown-body">
+          <p>这周在编写自动部署脚本的过程遇到一个有趣的问题 —— 我把脚本打包成tgz文件，然后scp到被部署服务器上。解压之后发现多出来好些隐藏文件。比如下面的行1和行3：</p>
+
+<pre><code>$ ls ./init/letsencrypt/keys/
+._0000_key-certbot.pem
+0000_key-certbot.pem
+._0000_key-letsencrypt.pem
+0000_key-letsencrypt.pem
+</code></pre>
+
+<p>一开始我以为是系统自动生成的类似.DS_Store这样的系统文件，但<code>ls -al</code>看了下源目录，并没有发现踪迹。然后在本机（macOS）上把tgz文件<code>tar zxvf</code>出来，也没有发现这些文件的存在。</p>
+
+<p>一头雾水。于是google「tar dot file」，找到了答案：</p>
+
+<p>macOS自带的tar在打包过程中创建了这些隐藏文件，用于保存被打包文件的扩展属性，解包时会用隐藏文件中的数据重建扩展属性。ubuntu下的tar则不具备这个特性，会将隐藏文件原样解包出来。</p>
+
+<p>可以通过<code>ls -le@ *</code>来查看扩展属性：</p>
+
+<pre><code>$ /bin/ls -le@ ./init/letsencrypt/keys/
+total 56
+-rw-------@ 1 Boxcounter  staff  1708 Nov 16 12:26 0000_key-certbot.pem
+	com.apple.quarantine	  17
+-rw-------@ 1 Boxcounter  staff  1704 Nov 16 12:26 0000_key-letsencrypt.pem
+	com.apple.quarantine	  17
+-rw-------@ 1 Boxcounter  staff  1704 Nov 16 12:26 0001_key-certbot.pem
+	com.apple.quarantine	  17
+-rw-------@ 1 Boxcounter  staff  1704 Nov 16 12:26 0001_key-letsencrypt.pem
+	com.apple.quarantine	  17
+-rw-------@ 1 Boxcounter  staff  1704 Nov 16 12:26 0002_key-certbot.pem
+	com.apple.quarantine	  17
+-rw-------@ 1 Boxcounter  staff  1704 Nov 16 12:26 0002_key-letsencrypt.pem
+	com.apple.quarantine	  17
+-rw-------@ 1 Boxcounter  staff  1704 Nov 16 12:26 0003_key-letsencrypt.pem
+	com.apple.quarantine	  17
+</code></pre>
+
+<p>解决方法有两种：</p>
+
+<ol>
+<li>设置环境变量COPYFILE_DISABLE禁用tar的这个行为：<code>export COPYFILE_DISABLE=1</code></li>
+<li>改用gnu tar：<code>brew install gnu-tar --with-default-names</code></li>
+</ol>
+
+<p>参考资料：<a href="http://superuser.com/a/61188">Why do I get files like ._foo in my tarball on OS X?</a></p>
+
+        </div>
+        
+
+        
+
+
+        
+        
+        <div style="height: 50px;"></div>
+        
+        
+
+        <div class="site-footer">
+  
+  
+</div>
+
+      </div>
+    </div>
+  </article>
+
+  <script src="/js/highlight.pack.js"></script>
+
+
+<script>
+  hljs.initHighlightingOnLoad();
+  
+  
+  
+    
+    
+  
+</script>
+
+  
+
+</body>
+
+</html>

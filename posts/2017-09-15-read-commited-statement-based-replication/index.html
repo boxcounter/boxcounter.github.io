@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.59.1" />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="" />
+  <meta property="og:url" content="http://example.org/posts/2017-09-15-read-commited-statement-based-replication/" />
+  <link rel="canonical" href="http://example.org/posts/2017-09-15-read-commited-statement-based-replication/" /><script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "http:\/\/example.org\/"
+      },
+      "articleSection" : "posts",
+      "name" : "read committed与statement-based replication",
+      "headline" : "read committed与statement-based replication",
+      "description" : "疑问 在MySQL的Transaction Isolation Level文档里读到这么一句话： If you use READ COMMITTED, you must use row-based binary logging. 这引发了我的好奇心：为什么呢？READ COM",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2017",
+      "datePublished": "2017-09-15 00:00:00 \x2b0000 UTC",
+      "dateModified" : "2017-09-15 00:00:00 \x2b0000 UTC",
+      "url" : "http:\/\/example.org\/posts\/2017-09-15-read-commited-statement-based-replication\/",
+      "keywords" : [ "技术研究","MySQL", ]
+  }
+</script>
+<title>read committed与statement-based replication - My New Hugo Site</title>
+  <meta property="og:title" content="read committed与statement-based replication - My New Hugo Site" />
+  <meta property="og:type" content="article" />
+  <meta name="description" content="疑问 在MySQL的Transaction Isolation Level文档里读到这么一句话： If you use READ COMMITTED, you must use row-based binary logging. 这引发了我的好奇心：为什么呢？READ COM" />
+
+  <link rel="stylesheet" href="/css/flexboxgrid-6.3.1.min.css" />
+  <link rel="stylesheet"
+    href="/css/github-markdown.min.css" />
+  <link rel="stylesheet" href="/css/highlight/tomorrow.min.css" />
+  <link rel="stylesheet" href="/css/index.css">
+  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="My New Hugo Site">
+  
+  <link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker" rel="stylesheet">
+  
+  
+
+  
+</head>
+
+
+<body>
+  <article class="post " id="article">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="site-header">
+          
+<header>
+  <div class="signatures site-title">
+    <a href="/"></a>
+  </div>
+</header>
+<div class="row end-xs">
+  
+  
+</div>
+<div class="header-line"></div>
+
+        </div>
+        <header class="post-header">
+          <h1 class="post-title">read committed与statement-based replication</h1>
+          
+          <div class="row post-desc">
+            <div class="col-xs-6">
+              
+              <time class="post-date" datetime="2017-09-15 00:00:00 UTC">
+                15 Sep 2017
+              </time>
+              
+            </div>
+            <div class="col-xs-6">
+              
+            </div>
+          </div>
+          
+        </header>
+
+        <div class="post-content markdown-body">
+          
+
+<h1 id="疑问">疑问</h1>
+
+<p>在MySQL的<a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html">Transaction Isolation Level</a>文档里读到这么一句话：</p>
+
+<blockquote>
+<p>If you use READ COMMITTED, you must use row-based binary logging.</p>
+</blockquote>
+
+<p>这引发了我的好奇心：为什么呢？READ COMMITTED和statement-based replication会引发数据不一致吗？为什么会不一致呢？</p>
+
+<h1 id="猜测">猜测</h1>
+
+<p>根据READ COMMITTED的特征，我的第一猜测是可能是因为multi-threaded replication。但稍微一细想就否了：</p>
+
+<ul>
+<li>MySQL v5.6里，只有不同的table才可以并行replay。</li>
+<li>MySQL v5.7里，增加了logical clock，但并不影响。</li>
+<li>MySQL v8.0里，强化了multi-threaded replication，但只有workset完全不重叠的transaction才会并行。</li>
+</ul>
+
+<p>因此，multi-threaded应该不是问题的关键。</p>
+
+<h1 id="分析">分析</h1>
+
+<p>自己琢磨了一会没想明白。搜的资料全是讲如何解决（改用row-based），没有讲为什么。</p>
+
+<p>又花了些功夫在MySQL Bugs Home里找到一些资料。顺着其中的思路弄明白了缘由：确实和multi-threaded无关。而是由MySQL记录transaction的机制决定的。</p>
+
+<p>MySQL在commit时才将transaction一次性写入binary log。所以：</p>
+
+<ul>
+<li>在slave上，transaction是一次性replay的，在<code>START TRANSACTION</code>和<code>COMMIT</code>之间的所有操作都针对的是同一个数据集。</li>
+<li>在master上，transaction的<code>START TRANSACTION</code>和<code>COMMIT</code>是可能有时间跨度的，由于READ COMMITTED的特性，这个时间跨度中操作的数据集可能是不同的。</li>
+</ul>
+
+<p>因此，replication后，master和slave上的数据可能会不一致。用SQL语句模拟一次可能会更好理解。</p>
+
+<h1 id="模拟">模拟</h1>
+
+<pre><code class="language-sql">CREATE TABLE `t` (
+  `a` int(11) DEFAULT NULL,
+  `b` int(11) DEFAULT NULL,
+  KEY `a` (`a`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO t VALUES(10,2),(20,1);
+
+# trx-A
+(A) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
+(A) SET autocommit=0;
+(A) UPDATE t SET a=11 where b=2;    # 此时master数据：(11,2),(20,1)
+
+# trx-B
+(B) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
+(B) SET autocommit=0;
+(B) UPDATE t SET b=2 where b=1;     # 此时master数据：(10,2),(20,2)。
+(B) COMMIT;                         # slave此时执行B，数据变为：(10,2),(20,2)。
+
+# trx-A
+(A) COMMIT;                         # 此时master数据：(11,2),(20,2)。
+                                    # 记录到master的bin log、replicate到slave。slave此时执行A，数据变为：(11,2),(11,2)
+</code></pre>
+
+<p>执行完毕后，master和slave数据就不一致了：</p>
+
+<ul>
+<li>master: (11,2),(20,2)</li>
+<li>slave:  (11,2),(11,2)</li>
+</ul>
+
+<h1 id="资料">资料</h1>
+
+<ol>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html">MySQL :: MySQL 5.7 Reference Manual :: 14.5.2.1 Transaction Isolation Levels</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-locking.html">MySQL :: MySQL 5.7 Reference Manual :: 14.5.1 InnoDB Locking</a></li>
+<li><a href="https://bugs.mysql.com/bug.php?id=23051">MySQL Bugs: #23051: READ COMMITTED breaks mixed and statement-based replication</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/commit.html">MySQL :: MySQL 5.7 Reference Manual :: 13.3.1 START TRANSACTION, COMMIT, and ROLLBACK Syntax</a></li>
+<li><a href="https://severalnines.com/blog/what-s-new-mysql-replication-mysql-80">What’s New With MySQL Replication in MySQL 8.0</a></li>
+</ol>
+
+        </div>
+        
+
+        
+
+<div class="releated-content">
+  <h3>Related Posts</h3>
+  <ul>
+    
+    <li><a href="/posts/2017-04-24-swoole%E8%BF%9E%E6%8E%A5%E8%B6%85%E6%97%B6%E5%88%86%E6%9E%90/">Swoole连接超时分析</a></li>
+    
+    <li><a href="/posts/2012-10-25-64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/">64位系统的对齐问题</a></li>
+    
+    <li><a href="/posts/2012-09-20-zeromemory%E4%B8%8E%E7%B1%BB%E5%AF%B9%E8%B1%A1/">ZeroMemory与类对象</a></li>
+    
+  </ul>
+</div>
+
+
+        
+        
+        <div style="height: 50px;"></div>
+        
+        
+
+        <div class="site-footer">
+  
+  
+</div>
+
+      </div>
+    </div>
+  </article>
+
+  <script src="/js/highlight.pack.js"></script>
+
+
+<script>
+  hljs.initHighlightingOnLoad();
+  
+  
+  
+    
+    
+  
+</script>
+
+  
+
+</body>
+
+</html>

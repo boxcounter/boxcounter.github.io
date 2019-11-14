@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.59.1" />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="" />
+  <meta property="og:url" content="http://example.org/posts/2011-10-25-%E6%9C%89%E5%85%B3ioenumerateregisteredfilterslist/" />
+  <link rel="canonical" href="http://example.org/posts/2011-10-25-%E6%9C%89%E5%85%B3ioenumerateregisteredfilterslist/" /><script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "http:\/\/example.org\/"
+      },
+      "articleSection" : "posts",
+      "name" : "有关IoEnumerateRegisteredFiltersList",
+      "headline" : "有关IoEnumerateRegisteredFiltersList",
+      "description" : "有关于IoEnumerateRegisteredFiltersList 昨天逆一个驱动的时候发现静态分析出来的逻辑跟动态调试的逻辑不一致，继续",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2011",
+      "datePublished": "2011-10-25 00:00:00 \x2b0000 UTC",
+      "dateModified" : "2011-10-25 00:00:00 \x2b0000 UTC",
+      "url" : "http:\/\/example.org\/posts\/2011-10-25-%E6%9C%89%E5%85%B3ioenumerateregisteredfilterslist\/",
+      "keywords" : [ "技术研究", ]
+  }
+</script>
+<title>有关IoEnumerateRegisteredFiltersList - My New Hugo Site</title>
+  <meta property="og:title" content="有关IoEnumerateRegisteredFiltersList - My New Hugo Site" />
+  <meta property="og:type" content="article" />
+  <meta name="description" content="有关于IoEnumerateRegisteredFiltersList 昨天逆一个驱动的时候发现静态分析出来的逻辑跟动态调试的逻辑不一致，继续" />
+
+  <link rel="stylesheet" href="/css/flexboxgrid-6.3.1.min.css" />
+  <link rel="stylesheet"
+    href="/css/github-markdown.min.css" />
+  <link rel="stylesheet" href="/css/highlight/tomorrow.min.css" />
+  <link rel="stylesheet" href="/css/index.css">
+  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="My New Hugo Site">
+  
+  <link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker" rel="stylesheet">
+  
+  
+
+  
+</head>
+
+
+<body>
+  <article class="post " id="article">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="site-header">
+          
+<header>
+  <div class="signatures site-title">
+    <a href="/"></a>
+  </div>
+</header>
+<div class="row end-xs">
+  
+  
+</div>
+<div class="header-line"></div>
+
+        </div>
+        <header class="post-header">
+          <h1 class="post-title">有关IoEnumerateRegisteredFiltersList</h1>
+          
+          <div class="row post-desc">
+            <div class="col-xs-6">
+              
+              <time class="post-date" datetime="2011-10-25 00:00:00 UTC">
+                25 Oct 2011
+              </time>
+              
+            </div>
+            <div class="col-xs-6">
+              
+            </div>
+          </div>
+          
+        </header>
+
+        <div class="post-content markdown-body">
+          <p>有关于IoEnumerateRegisteredFiltersList
+昨天逆一个驱动的时候发现静态分析出来的逻辑跟动态调试的逻辑不一致，继续跟下去，发现分歧处在IoEnumerateRegisteredFiltersList函数，原型如下：</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">NTSTATUS
+    <span style="color:#a6e22e">IoEnumerateRegisteredFiltersList</span>(
+        IN  PDRIVER_OBJECT  <span style="color:#f92672">*</span>DriverObjectList,
+        IN  ULONG  DriverObjectListSize,
+        OUT PULONG  ActualNumberDriverObjects
+    );
+</code></pre></div>
+
+<p>其中对DriverObjectList参数的解释，在WDK 7600.16385.1 的文档中是这样：</p>
+
+<blockquote>
+<p>“The filter drivers are enumerated in order of decreasing distance from the base file system. The first element (index zero) in the DriverObjectList array represents the filter that is attached farthest from the file system. The second entry is for the next-farthest filter, and so on. The last entry in the array is for the filter that is closest to the base file system. ”</p>
+</blockquote>
+
+<p>WDK是说，DriverObjectList中的DrvObj是按照顺序排列的，离FSD最远的排最头（第一个元素），反之则排在最末尾。<br />
+可实际调试的结果正好相反，查看了下wrk代码，</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">NTSTATUS
+    <span style="color:#a6e22e">IoEnumerateRegisteredFiltersList</span>(
+        IN  PDRIVER_OBJECT  <span style="color:#f92672">*</span>DriverObjectList,
+        IN  ULONG           DriverObjectListSize,
+        OUT PULONG          ActualNumberDriverObjects
+    )
+{
+    <span style="color:#75715e">// ...... 无关代码，略
+</span><span style="color:#75715e"></span> 
+    entry <span style="color:#f92672">=</span> IopFsNotifyChangeQueueHead.Flink;
+ 
+    <span style="color:#66d9ef">while</span> ((numListEntries <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">&amp;&amp;</span> (entry <span style="color:#f92672">!=</span> <span style="color:#f92672">&amp;</span>IopFsNotifyChangeQueueHead)) {
+ 
+        nPacket <span style="color:#f92672">=</span> CONTAINING_RECORD( entry, NOTIFICATION_PACKET, ListEntry );
+ 
+        ObReferenceObject(nPacket<span style="color:#f92672">-&gt;</span>DriverObject);
+ 
+        <span style="color:#f92672">*</span>DriverObjectList <span style="color:#f92672">=</span> nPacket<span style="color:#f92672">-&gt;</span>DriverObject;
+        DriverObjectList<span style="color:#f92672">++</span>;
+ 
+        entry <span style="color:#f92672">=</span> entry<span style="color:#f92672">-&gt;</span>Flink;
+        numListEntries<span style="color:#f92672">--</span>;
+    }
+ 
+    <span style="color:#75715e">// ...... 无关代码，略
+</span><span style="color:#75715e"></span>}
+</code></pre></div>
+
+<p>可以看出，返回的DriverObjectList中的DrvObj都是从IopFsNotifyChangeQueueHead链表中取出的，而且两个链表中的元素摆放顺序是一致的。</p>
+
+<p>那再来看看IopFsNotifyChangeQueueHead中的元素是按什么顺序摆放的：
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">NTSTATUS
+    <span style="color:#a6e22e">IoRegisterFsRegistrationChange</span>(
+        IN PDRIVER_OBJECT DriverObject,
+        IN PDRIVER_FS_NOTIFICATION DriverNotificationRoutine
+    )
+{
+    <span style="color:#75715e">// ...... 无关代码，略
+</span><span style="color:#75715e"></span> 
+    nPacket<span style="color:#f92672">-&gt;</span>DriverObject <span style="color:#f92672">=</span> DriverObject;
+    nPacket<span style="color:#f92672">-&gt;</span>NotificationRoutine <span style="color:#f92672">=</span> DriverNotificationRoutine;
+ 
+    InsertTailList( <span style="color:#f92672">&amp;</span>IopFsNotifyChangeQueueHead, <span style="color:#f92672">&amp;</span>nPacket<span style="color:#f92672">-&gt;</span>ListEntry );
+ 
+    <span style="color:#75715e">// ...... 无关代码，略
+</span><span style="color:#75715e"></span>}
+</code></pre></div>
+可以看出，顺序是先来后到，也就是先调用IoRegisterFsRegistrationChange的DrvObj被插在链表的前面。而一般来说，先Attach到FSD的Driver，先调用IoRegisterFsRegistrationChange（一般驱动逻辑如此，你要硬写个驱动挂上去后死活非要在10分钟后Register，我这没辙）。</p>
+
+<p>半路总结下：实际的逻辑和WDK文档上说的不一致。<br />
+为了再次确认，我再瞅瞅我实际调试的环境（Win 7），wrk毕竟是2003版本的。</p>
+
+<pre><code>1: kd&gt; x nt!IopFsNotifyChangeQueueHead
+83db4770 nt!IopFsNotifyChangeQueueHead =
+
+1: kd&gt; dt _LIST_ENTRY 83db4770
+ntdll!_LIST_ENTRY
+[ 0x869ae690 - 0x8ab5c3a0 ]
++0×000 Flink : 0x869ae690 _LIST_ENTRY [ 0x8ab5c3a0 - 0x83db4770 ]
++0×004 Blink : 0x8ab5c3a0 _LIST_ENTRY [ 0x83db4770 - 0x869ae690 ]
+
+1: kd&gt; dd 0x869ae690
+869ae690 8ab5c3a0 83db4770 8c8cc648 843e4bda
+869ae6a0 16160803 d8646641 00000000 00000002
+869ae6b0 00000001 00000006 00000010 00000010
+869ae6c0 00000000 00000000 00000000 00002000
+869ae6d0 00002000 00001000 00000001 000003e9
+869ae6e0 00020066 00000008 00000000 00000000
+869ae6f0 00000000 00000000 00000000 00000000
+869ae700 00000000 00000000 00000000 00000000
+
+1: kd&gt; !drvobj 8c8cc648
+Driver object (8c8cc648) is for:
+\FileSystem\FltMgr
+Driver Extension List: (id , addr)
+Device Object list:
+8cb927a0 8cbc0590 8ca85d00 8ca5b948
+8c8f6eb0 8c8ef660 8c8e9318 8c89d630
+8c89b630
+
+1: kd&gt; dd 0x8ab5c3a0
+8ab5c3a0 83db4770 869ae690 870509d0 8b9ea0aa
+8ab5c3b0 06030203 4b466650 8d5f15f8 8bdc3628
+8ab5c3c0 daf5c87b 5112730d 06070203 416d7441
+8ab5c3d0 870e0940 0000002e 8aa87bd0 c0cf00cf
+8ab5c3e0 0c000002 00690046 0065006c 0061004e
+8ab5c3f0 0065006d 0061004d 00570070 877c0000
+8ab5c400 00260207 6e664d46 8ab97ed8 8ab6b5d0
+8ab5c410 00000dac 00000000 8ab5c418 00000000
+
+1: kd&gt; !drvobj 870509d0
+Driver object (870509d0) is for:
+*** ERROR: Module load completed but symbols could not be loaded for FSpy.sys
+\FileSystem\FSpy
+Driver Extension List: (id , addr)
+Device Object list:
+8cc9b900 90c03e68 90c145d8 851d6188
+851e8ca0 8cac0448
+
+1: kd&gt; !devstack 8cb927a0
+!DevObj !DrvObj !DevExt ObjectName
+90c145d8 \FileSystem\FSpy 90c14690
+&gt; 8cb927a0 \FileSystem\FltMgr 8cb92858
+8cc16020 \FileSystem\Ntfs 8cc160d8
+</code></pre>
+
+<p>Win7环境里逻辑跟wrk一致。估计又是WDK文档的BUG，可惜WDK Bug Bash已经结束了，要不可以再弄个U盘玩玩（虽然前两个至今还未收到，悲催的UPS）</p>
+
+        </div>
+        
+
+        
+
+<div class="releated-content">
+  <h3>Related Posts</h3>
+  <ul>
+    
+    <li><a href="/posts/2011-10-25-%E5%8D%B7%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AF%86%E5%88%AB%E5%8D%B7%E7%9A%84%E6%8C%82%E8%BD%BD%E4%BB%A5%E5%8F%8A%E8%B7%AF%E5%BE%84%E8%A7%A3%E6%9E%90/">卷的文件系统识别、卷的挂载以及路径解析</a></li>
+    
+    <li><a href="/posts/2011-10-19-seh-x86/">SEH分析笔记（X86篇）</a></li>
+    
+    <li><a href="/posts/2009-07-23-%E9%A9%B1%E5%8A%A8%E4%B8%AD%E8%8E%B7%E5%8F%96%E8%BF%9B%E7%A8%8B%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%E5%90%8D/">驱动中获取进程完整路径名</a></li>
+    
+  </ul>
+</div>
+
+
+        
+        
+        <div style="height: 50px;"></div>
+        
+        
+
+        <div class="site-footer">
+  
+  
+</div>
+
+      </div>
+    </div>
+  </article>
+
+  <script src="/js/highlight.pack.js"></script>
+
+
+<script>
+  hljs.initHighlightingOnLoad();
+  
+  
+  
+    
+    
+  
+</script>
+
+  
+
+</body>
+
+</html>

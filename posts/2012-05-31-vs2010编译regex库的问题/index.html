@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.59.1" />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="" />
+  <meta property="og:url" content="http://example.org/posts/2012-05-31-vs2010%E7%BC%96%E8%AF%91regex%E5%BA%93%E7%9A%84%E9%97%AE%E9%A2%98/" />
+  <link rel="canonical" href="http://example.org/posts/2012-05-31-vs2010%E7%BC%96%E8%AF%91regex%E5%BA%93%E7%9A%84%E9%97%AE%E9%A2%98/" /><script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "http:\/\/example.org\/"
+      },
+      "articleSection" : "posts",
+      "name" : "VS2010编译regex库的问题",
+      "headline" : "VS2010编译regex库的问题",
+      "description" : "今天把一些VS 2005工程升级到VS 2010，在升级过程中，遇到regex库编译错误。如下： error C2332: \x27struct\x27 : missing tag name error C3306: \x27regex::detail::\x27: unnamed class template is not allowed error C2143: syntax error : missing \x27;\x27 before",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2012",
+      "datePublished": "2012-05-31 00:00:00 \x2b0000 UTC",
+      "dateModified" : "2012-05-31 00:00:00 \x2b0000 UTC",
+      "url" : "http:\/\/example.org\/posts\/2012-05-31-vs2010%E7%BC%96%E8%AF%91regex%E5%BA%93%E7%9A%84%E9%97%AE%E9%A2%98\/",
+      "keywords" : [ "故障分析", ]
+  }
+</script>
+<title>VS2010编译regex库的问题 - My New Hugo Site</title>
+  <meta property="og:title" content="VS2010编译regex库的问题 - My New Hugo Site" />
+  <meta property="og:type" content="article" />
+  <meta name="description" content="今天把一些VS 2005工程升级到VS 2010，在升级过程中，遇到regex库编译错误。如下： error C2332: &#39;struct&#39; : missing tag name error C3306: &#39;regex::detail::&#39;: unnamed class template is not allowed error C2143: syntax error : missing &#39;;&#39; before" />
+
+  <link rel="stylesheet" href="/css/flexboxgrid-6.3.1.min.css" />
+  <link rel="stylesheet"
+    href="/css/github-markdown.min.css" />
+  <link rel="stylesheet" href="/css/highlight/tomorrow.min.css" />
+  <link rel="stylesheet" href="/css/index.css">
+  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="My New Hugo Site">
+  
+  <link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker" rel="stylesheet">
+  
+  
+
+  
+</head>
+
+
+<body>
+  <article class="post " id="article">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="site-header">
+          
+<header>
+  <div class="signatures site-title">
+    <a href="/"></a>
+  </div>
+</header>
+<div class="row end-xs">
+  
+  
+</div>
+<div class="header-line"></div>
+
+        </div>
+        <header class="post-header">
+          <h1 class="post-title">VS2010编译regex库的问题</h1>
+          
+          <div class="row post-desc">
+            <div class="col-xs-6">
+              
+              <time class="post-date" datetime="2012-05-31 00:00:00 UTC">
+                31 May 2012
+              </time>
+              
+            </div>
+            <div class="col-xs-6">
+              
+            </div>
+          </div>
+          
+        </header>
+
+        <div class="post-content markdown-body">
+          <p>　　今天把一些VS 2005工程升级到VS 2010，在升级过程中，遇到regex库编译错误。如下：</p>
+
+<pre><code>error C2332: 'struct' : missing tag name
+error C3306: 'regex::detail::': unnamed class template is not allowed
+error C2143: syntax error : missing ';' before 'static_assert'
+error C2059: syntax error : ';'
+</code></pre>
+
+<p>　　出现该错误的代码来自restack.h，如下：</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">namespace</span> detail
+{
+
+<span style="color:#75715e">// For compile-time assertions that generate
+</span><span style="color:#75715e">// no run-time overhead.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">bool</span> f <span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">static_assert</span>;
+<span style="color:#66d9ef">template</span>   <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">static_assert</span> { <span style="color:#66d9ef">static_assert</span>() {} };
+</code></pre></div>
+
+<p>　　该问题的原因是regex定义的static_assert模板与VS 2010的关键字冲突，将regex中的改名，比如改成_static_assert后就正常了。</p>
+
+<p>　　参考资料：</p>
+
+<ul>
+<li><a href="http://social.msdn.microsoft.com/Forums/eu/vcgeneral/thread/56800d4b-eb9d-43c0-b06a-38c1ebb117bc">Greta Parser and VS 2010</a></li>
+</ul>
+
+        </div>
+        
+
+        
+
+<div class="releated-content">
+  <h3>Related Posts</h3>
+  <ul>
+    
+    <li><a href="/posts/2012-04-05-%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/">一个内核资源泄漏样本（待更新文中链接）</a></li>
+    
+    <li><a href="/posts/2012-03-04-%E7%81%B5%E5%BC%82%E7%8E%B0%E8%B1%A1/">灵异现象？</a></li>
+    
+  </ul>
+</div>
+
+
+        
+        
+        <div style="height: 50px;"></div>
+        
+        
+
+        <div class="site-footer">
+  
+  
+</div>
+
+      </div>
+    </div>
+  </article>
+
+  <script src="/js/highlight.pack.js"></script>
+
+
+<script>
+  hljs.initHighlightingOnLoad();
+  
+  
+  
+    
+    
+  
+</script>
+
+  
+
+</body>
+
+</html>

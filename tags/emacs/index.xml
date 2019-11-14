@@ -1,22 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Emacs on Boxcounter的烂笔头</title>
-    <link>http://boxcounter.com/tags/emacs/</link>
-    <description>Recent content in Emacs on Boxcounter的烂笔头</description>
+    <title>Emacs on My New Hugo Site</title>
+    <link>http://example.org/tags/emacs/</link>
+    <description>Recent content in Emacs on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
+    <language>en-us</language>
     <lastBuildDate>Mon, 12 Aug 2013 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://boxcounter.com/tags/emacs/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://example.org/tags/emacs/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>osx下解决emacs执行中文路径命令出错的方法</title>
-      <link>http://boxcounter.com/technique/2013-08-08-osx%E4%B8%8B%E8%A7%A3%E5%86%B3emacs%E6%89%A7%E8%A1%8C%E4%B8%AD%E6%96%87%E8%B7%AF%E5%BE%84%E5%91%BD%E4%BB%A4%E5%87%BA%E9%94%99%E7%9A%84%E6%96%B9%E6%B3%95/</link>
+      <link>http://example.org/posts/2013-08-08-osx%E4%B8%8B%E8%A7%A3%E5%86%B3emacs%E6%89%A7%E8%A1%8C%E4%B8%AD%E6%96%87%E8%B7%AF%E5%BE%84%E5%91%BD%E4%BB%A4%E5%87%BA%E9%94%99%E7%9A%84%E6%96%B9%E6%B3%95/</link>
       <pubDate>Mon, 12 Aug 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://boxcounter.com/technique/2013-08-08-osx%E4%B8%8B%E8%A7%A3%E5%86%B3emacs%E6%89%A7%E8%A1%8C%E4%B8%AD%E6%96%87%E8%B7%AF%E5%BE%84%E5%91%BD%E4%BB%A4%E5%87%BA%E9%94%99%E7%9A%84%E6%96%B9%E6%B3%95/</guid>
+      <guid>http://example.org/posts/2013-08-08-osx%E4%B8%8B%E8%A7%A3%E5%86%B3emacs%E6%89%A7%E8%A1%8C%E4%B8%AD%E6%96%87%E8%B7%AF%E5%BE%84%E5%91%BD%E4%BB%A4%E5%87%BA%E9%94%99%E7%9A%84%E6%96%B9%E6%B3%95/</guid>
       <description>我第一次发现这个问题是在使用auctex编译中文名tex文件的时候发现的，后来发现不仅仅是auctex，M－!执行shell命令中如果包含中</description>
     </item>
     
