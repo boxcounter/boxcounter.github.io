@@ -6,35 +6,35 @@
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="author" content="" />
-  <meta property="og:url" content="http://example.org/posts/2015-09-05-weakref_type.attemptincstrong/" />
-  <link rel="canonical" href="http://example.org/posts/2015-09-05-weakref_type.attemptincstrong/" /><script type="application/ld+json">
+  <meta name="author" content="Boxcounter" />
+  <meta property="og:url" content="http://boxcounter.com/posts/2015-09-05-weakref_type.attemptincstrong/" />
+  <link rel="canonical" href="http://boxcounter.com/posts/2015-09-05-weakref_type.attemptincstrong/" /><script type="application/ld+json">
   {
       "@context" : "http://schema.org",
       "@type" : "BlogPosting",
       "mainEntityOfPage": {
            "@type": "WebPage",
-           "@id": "http:\/\/example.org\/"
+           "@id": "http:\/\/boxcounter.com\/"
       },
       "articleSection" : "posts",
       "name" : "RefBase::weakref_type::attemptIncStrong的理解",
       "headline" : "RefBase::weakref_type::attemptIncStrong的理解",
       "description" : "见中文注释内容： bool RefBase::weakref_type::attemptIncStrong(const void* id) { incWeak(id); weakref_impl* const impl = static_cast\x26lt;weakref_impl*\x26gt;(this); int32_t curCount = impl-\x26gt;mStrong; LOG_ASSERT(curCount \x26gt;= 0, \x26#34;attemptIncStrong called on %p after underflow\x26#34;, this); while (curCount \x26gt; 0 \x26amp;\x26amp; curCount != INITIAL_STRONG_VALUE) { if (android_atomic_cmpxchg(curCount, curCount\x2b1, \x26amp;impl-\x26gt;mStrong) == 0) { break; } curCount = impl-\x26gt;mStrong; } if (curCount \x26lt;= 0 || curCount == INITIAL_STRONG_VALUE) { bool allow; if (curCount == INITIAL_STRONG_VALUE)",
       "inLanguage" : "en-US",
-      "author" : "",
-      "creator" : "",
-      "publisher": "",
-      "accountablePerson" : "",
-      "copyrightHolder" : "",
+      "author" : "Boxcounter",
+      "creator" : "Boxcounter",
+      "publisher": "Boxcounter",
+      "accountablePerson" : "Boxcounter",
+      "copyrightHolder" : "Boxcounter",
       "copyrightYear" : "2015",
       "datePublished": "2015-09-05 00:00:00 \x2b0000 UTC",
       "dateModified" : "2015-09-05 00:00:00 \x2b0000 UTC",
-      "url" : "http:\/\/example.org\/posts\/2015-09-05-weakref_type.attemptincstrong\/",
+      "url" : "http:\/\/boxcounter.com\/posts\/2015-09-05-weakref_type.attemptincstrong\/",
       "keywords" : [ "Android", ]
   }
 </script>
-<title>RefBase::weakref_type::attemptIncStrong的理解 - My New Hugo Site</title>
-  <meta property="og:title" content="RefBase::weakref_type::attemptIncStrong的理解 - My New Hugo Site" />
+<title>RefBase::weakref_type::attemptIncStrong的理解 - Boxcounter&#39;s blog</title>
+  <meta property="og:title" content="RefBase::weakref_type::attemptIncStrong的理解 - Boxcounter&#39;s blog" />
   <meta property="og:type" content="article" />
   <meta name="description" content="见中文注释内容： bool RefBase::weakref_type::attemptIncStrong(const void* id) { incWeak(id); weakref_impl* const impl = static_cast&lt;weakref_impl*&gt;(this); int32_t curCount = impl-&gt;mStrong; LOG_ASSERT(curCount &gt;= 0, &#34;attemptIncStrong called on %p after underflow&#34;, this); while (curCount &gt; 0 &amp;&amp; curCount != INITIAL_STRONG_VALUE) { if (android_atomic_cmpxchg(curCount, curCount&#43;1, &amp;impl-&gt;mStrong) == 0) { break; } curCount = impl-&gt;mStrong; } if (curCount &lt;= 0 || curCount == INITIAL_STRONG_VALUE) { bool allow; if (curCount == INITIAL_STRONG_VALUE)" />
 
@@ -43,7 +43,7 @@
     href="/css/github-markdown.min.css" />
   <link rel="stylesheet" href="/css/highlight/tomorrow.min.css" />
   <link rel="stylesheet" href="/css/index.css">
-  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="My New Hugo Site">
+  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="Boxcounter&#39;s blog">
   
   <link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker" rel="stylesheet">
   
@@ -61,7 +61,7 @@
           
 <header>
   <div class="signatures site-title">
-    <a href="/"></a>
+    <a href="/">Boxcounter</a>
   </div>
 </header>
 <div class="row end-xs">
@@ -83,6 +83,10 @@
               
             </div>
             <div class="col-xs-6">
+              
+              <div class="post-author">
+                <a target="_blank" href="http://boxcounter.com/">@Boxcounter</a>
+              </div>
               
             </div>
           </div>

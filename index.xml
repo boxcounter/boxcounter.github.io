@@ -1,221 +1,221 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>My New Hugo Site</title>
-    <link>http://example.org/</link>
-    <description>Recent content on My New Hugo Site</description>
+    <title>Boxcounter&#39;s blog</title>
+    <link>http://boxcounter.com/</link>
+    <description>Recent content on Boxcounter&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>zh-cn</language>
     <lastBuildDate>Tue, 05 Nov 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://boxcounter.com/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>《Microservices Pattern》读书笔记</title>
-      <link>http://example.org/posts/2019-11-05-microservices-patterns/</link>
+      <link>http://boxcounter.com/posts/2019-11-05-microservices-patterns/</link>
       <pubDate>Tue, 05 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2019-11-05-microservices-patterns/</guid>
+      <guid>http://boxcounter.com/posts/2019-11-05-microservices-patterns/</guid>
       <description>源图片：MicroservicesPattern.png
 源文件：MicroservicesPattern.mindnode</description>
     </item>
     
     <item>
       <title>读书记录</title>
-      <link>http://example.org/posts/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</link>
+      <link>http://boxcounter.com/posts/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</link>
       <pubDate>Mon, 26 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</guid>
+      <guid>http://boxcounter.com/posts/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</guid>
       <description>.markdown-body table td, .markdown-body table th { padding: 6px 13px; border: 1px solid #dfe2e5; white-space: nowrap; } .col-xs-12, .col-md-8, .col-md-offset-2, .col-lg-6 { margin-left: 10px; max-width: 100%; } 记录我读完的书，从2014年开始记录。主要记录有点厚度的，薄手册和零散资料不记。 分类 评</description>
     </item>
     
     <item>
       <title>依赖倒置原则（Dependency inversion principle）</title>
-      <link>http://example.org/posts/2019-06-02-dependency-inversion-principle/</link>
+      <link>http://boxcounter.com/posts/2019-06-02-dependency-inversion-principle/</link>
       <pubDate>Sun, 02 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2019-06-02-dependency-inversion-principle/</guid>
+      <guid>http://boxcounter.com/posts/2019-06-02-dependency-inversion-principle/</guid>
       <description>依赖倒置原则（Dependency Inversion Principle）是 Uncle Bob 提出的一个 OOP 的原则。维基百科上对它的说明是这样的： 该原则规定： 1. 高层次的模块不</description>
     </item>
     
     <item>
       <title>书评：《架构整洁之道》</title>
-      <link>http://example.org/posts/2019-02-12-clean-architecture/</link>
+      <link>http://boxcounter.com/posts/2019-02-12-clean-architecture/</link>
       <pubDate>Mon, 11 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2019-02-12-clean-architecture/</guid>
+      <guid>http://boxcounter.com/posts/2019-02-12-clean-architecture/</guid>
       <description>豆瓣评分：8.9 （89人评价） goodreads 评分：4.23 (5分制，1224人评价） 我的评分：8（好书，值得再读） 最初在网店发现这本书时，一看到书名我就</description>
     </item>
     
     <item>
       <title>书评：《微服务设计》</title>
-      <link>http://example.org/posts/2019-02-07-building-microservices/</link>
+      <link>http://boxcounter.com/posts/2019-02-07-building-microservices/</link>
       <pubDate>Fri, 08 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2019-02-07-building-microservices/</guid>
+      <guid>http://boxcounter.com/posts/2019-02-07-building-microservices/</guid>
       <description>豆瓣评分：8.2 （505人评价） goodreads 评分：4.16 (5分制，2410人评价） 我的评分：7（好书，值得再读） “麻雀虽小，五脏俱全”。 本书用208</description>
     </item>
     
     <item>
       <title>书评：《UML和模式应用》</title>
-      <link>http://example.org/posts/2019-02-04-applying-uml-and-patterns/</link>
+      <link>http://boxcounter.com/posts/2019-02-04-applying-uml-and-patterns/</link>
       <pubDate>Mon, 04 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2019-02-04-applying-uml-and-patterns/</guid>
+      <guid>http://boxcounter.com/posts/2019-02-04-applying-uml-and-patterns/</guid>
       <description>豆瓣评分：8.1 （354人评价） goodreads 评分：3.81 (5分制，904人评价） 我的评分：8（好书，值得再读） 除了英文，UML 应该是最容易被程序员忽</description>
     </item>
     
     <item>
       <title>书评：《这就是OKR》</title>
-      <link>http://example.org/posts/2019-01-24-measure-what-matters/</link>
+      <link>http://boxcounter.com/posts/2019-01-24-measure-what-matters/</link>
       <pubDate>Thu, 24 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2019-01-24-measure-what-matters/</guid>
+      <guid>http://boxcounter.com/posts/2019-01-24-measure-what-matters/</guid>
       <description>豆瓣： 8.4/10，39人评价。 goodreads： 4.03，4,180人评价。 我的评分：6（有点收获，但不会再读） 作者 John Doerr 是著名风险投资公</description>
     </item>
     
     <item>
       <title>《经济思想史》读书笔记</title>
-      <link>http://example.org/posts/2017-10-21-%E7%BB%8F%E6%B5%8E%E6%80%9D%E6%83%B3%E5%8F%B2/</link>
+      <link>http://boxcounter.com/posts/2017-10-21-%E7%BB%8F%E6%B5%8E%E6%80%9D%E6%83%B3%E5%8F%B2/</link>
       <pubDate>Sat, 21 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2017-10-21-%E7%BB%8F%E6%B5%8E%E6%80%9D%E6%83%B3%E5%8F%B2/</guid>
+      <guid>http://boxcounter.com/posts/2017-10-21-%E7%BB%8F%E6%B5%8E%E6%80%9D%E6%83%B3%E5%8F%B2/</guid>
       <description>源图片：经济思想史.png 源文件：经济思想史.mindnode</description>
     </item>
     
     <item>
       <title>read committed与statement-based replication</title>
-      <link>http://example.org/posts/2017-09-15-read-commited-statement-based-replication/</link>
+      <link>http://boxcounter.com/posts/2017-09-15-read-commited-statement-based-replication/</link>
       <pubDate>Fri, 15 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2017-09-15-read-commited-statement-based-replication/</guid>
+      <guid>http://boxcounter.com/posts/2017-09-15-read-commited-statement-based-replication/</guid>
       <description>疑问 在MySQL的Transaction Isolation Level文档里读到这么一句话： If you use READ COMMITTED, you must use row-based binary logging. 这引发了我的好奇心：为什么呢？READ COM</description>
     </item>
     
     <item>
       <title>Swoole连接超时分析</title>
-      <link>http://example.org/posts/2017-04-24-swoole%E8%BF%9E%E6%8E%A5%E8%B6%85%E6%97%B6%E5%88%86%E6%9E%90/</link>
+      <link>http://boxcounter.com/posts/2017-04-24-swoole%E8%BF%9E%E6%8E%A5%E8%B6%85%E6%97%B6%E5%88%86%E6%9E%90/</link>
       <pubDate>Mon, 24 Apr 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2017-04-24-swoole%E8%BF%9E%E6%8E%A5%E8%B6%85%E6%97%B6%E5%88%86%E6%9E%90/</guid>
+      <guid>http://boxcounter.com/posts/2017-04-24-swoole%E8%BF%9E%E6%8E%A5%E8%B6%85%E6%97%B6%E5%88%86%E6%9E%90/</guid>
       <description>一、简述 我们的产品中使用Swoole来构建长连接服务，用于C/S之间的实时数据交互。同时也编写了一个监控程序monitor来定时检查长连接服</description>
     </item>
     
     <item>
       <title>Host key verification failed的另类触发</title>
-      <link>http://example.org/posts/2016-11-26-host-key-verification-failed/</link>
+      <link>http://boxcounter.com/posts/2016-11-26-host-key-verification-failed/</link>
       <pubDate>Sat, 26 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2016-11-26-host-key-verification-failed/</guid>
+      <guid>http://boxcounter.com/posts/2016-11-26-host-key-verification-failed/</guid>
       <description>最近几天在编写、测试部署脚本，准备配合Jenkins进行自动化的持续集成，因此需要全程静默执行，未想触发了一个SSH key问题，卡了我好几个</description>
     </item>
     
     <item>
       <title>macOS tar的特殊行为</title>
-      <link>http://example.org/posts/2016-11-26-macos-tar%E7%9A%84%E7%89%B9%E6%AE%8A%E8%A1%8C%E4%B8%BA/</link>
+      <link>http://boxcounter.com/posts/2016-11-26-macos-tar%E7%9A%84%E7%89%B9%E6%AE%8A%E8%A1%8C%E4%B8%BA/</link>
       <pubDate>Sat, 26 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2016-11-26-macos-tar%E7%9A%84%E7%89%B9%E6%AE%8A%E8%A1%8C%E4%B8%BA/</guid>
+      <guid>http://boxcounter.com/posts/2016-11-26-macos-tar%E7%9A%84%E7%89%B9%E6%AE%8A%E8%A1%8C%E4%B8%BA/</guid>
       <description>这周在编写自动部署脚本的过程遇到一个有趣的问题 —— 我把脚本打包成tgz文件，然后scp到被部署服务器上。解压之后发现多出来好些隐藏文件。比如</description>
     </item>
     
     <item>
       <title>《经济学原理：宏观经济学》读书笔记</title>
-      <link>http://example.org/posts/2016-10-26-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8E%9F%E7%90%86%E5%AE%8F%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6/</link>
+      <link>http://boxcounter.com/posts/2016-10-26-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8E%9F%E7%90%86%E5%AE%8F%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6/</link>
       <pubDate>Wed, 26 Oct 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2016-10-26-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8E%9F%E7%90%86%E5%AE%8F%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6/</guid>
+      <guid>http://boxcounter.com/posts/2016-10-26-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8E%9F%E7%90%86%E5%AE%8F%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6/</guid>
       <description>下图是缩略版本，文末有清晰源图的链接。 源文件：经济学原理：宏观经济学.mindnode 源图：经济学原理：宏观经济学.png</description>
     </item>
     
     <item>
       <title>《逻辑思维，只要五步》读书笔记</title>
-      <link>http://example.org/posts/2016-06-04-%E9%80%BB%E8%BE%91%E6%80%9D%E7%BB%B4%E5%8F%AA%E8%A6%81%E4%BA%94%E6%AD%A5/</link>
+      <link>http://boxcounter.com/posts/2016-06-04-%E9%80%BB%E8%BE%91%E6%80%9D%E7%BB%B4%E5%8F%AA%E8%A6%81%E4%BA%94%E6%AD%A5/</link>
       <pubDate>Sat, 04 Jun 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2016-06-04-%E9%80%BB%E8%BE%91%E6%80%9D%E7%BB%B4%E5%8F%AA%E8%A6%81%E4%BA%94%E6%AD%A5/</guid>
+      <guid>http://boxcounter.com/posts/2016-06-04-%E9%80%BB%E8%BE%91%E6%80%9D%E7%BB%B4%E5%8F%AA%E8%A6%81%E4%BA%94%E6%AD%A5/</guid>
       <description>这本书于我而言，乏善可陈。原本30页能说清楚的方法论，絮絮叨叨成了230页的册子。 勉强凑出这么一篇读书笔记。 源文件：逻辑思维，只要五步.mi</description>
     </item>
     
     <item>
       <title>《经济学原理：微观经济学》读书笔记</title>
-      <link>http://example.org/posts/2016-04-16-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8E%9F%E7%90%86%E5%BE%AE%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6/</link>
+      <link>http://boxcounter.com/posts/2016-04-16-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8E%9F%E7%90%86%E5%BE%AE%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6/</link>
       <pubDate>Sat, 16 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2016-04-16-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8E%9F%E7%90%86%E5%BE%AE%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6/</guid>
+      <guid>http://boxcounter.com/posts/2016-04-16-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8E%9F%E7%90%86%E5%BE%AE%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6/</guid>
       <description>下图是缩略版本，文末有清晰源图的链接。 源文件：经济学原理：微观经济学.mindnode 源图：经济学原理：微观经济学.png</description>
     </item>
     
     <item>
       <title>《一本书读懂中国税》读书笔记</title>
-      <link>http://example.org/posts/2016-02-23-%E4%B8%80%E6%9C%AC%E4%B9%A6%E8%AF%BB%E6%87%82%E4%B8%AD%E5%9B%BD%E7%A8%8E/</link>
+      <link>http://boxcounter.com/posts/2016-02-23-%E4%B8%80%E6%9C%AC%E4%B9%A6%E8%AF%BB%E6%87%82%E4%B8%AD%E5%9B%BD%E7%A8%8E/</link>
       <pubDate>Tue, 23 Feb 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2016-02-23-%E4%B8%80%E6%9C%AC%E4%B9%A6%E8%AF%BB%E6%87%82%E4%B8%AD%E5%9B%BD%E7%A8%8E/</guid>
+      <guid>http://boxcounter.com/posts/2016-02-23-%E4%B8%80%E6%9C%AC%E4%B9%A6%E8%AF%BB%E6%87%82%E4%B8%AD%E5%9B%BD%E7%A8%8E/</guid>
       <description>源文件：一本书读懂中国税.mindnode</description>
     </item>
     
     <item>
       <title>《真实世界的经济学》读书笔记</title>
-      <link>http://example.org/posts/2015-09-09-%E7%9C%9F%E5%AE%9E%E4%B8%96%E7%95%8C%E7%9A%84%E7%BB%8F%E6%B5%8E%E5%AD%A6/</link>
+      <link>http://boxcounter.com/posts/2015-09-09-%E7%9C%9F%E5%AE%9E%E4%B8%96%E7%95%8C%E7%9A%84%E7%BB%8F%E6%B5%8E%E5%AD%A6/</link>
       <pubDate>Wed, 09 Sep 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2015-09-09-%E7%9C%9F%E5%AE%9E%E4%B8%96%E7%95%8C%E7%9A%84%E7%BB%8F%E6%B5%8E%E5%AD%A6/</guid>
+      <guid>http://boxcounter.com/posts/2015-09-09-%E7%9C%9F%E5%AE%9E%E4%B8%96%E7%95%8C%E7%9A%84%E7%BB%8F%E6%B5%8E%E5%AD%A6/</guid>
       <description>源文件：真实世界的经济学.mindnode</description>
     </item>
     
     <item>
       <title>RefBase::weakref_type::attemptIncStrong的理解</title>
-      <link>http://example.org/posts/2015-09-05-weakref_type.attemptincstrong/</link>
+      <link>http://boxcounter.com/posts/2015-09-05-weakref_type.attemptincstrong/</link>
       <pubDate>Sat, 05 Sep 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2015-09-05-weakref_type.attemptincstrong/</guid>
+      <guid>http://boxcounter.com/posts/2015-09-05-weakref_type.attemptincstrong/</guid>
       <description>见中文注释内容： bool RefBase::weakref_type::attemptIncStrong(const void* id) { incWeak(id); weakref_impl* const impl = static_cast&amp;lt;weakref_impl*&amp;gt;(this); int32_t curCount = impl-&amp;gt;mStrong; LOG_ASSERT(curCount &amp;gt;= 0, &amp;#34;attemptIncStrong called on %p after underflow&amp;#34;, this); while (curCount &amp;gt; 0 &amp;amp;&amp;amp; curCount != INITIAL_STRONG_VALUE) { if (android_atomic_cmpxchg(curCount, curCount+1, &amp;amp;impl-&amp;gt;mStrong) == 0) { break; } curCount = impl-&amp;gt;mStrong; } if (curCount &amp;lt;= 0 || curCount == INITIAL_STRONG_VALUE) { bool allow; if (curCount == INITIAL_STRONG_VALUE)</description>
     </item>
     
     <item>
       <title>baselineAligned属性</title>
-      <link>http://example.org/posts/2015-09-01-baselinealigned/</link>
+      <link>http://boxcounter.com/posts/2015-09-01-baselinealigned/</link>
       <pubDate>Tue, 01 Sep 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2015-09-01-baselinealigned/</guid>
+      <guid>http://boxcounter.com/posts/2015-09-01-baselinealigned/</guid>
       <description>在使用LinearLayout+TextView的过程中遇到一个看似诡异的问题，显示效果如下： 其中两个灰色方块是使用代码动态创建的TextV</description>
     </item>
     
     <item>
       <title>ImageView.ScaleType</title>
-      <link>http://example.org/posts/2015-08-13-imageview-scaletype/</link>
+      <link>http://boxcounter.com/posts/2015-08-13-imageview-scaletype/</link>
       <pubDate>Thu, 13 Aug 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2015-08-13-imageview-scaletype/</guid>
+      <guid>http://boxcounter.com/posts/2015-08-13-imageview-scaletype/</guid>
       <description>开启了「Show layout bounds」。左侧是宽图、右侧是竖图：</description>
     </item>
     
     <item>
       <title>《从来就没有救世主》读书笔记</title>
-      <link>http://example.org/posts/2015-08-08-%E4%BB%8E%E6%9D%A5%E5%B0%B1%E6%B2%A1%E6%9C%89%E6%95%91%E4%B8%96%E4%B8%BB/</link>
+      <link>http://boxcounter.com/posts/2015-08-08-%E4%BB%8E%E6%9D%A5%E5%B0%B1%E6%B2%A1%E6%9C%89%E6%95%91%E4%B8%96%E4%B8%BB/</link>
       <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2015-08-08-%E4%BB%8E%E6%9D%A5%E5%B0%B1%E6%B2%A1%E6%9C%89%E6%95%91%E4%B8%96%E4%B8%BB/</guid>
+      <guid>http://boxcounter.com/posts/2015-08-08-%E4%BB%8E%E6%9D%A5%E5%B0%B1%E6%B2%A1%E6%9C%89%E6%95%91%E4%B8%96%E4%B8%BB/</guid>
       <description>源文件：从来就没有救世主.mindnode</description>
     </item>
     
     <item>
       <title>Android下列表视图的性能优化</title>
-      <link>http://example.org/posts/2015-08-01-android%E4%B8%8B%E5%88%97%E8%A1%A8%E8%A7%86%E5%9B%BE%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</link>
+      <link>http://boxcounter.com/posts/2015-08-01-android%E4%B8%8B%E5%88%97%E8%A1%A8%E8%A7%86%E5%9B%BE%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</link>
       <pubDate>Sat, 01 Aug 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2015-08-01-android%E4%B8%8B%E5%88%97%E8%A1%A8%E8%A7%86%E5%9B%BE%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</guid>
+      <guid>http://boxcounter.com/posts/2015-08-01-android%E4%B8%8B%E5%88%97%E8%A1%A8%E8%A7%86%E5%9B%BE%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</guid>
       <description>前言 Android下使用列表控件，如RecyclerView和ListView，很容易遇到滚动不流畅的问题。本文记录我的一次性能优化过程。 常</description>
     </item>
     
     <item>
       <title>机械键盘之「Kinesis Contoured Advantage」</title>
-      <link>http://example.org/posts/2014-01-25-%E6%9C%BA%E6%A2%B0%E9%94%AE%E7%9B%98/</link>
+      <link>http://boxcounter.com/posts/2014-01-25-%E6%9C%BA%E6%A2%B0%E9%94%AE%E7%9B%98/</link>
       <pubDate>Sat, 25 Jan 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2014-01-25-%E6%9C%BA%E6%A2%B0%E9%94%AE%E7%9B%98/</guid>
+      <guid>http://boxcounter.com/posts/2014-01-25-%E6%9C%BA%E6%A2%B0%E9%94%AE%E7%9B%98/</guid>
       <description>分享一点我的机械键盘体验。目前正在使用「Kinesis Contoured Advantage」。如图： 　2013年的愚人节我在amazon.com上入的这把键盘（感谢BT姐的美帝仓储），用到现在差不多9个月了。顺嘴说一句，试了几次海淘，感觉不一定比淘宝实惠。比如关税、运费、等待时间等等。
 入这把键盘的缘由是为了缓解左右小拇指的压力，更根本的缘由是因为我是重度的emacs使用者。从头开始讲吧，顺便也分享一点体会：
 我大概是两年前开始使用emacs，之前使用的是vim，再之前是各种编辑器和IDE（估计有上十款）。截至到目前，emacs是我最满意的一款。编辑器很容易惹口水，还是扯回来说我的体验吧。
@@ -239,28 +239,28 @@ emacs的快捷键几乎都以ctrl或alt与其它键的组合，特别是ctrl，�
     
     <item>
       <title>一起疑似内存泄漏</title>
-      <link>http://example.org/posts/2014-01-12-suspected-memory-leak/</link>
+      <link>http://boxcounter.com/posts/2014-01-12-suspected-memory-leak/</link>
       <pubDate>Sun, 12 Jan 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2014-01-12-suspected-memory-leak/</guid>
+      <guid>http://boxcounter.com/posts/2014-01-12-suspected-memory-leak/</guid>
       <description>上周遇到一起极其诡异的内存泄漏。现象是： 某种测试方法可以使程序物理内存使用量（top命令的RES列）持续上升。当停止测试之后，程序内存使用量</description>
     </item>
     
     <item>
       <title>隔栏、断言、防御型和攻击型编程的思考</title>
-      <link>http://example.org/posts/2014-01-12-assert-defensive-offensive-programming/</link>
+      <link>http://boxcounter.com/posts/2014-01-12-assert-defensive-offensive-programming/</link>
       <pubDate>Sun, 12 Jan 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2014-01-12-assert-defensive-offensive-programming/</guid>
+      <guid>http://boxcounter.com/posts/2014-01-12-assert-defensive-offensive-programming/</guid>
       <description>一、前言 本文的内容最初源自我重温《代码大全》时候读到的一段内容，然后和同事讨论又引发了自己的一些思索。最后觉得这值得写下来，一来我一直很喜欢</description>
     </item>
     
     <item>
       <title>搬家咯</title>
-      <link>http://example.org/posts/2014-01-08-migration/</link>
+      <link>http://boxcounter.com/posts/2014-01-08-migration/</link>
       <pubDate>Wed, 08 Jan 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2014-01-08-migration/</guid>
+      <guid>http://boxcounter.com/posts/2014-01-08-migration/</guid>
       <description>新年新气象，blog搬个家庆祝下~
 好吧，上面开玩笑的。若非不得已，我才不愿意迁移blog。之前blog系统用的是MyBB，这是个论坛系统。之所以用一个论坛系统作为blog系统，主要是我喜欢论坛的宽版面。码农经常需要贴代码，强制折行之后那个显式效果怎一个惨绝人寰了得。A总说论坛系统里MyBB还不错，比如轻巧。于是就从WordPress迁移到了MyBB。当时就希望是最后一次迁移blog，没想到过了两三年又要来这么一遭，又要脱层皮。
 这次选择jekyll也是因为A总推荐。尝试了一下，发现貌似不错，很符合码农的操作习惯。其实我更希望有一个完全支持latex或者org-mode的博客系统。前者我估计只能是个梦，毕竟latex学习成本比较高，大多数blogger都不会愿意学。org-mode貌似jekyll支持，但是搜索了一下，发现网上有人说org-mode导出的html有时候jekyll支持的并不好。所以，为了避免日后迁移到一半才发现问题再推倒重来，就放弃了这个想法。老老实实用markdown吧。不过隐约觉得markdown的貌似过于轻量了，比较担心不够用。希望这是我杞人忧天。
@@ -269,64 +269,64 @@ emacs的快捷键几乎都以ctrl或alt与其它键的组合，特别是ctrl，�
     
     <item>
       <title>2013读书小结</title>
-      <link>http://example.org/posts/2014-01-01-2013%E8%AF%BB%E4%B9%A6%E5%B0%8F%E7%BB%93/</link>
+      <link>http://boxcounter.com/posts/2014-01-01-2013%E8%AF%BB%E4%B9%A6%E5%B0%8F%E7%BB%93/</link>
       <pubDate>Wed, 01 Jan 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2014-01-01-2013%E8%AF%BB%E4%B9%A6%E5%B0%8F%E7%BB%93/</guid>
+      <guid>http://boxcounter.com/posts/2014-01-01-2013%E8%AF%BB%E4%B9%A6%E5%B0%8F%E7%BB%93/</guid>
       <description>大概是在8月份，我突然想起要给今年读过的书建一个列表，于是拿着kindle、手机整理了一下： 已完成 杂书 《细说秦汉》黎东方/王子今 《细说两晋南</description>
     </item>
     
     <item>
       <title>linux、osx下搭建操作系统开发环境 v1.1</title>
-      <link>http://example.org/posts/2013-11-14-linuxosx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83_v1.1/</link>
+      <link>http://boxcounter.com/posts/2013-11-14-linuxosx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83_v1.1/</link>
       <pubDate>Thu, 14 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2013-11-14-linuxosx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83_v1.1/</guid>
+      <guid>http://boxcounter.com/posts/2013-11-14-linuxosx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83_v1.1/</guid>
       <description>一、前言 本文档记录的内容既适用于x86也适用于x64，只是对于后者有一些环境要求。 之前开发使用的方法是：自己的引导代码+虚拟软盘。优点是搭建</description>
     </item>
     
     <item>
       <title>osx下搭建操作系统开发环境之64位交叉开发工具集（gcc&#43;gdb）v1.0</title>
-      <link>http://example.org/posts/2013-11-08-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B64%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc&#43;gdbv1.0/</link>
+      <link>http://boxcounter.com/posts/2013-11-08-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B64%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc&#43;gdbv1.0/</link>
       <pubDate>Fri, 08 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2013-11-08-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B64%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc&#43;gdbv1.0/</guid>
+      <guid>http://boxcounter.com/posts/2013-11-08-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B64%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc&#43;gdbv1.0/</guid>
       <description>一、前言 《osx下搭建操作系统开发环境之32位交叉开发工具集(gcc+gdb)》一文中讲解了32位交叉工具的构建。64位（专指x64，非IA</description>
     </item>
     
     <item>
       <title>osx下搭建操作系统开发环境之构建bochs v1.0</title>
-      <link>http://example.org/posts/2013-11-05-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B%E6%9E%84%E5%BB%BAbochs_v1.0/</link>
+      <link>http://boxcounter.com/posts/2013-11-05-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B%E6%9E%84%E5%BB%BAbochs_v1.0/</link>
       <pubDate>Tue, 05 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2013-11-05-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B%E6%9E%84%E5%BB%BAbochs_v1.0/</guid>
+      <guid>http://boxcounter.com/posts/2013-11-05-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B%E6%9E%84%E5%BB%BAbochs_v1.0/</guid>
       <description>一、前言 我编译bochs的目的是为了启用gdb调试功能。bochs提供的调试器功能较简单，开发过程中还是gdb更趁手。本文记录的方法是我一点</description>
     </item>
     
     <item>
       <title>osx下搭建操作系统开发环境之32位交叉开发工具集（gcc&#43;gdb）v1.1</title>
-      <link>http://example.org/posts/2013-09-07-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B32%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc&#43;gdbv1.1/</link>
+      <link>http://boxcounter.com/posts/2013-09-07-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B32%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc&#43;gdbv1.1/</link>
       <pubDate>Mon, 04 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2013-09-07-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B32%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc&#43;gdbv1.1/</guid>
+      <guid>http://boxcounter.com/posts/2013-09-07-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B32%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc&#43;gdbv1.1/</guid>
       <description>一、前言 《linux、osx下搭建操作系统开发环境的完整步骤》一文中讲解了一些基本的搭建方法，并提供了一个nasm汇编编写的简单的系统内核源</description>
     </item>
     
     <item>
       <title>osx下解决emacs执行中文路径命令出错的方法</title>
-      <link>http://example.org/posts/2013-08-08-osx%E4%B8%8B%E8%A7%A3%E5%86%B3emacs%E6%89%A7%E8%A1%8C%E4%B8%AD%E6%96%87%E8%B7%AF%E5%BE%84%E5%91%BD%E4%BB%A4%E5%87%BA%E9%94%99%E7%9A%84%E6%96%B9%E6%B3%95/</link>
+      <link>http://boxcounter.com/posts/2013-08-08-osx%E4%B8%8B%E8%A7%A3%E5%86%B3emacs%E6%89%A7%E8%A1%8C%E4%B8%AD%E6%96%87%E8%B7%AF%E5%BE%84%E5%91%BD%E4%BB%A4%E5%87%BA%E9%94%99%E7%9A%84%E6%96%B9%E6%B3%95/</link>
       <pubDate>Mon, 12 Aug 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2013-08-08-osx%E4%B8%8B%E8%A7%A3%E5%86%B3emacs%E6%89%A7%E8%A1%8C%E4%B8%AD%E6%96%87%E8%B7%AF%E5%BE%84%E5%91%BD%E4%BB%A4%E5%87%BA%E9%94%99%E7%9A%84%E6%96%B9%E6%B3%95/</guid>
+      <guid>http://boxcounter.com/posts/2013-08-08-osx%E4%B8%8B%E8%A7%A3%E5%86%B3emacs%E6%89%A7%E8%A1%8C%E4%B8%AD%E6%96%87%E8%B7%AF%E5%BE%84%E5%91%BD%E4%BB%A4%E5%87%BA%E9%94%99%E7%9A%84%E6%96%B9%E6%B3%95/</guid>
       <description>我第一次发现这个问题是在使用auctex编译中文名tex文件的时候发现的，后来发现不仅仅是auctex，M－!执行shell命令中如果包含中</description>
     </item>
     
     <item>
       <title>戏谈红颜祸水之夏姬</title>
-      <link>http://example.org/posts/2013-08-08-%E6%88%8F%E8%B0%88%E7%BA%A2%E9%A2%9C%E7%A5%B8%E6%B0%B4%E4%B9%8B%E5%A4%8F%E5%A7%AC/</link>
+      <link>http://boxcounter.com/posts/2013-08-08-%E6%88%8F%E8%B0%88%E7%BA%A2%E9%A2%9C%E7%A5%B8%E6%B0%B4%E4%B9%8B%E5%A4%8F%E5%A7%AC/</link>
       <pubDate>Thu, 08 Aug 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2013-08-08-%E6%88%8F%E8%B0%88%E7%BA%A2%E9%A2%9C%E7%A5%B8%E6%B0%B4%E4%B9%8B%E5%A4%8F%E5%A7%AC/</guid>
+      <guid>http://boxcounter.com/posts/2013-08-08-%E6%88%8F%E8%B0%88%E7%BA%A2%E9%A2%9C%E7%A5%B8%E6%B0%B4%E4%B9%8B%E5%A4%8F%E5%A7%AC/</guid>
       <description>故事要从春秋 郑国 讲起，郑国有个美公主，嫁给了陈国的夏御叔，因此被称为夏姬。夏姬生了一个儿子唤做征叔。夏御叔壮年去世，留下孤儿寡母。夏姬不耐寂寞勾搭上了 陈国 国君和两位大臣。有一天这三爷们在夏家喝酒，国君指着征叔对其中一个大臣说：“这孩子像你”。大臣也戏谑：“这孩子也像你”。正好征叔听到这段，忍无可忍射杀了国君。当时陈附楚， 楚国 发兵攻陈杀了征叔。到此陈国内事暂告一段落，下面是楚国。
 夏姬被虏到楚国，楚王想收编，被大臣申公巫臣一番大道理给劝阻了。另一大臣也想收编夏姬，又被申公巫臣一番道理给驳了。后来夏姬落在另一个大臣怀里。没多久这位大臣也去世了（亡于战场）。然后这大臣的儿子（偷偷地）收编了夏姬。（是不是感觉有点乱了？耐心往下看～）这个时候申公巫臣出现了，暗中和夏姬搭上线，允诺会娶她，然后找了个机会把夏姬安排回了郑国。隔了段时间，申公巫臣也找了个机会逃出楚国，带着夏姬跑到了 晋国 。
 前面提到的那位原想收编夏姬但被驳的大臣不乐意了，联合了和申公巫臣有矛盾的另一位大臣找了个由头把申公巫臣一族给屠了。申公巫臣怒了，开始琢磨复仇计划。正好晋国那些年和楚国交战不利，正愁着怎么办，申公巫臣就提议联和楚国背后的 吴国 一起抗楚。晋国国君同意，于是申公巫臣就跑到吴国，撺掇吴王抗楚。吴王一直都很头疼怎么抵抗楚国，因为吴国在下游、楚在上游，当时作战都是水战，逆流太吃亏，吴一直都处于被欺负的状态。申公巫臣就传授吴王步兵野战，整军经武之后吴国军力强了，就开始不停的伐楚，最后攻入楚郢都才罢休。害得楚王不得不迁都。
@@ -339,46 +339,46 @@ emacs的快捷键几乎都以ctrl或alt与其它键的组合，特别是ctrl，�
     
     <item>
       <title>内核资源泄漏样本之一</title>
-      <link>http://example.org/posts/2012-11-02-%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC%E4%B9%8B%E4%B8%80/</link>
+      <link>http://boxcounter.com/posts/2012-11-02-%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC%E4%B9%8B%E4%B8%80/</link>
       <pubDate>Fri, 02 Nov 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2012-11-02-%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC%E4%B9%8B%E4%B8%80/</guid>
+      <guid>http://boxcounter.com/posts/2012-11-02-%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC%E4%B9%8B%E4%B8%80/</guid>
       <description>又遇到一个很好玩的内核资源泄漏样本，分享一下。 某台WinXP sp3系统出现了死机现象，该现象是在安装了我的驱动后才出现的，第一反应是“MD，</description>
     </item>
     
     <item>
       <title>64位系统的对齐问题</title>
-      <link>http://example.org/posts/2012-10-25-64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/</link>
+      <link>http://boxcounter.com/posts/2012-10-25-64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/</link>
       <pubDate>Thu, 25 Oct 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2012-10-25-64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/</guid>
+      <guid>http://boxcounter.com/posts/2012-10-25-64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/</guid>
       <description>今天在技术群里有位童鞋问了一个问题： On 64-bit Windows, if a data structure is misaligned, routines that manipulate the structure, such as RtlCopyMemory and memcpy, will not fault. Instead, they will raise an exception. For example: &amp;gt; #pragma pack (1) // also set by /Zp switch &amp;gt; struct Buffer { &amp;gt; ULONG size; &amp;gt; void *ptr; &amp;gt; };</description>
     </item>
     
     <item>
       <title>有关STATUS_THREAD_IS_TERMINATING</title>
-      <link>http://example.org/posts/2012-10-16-%E6%9C%89%E5%85%B3status_thread_is_terminating/</link>
+      <link>http://boxcounter.com/posts/2012-10-16-%E6%9C%89%E5%85%B3status_thread_is_terminating/</link>
       <pubDate>Tue, 16 Oct 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2012-10-16-%E6%9C%89%E5%85%B3status_thread_is_terminating/</guid>
+      <guid>http://boxcounter.com/posts/2012-10-16-%E6%9C%89%E5%85%B3status_thread_is_terminating/</guid>
       <description>手头有个驱动，因为客户需求的原因，只在x86的2k3和xp系统上做过测试，今天在把它往x64 win7系统移植的时候遇到这么一个问题： 在PsS</description>
     </item>
     
     <item>
       <title>ZeroMemory与类对象</title>
-      <link>http://example.org/posts/2012-09-20-zeromemory%E4%B8%8E%E7%B1%BB%E5%AF%B9%E8%B1%A1/</link>
+      <link>http://boxcounter.com/posts/2012-09-20-zeromemory%E4%B8%8E%E7%B1%BB%E5%AF%B9%E8%B1%A1/</link>
       <pubDate>Thu, 20 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2012-09-20-zeromemory%E4%B8%8E%E7%B1%BB%E5%AF%B9%E8%B1%A1/</guid>
+      <guid>http://boxcounter.com/posts/2012-09-20-zeromemory%E4%B8%8E%E7%B1%BB%E5%AF%B9%E8%B1%A1/</guid>
       <description>今天看到一段同事的代码： ZeroMemory(&amp;amp;m_PacketInfo, sizeof(packet_info)); struct packet_info { string m_strModule; //模块 string m_strProtocol; //协议 string m_strClientHostIP; //客户端IP string m_strClientHostPort; //客户端端口 ... }; 按照我的经验，这种对类对象进行ZeroMe</description>
     </item>
     
     <item>
       <title>华硕U44S的USB3.0设备故障及解决</title>
-      <link>http://example.org/posts/2012-09-17-%E5%8D%8E%E7%A1%95u44s%E7%9A%84usb3.0%E8%AE%BE%E5%A4%87%E6%95%85%E9%9A%9C%E5%8F%8A%E8%A7%A3%E5%86%B3/</link>
+      <link>http://boxcounter.com/posts/2012-09-17-%E5%8D%8E%E7%A1%95u44s%E7%9A%84usb3.0%E8%AE%BE%E5%A4%87%E6%95%85%E9%9A%9C%E5%8F%8A%E8%A7%A3%E5%86%B3/</link>
       <pubDate>Mon, 17 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2012-09-17-%E5%8D%8E%E7%A1%95u44s%E7%9A%84usb3.0%E8%AE%BE%E5%A4%87%E6%95%85%E9%9A%9C%E5%8F%8A%E8%A7%A3%E5%86%B3/</guid>
+      <guid>http://boxcounter.com/posts/2012-09-17-%E5%8D%8E%E7%A1%95u44s%E7%9A%84usb3.0%E8%AE%BE%E5%A4%87%E6%95%85%E9%9A%9C%E5%8F%8A%E8%A7%A3%E5%86%B3/</guid>
       <description>最近收了一台华硕U44S。发现有一个问题，它内置的USB3.0口源于Fresco Logic。它的驱动与VMWare9.x冲突，导致USB3.0口偶尔不可用。
 　现象是：
 重装驱动后可以正常识别、使用USB2.0设备（鼠标、U盘）。但是拔插几次后这些设备就罢工了。以鼠标为例，具体现象是：插入后有系统提示音，但是鼠标灯不亮也没法使用。
@@ -388,19 +388,19 @@ emacs的快捷键几乎都以ctrl或alt与其它键的组合，特别是ctrl，�
     
     <item>
       <title>又一个内核资源泄漏样本</title>
-      <link>http://example.org/posts/2012-08-15-%E5%8F%88%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</link>
+      <link>http://boxcounter.com/posts/2012-08-15-%E5%8F%88%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</link>
       <pubDate>Wed, 15 Aug 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2012-08-15-%E5%8F%88%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</guid>
+      <guid>http://boxcounter.com/posts/2012-08-15-%E5%8F%88%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</guid>
       <description>这两天在处理一个内核资源泄漏的问题，整个分析过程比较典型，记在这里以便以后参考。 这个问题发生在测试部同事的真实机上，于是抓内核DMP用的是s</description>
     </item>
     
     <item>
       <title>根</title>
-      <link>http://example.org/posts/2012-07-07-%E6%A0%B9/</link>
+      <link>http://boxcounter.com/posts/2012-07-07-%E6%A0%B9/</link>
       <pubDate>Sat, 07 Jul 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2012-07-07-%E6%A0%B9/</guid>
+      <guid>http://boxcounter.com/posts/2012-07-07-%E6%A0%B9/</guid>
       <description>一晃眼，老爸已经70了。
 自从前些年爷爷走了之后，和爸通电话的时候爸偶尔会提起“没有根了，哪里才是根”。傻呵呵的我当时总会说回外公家嘛，外公外婆那庄多好，离LL也近。每次爸的回应还是那句“没根了，没家了”，语气里透着无奈，我甚至能想象出父亲摇着苍白的头，满脸无奈的样子。
 今天又通了一次电话，我突然能体会爸的感受，明白他心里的堵。突然也明白为什么父母总希望孩子留在身边。突然觉得，出生晚了，其实是种不幸。
@@ -409,19 +409,19 @@ emacs的快捷键几乎都以ctrl或alt与其它键的组合，特别是ctrl，�
     
     <item>
       <title>VS2010编译regex库的问题</title>
-      <link>http://example.org/posts/2012-05-31-vs2010%E7%BC%96%E8%AF%91regex%E5%BA%93%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <link>http://boxcounter.com/posts/2012-05-31-vs2010%E7%BC%96%E8%AF%91regex%E5%BA%93%E7%9A%84%E9%97%AE%E9%A2%98/</link>
       <pubDate>Thu, 31 May 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2012-05-31-vs2010%E7%BC%96%E8%AF%91regex%E5%BA%93%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <guid>http://boxcounter.com/posts/2012-05-31-vs2010%E7%BC%96%E8%AF%91regex%E5%BA%93%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
       <description>今天把一些VS 2005工程升级到VS 2010，在升级过程中，遇到regex库编译错误。如下： error C2332: &#39;struct&#39; : missing tag name error C3306: &#39;regex::detail::&#39;: unnamed class template is not allowed error C2143: syntax error : missing &#39;;&#39; before</description>
     </item>
     
     <item>
       <title>日记之2012-5-26（待更新文中链接）</title>
-      <link>http://example.org/posts/2012-05-26-%E6%97%A5%E8%AE%B0%E4%B9%8B2012-5-26/</link>
+      <link>http://boxcounter.com/posts/2012-05-26-%E6%97%A5%E8%AE%B0%E4%B9%8B2012-5-26/</link>
       <pubDate>Sat, 26 May 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2012-05-26-%E6%97%A5%E8%AE%B0%E4%B9%8B2012-5-26/</guid>
+      <guid>http://boxcounter.com/posts/2012-05-26-%E6%97%A5%E8%AE%B0%E4%B9%8B2012-5-26/</guid>
       <description>之前的《2012-2-22》（@TODO）有提到我在坚持做一些事情，比如健身和英语。现在又过了约莫3个月了，汇报一下现在的情况。
 　锻炼还在继续，现在的锻炼量是仰卧起坐4*100，仰卧起腿4*25，肩膀那啥动作4*15。运动量没太大改变，只是把时间调整到早上。之前早上只锻炼肩膀，其他的晚上下班回家后再做。但是发现貌似不太合理，晚上回家大概7：30，锻炼完就8点多，动作磨蹭点差不多就8点半快九点。然后再吃晚饭就太晚了。于是通通调整到早上起床后。现在起床时间也没变，还是7点整。最近早上有NBA季后赛，做完运动后边吃早饭边看比赛挺爽的。话说挺期待雷霆VS马刺的比赛。
 　英语也还在继续，但是已经没有之前积极了，截至到今天，小本子上的单词过700了。背诵习惯依旧，主要是在上班途中。
@@ -435,10 +435,10 @@ emacs的快捷键几乎都以ctrl或alt与其它键的组合，特别是ctrl，�
     
     <item>
       <title>有关篮球眼镜</title>
-      <link>http://example.org/posts/2012-05-26-%E6%9C%89%E5%85%B3%E7%AF%AE%E7%90%83%E7%9C%BC%E9%95%9C/</link>
+      <link>http://boxcounter.com/posts/2012-05-26-%E6%9C%89%E5%85%B3%E7%AF%AE%E7%90%83%E7%9C%BC%E9%95%9C/</link>
       <pubDate>Sat, 26 May 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2012-05-26-%E6%9C%89%E5%85%B3%E7%AF%AE%E7%90%83%E7%9C%BC%E9%95%9C/</guid>
+      <guid>http://boxcounter.com/posts/2012-05-26-%E6%9C%89%E5%85%B3%E7%AF%AE%E7%90%83%E7%9C%BC%E9%95%9C/</guid>
       <description>作为一个重度散光（450度，遗传）&amp;amp;轻度近视（200度）的篮球爱好者，在挑选使用篮球眼镜上我吃了不少苦头，也有了一些经验，记在这里，分享有同样苦恼的朋友。
 　我目前有尝试过这么几种篮球眼镜。
 　最初是普通的篮球眼镜，淘宝上搜索“篮球眼镜”出来几十页的那种。如图：
@@ -462,28 +462,28 @@ emacs的快捷键几乎都以ctrl或alt与其它键的组合，特别是ctrl，�
     
     <item>
       <title>关于STATUS_INVALID_DEVICE_OBJECT_PARAMETER和STATUS_MOUNT_POINT_NOT_RESOLVED</title>
-      <link>http://example.org/posts/2012-05-20-%E5%85%B3%E4%BA%8Estatus_invalid_device_object_parameter%E5%92%8Cstatus_mount_point_not_resolved/</link>
+      <link>http://boxcounter.com/posts/2012-05-20-%E5%85%B3%E4%BA%8Estatus_invalid_device_object_parameter%E5%92%8Cstatus_mount_point_not_resolved/</link>
       <pubDate>Sun, 20 May 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2012-05-20-%E5%85%B3%E4%BA%8Estatus_invalid_device_object_parameter%E5%92%8Cstatus_mount_point_not_resolved/</guid>
+      <guid>http://boxcounter.com/posts/2012-05-20-%E5%85%B3%E4%BA%8Estatus_invalid_device_object_parameter%E5%92%8Cstatus_mount_point_not_resolved/</guid>
       <description>很久之前，我写了篇关于STATUS_INVALID_DEVICE_OBJECT_PARAMETER的blog，里面提到使用STATUS_RE</description>
     </item>
     
     <item>
       <title>有关STATUS_INVALID_DEVICE_OBJECT_PARAMETER</title>
-      <link>http://example.org/posts/2012-05-19-status_invalid_device_object_parameter/</link>
+      <link>http://boxcounter.com/posts/2012-05-19-status_invalid_device_object_parameter/</link>
       <pubDate>Sat, 19 May 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2012-05-19-status_invalid_device_object_parameter/</guid>
+      <guid>http://boxcounter.com/posts/2012-05-19-status_invalid_device_object_parameter/</guid>
       <description>这两天遇到一个问题，记录在这里。 我有两个FS过滤驱动，这里称它们为 A 和 B，A 在 B 之上，其中 B 是个重定向驱动。下面是问题描述： A 调用 FltCreateFile 打开 C: 中</description>
     </item>
     
     <item>
       <title>由《百年虚云》引发的一些唠叨</title>
-      <link>http://example.org/posts/2012-05-08-%E7%94%B1%E7%99%BE%E5%B9%B4%E8%99%9A%E4%BA%91%E5%BC%95%E5%8F%91%E7%9A%84%E4%B8%80%E4%BA%9B%E5%94%A0%E5%8F%A8/</link>
+      <link>http://boxcounter.com/posts/2012-05-08-%E7%94%B1%E7%99%BE%E5%B9%B4%E8%99%9A%E4%BA%91%E5%BC%95%E5%8F%91%E7%9A%84%E4%B8%80%E4%BA%9B%E5%94%A0%E5%8F%A8/</link>
       <pubDate>Tue, 08 May 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2012-05-08-%E7%94%B1%E7%99%BE%E5%B9%B4%E8%99%9A%E4%BA%91%E5%BC%95%E5%8F%91%E7%9A%84%E4%B8%80%E4%BA%9B%E5%94%A0%E5%8F%A8/</guid>
+      <guid>http://boxcounter.com/posts/2012-05-08-%E7%94%B1%E7%99%BE%E5%B9%B4%E8%99%9A%E4%BA%91%E5%BC%95%E5%8F%91%E7%9A%84%E4%B8%80%E4%BA%9B%E5%94%A0%E5%8F%A8/</guid>
       <description>趁着五一假期，把年假请了回家探亲。
 　老爹修佛，从开始修到如今5年多，时间虽不长，但是很虔诚。最近的四年大部分时间都在当阳玉泉寺修行。目前受的是菩萨戒。
 　我回家，老爹自然想熏陶熏陶我，于是每天我在家陪他聊天，聊不了多久他就会聊到佛相关的话题上，然后就开始强烈建议我看看一些佛学论坛，是真正的论坛，不是网络BBS。里面是一些修佛居士在里面忏悔自己做过的错事，或者讲述自己的心得等等。一般我会非强烈抗议然后逃之夭夭。有时候实在溜不掉就只好从这些佛学相关视屏里挑点清淡的，比如主题为修佛或者某位法师传记类的连续剧。看得次数最多的是《百年虚云》，讲的是晚清虚云法师一生的，片子是他的弟子释本焕长老监制拍摄的，也就是深圳弘法寺的本焕长老。目前玉泉寺主持也是虚云法师的弟子。
@@ -532,91 +532,91 @@ emacs的快捷键几乎都以ctrl或alt与其它键的组合，特别是ctrl，�
     
     <item>
       <title>一个内核资源泄漏样本（待更新文中链接）</title>
-      <link>http://example.org/posts/2012-04-05-%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</link>
+      <link>http://boxcounter.com/posts/2012-04-05-%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</link>
       <pubDate>Thu, 05 Apr 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2012-04-05-%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</guid>
+      <guid>http://boxcounter.com/posts/2012-04-05-%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</guid>
       <description>开发过程中，我习惯会一直开着verifier进行测试，绝大部分非逻辑错误都能被揪出来。 这两天测试部的同事反馈说貌似驱动有资源泄漏，我第一反应</description>
     </item>
     
     <item>
       <title>灵异现象？</title>
-      <link>http://example.org/posts/2012-03-04-%E7%81%B5%E5%BC%82%E7%8E%B0%E8%B1%A1/</link>
+      <link>http://boxcounter.com/posts/2012-03-04-%E7%81%B5%E5%BC%82%E7%8E%B0%E8%B1%A1/</link>
       <pubDate>Sun, 04 Mar 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2012-03-04-%E7%81%B5%E5%BC%82%E7%8E%B0%E8%B1%A1/</guid>
+      <guid>http://boxcounter.com/posts/2012-03-04-%E7%81%B5%E5%BC%82%E7%8E%B0%E8%B1%A1/</guid>
       <description>前两天遇到一个灵异现象，记录下来。 cchFullHeaderLen += strlen(&amp;#34;Request-Line: &amp;#34;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszVerb) + strlen(&amp;#34; &amp;#34;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszObjectName) + (NULL != pSessionData-&amp;gt;HttpOpenReq.lpszVersion) ? (strlen(&amp;#34; &amp;#34;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszVersion)) : 0 + strlen(&amp;#34;\r\n&amp;#34;); 调试的过程中发现，pSessionData-&amp;gt;Htt</description>
     </item>
     
     <item>
       <title>TEB KPCR GS in x64</title>
-      <link>http://example.org/posts/2012-02-08-teb-kpcr-gs-in-x64/</link>
+      <link>http://boxcounter.com/posts/2012-02-08-teb-kpcr-gs-in-x64/</link>
       <pubDate>Wed, 08 Feb 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2012-02-08-teb-kpcr-gs-in-x64/</guid>
+      <guid>http://boxcounter.com/posts/2012-02-08-teb-kpcr-gs-in-x64/</guid>
       <description>在x86中，如果折腾TEB或者KPCR，可能需要处理fs:[0x???]这样的地址，在x86中，咱们可以通过dg命令来手动查看： kd&amp;gt; dg @fs P Si Gr</description>
     </item>
     
     <item>
       <title>无锁数组</title>
-      <link>http://example.org/posts/2012-01-15-%E6%97%A0%E9%94%81%E6%95%B0%E7%BB%84/</link>
+      <link>http://boxcounter.com/posts/2012-01-15-%E6%97%A0%E9%94%81%E6%95%B0%E7%BB%84/</link>
       <pubDate>Sun, 15 Jan 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2012-01-15-%E6%97%A0%E9%94%81%E6%95%B0%E7%BB%84/</guid>
+      <guid>http://boxcounter.com/posts/2012-01-15-%E6%97%A0%E9%94%81%E6%95%B0%E7%BB%84/</guid>
       <description>项目里有一个地方可能要去掉用于链表的锁，但是又得保证读写互斥。于是琢磨了一个土办法： （琢磨时的目标是用于异步发送日志，即多个日志存储者，一个</description>
     </item>
     
     <item>
       <title>SEH分析笔记（X64篇）</title>
-      <link>http://example.org/posts/2011-11-04-seh-x64/</link>
+      <link>http://boxcounter.com/posts/2011-11-04-seh-x64/</link>
       <pubDate>Fri, 04 Nov 2011 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2011-11-04-seh-x64/</guid>
+      <guid>http://boxcounter.com/posts/2011-11-04-seh-x64/</guid>
       <description>2015-07-25，注：因为排版过于复杂繁琐，目前仅提供html文件，请谅解。 SEH分析笔记（x64篇）_v1.0.0.zip</description>
     </item>
     
     <item>
       <title>关于完成例程（Completion Routine）</title>
-      <link>http://example.org/posts/2011-10-26-%E5%85%B3%E4%BA%8E%E5%AE%8C%E6%88%90%E4%BE%8B%E7%A8%8Bcompletion-routine/</link>
+      <link>http://boxcounter.com/posts/2011-10-26-%E5%85%B3%E4%BA%8E%E5%AE%8C%E6%88%90%E4%BE%8B%E7%A8%8Bcompletion-routine/</link>
       <pubDate>Wed, 26 Oct 2011 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2011-10-26-%E5%85%B3%E4%BA%8E%E5%AE%8C%E6%88%90%E4%BE%8B%E7%A8%8Bcompletion-routine/</guid>
+      <guid>http://boxcounter.com/posts/2011-10-26-%E5%85%B3%E4%BA%8E%E5%AE%8C%E6%88%90%E4%BE%8B%E7%A8%8Bcompletion-routine/</guid>
       <description>通常使用完成例程有这么三步： 调用IoCopyCurrentIrpStackLocationToNext(&amp;hellip;)函数，把当前的IR</description>
     </item>
     
     <item>
       <title>卷的文件系统识别、卷的挂载以及路径解析</title>
-      <link>http://example.org/posts/2011-10-25-%E5%8D%B7%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AF%86%E5%88%AB%E5%8D%B7%E7%9A%84%E6%8C%82%E8%BD%BD%E4%BB%A5%E5%8F%8A%E8%B7%AF%E5%BE%84%E8%A7%A3%E6%9E%90/</link>
+      <link>http://boxcounter.com/posts/2011-10-25-%E5%8D%B7%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AF%86%E5%88%AB%E5%8D%B7%E7%9A%84%E6%8C%82%E8%BD%BD%E4%BB%A5%E5%8F%8A%E8%B7%AF%E5%BE%84%E8%A7%A3%E6%9E%90/</link>
       <pubDate>Tue, 25 Oct 2011 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2011-10-25-%E5%8D%B7%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AF%86%E5%88%AB%E5%8D%B7%E7%9A%84%E6%8C%82%E8%BD%BD%E4%BB%A5%E5%8F%8A%E8%B7%AF%E5%BE%84%E8%A7%A3%E6%9E%90/</guid>
+      <guid>http://boxcounter.com/posts/2011-10-25-%E5%8D%B7%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AF%86%E5%88%AB%E5%8D%B7%E7%9A%84%E6%8C%82%E8%BD%BD%E4%BB%A5%E5%8F%8A%E8%B7%AF%E5%BE%84%E8%A7%A3%E6%9E%90/</guid>
       <description>前段时间琢磨文件过滤驱动的时候碰到一个棘手的问题，当时挂上wrk内核分析，发现了问题的关键点。分析的过程中明显感觉自己对IoMgr、ObjM</description>
     </item>
     
     <item>
       <title>有关IoEnumerateRegisteredFiltersList</title>
-      <link>http://example.org/posts/2011-10-25-%E6%9C%89%E5%85%B3ioenumerateregisteredfilterslist/</link>
+      <link>http://boxcounter.com/posts/2011-10-25-%E6%9C%89%E5%85%B3ioenumerateregisteredfilterslist/</link>
       <pubDate>Tue, 25 Oct 2011 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2011-10-25-%E6%9C%89%E5%85%B3ioenumerateregisteredfilterslist/</guid>
+      <guid>http://boxcounter.com/posts/2011-10-25-%E6%9C%89%E5%85%B3ioenumerateregisteredfilterslist/</guid>
       <description>有关于IoEnumerateRegisteredFiltersList 昨天逆一个驱动的时候发现静态分析出来的逻辑跟动态调试的逻辑不一致，继续</description>
     </item>
     
     <item>
       <title>SEH分析笔记（X86篇）</title>
-      <link>http://example.org/posts/2011-10-19-seh-x86/</link>
+      <link>http://boxcounter.com/posts/2011-10-19-seh-x86/</link>
       <pubDate>Wed, 19 Oct 2011 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2011-10-19-seh-x86/</guid>
+      <guid>http://boxcounter.com/posts/2011-10-19-seh-x86/</guid>
       <description>v1.0.2 2015-07-25，注：因为排版过于复杂繁琐，目前仅提供html文件，请谅解。 SEH分析笔记（x86篇）_v1.0.2.zip</description>
     </item>
     
     <item>
       <title>近来的一些胡思乱想</title>
-      <link>http://example.org/posts/2010-01-25-%E8%BF%91%E6%9D%A5%E7%9A%84%E4%B8%80%E4%BA%9B%E8%83%A1%E6%80%9D%E4%B9%B1%E6%83%B3/</link>
+      <link>http://boxcounter.com/posts/2010-01-25-%E8%BF%91%E6%9D%A5%E7%9A%84%E4%B8%80%E4%BA%9B%E8%83%A1%E6%80%9D%E4%B9%B1%E6%83%B3/</link>
       <pubDate>Mon, 25 Jan 2010 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2010-01-25-%E8%BF%91%E6%9D%A5%E7%9A%84%E4%B8%80%E4%BA%9B%E8%83%A1%E6%80%9D%E4%B9%B1%E6%83%B3/</guid>
+      <guid>http://boxcounter.com/posts/2010-01-25-%E8%BF%91%E6%9D%A5%E7%9A%84%E4%B8%80%E4%BA%9B%E8%83%A1%E6%80%9D%E4%B9%B1%E6%83%B3/</guid>
       <description>金钱、选择、自然法则、文明？ 现在这个年代，女孩嫁富人，男娃傍富婆貌似已经是稀疏平常的事了。网上、身边已经有一些关于这类话题的谈论、谩骂、讥讽，看、听的多了，有些想法，记录下来：
 很久很久以前，人为了活下去而拼死拼活，那个时候，生存是第一目标。所以，最强势的男性拥有话语权和最多的女性，而最迷人（不知道当时的迷人应该怎么衡量，丰乳肥臀，好生养？貌似现在也差球不多）的女性则会获得强势男性的食物和保护。这些行为的目的总结起来实际上都是一样的：尽可能的将自己的基因遗传下去。 所以在当时，这种行为是种自然的生物选择，挺符合进化论的。那么现在呢，是不是也是合情合理？也就是说，权势更NB的男性就应该获得更漂亮、更迷人的女性，并且应该与更多的优秀的女性ML，来让自己的基因更多更广的遗传下去？同样女性也是一样，应该尽量多的吸引男性，让他们尽情展现自己的长处，然后从中选择最优秀的来传播自己的基因？貌似合情合理：这不就是人性最原始、最符合进化论的体现么。貌似挺合理的说法，我都被说服了。
 再想想，再想想？
@@ -633,10 +633,10 @@ OK，回正题。我想聊的是，如果换做你是白起，那40W降卒，你
     
     <item>
       <title>聊聊韩信</title>
-      <link>http://example.org/posts/2010-01-07-%E8%81%8A%E8%81%8A%E9%9F%A9%E4%BF%A1/</link>
+      <link>http://boxcounter.com/posts/2010-01-07-%E8%81%8A%E8%81%8A%E9%9F%A9%E4%BF%A1/</link>
       <pubDate>Thu, 07 Jan 2010 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2010-01-07-%E8%81%8A%E8%81%8A%E9%9F%A9%E4%BF%A1/</guid>
+      <guid>http://boxcounter.com/posts/2010-01-07-%E8%81%8A%E8%81%8A%E9%9F%A9%E4%BF%A1/</guid>
       <description>床头放了一本《史记》，是我最喜欢的讲列传那本。这两天在看韩信，觉得他挺有故事的，值得八一八。
 其人 从书中对他的描述来看，这厮不算是什么好鸟。游手好闲，没事就到处蹭吃蹭喝。后来蹭得人家亭长老婆大清早起来做饭，做好了就直接端卧室里吃掉。可见被蹭那家人对韩信是多么的厌恶。
 没饭蹭了，纠结的韩信就跑去钓鱼，估计年纪轻轻，没什么耐性，技术也不算好，还是经常饿肚子。后来就遇到了传说中的漂母，看他可怜，每天都分一点自己的饭给他。当然，吃了不能白吃，毕竟人家一老太太，自己一年轻小伙，老蹭人家的，多不好意思。于是，撂下一句话：“日后一定加倍报答您”。这话要是放在程婴身上，我信。可出自韩信嘴里，我就觉得不太靠谱了。在我看来，韩信口中的这句，跟街头斗殴，一边被揍了之后临走前撂下的那句“你给老子等着，XXXX”差球不多。都是过过嘴瘾，给自己找个台阶。别说我带着有色眼镜，从史记中对他的描述来看，我就觉得这厮是一街头小流氓，还是胆小的那种。关于胆小，咱们接着说。
@@ -658,46 +658,46 @@ OK，咱们再看看韩信是怎么佯对方的。书上的记载是：抛弃了
     
     <item>
       <title>先考虑性能？先考虑结构化？</title>
-      <link>http://example.org/posts/2009-10-02-%E5%85%88%E8%80%83%E8%99%91%E6%80%A7%E8%83%BD%E5%85%88%E8%80%83%E8%99%91%E7%BB%93%E6%9E%84%E5%8C%96/</link>
+      <link>http://boxcounter.com/posts/2009-10-02-%E5%85%88%E8%80%83%E8%99%91%E6%80%A7%E8%83%BD%E5%85%88%E8%80%83%E8%99%91%E7%BB%93%E6%9E%84%E5%8C%96/</link>
       <pubDate>Fri, 02 Oct 2009 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2009-10-02-%E5%85%88%E8%80%83%E8%99%91%E6%80%A7%E8%83%BD%E5%85%88%E8%80%83%E8%99%91%E7%BB%93%E6%9E%84%E5%8C%96/</guid>
+      <guid>http://boxcounter.com/posts/2009-10-02-%E5%85%88%E8%80%83%E8%99%91%E6%80%A7%E8%83%BD%E5%85%88%E8%80%83%E8%99%91%E7%BB%93%E6%9E%84%E5%8C%96/</guid>
       <description>在《代码大全》上看到一段话，正是我近来经常纠结的一个问题：编码的时候，是优先考虑性能，还是优先考虑结构化？ 更常见的担心来自于编码层。你可能会</description>
     </item>
     
     <item>
       <title>驱动中获取进程完整路径名</title>
-      <link>http://example.org/posts/2009-07-23-%E9%A9%B1%E5%8A%A8%E4%B8%AD%E8%8E%B7%E5%8F%96%E8%BF%9B%E7%A8%8B%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%E5%90%8D/</link>
+      <link>http://boxcounter.com/posts/2009-07-23-%E9%A9%B1%E5%8A%A8%E4%B8%AD%E8%8E%B7%E5%8F%96%E8%BF%9B%E7%A8%8B%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%E5%90%8D/</link>
       <pubDate>Thu, 23 Jul 2009 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2009-07-23-%E9%A9%B1%E5%8A%A8%E4%B8%AD%E8%8E%B7%E5%8F%96%E8%BF%9B%E7%A8%8B%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%E5%90%8D/</guid>
+      <guid>http://boxcounter.com/posts/2009-07-23-%E9%A9%B1%E5%8A%A8%E4%B8%AD%E8%8E%B7%E5%8F%96%E8%BF%9B%E7%A8%8B%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%E5%90%8D/</guid>
       <description>在OSR上无意中看到一篇文章，关于获取进程完整路径的。贴过来，最后有一点小调整。 原文地址：http://www.osronline.com/</description>
     </item>
     
     <item>
       <title>关于将本层的IO_STACK_LOCATION拷贝到下一层的两种方法</title>
-      <link>http://example.org/posts/2007-12-10-%E5%85%B3%E4%BA%8E%E5%B0%86%E6%9C%AC%E5%B1%82%E7%9A%84io_stack_location%E6%8B%B7%E8%B4%9D%E5%88%B0%E4%B8%8B%E4%B8%80%E5%B1%82%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/</link>
+      <link>http://boxcounter.com/posts/2007-12-10-%E5%85%B3%E4%BA%8E%E5%B0%86%E6%9C%AC%E5%B1%82%E7%9A%84io_stack_location%E6%8B%B7%E8%B4%9D%E5%88%B0%E4%B8%8B%E4%B8%80%E5%B1%82%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/</link>
       <pubDate>Mon, 10 Dec 2007 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2007-12-10-%E5%85%B3%E4%BA%8E%E5%B0%86%E6%9C%AC%E5%B1%82%E7%9A%84io_stack_location%E6%8B%B7%E8%B4%9D%E5%88%B0%E4%B8%8B%E4%B8%80%E5%B1%82%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/</guid>
+      <guid>http://boxcounter.com/posts/2007-12-10-%E5%85%B3%E4%BA%8E%E5%B0%86%E6%9C%AC%E5%B1%82%E7%9A%84io_stack_location%E6%8B%B7%E8%B4%9D%E5%88%B0%E4%B8%8B%E4%B8%80%E5%B1%82%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/</guid>
       <description>两种方法： 调用MS提供的标准方法IoCopyCurrentIrpStackLocationToNext(&amp;hellip;) 方法二： PIO_STACK_LOCATION IrpSp; PIO_STACK_LOCATION NextIrpSp; IrpSp</description>
     </item>
     
     <item>
       <title>对&#39;CDO&#39;和&#39;FiDO&#39;的理解</title>
-      <link>http://example.org/posts/2007-12-08-%E5%AF%B9cdo%E5%92%8Cfido%E7%9A%84%E7%90%86%E8%A7%A3/</link>
+      <link>http://boxcounter.com/posts/2007-12-08-%E5%AF%B9cdo%E5%92%8Cfido%E7%9A%84%E7%90%86%E8%A7%A3/</link>
       <pubDate>Sat, 08 Dec 2007 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2007-12-08-%E5%AF%B9cdo%E5%92%8Cfido%E7%9A%84%E7%90%86%E8%A7%A3/</guid>
+      <guid>http://boxcounter.com/posts/2007-12-08-%E5%AF%B9cdo%E5%92%8Cfido%E7%9A%84%E7%90%86%E8%A7%A3/</guid>
       <description>下面是我对于CDO、FiDO的理解，不一定正确，但是还是记录下来，以后学习清楚来再来修正。 &amp;lsquo;CDO&amp;rsquo;是提供给R3级进</description>
     </item>
     
     <item>
       <title>mrcool充值记</title>
-      <link>http://example.org/posts/2007-06-23-mrcool%E5%85%85%E5%80%BC%E8%AE%B0/</link>
+      <link>http://boxcounter.com/posts/2007-06-23-mrcool%E5%85%85%E5%80%BC%E8%AE%B0/</link>
       <pubDate>Sat, 23 Jun 2007 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2007-06-23-mrcool%E5%85%85%E5%80%BC%E8%AE%B0/</guid>
+      <guid>http://boxcounter.com/posts/2007-06-23-mrcool%E5%85%85%E5%80%BC%E8%AE%B0/</guid>
       <description>今天中午，我陪mrcool同学去移动大厅为他新办的全球通号充值，过程颇为曲折、离奇，故写此一文讥之：
 mrcool： 您好，最近全球通有充值送话费的活动吧。（口气很是肯定）
 移动帅哥（下文以“移帅”代替）： 没有！

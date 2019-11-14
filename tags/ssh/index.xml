@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>SSH on My New Hugo Site</title>
-    <link>http://example.org/tags/ssh/</link>
-    <description>Recent content in SSH on My New Hugo Site</description>
+    <title>SSH on Boxcounter&#39;s blog</title>
+    <link>http://boxcounter.com/tags/ssh/</link>
+    <description>Recent content in SSH on Boxcounter&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>zh-cn</language>
     <lastBuildDate>Sat, 26 Nov 2016 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://example.org/tags/ssh/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://boxcounter.com/tags/ssh/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Host key verification failed的另类触发</title>
-      <link>http://example.org/posts/2016-11-26-host-key-verification-failed/</link>
+      <link>http://boxcounter.com/posts/2016-11-26-host-key-verification-failed/</link>
       <pubDate>Sat, 26 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/posts/2016-11-26-host-key-verification-failed/</guid>
+      <guid>http://boxcounter.com/posts/2016-11-26-host-key-verification-failed/</guid>
       <description>最近几天在编写、测试部署脚本，准备配合Jenkins进行自动化的持续集成，因此需要全程静默执行，未想触发了一个SSH key问题，卡了我好几个</description>
     </item>
     
