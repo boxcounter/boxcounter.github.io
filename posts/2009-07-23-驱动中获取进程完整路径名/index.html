@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.59.1" />
+  <meta name="generator" content="Hugo 0.71.1" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -27,8 +27,8 @@
       "accountablePerson" : "Boxcounter",
       "copyrightHolder" : "Boxcounter",
       "copyrightYear" : "2009",
-      "datePublished": "2009-07-23 00:00:00 \x2b0000 UTC",
-      "dateModified" : "2009-07-23 00:00:00 \x2b0000 UTC",
+      "datePublished": "2009-07-23 00:00:00 \u002b0000 UTC",
+      "dateModified" : "2009-07-23 00:00:00 \u002b0000 UTC",
       "url" : "http:\/\/boxcounter.com\/posts\/2009-07-23-%E9%A9%B1%E5%8A%A8%E4%B8%AD%E8%8E%B7%E5%8F%96%E8%BF%9B%E7%A8%8B%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%E5%90%8D\/",
       "keywords" : [ "技术研究", ]
   }
@@ -95,23 +95,18 @@
 
         <div class="post-content markdown-body">
           <p>在OSR上无意中看到一篇文章，关于获取进程完整路径的。贴过来，最后有一点小调整。</p>
-
 <p>原文地址：<a href="http://www.osronline.com/article.cfm?id=472">http://www.osronline.com/article.cfm?id=472</a></p>
-
 <blockquote>
 <p>Over the years developers have needed or wanted to know the name of the image executing in a given process. Traditionally, this was often done using PsGetProcessImageFile Name, which returns the contents of a field in the EPROCESS structure used by the Windows OS to maintain per-process state information.
 As we can see from the information in the local debugger session (See Figure 1) the process image file is little more than a field within the EPROCESS structure. Notice that the EPROCESS address is in EBP+8, making it the first - and only - parameter to this function.</p>
-
+</blockquote>
+<blockquote>
 <p>Connected to Windows XP 2600 x86 compatible target, ptr64 FALSE
-Symbol search path is: srv*c:\symbols\websymbols*<a href="http://msdl.microsoft.com/download/symbols">http://msdl.microsoft.com/download/symbols</a>
+Symbol search path is: srv<em>c:\symbols\websymbols</em><a href="http://msdl.microsoft.com/download/symbols">http://msdl.microsoft.com/download/symbols</a>
 Executable search path is:</p>
-
-<hr />
-
+<hr>
 <p>WARNING: Local kernel debugging requires booting with /debug to work optimally.</p>
-
-<hr />
-
+<hr>
 <p>Windows XP Kernel Version 2600 (Service Pack 2) MP (2 procs) Free x86 compatible
 Product: winNt, suite: Terminalserver SingleUserTS
 Built by: 2600.xpsp_sp2_gdr.050301-1519
@@ -136,18 +131,15 @@ Nt!PsGetProcessImageFileName:
 8050a157  5d pop ebp
 8050a158  c20400 ret 4
 8050a15b  8bce mov ecx,esi</p>
-
+</blockquote>
+<blockquote>
 <p>Figure 1 - Local Debug Session of PsGetProcessImageFileName</p>
-
 <p>Unfortunately, there are some issues with this approach:</p>
-
 <p>Though well-known, this function is undocumented.
 More seriously, the information contained in this field is severely limited. It contains only the first 16 (ASCII) characters of the image file name.
 It is actually the second issue that often creates problems for programmers because the name of the image file means essentially nothing. For example, we&rsquo;ve seen kernel-mode drivers in the past that validate the name of their service by checking this field. The most egregious case we&rsquo;ve seen is when the service was called svchost.exe, which is a common name that is often spoofed.</p>
-
 <p>The Proposal
 We suggest a different model for acquiring this information, as shown in Figure 2.</p>
-
 <p><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">typedef</span> NTSTATUS (<span style="color:#f92672">*</span>QUERY_INFO_PROCESS) (
 <span style="color:#f92672">&gt;</span>     __in HANDLE ProcessHandle,
 <span style="color:#f92672">&gt;</span>     __in PROCESSINFOCLASS ProcessInformationClass,
@@ -255,35 +247,27 @@ We suggest a different model for acquiring this information, as shown in Figure 
 <span style="color:#f92672">&gt;</span> 
 </code></pre></div>
 Figure 2 - A New Proposal</p>
-
 <p>The function itself is fairly straight-forward. It does rely on use of a single undocumented function (ZwQueryInformationProcess), but note that its counterpart (NtQueryInformationProcess) is documented. We need to use the Zw variant in order to use a kernel memory buffer.</p>
-
 <p>The key element is that Windows has always stored the full path name to the executable image in order to provide this information in the auditing subsystem. This API exploits that existing stored path name.</p>
-
 <p>Other Process Names
 This function has been implemented to extract the process name for the current process. However, you can use one of the two methods listed below to obtain the process name for a different process:</p>
-
 <ol>
-<li><p>If you have a handle for the process, you can use that value instead of the NtCurrentProcess() macro. (Note that in our experience, we usually have a process object and not a process handle - the two are not interchangeable).</p></li>
-
-<li><p>If you have an EPROCESS address, you can use KeStackAttachProcess/KeUnstackDetachProcess to attach to the process. This technique is rather heavy-weight, so it may be a good idea to cache the information if you need to perform this operation regularly.</p></li>
+<li>
+<p>If you have a handle for the process, you can use that value instead of the NtCurrentProcess() macro. (Note that in our experience, we usually have a process object and not a process handle - the two are not interchangeable).</p>
+</li>
+<li>
+<p>If you have an EPROCESS address, you can use KeStackAttachProcess/KeUnstackDetachProcess to attach to the process. This technique is rather heavy-weight, so it may be a good idea to cache the information if you need to perform this operation regularly.</p>
+</li>
 </ol>
-
 <p>When using the second technique, it is important to note that the name that is returned is a cached name. This cache is not updated if the name of the original file changes after the name is first cached. In other words, if the executable image is renamed, which is typically allowed for a running executable, the name returned will be the name of the original file.</p>
-
 <p>This issue is not unique. We have also observed that some file systems return the original name even after a rename (e.g., the CIFS client implementation does this on Windows XP). Thus, it may require additional processing such as through a file system filter driver to protect against similar events. For example, you may encounter a security product that relies on knowing the specific name of the image.Alternatives?
 There are other options that a driver could also pursue such as registering for process creation/teardown events (PsSetCreateProcessNotifyRoutine) or image loading (PsSetLoadImageNotifyRoutine).</p>
-
 <p>PsSetCreateProcessNotifyRoutine has limitations on the number of drivers that can register using this API. Since there is a fixed size table in the Windows OS, it is possible for this call to fail. When this occurs, a driver needs to ensure it can handle such a failure. PsSetLoadImageNotifyRoutine has the same limitation (fixed size table), but is called for all image loads, not just the original process image. Therefore, it includes drivers, DLLs, executables, etc.</p>
-
 <p>Summary
 The bottom line is that all of these approaches provide a useful name because they include the full path name. This is vastly superior to using the short ASCII eye-catching name that is stored in the EPROCESS structure. A word of caution - if you decide to use the debug level name, use it for nothing more than debugging  since it is not reliable and cannot be relied on for any sort of security check.</p>
-
 <p>We chose to use the proposed technique because it works in all circumstances and does not rely upon a registration that might potentially fail. In your own driver you might implement both this mechanism and a cache-based mechanism tied to the process creation logic.[/quote]</p>
 </blockquote>
-
 <p>文章里对于如何获取其他进程，提供了两种方法，但是都不太方便，在我的驱动里，我是在PsSetCreateProcessNotifyRoutine的回调函数里获取进程路径，能得到的进程信息是PID，于是动手改了下上面的代码，如下：</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">NTSTATUS
     <span style="color:#a6e22e">GetProcessImagePath</span>(
         IN  HANDLE   hProcessId,
@@ -431,7 +415,6 @@ __FINALLY:
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> Status;
 }
 </code></pre></div>
-
 <p>更新历史：
 2012-4-5，修正错误结束分支中的资源泄漏bug</p>
 

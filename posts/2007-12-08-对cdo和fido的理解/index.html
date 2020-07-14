@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.59.1" />
+  <meta name="generator" content="Hugo 0.71.1" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,9 +17,9 @@
            "@id": "http:\/\/boxcounter.com\/"
       },
       "articleSection" : "posts",
-      "name" : "对\x27CDO\x27和\x27FiDO\x27的理解",
-      "headline" : "对\x27CDO\x27和\x27FiDO\x27的理解",
-      "description" : "下面是我对于CDO、FiDO的理解，不一定正确，但是还是记录下来，以后学习清楚来再来修正。 \x26lsquo;CDO\x26rsquo;是提供给R3级进",
+      "name" : "对\u0027CDO\u0027和\u0027FiDO\u0027的理解",
+      "headline" : "对\u0027CDO\u0027和\u0027FiDO\u0027的理解",
+      "description" : "下面是我对于CDO、FiDO的理解，不一定正确，但是还是记录下来，以后学习清楚来再来修正。 \u0026lsquo;CDO\u0026rsquo;是提供给R3级进",
       "inLanguage" : "en-US",
       "author" : "Boxcounter",
       "creator" : "Boxcounter",
@@ -27,8 +27,8 @@
       "accountablePerson" : "Boxcounter",
       "copyrightHolder" : "Boxcounter",
       "copyrightYear" : "2007",
-      "datePublished": "2007-12-08 00:00:00 \x2b0000 UTC",
-      "dateModified" : "2007-12-08 00:00:00 \x2b0000 UTC",
+      "datePublished": "2007-12-08 00:00:00 \u002b0000 UTC",
+      "dateModified" : "2007-12-08 00:00:00 \u002b0000 UTC",
       "url" : "http:\/\/boxcounter.com\/posts\/2007-12-08-%E5%AF%B9cdo%E5%92%8Cfido%E7%9A%84%E7%90%86%E8%A7%A3\/",
       "keywords" : [ "技术研究", ]
   }
@@ -95,12 +95,11 @@
 
         <div class="post-content markdown-body">
           <p>下面是我对于CDO、FiDO的理解，不一定正确，但是还是记录下来，以后学习清楚来再来修正。</p>
-
 <ol>
-<li>&lsquo;CDO&rsquo;是提供给R3级进程和其它驱动程序的，可以理解为它是我们过滤驱动程序的外交官。负责接收来自R3进程和其它驱动的IO请求（&rsquo;CDO&rsquo;仅仅只负责接收，处理过程由&rsquo;FiDO&rsquo;完成）。</li>
+<li>&lsquo;CDO&rsquo;是提供给R3级进程和其它驱动程序的，可以理解为它是我们过滤驱动程序的外交官。负责接收来自R3进程和其它驱动的IO请求（&lsquo;CDO&rsquo;仅仅只负责接收，处理过程由&rsquo;FiDO&rsquo;完成）。</li>
 <li>&lsquo;FiDO&rsquo;提供真正Irp、FastIO处理函数，是我们的过滤驱动程序的功能核心。</li>
 <li>&lsquo;CDO&rsquo;不需要挂载到别的驱动上。而&rsquo;FiDO&rsquo;则根据需要挂载到目标对象上。</li>
-<li>一个过滤驱动程序的&rsquo;CDO&rsquo;最多只可以有1个，&rsquo;FiDO&rsquo;可以有多个。</li>
+<li>一个过滤驱动程序的&rsquo;CDO&rsquo;最多只可以有1个，&lsquo;FiDO&rsquo;可以有多个。</li>
 </ol>
 
         </div>

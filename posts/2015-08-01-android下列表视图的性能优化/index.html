@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.59.1" />
+  <meta name="generator" content="Hugo 0.71.1" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -27,8 +27,8 @@
       "accountablePerson" : "Boxcounter",
       "copyrightHolder" : "Boxcounter",
       "copyrightYear" : "2015",
-      "datePublished": "2015-08-01 00:00:00 \x2b0000 UTC",
-      "dateModified" : "2015-08-01 00:00:00 \x2b0000 UTC",
+      "datePublished": "2015-08-01 00:00:00 \u002b0000 UTC",
+      "dateModified" : "2015-08-01 00:00:00 \u002b0000 UTC",
       "url" : "http:\/\/boxcounter.com\/posts\/2015-08-01-android%E4%B8%8B%E5%88%97%E8%A1%A8%E8%A7%86%E5%9B%BE%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96\/",
       "keywords" : [ "Android", ]
   }
@@ -94,50 +94,28 @@
         </header>
 
         <div class="post-content markdown-body">
-          
-
-<h1 id="前言">前言</h1>
-
+          <h1 id="前言">前言</h1>
 <p>Android下使用列表控件，如<code>RecyclerView</code>和<code>ListView</code>，很容易遇到滚动不流畅的问题。本文记录我的一次性能优化过程。</p>
-
 <h1 id="常见范式">常见范式</h1>
-
 <p>我们经常这样使用列表控件：</p>
-
 <ol>
 <li>（使用<code>ListView</code>）重写<code>Adapter.getView()</code>，在其中创建或重用View和ViewHolder，将业务数据结构显示到View中。</li>
 <li>（使用<code>RecylerView</code>）重写<code>Adapter.onCreateViewHolder()</code>和<code>Adapter.onBindViewHolder()</code>，在前者中创建View和ViewHolder，在后者中将业务数据结构显示到View中。</li>
 </ol>
-
 <p>这个范式用了一种优化技术：View重用。避免了频繁的create view和find view过程，这两个过程都是很耗时的。但仅这一种优化手段不足以解决所有的性能问题。</p>
-
 <h1 id="优化过程">优化过程</h1>
-
 <p>接下来，我将基于一个实际项目的简化版来说明如何进行优化。</p>
-
-<h2 id="一-减少overdraw">一、减少Overdraw</h2>
-
+<h2 id="一减少overdraw">一、减少Overdraw</h2>
 <p>Overdraw是常见性能损耗点，且多是无谓的性能损耗。相关资料非常丰富，这里不赘述。只提醒一点：善用<code>Window.setBackgroundDrawable*()</code>。</p>
-
-<h2 id="二-内存优化">二、内存优化</h2>
-
+<h2 id="二内存优化">二、内存优化</h2>
 <p>优化内存使用也是一种常用的性能优化手段。它的机理是：GC会暂停所有线程，而频繁触发GC会加剧掉帧问题。</p>
-
 <p>来看一下主题的设计图，其中图片矩阵可以容纳0~9张图片。</p>
-
-<p><img src="/images/2015-08-01/memorySample.png" width="300"/></p>
-
+<!-- raw HTML omitted -->
 <p>优化方法是：尽量缓存、重用ImageView。比如：在<code>onBindViewHolder()</code>中发现图片矩阵控件中已经包含了7个ImageView（上次该控件显示的主题有7张图片），当前要显示的主题有5张图片，那么直接重用前5个ImageView，隐藏剩下的2个ImageView。</p>
-
-<h2 id="三-精简布局">三、精简布局</h2>
-
+<h2 id="三精简布局">三、精简布局</h2>
 <p>来看一下主题的赞和评论区域。其中赞区域会有两种展现形式（针对不同的应用场景）。想想如果是你来实现，会怎么布局。</p>
-
-<p><img src="/images/2015-08-01/hierachySample1.png" width="300"/>
-<img src="/images/2015-08-01/hierachySample2.png" width="300"/></p>
-
+<!-- raw HTML omitted -->
 <p>布局方式可能会是这样：</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;LinearLayout</span> <span style="color:#a6e22e">android:orientation=</span><span style="color:#e6db74">&#34;vertical&#34;</span> <span style="color:#f92672">&gt;</span>
 
     <span style="color:#75715e">&lt;!-- 赞区域 --&gt;</span>
@@ -156,11 +134,8 @@
     <span style="color:#f92672">&lt;/LinearLayout&gt;</span>
 
 <span style="color:#f92672">&lt;/LinearLayout&gt;</span></code></pre></div>
-
 <p>根据赞的显示方式来设置<code>GridLayout</code>和<code>TextView</code>的Visibility。</p>
-
 <p>我的方法是：根据需要动态改变布局结构、保正显示效果的同时精简数量和层级。优化后是这样：</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;LinearLayout</span> <span style="color:#a6e22e">android:orientation=</span><span style="color:#e6db74">&#34;vertical&#34;</span> <span style="color:#f92672">&gt;</span>
 
     <span style="color:#75715e">&lt;!-- 赞区域 --&gt;</span>
@@ -174,161 +149,127 @@
         <span style="color:#f92672">/&gt;</span> <span style="color:#75715e">&lt;!-- 评论列表容器 --&gt;</span>
 
 <span style="color:#f92672">&lt;/LinearLayout&gt;</span></code></pre></div>
-
 <p>首先，原赞区域的<code>GridLayout</code>和<code>TextView</code>都放到单独的布局文件中，原布局中换上<code>ViewStub</code>，根据需要动态inflate。其次，赞和评论图标改成.9图作为<code>Background</code>、并辅以<code>paddingStart</code>（具体数值由评论图标的宽度计算得到）。</p>
-
 <p>后者的缺点是.9图可能因为拉伸变得不够清晰，但实测下来效果满足需要。</p>
-
-<h2 id="四-改进布局">四、改进布局</h2>
-
+<h2 id="四改进布局">四、改进布局</h2>
 <p>常用的方法有：</p>
-
 <ul>
 <li>在不增加布局层次及复杂度的前提下，用LinearLayout替换RelativeLayout；</li>
 <li>减少LinearLayout.layout_weight属性的使用，分享一下项目中一个LinearLayout的实际数据：
-
 <ul>
 <li>使用layout_weight，measure耗时5.86ms；</li>
 <li>弃用layout_weight，measure耗时2.28ms；</li>
-</ul></li>
 </ul>
-
-<h2 id="五-预处理">五、预处理</h2>
-
+</li>
+</ul>
+<h2 id="五预处理">五、预处理</h2>
 <p>需要引入一点业务数据结构来辅助说明。</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// 约定：为了行文简洁，本文中所有代码都隐藏了诸如public关键字、构造函数等非核心内容。
 </span><span style="color:#75715e"></span>
 <span style="color:#75715e">// 主题
-</span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">class Topic </span>{
-    <span style="color:#960050;background-color:#1e0010">String mText</span>;               <span style="color:#75715e">// 文字内容。
-</span><span style="color:#75715e"></span>    <span style="color:#960050;background-color:#1e0010">List&lt;String&gt; mImages</span>;       <span style="color:#75715e">// 图片链接。
-</span><span style="color:#75715e"></span>    <span style="color:#960050;background-color:#1e0010">List&lt;User&gt; mLikes</span>;          <span style="color:#75715e">// 点赞的用户。
-</span><span style="color:#75715e"></span>    <span style="color:#960050;background-color:#1e0010">List&lt;Comment&gt; mComments</span>;    <span style="color:#75715e">// 评论。
-</span><span style="color:#75715e"></span>    <span style="color:#960050;background-color:#1e0010">User mCreater</span>;              <span style="color:#75715e">// 发表人。
-</span><span style="color:#75715e"></span>    <span style="color:#960050;background-color:#1e0010">long mCreateTime</span>;           <span style="color:#75715e">// 发表的时间戳。
-</span><span style="color:#75715e"></span>}
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Topic</span> <span style="color:#f92672">{</span>
+    String mText<span style="color:#f92672">;</span>               <span style="color:#75715e">// 文字内容。
+</span><span style="color:#75715e"></span>    List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> mImages<span style="color:#f92672">;</span>       <span style="color:#75715e">// 图片链接。
+</span><span style="color:#75715e"></span>    List<span style="color:#f92672">&lt;</span>User<span style="color:#f92672">&gt;</span> mLikes<span style="color:#f92672">;</span>          <span style="color:#75715e">// 点赞的用户。
+</span><span style="color:#75715e"></span>    List<span style="color:#f92672">&lt;</span>Comment<span style="color:#f92672">&gt;</span> mComments<span style="color:#f92672">;</span>    <span style="color:#75715e">// 评论。
+</span><span style="color:#75715e"></span>    User mCreater<span style="color:#f92672">;</span>              <span style="color:#75715e">// 发表人。
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">long</span> mCreateTime<span style="color:#f92672">;</span>           <span style="color:#75715e">// 发表的时间戳。
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
 
 <span style="color:#75715e">// 评论
-</span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">class Comment </span>{
-    <span style="color:#960050;background-color:#1e0010">String mText</span>;   <span style="color:#75715e">// 文字内容。
-</span><span style="color:#75715e"></span>    <span style="color:#960050;background-color:#1e0010">User mCreater</span>;  <span style="color:#75715e">// 发表人。
-</span><span style="color:#75715e"></span>}
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Comment</span> <span style="color:#f92672">{</span>
+    String mText<span style="color:#f92672">;</span>   <span style="color:#75715e">// 文字内容。
+</span><span style="color:#75715e"></span>    User mCreater<span style="color:#f92672">;</span>  <span style="color:#75715e">// 发表人。
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
 
 <span style="color:#75715e">// 用户
-</span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">class User </span>{
-    <span style="color:#960050;background-color:#1e0010">String mName</span>;       <span style="color:#75715e">// 用户名称。
-</span><span style="color:#75715e"></span>    <span style="color:#960050;background-color:#1e0010">String mAvatarUrl</span>;  <span style="color:#75715e">// 头像的下载地址。
-</span><span style="color:#75715e"></span>}</code></pre></div>
-
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> <span style="color:#f92672">{</span>
+    String mName<span style="color:#f92672">;</span>       <span style="color:#75715e">// 用户名称。
+</span><span style="color:#75715e"></span>    String mAvatarUrl<span style="color:#f92672">;</span>  <span style="color:#75715e">// 头像的下载地址。
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span></code></pre></div>
 <p>这其中有部分数据是可以预处理的，得到的数据结构如下：</p>
-
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#960050;background-color:#1e0010">class PreprocessResult </span>{
-    <span style="color:#960050;background-color:#1e0010">CharSequence mText</span>;             <span style="color:#75715e">// 包含Spannable（比如超链接）的正文。
-</span><span style="color:#75715e"></span>    <span style="color:#960050;background-color:#1e0010">String mLikes</span>;                  <span style="color:#75715e">// 用逗号分隔的文字形式的点赞用户的名称。
-</span><span style="color:#75715e"></span>    <span style="color:#960050;background-color:#1e0010">List&lt;CharSequence&gt; mComments</span>;   <span style="color:#75715e">// 包含Spannable的评论列表。
-</span><span style="color:#75715e"></span>    <span style="color:#960050;background-color:#1e0010">String mCreateTime</span>;             <span style="color:#75715e">// 发表时间。
-</span><span style="color:#75715e"></span>}</code></pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PreprocessResult</span> <span style="color:#f92672">{</span>
+    CharSequence mText<span style="color:#f92672">;</span>             <span style="color:#75715e">// 包含Spannable（比如超链接）的正文。
+</span><span style="color:#75715e"></span>    String mLikes<span style="color:#f92672">;</span>                  <span style="color:#75715e">// 用逗号分隔的文字形式的点赞用户的名称。
+</span><span style="color:#75715e"></span>    List<span style="color:#f92672">&lt;</span>CharSequence<span style="color:#f92672">&gt;</span> mComments<span style="color:#f92672">;</span>   <span style="color:#75715e">// 包含Spannable的评论列表。
+</span><span style="color:#75715e"></span>    String mCreateTime<span style="color:#f92672">;</span>             <span style="color:#75715e">// 发表时间。
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span></code></pre></div>
 <p>然后在<code>onBindViewHolder()</code>中就可以直接将<code>PreprocessResult</code>的内容设置到相应的view上，避免在UI线程中动态处理造成掉帧。</p>
-
 <p>这种方法的缺点是增加了复杂度：PreprocessResult需要和Topic保持同步更新。比如用户点赞、发表评论之后，需要同步修改PreprocessResult和Topic。</p>
-
-<h2 id="六-预创建">六、预创建</h2>
-
+<h2 id="六预创建">六、预创建</h2>
 <p>分析发现，滚动过程会因为动态创建TopicView而卡顿。TopicView是用来显示整个主题的自定义View，包含前述的赞和评论等子布局。即便经过精简，整个布局依然比较复杂，inflate过程很耗时。于是预先创建了一些TopicView备用，在<code>onCreateViewHolder()</code>中尽量使用它们，如果备用已经用完再动态创建。</p>
-
-<h2 id="七-优化textview">七、优化TextView</h2>
-
+<h2 id="七优化textview">七、优化TextView</h2>
 <p>经过上述这几步优化之后，流畅度提升了很多，但偶尔还是会出现较明显的卡顿现象。分析发现是<code>TextView.setText()</code>耗时过长导致的，在高强度测试下（长文主题，并且有很多评论），平均一次长文的调用就可能耗时22ms，已经超过了保证帧率的16ms上限。</p>
-
 <p>因为这个项目的业务逻辑决定了主题、评论的文字内容不会被修改，只有增删。于是采用的优化方法是：对于主题正文和评论，用<code>StaticLayout</code>配合自定义View展示文字。自定义View代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StaticLayoutView</span> <span style="color:#66d9ef">extends</span> View <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> StaticLayout mLayout<span style="color:#f92672">;</span>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#960050;background-color:#1e0010">public class StaticLayoutView extends </span>View {
-    <span style="color:#960050;background-color:#1e0010">private StaticLayout </span>mLayout;
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setLayout</span><span style="color:#f92672">(</span>StaticLayout layout<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        mLayout <span style="color:#f92672">=</span> layout<span style="color:#f92672">;</span>
 
-    <span style="color:#960050;background-color:#1e0010">public void </span>setLayout(<span style="color:#960050;background-color:#1e0010">StaticLayout layout</span>) {
-        mLayout <span style="color:#f92672">=</span> layout;
+        <span style="color:#66d9ef">int</span> height <span style="color:#f92672">=</span> layout<span style="color:#f92672">.</span><span style="color:#a6e22e">getHeight</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">((</span>mLayout<span style="color:#f92672">.</span><span style="color:#a6e22e">getWidth</span><span style="color:#f92672">()</span> <span style="color:#f92672">!=</span> layout<span style="color:#f92672">.</span><span style="color:#a6e22e">getWidth</span><span style="color:#f92672">())</span> <span style="color:#f92672">||</span>
+                <span style="color:#f92672">(</span>mLayoutHeight <span style="color:#f92672">!=</span> height<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+            requestLayout<span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
 
-        <span style="color:#960050;background-color:#1e0010">int height </span><span style="color:#f92672">=</span> layout.<span style="color:#a6e22e">getHeight</span>();
-        <span style="color:#66d9ef">if</span> ((mLayout.<span style="color:#a6e22e">getWidth</span>() <span style="color:#f92672">!=</span> layout.<span style="color:#a6e22e">getWidth</span>()) <span style="color:#f92672">||</span>
-                (mLayoutHeight <span style="color:#f92672">!=</span> height)) {
-            requestLayout();
-        }
-
-        mLayoutHeight <span style="color:#f92672">=</span> height;
-    }
-
-    <span style="color:#a6e22e">@Override</span>
-    <span style="color:#960050;background-color:#1e0010">protected void </span>onDraw(<span style="color:#960050;background-color:#1e0010">Canvas canvas</span>) {
-        <span style="color:#66d9ef">super</span>.<span style="color:#a6e22e">onDraw</span>(canvas);
-
-        canvas.<span style="color:#a6e22e">save</span>();
-        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">null</span> <span style="color:#f92672">!=</span> mLayout) {
-            canvas.<span style="color:#a6e22e">translate</span>(getPaddingLeft(), getPaddingTop());
-            mLayout.<span style="color:#a6e22e">draw</span>(canvas);
-        }
-        canvas.<span style="color:#a6e22e">restore</span>();
-    }
+        mLayoutHeight <span style="color:#f92672">=</span> height<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
     <span style="color:#a6e22e">@Override</span>
-    <span style="color:#960050;background-color:#1e0010">protected void </span>onMeasure(<span style="color:#960050;background-color:#1e0010">int widthMeasureSpec</span>, <span style="color:#960050;background-color:#1e0010">int heightMeasureSpec</span>) {
-        <span style="color:#66d9ef">super</span>.<span style="color:#a6e22e">onMeasure</span>(widthMeasureSpec, heightMeasureSpec);
-        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">null</span> <span style="color:#f92672">!=</span> mLayout) {
-            setMeasuredDimension(getMeasuredWidth(),
-                    mLayoutHeight <span style="color:#f92672">+</span> getPaddingTop() <span style="color:#f92672">+</span> getPaddingBottom());
-        }
-    }
-}</code></pre></div>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onDraw</span><span style="color:#f92672">(</span>Canvas canvas<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">onDraw</span><span style="color:#f92672">(</span>canvas<span style="color:#f92672">);</span>
 
+        canvas<span style="color:#f92672">.</span><span style="color:#a6e22e">save</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">null</span> <span style="color:#f92672">!=</span> mLayout<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            canvas<span style="color:#f92672">.</span><span style="color:#a6e22e">translate</span><span style="color:#f92672">(</span>getPaddingLeft<span style="color:#f92672">(),</span> getPaddingTop<span style="color:#f92672">());</span>
+            mLayout<span style="color:#f92672">.</span><span style="color:#a6e22e">draw</span><span style="color:#f92672">(</span>canvas<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+        canvas<span style="color:#f92672">.</span><span style="color:#a6e22e">restore</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onMeasure</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> widthMeasureSpec<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> heightMeasureSpec<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">onMeasure</span><span style="color:#f92672">(</span>widthMeasureSpec<span style="color:#f92672">,</span> heightMeasureSpec<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">null</span> <span style="color:#f92672">!=</span> mLayout<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            setMeasuredDimension<span style="color:#f92672">(</span>getMeasuredWidth<span style="color:#f92672">(),</span>
+                    mLayoutHeight <span style="color:#f92672">+</span> getPaddingTop<span style="color:#f92672">()</span> <span style="color:#f92672">+</span> getPaddingBottom<span style="color:#f92672">());</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span></code></pre></div>
 <p>StaticLayoutView相比TextView简单、高效很多，更重要的是<code>StaticLayout</code>可以在非UI线程创建、初始化。于是前述「预处理」过程中的数据结构变为：</p>
-
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#960050;background-color:#1e0010">class PreprocessResult </span>{
-    <span style="color:#960050;background-color:#1e0010">StaticLayout mText</span>;             <span style="color:#75715e">// &lt;= 之前是CharSequence
-</span><span style="color:#75715e"></span>    <span style="color:#960050;background-color:#1e0010">String mLikes</span>;
-    <span style="color:#960050;background-color:#1e0010">List&lt;StaticLayout&gt; mComments</span>;   <span style="color:#75715e">// &lt;= 之前是List&lt;CharSequence&gt;
-</span><span style="color:#75715e"></span>    <span style="color:#960050;background-color:#1e0010">String mCreateTime</span>;
-}</code></pre></div>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PreprocessResult</span> <span style="color:#f92672">{</span>
+    StaticLayout mText<span style="color:#f92672">;</span>             <span style="color:#75715e">// &lt;= 之前是CharSequence
+</span><span style="color:#75715e"></span>    String mLikes<span style="color:#f92672">;</span>
+    List<span style="color:#f92672">&lt;</span>StaticLayout<span style="color:#f92672">&gt;</span> mComments<span style="color:#f92672">;</span>   <span style="color:#75715e">// &lt;= 之前是List&lt;CharSequence&gt;
+</span><span style="color:#75715e"></span>    String mCreateTime<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span></code></pre></div>
 <p>优化后，在高强度测试环境下，平均帧率从34上升至47。实际环境中的平均帧率约为51。</p>
-
 <h1 id="总结">总结</h1>
-
 <p>整个优化过程的核心思想是：</p>
-
 <ol>
 <li>尽量减少滚动时UI线程中的耗时操作。能挪到后台线程的就不在UI线程中做，必须在UI线程做、但能预先处理的就提早处理；</li>
 <li>以空间换时间。用缓存来减少GC、创建等耗时操作；</li>
 </ol>
-
 <p>需要说明的是，一些优化方法是有代价的：</p>
-
 <ol>
 <li>预处理可能增加用户的等待时间。以这个项目为例，进入某Activity后，一边显示进度条，一边从服务端获取一批Topic显示给用户。预处理和预先创建会较明显地增加用户的等待时间；</li>
 <li>缓存数据越多，OOM的风险越大；</li>
 <li>增加了复杂度；</li>
 </ol>
-
 <h1 id="后记">后记</h1>
-
 <p>除前述优化方法之外，还有一些零星的、未能实际应用的优化方法。比如：</p>
-
 <ul>
 <li>在<code>onBindViewHolder()</code>中检查之前显示的内容是否就是当前将要显示的内容。如果是，return即可。这种方法可以在反方向滚动时，避免不必要的更新view操作。但前提条件是内容不会动态改变，在这个项目中Topic的内容是可能动态改变的，使用这个方法后反而增加了复杂度，权衡得失后，放弃了这个优化方法；</li>
 <li>使用Tracer for OpenGL检查OpenGL渲染过程；</li>
 </ul>
-
 <p>此外，即便经过这一系列的优化，卡顿问题也未能根除。后续我可能会继续改进优化方案，如果有新的心得体会，再补上。也希望有同好分享经验，相互交流，共同进步，谢谢。</p>
-
 <p>最后，聊一下我对性能优化的一些建议：</p>
-
 <ol>
 <li>先分析性能瓶颈，再对症下药。对于有经验的研发，这个过程可以适当地借助自己的经验法则。忌讳想当然的「优化」。</li>
 <li>善用工具。比如Traceview、Memory Monitor、Hierarchy Viewer。本文所述的优化过程重度依赖这些工具。</li>
 </ol>
-
 <h1 id="参考资料">参考资料</h1>
-
 <ul>
 <li><a href="http://android-developers.blogspot.com/2010/10/traceview-war-story.html">Traceview War Story</a></li>
 <li><a href="http://developer.android.com/intl/zh-cn/tools/debugging/debugging-ui.html">Optimizing Your UI</a></li>

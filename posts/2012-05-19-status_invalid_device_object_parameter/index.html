@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.59.1" />
+  <meta name="generator" content="Hugo 0.71.1" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -27,8 +27,8 @@
       "accountablePerson" : "Boxcounter",
       "copyrightHolder" : "Boxcounter",
       "copyrightYear" : "2012",
-      "datePublished": "2012-05-19 00:00:00 \x2b0000 UTC",
-      "dateModified" : "2012-05-19 00:00:00 \x2b0000 UTC",
+      "datePublished": "2012-05-19 00:00:00 \u002b0000 UTC",
+      "dateModified" : "2012-05-19 00:00:00 \u002b0000 UTC",
       "url" : "http:\/\/boxcounter.com\/posts\/2012-05-19-status_invalid_device_object_parameter\/",
       "keywords" : [ "技术研究", ]
   }
@@ -97,7 +97,6 @@
           <p>这两天遇到一个问题，记录在这里。
 我有两个FS过滤驱动，这里称它们为 A 和 B，A 在 B 之上，其中 B 是个重定向驱动。下面是问题描述：
 A 调用 FltCreateFile 打开 C: 中的某个文件，B收到这个请求后，指定这个请求重定向到 D:，结果 A收到了错误码 STATUS_INVALID_DEVICE_OBJECT_PARAMETER。 挂上 WRK 调试，发现整个调用栈是这样：</p>
-
 <pre><code>kd&gt; kv
 ChildEBP RetAddr Args to Child
 b8d9b330 808ee689 b8d9b3fc 846639c8 00000000 nt!IopCheckTopDeviceHint+0x56
@@ -120,22 +119,15 @@ b8d9b9d4 f732d0ad b8d9ba04 f732b540 00000000 fltMgr!FltpPassThroughInternal+0x32
 b8d9b9ec f732d59d b8d9ba04 00000000 80a45be4 fltMgr!FltpCreateInternal+0x63
 b8d9ba20 809ab1d2 846605c8 86200e48 8490c340 fltMgr!FltpCreate+0x229
 b8d9ba50 8081f881 808eeca7 b8d9bb44 808eeca7 nt!IovCallDriver+0x110
-</code></pre>
-
-<p>STATUS_INVALID_DEVICE_OBJECT_PARAMETER 就是由 IopCheckTopDeviceHint 返回的。</p>
-
+</code></pre><p>STATUS_INVALID_DEVICE_OBJECT_PARAMETER 就是由 IopCheckTopDeviceHint 返回的。</p>
 <p>继续分析，得到下面的结果：</p>
-
-<p>B 在收到 A 下发的请求时，经过处理，决定重定向这个请求，于是重新设置 FO-&gt;FileName 到 &rsquo;D:\xxxx&rsquo;，并返回了 STATUS_REPARSE。这个请求回到 ObMgr 后，ObMgr 按照新的路径进行解析，但是在解析的过程中发现新的路径所在的卷的 DO 和指定的 DOHint 不是同一个设备栈的（调用 IopCheckTopDeviceHint 实现），于是就返回上面的错误码。</p>
-
+<p>B 在收到 A 下发的请求时，经过处理，决定重定向这个请求，于是重新设置 FO-&gt;FileName 到 &lsquo;D:\xxxx&rsquo;，并返回了 STATUS_REPARSE。这个请求回到 ObMgr 后，ObMgr 按照新的路径进行解析，但是在解析的过程中发现新的路径所在的卷的 DO 和指定的 DOHint 不是同一个设备栈的（调用 IopCheckTopDeviceHint 实现），于是就返回上面的错误码。</p>
 <p>OK，问题的原因总体描述完毕，继续来描述细节：
 关于 DOHint，</p>
-
 <p>FltCreateFile 在我的虚拟机中是调用 FltCreateFileEx 来完成的，而后者又是由 IoCreateFileSpecifyDeviceObjectHint 来实现，来看看 FltCreateFile 的函数原型：</p>
-
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
 </span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
@@ -173,9 +165,7 @@ __in ULONG Flags
 );</code></pre></td></tr></table>
 </div>
 </div>
-
 <p>注意参数 Instance，类型为 PFLT_INSTANCE，看下这个结构：</p>
-
 <pre><code>kd&gt; dt _FLT_INSTANCE
 fltMgr!_FLT_INSTANCE
 +0x000 Base : _FLT_OBJECT
@@ -190,10 +180,7 @@ fltMgr!_FLT_INSTANCE
 +0x074 Context : Ptr32 _CONTEXT_NODE
 +0x078 TrackCompletionNodes : Ptr32 _TRACK_COMPLETION_NODES
 +0x07c CallbackNodes : [50] Ptr32 _CALLBACK_NODE
-</code></pre>
-
-<p>注意其中 0x18 偏移处的 Volume，类型为 _FLT_VOLUME，看下这个结构：</p>
-
+</code></pre><p>注意其中 0x18 偏移处的 Volume，类型为 _FLT_VOLUME，看下这个结构：</p>
 <pre><code>kd&gt; dt fltMgr!_FLT_VOLUME
 +0x000 Base : _FLT_OBJECT
 +0x014 Flags : _FLT_VOLUME_FLAGS
@@ -214,12 +201,10 @@ fltMgr!_FLT_INSTANCE
 +0x2a0 NameCacheCtrl : _NAME_CACHE_VOLUME_CTRL
 +0x2d0 MountNotifyLock : _ERESOURCE
 +0x308 HiddenOperationState : [4] _FLTP_TRACK_WHEN_TO_HIDE
-</code></pre>
-
-<p>注意其中 0x1c 偏移处的 DeviceObject，这个就是传递给 IoCreateFileSpecifyDeviceObjectHint 的 DOHint，来看下这个函数的原型：
+</code></pre><p>注意其中 0x1c 偏移处的 DeviceObject，这个就是传递给 IoCreateFileSpecifyDeviceObjectHint 的 DOHint，来看下这个函数的原型：
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
@@ -259,24 +244,19 @@ __in ULONG Options,
 </span>);</code></pre></td></tr></table>
 </div>
 </div></p>
-
 <p>上面的 DeviceObject 就是作为最后一个参数传入的。</p>
-
 <p>OK，回到问题，A 调用 FltCreateFile 是要打开 c: 中的某个文件，也就是说传入的Instance是属于 C: 的，再说细一点，就是将代表 C: 的一个 DO 作为 DOHint。而经过 B 的重定向后，新的路径是在 D: 中，IopCheckTopDeviceHint 拿代表 C: 的DOHint，和新解析得到的 D: 的 DO 进行了检查，于是就返回了 STATUS_INVALID_DEVICE_OBJECT_PARAMETER。</p>
-
 <p>到这里问题原因解释完毕了，那么，怎么解决呢？ 答案是：没有解决方案。下面是 MS 文件系统研发人员 Alexandru Carp 的回复：</p>
-
 <blockquote>
 <p>We are aware of the problem and are working on this. The intention is to make it available to all downlevel supported OSes (even old ones like Win7 :P ) but we&rsquo;ll see how that goes.”</p>
 </blockquote>
-
-<p>于是，我试图尝试绕过这个问题，以下是我的两个尝试：
-1. 壮士断腕：调整 B 的逻辑，不要跨卷重定向。
-2. 依稀记得，可以把某个卷 mount 到另一卷，模拟一个普通的目录来处理，那么是不是可以把重定向的目标做成一个单独的卷，就像 TrueCrypt。然后把这个卷 mount 在 C:，这样是不是就不存在跨卷的问题了。
-顺着这个思路去查资料，发现这个技巧需要 NTFS 文件系统的支持。有种不好的预感~ 莫不是这种技巧也基于 reparse 技术？ProcMon 了一下，果然是~ 残念了~</p>
-
+<p>于是，我试图尝试绕过这个问题，以下是我的两个尝试：</p>
+<ol>
+<li>壮士断腕：调整 B 的逻辑，不要跨卷重定向。</li>
+<li>依稀记得，可以把某个卷 mount 到另一卷，模拟一个普通的目录来处理，那么是不是可以把重定向的目标做成一个单独的卷，就像 TrueCrypt。然后把这个卷 mount 在 C:，这样是不是就不存在跨卷的问题了。
+顺着这个思路去查资料，发现这个技巧需要 NTFS 文件系统的支持。有种不好的预感~ 莫不是这种技巧也基于 reparse 技术？ProcMon 了一下，果然是~ 残念了~</li>
+</ol>
 <p>难道只能等 MS 的补丁？</p>
-
 <p>（注：此博文是从<a href="http://www.longene.org/forum/viewtopic.php?f=8&amp;t=4007">转载文章</a>中恢复的，我已经记不清具体是什么时间写的了。感谢转载的welfear。）</p>
 
         </div>

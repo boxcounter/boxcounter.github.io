@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.59.1" />
+  <meta name="generator" content="Hugo 0.71.1" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,8 +17,8 @@
            "@id": "http:\/\/boxcounter.com\/"
       },
       "articleSection" : "posts",
-      "name" : "osx下搭建操作系统开发环境之32位交叉开发工具集（gcc\x2bgdb）v1.1",
-      "headline" : "osx下搭建操作系统开发环境之32位交叉开发工具集（gcc\x2bgdb）v1.1",
+      "name" : "osx下搭建操作系统开发环境之32位交叉开发工具集（gcc\u002bgdb）v1.1",
+      "headline" : "osx下搭建操作系统开发环境之32位交叉开发工具集（gcc\u002bgdb）v1.1",
       "description" : "一、前言 《linux、osx下搭建操作系统开发环境的完整步骤》一文中讲解了一些基本的搭建方法，并提供了一个nasm汇编编写的简单的系统内核源",
       "inLanguage" : "en-US",
       "author" : "Boxcounter",
@@ -27,9 +27,9 @@
       "accountablePerson" : "Boxcounter",
       "copyrightHolder" : "Boxcounter",
       "copyrightYear" : "2013",
-      "datePublished": "2013-11-04 00:00:00 \x2b0000 UTC",
-      "dateModified" : "2013-11-04 00:00:00 \x2b0000 UTC",
-      "url" : "http:\/\/boxcounter.com\/posts\/2013-09-07-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B32%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc\x2bgdbv1.1\/",
+      "datePublished": "2013-11-04 00:00:00 \u002b0000 UTC",
+      "dateModified" : "2013-11-04 00:00:00 \u002b0000 UTC",
+      "url" : "http:\/\/boxcounter.com\/posts\/2013-09-07-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B32%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc\u002bgdbv1.1\/",
       "keywords" : [ "OS研发", ]
   }
 </script>
@@ -94,71 +94,62 @@
         </header>
 
         <div class="post-content markdown-body">
-          
-
-<h1 id="一-前言">一、前言</h1>
-
-<p>　　《<a href="http://boxcounter.com/2013/11/14/linux%E3%80%81osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83_v1.1">linux、osx下搭建操作系统开发环境的完整步骤</a>》一文中讲解了一些基本的搭建方法，并提供了一个nasm汇编编写的简单的系统内核源码。实际开发过程中更多使用的是C语言，就需要有一个配套的C编译器。因为我使用的可执行文件是elf格式，所以我选择的是GCC。但是osx下安装的GCC生成的是osx的可执行文件格式，并不是elf。所以我需要一个能在osx下生成elf的GCC，俗称的交叉编译器。<br />
+          <h1 id="一前言-">一、前言</h1>
+<p>　　《<a href="http://boxcounter.com/2013/11/14/linux%E3%80%81osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83_v1.1">linux、osx下搭建操作系统开发环境的完整步骤</a>》一文中讲解了一些基本的搭建方法，并提供了一个nasm汇编编写的简单的系统内核源码。实际开发过程中更多使用的是C语言，就需要有一个配套的C编译器。因为我使用的可执行文件是elf格式，所以我选择的是GCC。但是osx下安装的GCC生成的是osx的可执行文件格式，并不是elf。所以我需要一个能在osx下生成elf的GCC，俗称的交叉编译器。<br>
 　　我的环境：osx 10.8.4 &amp; 10.9</p>
-
-<h1 id="二-安装osx版的gcc">二、安装osx版的gcc</h1>
-
+<h1 id="二安装osx版的gcc-">二、安装osx版的gcc</h1>
 <pre><code>brew install gcc48
 </code></pre>
-
 <p>　　推荐下载最新的稳定版gcc。</p>
-
-<h1 id="三-配置编译环境">三、配置编译环境</h1>
-
+<h1 id="三配置编译环境-">三、配置编译环境</h1>
 <ol>
-<li>下载gcc源码<br />
-根据<a href="http://wiki.osdev.org/GCC_Cross-Compiler" title="「GCC Cross-Compiler」">参考资料1</a>的建议，最好使用最新的gcc来进行编译，被编译的源码也推荐使用一样版本的。也就是说，用gcc 4.8.1来编译gcc 4.8.1的源码。<br />
-下载<a href="http://ftp.gnu.org/gnu/gcc/">源码包</a>并解压，得到的目录名称之为「$gcc-4.8.1」。</li>
-
-<li><p>下载依赖项<br />
+<li>
+<p>下载gcc源码<br>
+根据[参考资料1][1]的建议，最好使用最新的gcc来进行编译，被编译的源码也推荐使用一样版本的。也就是说，用gcc 4.8.1来编译gcc 4.8.1的源码。<br>
+下载<a href="http://ftp.gnu.org/gnu/gcc/">源码包</a>并解压，得到的目录名称之为「$gcc-4.8.1」。</p>
+</li>
+<li>
+<p>下载依赖项<br>
 需要的依赖项有：</p>
-
 <ol>
 <li><a href="https://gnu.org/software/binutils/">GNU Binutils</a></li>
 <li><a href="http://gmplib.org/">GMP</a></li>
 <li><a href="http://www.mpfr.org/">MPFR</a></li>
-<li><a href="http://multiprecision.org/">MPC</a>
-<br /></li>
-</ol></li>
+<li><a href="http://multiprecision.org/">MPC</a></li>
 </ol>
-
-<p>将它们都解压出来，把解压出来的2、3、4的目录都放到gcc源码目录下。都需要去掉版本号，比如解压出来的目录名为「mpc-1.0.1」，那么现在就是「$gcc-4.8.1/mpc」。1无需这么做，因为它需要单独编译，参考后续的步骤4。<br />
-   其中GMP源码包是lzip压缩格式，需要下载lzip工具解压（brew安装）。
-3. 下载 gdb 源码<br />
-   下载<a href="http://ftp.gnu.org/gnu/gdb/">源码包</a>并解压,得到的目录名称之为「$gdb-7.6.1」。
-4. 设置环境变量</p>
-
-<pre><code>    export CC=/usr/local/bin/gcc-4.8
-    export CXX=/usr/local/bin/g++-4.8
-    export CPP=/usr/local/bin/cpp-4.8
-    export LD=/usr/local/bin/gcc-4.8
+<p>将它们都解压出来，把解压出来的2、3、4的目录都放到gcc源码目录下。都需要去掉版本号，比如解压出来的目录名为「mpc-1.0.1」，那么现在就是「$gcc-4.8.1/mpc」。1无需这么做，因为它需要单独编译，参考后续的步骤4。<br>
+其中GMP源码包是lzip压缩格式，需要下载lzip工具解压（brew安装）。</p>
+</li>
+<li>
+<p>下载 gdb 源码<br>
+下载<a href="http://ftp.gnu.org/gnu/gdb/">源码包</a>并解压,得到的目录名称之为「$gdb-7.6.1」。</p>
+</li>
+<li>
+<p>设置环境变量</p>
+<pre><code> export CC=/usr/local/bin/gcc-4.8
+ export CXX=/usr/local/bin/g++-4.8
+ export CPP=/usr/local/bin/cpp-4.8
+ export LD=/usr/local/bin/gcc-4.8
 </code></pre>
-
 <p>这些都是brew版gcc4.8.1的软链接。如果不设置，那么会使用系统中默认自带的工具，这些工具版本都很陈旧。比如osx 10.8.4带的/usr/bin/gcc是4.2版本的。</p>
-
-<pre><code>    export PREFIX=$HOME/opt/cross
-    export TARGET=i586-elf
-    export PATH=&quot;$PREFIX/bin:$PATH&quot;
+<pre><code> export PREFIX=$HOME/opt/cross
+ export TARGET=i586-elf
+ export PATH=&quot;$PREFIX/bin:$PATH&quot;
 </code></pre>
-
-<p>这些是编译时候使用的选项。
-5. 编译交叉版的binutils</p>
-
-<pre><code>    cd $binutils-x.y.z
-    mkdir build-binutils
-    cd build-binutils
-    ../configure --target=$TARGET --prefix=&quot;$PREFIX&quot; --disable-nls
-    make
-    make install
+<p>这些是编译时候使用的选项。</p>
+</li>
+<li>
+<p>编译交叉版的binutils</p>
+<pre><code> cd $binutils-x.y.z
+ mkdir build-binutils
+ cd build-binutils
+ ../configure --target=$TARGET --prefix=&quot;$PREFIX&quot; --disable-nls
+ make
+ make install
 </code></pre>
-
-<h1 id="四-编译交叉版的gcc">四、编译交叉版的gcc</h1>
-
+</li>
+</ol>
+<h1 id="四编译交叉版的gcc-">四、编译交叉版的gcc</h1>
 <pre><code>cd $gcc-4.8.1
 mkdir build-gcc
 cd build-gcc
@@ -168,15 +159,11 @@ make all-target-libgcc
 make install-gcc
 make install-target-libgcc
 </code></pre>
-
-<p>　　完成后，在「~/opt/cross/bin」下就能看到编译好的交叉版的编译套件了，包括「i586-elf-gcc」、「i586-elf-g++」和「i586-elf-ld」等等。可以用「$HOME/opt/cross/bin/$TARGET-gcc &ndash;version」来验证一下版本是否正确。<br />
+<p>　　完成后，在「~/opt/cross/bin」下就能看到编译好的交叉版的编译套件了，包括「i586-elf-gcc」、「i586-elf-g++」和「i586-elf-ld」等等。可以用「$HOME/opt/cross/bin/$TARGET-gcc &ndash;version」来验证一下版本是否正确。<br>
 　　另外，为了方便使用，可以在.bashrc或者.zshrc中调整环境变量：</p>
-
 <pre><code>export PATH=&quot;$HOME/opt/cross/bin:$PATH&quot;
 </code></pre>
-
-<h1 id="五-测试源码">五、测试源码</h1>
-
+<h1 id="五测试源码-">五、测试源码</h1>
 <p>　　现在咱有了交叉编译器了，试试效果吧：
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// kernel.c
 </span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;multiboot2.h&#34;</span><span style="color:#75715e">
@@ -238,19 +225,14 @@ make install-target-libgcc
     <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 }
 </code></pre></div></p>
-
-<p>　　multiboot2.h头文件是从grub2.0.0的源码里拷贝过来的，主要定义了符合multiboot2规范的数据结构。<br />
+<p>　　multiboot2.h头文件是从grub2.0.0的源码里拷贝过来的，主要定义了符合multiboot2规范的数据结构。<br>
 　　编译方法：</p>
-
 <pre><code>~/opt/cross/bin/i586-elf-gcc -c -o kernel.o kernel.c
 ~/opt/cross/bin/i586-elf-ld -Ttext=0x100000 -o kernel.bin kernel.o
 </code></pre>
-
-<p>　　「-Ttext=0x100000」是为了让代码段加载到0x100000，而不是默认的08048074（我的环境中），后者超出我的bochs虚拟机的物理内存空间。<br />
+<p>　　「-Ttext=0x100000」是为了让代码段加载到0x100000，而不是默认的08048074（我的环境中），后者超出我的bochs虚拟机的物理内存空间。<br>
 　　然后用kernel.bin替换之前的虚拟磁盘中的同名文件，再运行bochs虚拟机就能看到熟悉的magic breakpoint了。</p>
-
-<h1 id="六-编译交叉版的-gdb">六、编译交叉版的 gdb</h1>
-
+<h1 id="六编译交叉版的-gdb-">六、编译交叉版的 gdb</h1>
 <pre><code>cd $gdb-7.6.1
 mkdir build-$TARGET
 cd build-$TARGET
@@ -258,33 +240,25 @@ cd build-$TARGET
 make
 sudo make install
 </code></pre>
-
 <p>　　完成后,在「~/opt/cross/bin」下就能看到编译好的交叉版的i586-elf-gdb 了。</p>
-
-<h1 id="七-参考资料">七、参考资料</h1>
-
+<h1 id="七参考资料-">七、参考资料</h1>
 <ol>
-<li><a href="http://wiki.osdev.org/GCC_Cross-Compiler">GCC Cross-Compiler</a></li>
+<li><a href="http://wiki.osdev.org/GCC_Cross-Compiler">GCC Cross-Compiler</a>
+[1]: <a href="http://wiki.osdev.org/GCC_Cross-Compiler">http://wiki.osdev.org/GCC_Cross-Compiler</a>  &ldquo;「GCC Cross-Compiler」&rdquo;</li>
 </ol>
-
-<h1 id="八-版本记录">八、版本记录</h1>
-
+<h1 id="八版本记录-">八、版本记录</h1>
 <ul>
 <li>v1.0 - 2013-09-07，初始发布。</li>
 <li>v1.1 - 2013-11-04，增加「编译交叉版的gdb」章节。</li>
 </ul>
-
-<h1 id="九-网友补充">九、网友补充</h1>
-
+<h1 id="九网友补充-">九、网友补充</h1>
 <p>以下内容为热心网友补充，供同好参考。（我没有验证。暂记录在这里，后续验证过后我再补入正文。感谢这位网友被我之前老博客系统的验证码刁难了N次后，还依然告知我，非常感谢。）</p>
-
 <blockquote>
-<p>OSX10.9下使用gcc4.8编译binutils-2.24会报错：nm.c:1687:7: error: &lsquo;sbrk&rsquo; is deprecated (declared at /usr/include/unistd.h:582)<br />
-需要使用gcc4.9，编译时指定编译参数CFLAGS=-Wno-error=deprecated-declarations<br />
+<p>OSX10.9下使用gcc4.8编译binutils-2.24会报错：nm.c:1687:7: error: &lsquo;sbrk&rsquo; is deprecated (declared at /usr/include/unistd.h:582)<br>
+需要使用gcc4.9，编译时指定编译参数CFLAGS=-Wno-error=deprecated-declarations<br>
 gcc的依赖项GMP/FPMR/MPC也不需要手动下载，在gcc的源码下执行./contrib/download_prerequisites即可</p>
 </blockquote>
-
-<p>本文的pdf版：<a href="/attachments/2013-09-17/osx下搭建操作系统开发环境之32位交叉开发工具集（gcc+gdb）v1.1.pdf">osx下搭建操作系统开发环境之32位交叉开发工具集（gcc+gdb）v1.1.pdf</a></p>
+<p>本文的pdf版：<a href="/attachments/2013-09-17/osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B32%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86%EF%BC%88gcc+gdb%EF%BC%89v1.1.pdf">osx下搭建操作系统开发环境之32位交叉开发工具集（gcc+gdb）v1.1.pdf</a></p>
 
         </div>
         

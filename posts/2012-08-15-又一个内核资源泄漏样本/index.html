@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.59.1" />
+  <meta name="generator" content="Hugo 0.71.1" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -27,8 +27,8 @@
       "accountablePerson" : "Boxcounter",
       "copyrightHolder" : "Boxcounter",
       "copyrightYear" : "2012",
-      "datePublished": "2012-08-15 00:00:00 \x2b0000 UTC",
-      "dateModified" : "2012-08-15 00:00:00 \x2b0000 UTC",
+      "datePublished": "2012-08-15 00:00:00 \u002b0000 UTC",
+      "dateModified" : "2012-08-15 00:00:00 \u002b0000 UTC",
       "url" : "http:\/\/boxcounter.com\/posts\/2012-08-15-%E5%8F%88%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC\/",
       "keywords" : [ "故障分析", ]
   }
@@ -95,16 +95,11 @@
 
         <div class="post-content markdown-body">
           <p>　　这两天在处理一个内核资源泄漏的问题，整个分析过程比较典型，记在这里以便以后参考。</p>
-
 <p>　　这个问题发生在测试部同事的真实机上，于是抓内核DMP用的是sysinternals的livekd，命令行很简单：</p>
-
 <pre><code>livekd -o dump-file-path
 </code></pre>
-
 <p>　　注：为了分析，我开了GFlags中的kernel pool tagging功能。</p>
-
 <p>　　分析过程如下：</p>
-
 <pre><code> 1 0: kd&gt; !vm
  2 
  3 *** Virtual Memory Usage ***
@@ -150,11 +145,9 @@
 43          019c ZhuDongFangYu.e   1519 (      6,076 Kb)
 44          ... （Boxcounter：省略剩余不重要的进程信息）
 </code></pre>
-
-<p>　　这段输出需要关注的重点是第16、22和28行。<br />
-　　看上去，nonpaged pool使用情况比较正常，主要嫌疑在paged pool上。<br />
+<p>　　这段输出需要关注的重点是第16、22和28行。<br>
+　　看上去，nonpaged pool使用情况比较正常，主要嫌疑在paged pool上。<br>
 　　看看paged pool吧。</p>
-
 <pre><code> 1 0: kd&gt; !poolused 5
  2    Sorting by  Paged Pool Consumed
  3 
@@ -182,25 +175,18 @@
 25  CM25        0        0        0        0      972      947       25      327,680    Internal Configuration manager allocations , Binary: nt!cm
 26  Obtb        0        0        0        0   362905   362778      127      315,376    object tables via EX handle.c , Binary: nt!ob
 </code></pre>
-
 <p>　　重点是第7、8行这两个windbg不认识的tag。绝大部分的paged pool内存都是它们的。看看它们是谁。</p>
-
 <pre><code>C:\WINDOWS\system32\drivers&gt;findstr /m /l prpt *sys
 qutmdrv.sys
 
 C:\WINDOWS\system32\drivers&gt;findstr /m /l otpu *sys
 qutmdrv.sys
 </code></pre>
-
 <p>　　找到这个驱动，看了下属性，安全卫士的，该驱动的版本是7.2.1.1022。</p>
-
-<p>　　<img src="/images/2012-08-15/pooltag.jpg"/></p>
-
+<p>　　<!-- raw HTML omitted --></p>
 <p>　　分析到这里我想起之前看过的<a href="http://www.cnblogs.com/ahuo/archive/2010/09/29/1838439.html">一个类似的样例</a></p>
-
-<p>　　现在找到了一个嫌疑人，为了确认没有误伤，卸掉我的驱动重启，等了10来分钟，看内存和cpu占用都稳定了，启动纯应用层测试工具做压力测试。<br />
+<p>　　现在找到了一个嫌疑人，为了确认没有误伤，卸掉我的驱动重启，等了10来分钟，看内存和cpu占用都稳定了，启动纯应用层测试工具做压力测试。<br>
 　　在测试前抓了个dmp，当时状态是这样的：</p>
-
 <pre><code>0: kd&gt; .time
 Debug session time: Wed Aug 15 10:37:44.500 2012 (UTC + 8:00)
 System Uptime: 0 days 0:13:07.406
@@ -236,11 +222,8 @@ System Uptime: 0 days 0:13:07.406
 29  Committed pages:      111988 (    447,952 Kb)
 30  Commit limit:        2327741 (   9310,964 Kb)
 </code></pre>
-
 <p>　　依然着重看第15、22和27行。</p>
-
 <p>　　再重点看看两个嫌疑人的状态。</p>
-
 <pre><code>0: kd&gt; !poolused 1 prpt
    Sorting by  Tag
 
@@ -250,11 +233,8 @@ Tag    Allocs    Frees     Diff     Used   Allocs    Frees     Diff     Used
 prpt        0        0        0        0     1081      296      785    57,376  UNKNOWN pooltag 'prpt', please update pooltag.txt
 otpu        0        0        0        0      184       30      154    11,104  UNKNOWN pooltag 'otpu', please update pooltag.txt
 </code></pre>
-
 <p>　　这个输出我做了一些调整，!poolused命令不支持同时查询多个tag，我使用了两次，然后把结果合并了。</p>
-
 <p>　　看看经过几个小时的测试后的状态。</p>
-
 <pre><code>0: kd&gt; .time
 Debug session time: Wed Aug 15 15:26:00.875 2012 (UTC + 8:00)
 System Uptime: 0 days 5:01:23.703
@@ -299,9 +279,7 @@ System Uptime: 0 days 5:01:23.703
 38          0658 XDict.exe         6997 (     27,988 Kb)
 39          ...（Boxcounter：省略其余不重要输出）
 </code></pre>
-
 <p>　　再来看看tag情况。</p>
-
 <pre><code> 1 0: kd&gt; !poolused 5
  2    Sorting by  Paged Pool Consumed
  3 
@@ -324,9 +302,7 @@ System Uptime: 0 days 5:01:23.703
 20  pipt        0        0        0        0   229268   226053     3215     499,136 UNKNOWN pooltag 'pipt', please update pooltag.txt
 21  ...（Boxcounter：省略其余不重要输出）
 </code></pre>
-
 <p>　　第7、8行验证了前面的判断。目前不太清楚这是qutmdrv.sys的资源泄漏BUG，还是它的缓存机制。（最开始的情况更严重是因为那时已经测试约莫11个小时，而后面这次测试时间较短）</p>
-
 <p>　　分析过程不长，命令也就那么几个。不过确实耗了我不少时间，主要麻烦是问题不好重现和思维方式转不过弯（之前我的驱动正好刚出现过一次资源泄漏问题，所以这次一看到现象就​认为是我的驱动的问题……）。</p>
 
         </div>

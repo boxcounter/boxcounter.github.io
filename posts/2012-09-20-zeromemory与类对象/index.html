@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.59.1" />
+  <meta name="generator" content="Hugo 0.71.1" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,7 +19,7 @@
       "articleSection" : "posts",
       "name" : "ZeroMemory与类对象",
       "headline" : "ZeroMemory与类对象",
-      "description" : "今天看到一段同事的代码： ZeroMemory(\x26amp;m_PacketInfo, sizeof(packet_info)); struct packet_info { string m_strModule; \/\/模块 string m_strProtocol; \/\/协议 string m_strClientHostIP; \/\/客户端IP string m_strClientHostPort; \/\/客户端端口 ... }; 按照我的经验，这种对类对象进行ZeroMe",
+      "description" : "今天看到一段同事的代码： ZeroMemory(\u0026amp;m_PacketInfo, sizeof(packet_info)); struct packet_info { string m_strModule; \/\/模块 string m_strProtocol; \/\/协议 string m_strClientHostIP; \/\/客户端IP string m_strClientHostPort; \/\/客户端端口 ... }; 按照我的经验，这种对类对象进行ZeroMe",
       "inLanguage" : "en-US",
       "author" : "Boxcounter",
       "creator" : "Boxcounter",
@@ -27,8 +27,8 @@
       "accountablePerson" : "Boxcounter",
       "copyrightHolder" : "Boxcounter",
       "copyrightYear" : "2012",
-      "datePublished": "2012-09-20 00:00:00 \x2b0000 UTC",
-      "dateModified" : "2012-09-20 00:00:00 \x2b0000 UTC",
+      "datePublished": "2012-09-20 00:00:00 \u002b0000 UTC",
+      "dateModified" : "2012-09-20 00:00:00 \u002b0000 UTC",
       "url" : "http:\/\/boxcounter.com\/posts\/2012-09-20-zeromemory%E4%B8%8E%E7%B1%BB%E5%AF%B9%E8%B1%A1\/",
       "keywords" : [ "技术研究", ]
   }
@@ -95,7 +95,6 @@
 
         <div class="post-content markdown-body">
           <p>今天看到一段同事的代码：</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">ZeroMemory(<span style="color:#f92672">&amp;</span>m_PacketInfo, <span style="color:#66d9ef">sizeof</span>(packet_info));
 
 <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">packet_info</span>
@@ -107,11 +106,8 @@
 </span><span style="color:#75715e"></span>    ...
 };
 </code></pre></div>
-
 <p>按照我的经验，这种对类对象进行ZeroMemory或者memset的代码会导致程序崩掉。因为会覆盖掉类对象中的关键域，比如虚表。但是同事在vs2005中这样做却很正常。让我很奇怪，于是花了点时间分析了下。</p>
-
 <p>首先，std::string的vc实现并没有虚表，如下：</p>
-
 <pre><code>0:000&gt; dt string
 QueueTest!string
    +0x000 _Myproxy         : Ptr32 std::_Container_proxy
@@ -121,14 +117,9 @@ QueueTest!string
    +0x01c _Alval           : std::allocator
    =00000000`01202180
    std::basic_string::npos : Uint4B
-</code></pre>
-
-<p>所以ZeroMemory后不会导致非法访问。</p>
-
+</code></pre><p>所以ZeroMemory后不会导致非法访问。</p>
 <p>翻了一下std::string的实现，发现就是一普通的模板类，没有用到继承等OO特性。跟一普通的结构体和一系列配套函数的简单组合没太大区别。</p>
-
 <p>于是写了一小段测试代码</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Father</span>
 {
 <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
@@ -161,11 +152,8 @@ QueueTest!string
     ...
 }
 </code></pre></div>
-
 <p>我对这段代码的预期是，因为有继承以及虚函数，所以会有虚表。ZeroMemory会导致虚表被破坏，然后在第二次Show的时候非法访问。但实际运行效果依然正常。</p>
-
 <p>于是检查了一下man的反汇编代码：</p>
-
 <pre><code>0:000:x86&gt; uf main
 QueueTest!main:
 002fd120 push    ebp
@@ -191,18 +179,13 @@ QueueTest!main:
 002fd1c9 mov     esp,ebp
 002fd1cb pop     ebp
 002fd1cc ret
-</code></pre>
-
-<p>可以看出来，这段代码里根本就没有用到虚表，而是直接把内嵌函数地址。仔细琢磨琢磨，这样做确实有些道理：</p>
-
+</code></pre><p>可以看出来，这段代码里根本就没有用到虚表，而是直接把内嵌函数地址。仔细琢磨琢磨，这样做确实有些道理：</p>
 <ol>
 <li>son是明确的Son类对象，son.Show是一个明确的函数，无需使用虚表进行间接调用。</li>
 <li>效率更高。</li>
 </ol>
-
-<p>再想想什么时候才需要虚表呢？动态绑定。<br />
+<p>再想想什么时候才需要虚表呢？动态绑定。<br>
 于是改了改测试代码，如下（Father和Son的定义不变）：</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>()
 {
     Son son;
@@ -214,9 +197,7 @@ QueueTest!main:
     ...
 }
 </code></pre></div>
-
 <p>　　看看反汇编码：</p>
-
 <pre><code>0:000:x86&gt; uf main
 QueueTest!main:
 011ad120 push    ebp
@@ -255,10 +236,7 @@ QueueTest!main:
 011ad1e9 mov     esp,ebp
 011ad1eb pop     ebp
 011ad1ec ret
-</code></pre>
-
-<p>可以看到这次用了虚表。再运行，果然崩了。</p>
-
+</code></pre><p>可以看到这次用了虚表。再运行，果然崩了。</p>
 <p>但是gcc的实现不同，于是最开始的那行ZeroMemory一跑就崩。</p>
 
         </div>

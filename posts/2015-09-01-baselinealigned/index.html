@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.59.1" />
+  <meta name="generator" content="Hugo 0.71.1" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,7 +19,7 @@
       "articleSection" : "posts",
       "name" : "baselineAligned属性",
       "headline" : "baselineAligned属性",
-      "description" : "在使用LinearLayout\x2bTextView的过程中遇到一个看似诡异的问题，显示效果如下： 其中两个灰色方块是使用代码动态创建的TextV",
+      "description" : "在使用LinearLayout\u002bTextView的过程中遇到一个看似诡异的问题，显示效果如下： 其中两个灰色方块是使用代码动态创建的TextV",
       "inLanguage" : "en-US",
       "author" : "Boxcounter",
       "creator" : "Boxcounter",
@@ -27,8 +27,8 @@
       "accountablePerson" : "Boxcounter",
       "copyrightHolder" : "Boxcounter",
       "copyrightYear" : "2015",
-      "datePublished": "2015-09-01 00:00:00 \x2b0000 UTC",
-      "dateModified" : "2015-09-01 00:00:00 \x2b0000 UTC",
+      "datePublished": "2015-09-01 00:00:00 \u002b0000 UTC",
+      "dateModified" : "2015-09-01 00:00:00 \u002b0000 UTC",
       "url" : "http:\/\/boxcounter.com\/posts\/2015-09-01-baselinealigned\/",
       "keywords" : [ "Android", ]
   }
@@ -95,11 +95,8 @@
 
         <div class="post-content markdown-body">
           <p>在使用LinearLayout+TextView的过程中遇到一个看似诡异的问题，显示效果如下：</p>
-
-<p><img src="/images/2015-09-01/baselineAligned.png" width="300"/></p>
-
+<!-- raw HTML omitted -->
 <p>其中两个灰色方块是使用代码动态创建的TextView。它们的父LinearLayout是这样的：</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;LinearLayout</span>
     <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/ll_files&#34;</span>
     <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
@@ -107,54 +104,44 @@
     <span style="color:#a6e22e">android:layout_marginTop=</span><span style="color:#e6db74">&#34;7.5dp&#34;</span>
     <span style="color:#a6e22e">android:orientation=</span><span style="color:#e6db74">&#34;horizontal&#34;</span>
     <span style="color:#f92672">/&gt;</span></code></pre></div>
-
 <p>不知道是什么原因，导致第一个TextView「下挫」了一些。仔细检查了它的margin和padding都是0、符合预期，但top是29。</p>
-
 <p>仔细阅读了一遍代码和布局文件，确定我并没有误调整top，那么问题应该出现在动态layout过程中。那就开始调试分析吧。</p>
-
 <p>顺着LinearLayout.onLayout()追踪到了LinearLayout.layoutHorizontal()，发现了这样一段代码：</p>
-
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#960050;background-color:#1e0010">void layoutHorizontal</span>(<span style="color:#960050;background-color:#1e0010">int left</span>, <span style="color:#960050;background-color:#1e0010">int top</span>, <span style="color:#960050;background-color:#1e0010">int right</span>, <span style="color:#960050;background-color:#1e0010">int bottom</span>) {
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">layoutHorizontal</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> left<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> top<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> right<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> bottom<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
     <span style="color:#75715e">// 若干无关代码，略
 </span><span style="color:#75715e"></span>    
-    <span style="color:#960050;background-color:#1e0010">int childBaseline </span><span style="color:#f92672">=</span> <span style="color:#f92672">-</span>1;
+    <span style="color:#66d9ef">int</span> childBaseline <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">;</span>
     
-    <span style="color:#960050;background-color:#1e0010">final LinearLayout</span>.<span style="color:#a6e22e">LayoutParams</span> lp <span style="color:#f92672">=</span>
-            (LinearLayout.<span style="color:#a6e22e">LayoutParams</span>) child.<span style="color:#a6e22e">getLayoutParams</span>();
+    <span style="color:#66d9ef">final</span> LinearLayout<span style="color:#f92672">.</span><span style="color:#a6e22e">LayoutParams</span> lp <span style="color:#f92672">=</span>
+            <span style="color:#f92672">(</span>LinearLayout<span style="color:#f92672">.</span><span style="color:#a6e22e">LayoutParams</span><span style="color:#f92672">)</span> child<span style="color:#f92672">.</span><span style="color:#a6e22e">getLayoutParams</span><span style="color:#f92672">();</span>
     
-    <span style="color:#66d9ef">if</span> (baselineAligned <span style="color:#f92672">&amp;&amp;</span> lp.<span style="color:#a6e22e">height</span> <span style="color:#f92672">!=</span> LayoutParams.<span style="color:#a6e22e">MATCH_PARENT</span>) {
-        childBaseline <span style="color:#f92672">=</span> child.<span style="color:#a6e22e">getBaseline</span>();
-    }
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>baselineAligned <span style="color:#f92672">&amp;&amp;</span> lp<span style="color:#f92672">.</span><span style="color:#a6e22e">height</span> <span style="color:#f92672">!=</span> LayoutParams<span style="color:#f92672">.</span><span style="color:#a6e22e">MATCH_PARENT</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        childBaseline <span style="color:#f92672">=</span> child<span style="color:#f92672">.</span><span style="color:#a6e22e">getBaseline</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
     
     <span style="color:#75715e">// 若干无关代码，略
 </span><span style="color:#75715e"></span>    
-    <span style="color:#66d9ef">switch</span> (gravity <span style="color:#f92672">&amp;</span> Gravity.<span style="color:#a6e22e">VERTICAL_GRAVITY_MASK</span>) {
-        <span style="color:#66d9ef">case</span> Gravity.<span style="color:#a6e22e">TOP</span><span style="color:#f92672">:</span>
-            childTop <span style="color:#f92672">=</span> paddingTop <span style="color:#f92672">+</span> lp.<span style="color:#a6e22e">topMargin</span>;
-            <span style="color:#66d9ef">if</span> (childBaseline <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span>1) {
-                childTop <span style="color:#f92672">+=</span> maxAscent[INDEX_TOP] <span style="color:#f92672">-</span> childBaseline;  <span style="color:#75715e">// &lt;==== A
-</span><span style="color:#75715e"></span>            }
-            <span style="color:#66d9ef">break</span>;
+    <span style="color:#66d9ef">switch</span> <span style="color:#f92672">(</span>gravity <span style="color:#f92672">&amp;</span> Gravity<span style="color:#f92672">.</span><span style="color:#a6e22e">VERTICAL_GRAVITY_MASK</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">case</span> Gravity<span style="color:#f92672">.</span><span style="color:#a6e22e">TOP</span><span style="color:#f92672">:</span>
+            childTop <span style="color:#f92672">=</span> paddingTop <span style="color:#f92672">+</span> lp<span style="color:#f92672">.</span><span style="color:#a6e22e">topMargin</span><span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>childBaseline <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                childTop <span style="color:#f92672">+=</span> maxAscent<span style="color:#f92672">[</span>INDEX_TOP<span style="color:#f92672">]</span> <span style="color:#f92672">-</span> childBaseline<span style="color:#f92672">;</span>  <span style="color:#75715e">// &lt;==== A
+</span><span style="color:#75715e"></span>            <span style="color:#f92672">}</span>
+            <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
     
     <span style="color:#75715e">// 若干无关代码，略
-</span><span style="color:#75715e"></span>}</code></pre></div>
-
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span></code></pre></div>
 <p>当执行完A行时，childTop等于29。问题出在这里，再反向阅读代码，跟踪到了两个关键变量：</p>
-
 <ol>
 <li>baselineAligned为true；</li>
 <li>childBaseline不为0；</li>
 </ol>
-
 <p>这时我想起文本的<a href="https://zh.wikipedia.org/wiki/%E5%9F%BA%E7%B7%9A">baseline属性</a>。</p>
-
 <p>继续查阅文档、代码，得到两个结论：</p>
-
 <ol>
 <li>LinearLayout的baselineAligned默认为true；</li>
 <li>TextView重写了getBaseline()，返回了有效值；</li>
 </ol>
-
 <p>定位了问题症结，解决方案也就不难找了：将LinearLayout的android:baselineAligned改为false。</p>
 
         </div>

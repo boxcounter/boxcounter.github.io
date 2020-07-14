@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.59.1" />
+  <meta name="generator" content="Hugo 0.71.1" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,7 +19,7 @@
       "articleSection" : "posts",
       "name" : "read committed与statement-based replication",
       "headline" : "read committed与statement-based replication",
-      "description" : "疑问 在MySQL的Transaction Isolation Level文档里读到这么一句话： If you use READ COMMITTED, you must use row-based binary logging. 这引发了我的好奇心：为什么呢？READ COM",
+      "description" : "疑问 在MySQL的[Transaction Isolation Level] (https:\/\/dev.mysql.com\/doc\/refman\/5.7\/en\/innodb",
       "inLanguage" : "en-US",
       "author" : "Boxcounter",
       "creator" : "Boxcounter",
@@ -27,8 +27,8 @@
       "accountablePerson" : "Boxcounter",
       "copyrightHolder" : "Boxcounter",
       "copyrightYear" : "2017",
-      "datePublished": "2017-09-15 00:00:00 \x2b0000 UTC",
-      "dateModified" : "2017-09-15 00:00:00 \x2b0000 UTC",
+      "datePublished": "2017-09-15 00:00:00 \u002b0000 UTC",
+      "dateModified" : "2017-09-15 00:00:00 \u002b0000 UTC",
       "url" : "http:\/\/boxcounter.com\/posts\/2017-09-15-read-commited-statement-based-replication\/",
       "keywords" : [ "技术研究","MySQL", ]
   }
@@ -36,7 +36,7 @@
 <title>read committed与statement-based replication - Boxcounter&#39;s blog</title>
   <meta property="og:title" content="read committed与statement-based replication - Boxcounter&#39;s blog" />
   <meta property="og:type" content="article" />
-  <meta name="description" content="疑问 在MySQL的Transaction Isolation Level文档里读到这么一句话： If you use READ COMMITTED, you must use row-based binary logging. 这引发了我的好奇心：为什么呢？READ COM" />
+  <meta name="description" content="疑问 在MySQL的[Transaction Isolation Level] (https://dev.mysql.com/doc/refman/5.7/en/innodb" />
 
   <link rel="stylesheet" href="/css/flexboxgrid-6.3.1.min.css" />
   <link rel="stylesheet"
@@ -94,80 +94,58 @@
         </header>
 
         <div class="post-content markdown-body">
-          
-
-<h1 id="疑问">疑问</h1>
-
-<p>在MySQL的<a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html">Transaction Isolation Level</a>文档里读到这么一句话：</p>
-
+          <h1 id="疑问">疑问</h1>
+<p>在MySQL的[Transaction Isolation Level] (<a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html">https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html</a>)文档里读到这么一句话：</p>
 <blockquote>
 <p>If you use READ COMMITTED, you must use row-based binary logging.</p>
 </blockquote>
-
 <p>这引发了我的好奇心：为什么呢？READ COMMITTED和statement-based replication会引发数据不一致吗？为什么会不一致呢？</p>
-
 <h1 id="猜测">猜测</h1>
-
 <p>根据READ COMMITTED的特征，我的第一猜测是可能是因为multi-threaded replication。但稍微一细想就否了：</p>
-
 <ul>
 <li>MySQL v5.6里，只有不同的table才可以并行replay。</li>
 <li>MySQL v5.7里，增加了logical clock，但并不影响。</li>
 <li>MySQL v8.0里，强化了multi-threaded replication，但只有workset完全不重叠的transaction才会并行。</li>
 </ul>
-
 <p>因此，multi-threaded应该不是问题的关键。</p>
-
 <h1 id="分析">分析</h1>
-
 <p>自己琢磨了一会没想明白。搜的资料全是讲如何解决（改用row-based），没有讲为什么。</p>
-
 <p>又花了些功夫在MySQL Bugs Home里找到一些资料。顺着其中的思路弄明白了缘由：确实和multi-threaded无关。而是由MySQL记录transaction的机制决定的。</p>
-
 <p>MySQL在commit时才将transaction一次性写入binary log。所以：</p>
-
 <ul>
 <li>在slave上，transaction是一次性replay的，在<code>START TRANSACTION</code>和<code>COMMIT</code>之间的所有操作都针对的是同一个数据集。</li>
 <li>在master上，transaction的<code>START TRANSACTION</code>和<code>COMMIT</code>是可能有时间跨度的，由于READ COMMITTED的特性，这个时间跨度中操作的数据集可能是不同的。</li>
 </ul>
-
 <p>因此，replication后，master和slave上的数据可能会不一致。用SQL语句模拟一次可能会更好理解。</p>
-
 <h1 id="模拟">模拟</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span>t<span style="color:#f92672">`</span> (
+  <span style="color:#f92672">`</span>a<span style="color:#f92672">`</span> int(<span style="color:#ae81ff">11</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#f92672">`</span>b<span style="color:#f92672">`</span> int(<span style="color:#ae81ff">11</span>) <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">NULL</span>,
+  <span style="color:#66d9ef">KEY</span> <span style="color:#f92672">`</span>a<span style="color:#f92672">`</span> (<span style="color:#f92672">`</span>a<span style="color:#f92672">`</span>)
+) ENGINE<span style="color:#f92672">=</span>InnoDB <span style="color:#66d9ef">DEFAULT</span> CHARSET<span style="color:#f92672">=</span>latin1;
 
-<pre><code class="language-sql">CREATE TABLE `t` (
-  `a` int(11) DEFAULT NULL,
-  `b` int(11) DEFAULT NULL,
-  KEY `a` (`a`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> t <span style="color:#66d9ef">VALUES</span>(<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">2</span>),(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">1</span>);
 
-INSERT INTO t VALUES(10,2),(20,1);
+<span style="color:#f92672">#</span> trx<span style="color:#f92672">-</span>A
+(A) <span style="color:#66d9ef">SET</span> <span style="color:#66d9ef">SESSION</span> <span style="color:#66d9ef">TRANSACTION</span> <span style="color:#66d9ef">ISOLATION</span> <span style="color:#66d9ef">LEVEL</span> <span style="color:#66d9ef">READ</span> <span style="color:#66d9ef">COMMITTED</span>;
+(A) <span style="color:#66d9ef">SET</span> autocommit<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;
+(A) <span style="color:#66d9ef">UPDATE</span> t <span style="color:#66d9ef">SET</span> a<span style="color:#f92672">=</span><span style="color:#ae81ff">11</span> <span style="color:#66d9ef">where</span> b<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>;    <span style="color:#f92672">#</span> <span style="color:#960050;background-color:#1e0010">此时</span>master数据<span style="color:#960050;background-color:#1e0010">：</span>(<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">2</span>),(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">1</span>)
 
-# trx-A
-(A) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
-(A) SET autocommit=0;
-(A) UPDATE t SET a=11 where b=2;    # 此时master数据：(11,2),(20,1)
+<span style="color:#f92672">#</span> trx<span style="color:#f92672">-</span>B
+(B) <span style="color:#66d9ef">SET</span> <span style="color:#66d9ef">SESSION</span> <span style="color:#66d9ef">TRANSACTION</span> <span style="color:#66d9ef">ISOLATION</span> <span style="color:#66d9ef">LEVEL</span> <span style="color:#66d9ef">READ</span> <span style="color:#66d9ef">COMMITTED</span>;
+(B) <span style="color:#66d9ef">SET</span> autocommit<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;
+(B) <span style="color:#66d9ef">UPDATE</span> t <span style="color:#66d9ef">SET</span> b<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> <span style="color:#66d9ef">where</span> b<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;     <span style="color:#f92672">#</span> <span style="color:#960050;background-color:#1e0010">此时</span>master数据<span style="color:#960050;background-color:#1e0010">：</span>(<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">2</span>),(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">2</span>)<span style="color:#960050;background-color:#1e0010">。</span>
+(B) <span style="color:#66d9ef">COMMIT</span>;                         <span style="color:#f92672">#</span> slave此时执行B<span style="color:#960050;background-color:#1e0010">，数据变为：</span>(<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">2</span>),(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">2</span>)<span style="color:#960050;background-color:#1e0010">。</span>
 
-# trx-B
-(B) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
-(B) SET autocommit=0;
-(B) UPDATE t SET b=2 where b=1;     # 此时master数据：(10,2),(20,2)。
-(B) COMMIT;                         # slave此时执行B，数据变为：(10,2),(20,2)。
-
-# trx-A
-(A) COMMIT;                         # 此时master数据：(11,2),(20,2)。
-                                    # 记录到master的bin log、replicate到slave。slave此时执行A，数据变为：(11,2),(11,2)
-</code></pre>
-
-<p>执行完毕后，master和slave数据就不一致了：</p>
-
+<span style="color:#f92672">#</span> trx<span style="color:#f92672">-</span>A
+(A) <span style="color:#66d9ef">COMMIT</span>;                         <span style="color:#f92672">#</span> <span style="color:#960050;background-color:#1e0010">此时</span>master数据<span style="color:#960050;background-color:#1e0010">：</span>(<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">2</span>),(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">2</span>)<span style="color:#960050;background-color:#1e0010">。</span>
+                                    <span style="color:#f92672">#</span> <span style="color:#960050;background-color:#1e0010">记录到</span>master的bin log<span style="color:#960050;background-color:#1e0010">、</span>replicate到slave<span style="color:#960050;background-color:#1e0010">。</span>slave此时执行A<span style="color:#960050;background-color:#1e0010">，数据变为：</span>(<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">2</span>),(<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">2</span>)
+</code></pre></div><p>执行完毕后，master和slave数据就不一致了：</p>
 <ul>
 <li>master: (11,2),(20,2)</li>
 <li>slave:  (11,2),(11,2)</li>
 </ul>
-
 <h1 id="资料">资料</h1>
-
 <ol>
 <li><a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html">MySQL :: MySQL 5.7 Reference Manual :: 14.5.2.1 Transaction Isolation Levels</a></li>
 <li><a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-locking.html">MySQL :: MySQL 5.7 Reference Manual :: 14.5.1 InnoDB Locking</a></li>

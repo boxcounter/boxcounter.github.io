@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.59.1" />
+  <meta name="generator" content="Hugo 0.71.1" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,9 +17,9 @@
            "@id": "http:\/\/boxcounter.com\/"
       },
       "articleSection" : "posts",
-      "name" : "osx下搭建操作系统开发环境之64位交叉开发工具集（gcc\x2bgdb）v1.0",
-      "headline" : "osx下搭建操作系统开发环境之64位交叉开发工具集（gcc\x2bgdb）v1.0",
-      "description" : "一、前言 《osx下搭建操作系统开发环境之32位交叉开发工具集(gcc\x2bgdb)》一文中讲解了32位交叉工具的构建。64位（专指x64，非IA",
+      "name" : "osx下搭建操作系统开发环境之64位交叉开发工具集（gcc\u002bgdb）v1.0",
+      "headline" : "osx下搭建操作系统开发环境之64位交叉开发工具集（gcc\u002bgdb）v1.0",
+      "description" : "一、前言 《osx下搭建操作系统开发环境之32位交叉开发工具集(gcc\u002bgdb)》一文中讲解了32位交叉工具的构建。64位（专指x64，非IA",
       "inLanguage" : "en-US",
       "author" : "Boxcounter",
       "creator" : "Boxcounter",
@@ -27,9 +27,9 @@
       "accountablePerson" : "Boxcounter",
       "copyrightHolder" : "Boxcounter",
       "copyrightYear" : "2013",
-      "datePublished": "2013-11-08 00:00:00 \x2b0000 UTC",
-      "dateModified" : "2013-11-08 00:00:00 \x2b0000 UTC",
-      "url" : "http:\/\/boxcounter.com\/posts\/2013-11-08-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B64%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc\x2bgdbv1.0\/",
+      "datePublished": "2013-11-08 00:00:00 \u002b0000 UTC",
+      "dateModified" : "2013-11-08 00:00:00 \u002b0000 UTC",
+      "url" : "http:\/\/boxcounter.com\/posts\/2013-11-08-osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B64%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86gcc\u002bgdbv1.0\/",
       "keywords" : [ "OS研发", ]
   }
 </script>
@@ -94,59 +94,44 @@
         </header>
 
         <div class="post-content markdown-body">
-          
-
-<h1 id="一-前言">一、前言</h1>
-
-<p>　　《<a href="http://boxcounter.com/2013/11/04/osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B32%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86%EF%BC%88gcc+gdb%EF%BC%89v1.1">osx下搭建操作系统开发环境之32位交叉开发工具集(gcc+gdb)</a>》一文中讲解了32位交叉工具的构建。64位（专指x64，非IA64）的构建方法和32位基本相同。看过前文的朋友看本文会发现绝大多数内容都是一样的。没错，之所以不基于前文、只讲差异，是为了独立性，方便只关注x64构建方法的朋友。<br />
+          <h1 id="一前言-">一、前言</h1>
+<p>　　《<a href="http://boxcounter.com/2013/11/04/osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B32%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86%EF%BC%88gcc+gdb%EF%BC%89v1.1">osx下搭建操作系统开发环境之32位交叉开发工具集(gcc+gdb)</a>》一文中讲解了32位交叉工具的构建。64位（专指x64，非IA64）的构建方法和32位基本相同。看过前文的朋友看本文会发现绝大多数内容都是一样的。没错，之所以不基于前文、只讲差异，是为了独立性，方便只关注x64构建方法的朋友。<br>
 　　我的环境：osx 10.9</p>
-
-<h1 id="二-安装osx版的gcc">二、安装osx版的gcc</h1>
-
+<h1 id="二安装osx版的gcc-">二、安装osx版的gcc</h1>
 <pre><code>brew install gcc48
 </code></pre>
-
 <p>　　推荐下载最新的稳定版gcc。</p>
-
-<h1 id="三-配置编译环境">三、配置编译环境</h1>
-
+<h1 id="三配置编译环境-">三、配置编译环境</h1>
 <ol>
-<li>下载gcc源码<br />
-根据参考资料1的建议，最好使用最新的gcc来进行编译，被编译的源码也推荐使用一样版本的。也就是说，用gcc 4.8.2来编译gcc 4.8.2的源码。<br />
+<li>下载gcc源码<br>
+根据参考资料1的建议，最好使用最新的gcc来进行编译，被编译的源码也推荐使用一样版本的。也就是说，用gcc 4.8.2来编译gcc 4.8.2的源码。<br>
 下载<a href="http://ftp.gnu.org/gnu/gcc">源码包</a>并解压，得到的目录名称之为“$gcc-4.8.2”。</li>
-<li>下载gcc依赖项<br />
-需要的依赖项有：
-
+<li>下载gcc依赖项<br>
+需要的依赖项有：</li>
+</ol>
 <ul>
 <li><a href="https://gnu.org/software/binutils/">GNU Binutils</a></li>
 <li><a href="http://gmplib.org/">GMP</a></li>
 <li><a href="http://www.mpfr.org/">MPFR</a></li>
 <li><a href="http://multiprecision.org/">MPC</a></li>
-</ul></li>
-</ol>
-
-<p>将它们都解压出来，把解压出来的b、c、d的目录都放到gcc源码目录下。都需要去掉版本号，比如解压出来的目录名为“mpc-1.0.1”，那么现在就是“$gcc-4.8.2/mpc”。a无需这么做，因为它需要单独编译，参考后续的步骤4。<br />
-   其中GMP源码包是lzip压缩格式，需要下载lzip工具解压（brew安装）。
-3. 下载gdb源码<br />
-   下载<a href="http://ftp.gnu.org/gnu/gdb">源码包</a>并解压，得到的目录名称之为“$gdb-7.6.1”。
+</ul>
+<p>将它们都解压出来，把解压出来的b、c、d的目录都放到gcc源码目录下。都需要去掉版本号，比如解压出来的目录名为“mpc-1.0.1”，那么现在就是“$gcc-4.8.2/mpc”。a无需这么做，因为它需要单独编译，参考后续的步骤4。<br>
+其中GMP源码包是lzip压缩格式，需要下载lzip工具解压（brew安装）。
+3. 下载gdb源码<br>
+下载<a href="http://ftp.gnu.org/gnu/gdb">源码包</a>并解压，得到的目录名称之为“$gdb-7.6.1”。
 4. 设置环境变量</p>
-
 <pre><code>    export CC=/usr/local/bin/gcc-4.8
     export CXX=/usr/local/bin/g++-4.8
     export CPP=/usr/local/bin/cpp-4.8
     export LD=/usr/local/bin/gcc-4.8
 </code></pre>
-
 <p>这些都是brew版gcc4.8.2的软链接。如果不设置，那么会使用系统中默认自带的工具，这些工具的版本可能比较老。</p>
-
 <pre><code>    export PREFIX=$HOME/opt/cross
     export TARGET=x86_64-pc-linux-gnu
     export PATH=&quot;$PREFIX/bin:$PATH&quot;
 </code></pre>
-
 <p>这些是编译时候使用的选项。需要注意的是：osdev上的《<a href="http://wiki.osdev.org/GCC_Cross-Compiler_for_x86_64">GCC Cross-Compiler for x86 64</a>》建议将TARGET宏定义为x86_64-elf，但是我实验发现这样行不通，编译gdb的时候会报错“configure: error: configuration x86_64-pc-elf is unsupported.”。
 5. 编译交叉版的binutils</p>
-
 <pre><code>    cd $binutils-x.y.z
     mkdir build-binutils
     cd build-binutils
@@ -154,9 +139,7 @@
     make
     make install
 </code></pre>
-
-<h1 id="四-编译交叉版的gcc">四、编译交叉版的gcc</h1>
-
+<h1 id="四编译交叉版的gcc-">四、编译交叉版的gcc</h1>
 <pre><code>cd $gcc-4.8.2
 mkdir build-gcc
 cd build-gcc
@@ -166,15 +149,11 @@ make all-target-libgcc
 make install-gcc
 make install-target-libgcc
 </code></pre>
-
-<p>　　完成后，在“~/opt/cross/bin”下就能看到编译好的交叉版的编译套件了，包括“x86_64-pc-linux-gnu-gcc”、“x86_64-pc-linux-gnu-g++”和“x86_64-pc-linux-gnu-ld ”等等。可以用“$HOME/opt/cross/bin/$TARGET-gcc &ndash;version”来验证一下版本是否正确。<br />
+<p>　　完成后，在“~/opt/cross/bin”下就能看到编译好的交叉版的编译套件了，包括“x86_64-pc-linux-gnu-gcc”、“x86_64-pc-linux-gnu-g++”和“x86_64-pc-linux-gnu-ld ”等等。可以用“$HOME/opt/cross/bin/$TARGET-gcc &ndash;version”来验证一下版本是否正确。<br>
 　　另外，为了方便使用，可以在.bashrc或者.zshrc中调整环境变量：</p>
-
 <pre><code>export PATH=&quot;$HOME/opt/cross/bin:$PATH&quot;
 </code></pre>
-
-<h1 id="五-编译交叉版的gdb">五、编译交叉版的gdb</h1>
-
+<h1 id="五编译交叉版的gdb-">五、编译交叉版的gdb</h1>
 <pre><code>cd $gdb-7.6.1
 mkdir build-$TARGET
 cd build-$TARGET
@@ -182,58 +161,48 @@ cd build-$TARGET
 make
 sudo make install
 </code></pre>
-
 <p>　　完成后，在“~/opt/cross/bin”下就能看到编译好的交叉版的x86_64-pc-linux-gnu-gdb了。</p>
-
 <p>　　注：</p>
-
 <ul>
-<li><p>和x64的bochs配合调试的时候，需要切换到x86-64模式（默认模式是i386）：</p>
-
-<pre><code>(gdb) set architecture i386:x86-64
-The target architecture is assumed to be i386:x86-64
-</code></pre></li>
-
-<li><p>在这个编译选项版本之前，我尝试了好几种其他的编译选项，虽然都能编译出gdb，但是都无法与x64的bochs进行配合调试。包括使用“../configure &ndash;enable-targets=all &ndash;enable-64-bit-bfd”。无法与x64的bochs进行配合调试的现象是，gdb能够下断，但是中断点都是错误的，比如：</p>
-
-<pre><code>(gdb) target remote localhost:1234
-Remote debugging using 192.168.1.16:1234
-0x00000000 in ?? ()
-(gdb) b *0x7c00
-Breakpoint 1 at 0x7c00
-(gdb) c
-Continuing.
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x000e0000 in ?? ()
+<li>
+<p>和x64的bochs配合调试的时候，需要切换到x86-64模式（默认模式是i386）：</p>
+<pre><code>  (gdb) set architecture i386:x86-64
+  The target architecture is assumed to be i386:x86-64
 </code></pre>
-
+</li>
+<li>
+<p>在这个编译选项版本之前，我尝试了好几种其他的编译选项，虽然都能编译出gdb，但是都无法与x64的bochs进行配合调试。包括使用“../configure &ndash;enable-targets=all &ndash;enable-64-bit-bfd”。无法与x64的bochs进行配合调试的现象是，gdb能够下断，但是中断点都是错误的，比如：</p>
+<pre><code>  (gdb) target remote localhost:1234
+  Remote debugging using 192.168.1.16:1234
+  0x00000000 in ?? ()
+  (gdb) b *0x7c00
+  Breakpoint 1 at 0x7c00
+  (gdb) c
+  Continuing.
+  Program received signal SIGTRAP, Trace/breakpoint trap.
+  0x000e0000 in ?? ()
+</code></pre>
 <p>正常应该是这样：</p>
-
-<pre><code>(gdb) target remote 192.168.1.16:1234
-Remote debugging using localhost:1234
-0x000000000000fff0 in ?? ()
-(gdb)
+<pre><code>  (gdb) target remote 192.168.1.16:1234
+  Remote debugging using localhost:1234
+  0x000000000000fff0 in ?? ()
+  (gdb)
 </code></pre>
-
-<p>总结，gdb的TARGET要和bochs（而非被调试OS）的平台一致，即如果使用的是x64的bochs，那么gdb的编译TARGET也需要是x64的。</p></li>
+<p>总结，gdb的TARGET要和bochs（而非被调试OS）的平台一致，即如果使用的是x64的bochs，那么gdb的编译TARGET也需要是x64的。</p>
+</li>
 </ul>
-
-<h1 id="六-参考资料">六、参考资料</h1>
-
+<h1 id="六参考资料-">六、参考资料</h1>
 <ul>
 <li><a href="http://wiki.osdev.org/GCC_Cross-Compiler">GCC Cross-Compiler</a></li>
 <li><a href="http://wiki.osdev.org/GCC_Cross-Compiler_for_x86_64">GCC Cross-Compiler for x86 64</a></li>
 <li><a href="http://www.cs.utah.edu/~manua/sim_doc/simics-reference-manual-public-all/topic96.html">gdb-remote</a></li>
 <li><a href="http://sourceforge.net/p/bochs/discussion/39592/thread/a489c7f1">bochs + GDB help</a></li>
 </ul>
-
-<h1 id="七-版本记录">七、版本记录</h1>
-
+<h1 id="七版本记录-">七、版本记录</h1>
 <ul>
 <li>v1.0 - 2013-11-08，初始发布。</li>
 </ul>
-
-<p>本文的pdf版：<a href="/attachments/2013-11-08/osx下搭建操作系统开发环境之64位交叉开发工具集（gcc+gdb）v1.0.pdf">osx下搭建操作系统开发环境之64位交叉开发工具集（gcc+gdb）v1.0.pdf</a></p>
+<p>本文的pdf版：<a href="/attachments/2013-11-08/osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B64%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86%EF%BC%88gcc+gdb%EF%BC%89v1.0.pdf">osx下搭建操作系统开发环境之64位交叉开发工具集（gcc+gdb）v1.0.pdf</a></p>
 
         </div>
         

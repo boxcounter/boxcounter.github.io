@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.59.1" />
+  <meta name="generator" content="Hugo 0.71.1" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,7 +19,7 @@
       "articleSection" : "posts",
       "name" : "RefBase::weakref_type::attemptIncStrong的理解",
       "headline" : "RefBase::weakref_type::attemptIncStrong的理解",
-      "description" : "见中文注释内容： bool RefBase::weakref_type::attemptIncStrong(const void* id) { incWeak(id); weakref_impl* const impl = static_cast\x26lt;weakref_impl*\x26gt;(this); int32_t curCount = impl-\x26gt;mStrong; LOG_ASSERT(curCount \x26gt;= 0, \x26#34;attemptIncStrong called on %p after underflow\x26#34;, this); while (curCount \x26gt; 0 \x26amp;\x26amp; curCount != INITIAL_STRONG_VALUE) { if (android_atomic_cmpxchg(curCount, curCount\x2b1, \x26amp;impl-\x26gt;mStrong) == 0) { break; } curCount = impl-\x26gt;mStrong; } if (curCount \x26lt;= 0 || curCount == INITIAL_STRONG_VALUE) { bool allow; if (curCount == INITIAL_STRONG_VALUE)",
+      "description" : "见中文注释内容： bool RefBase::weakref_type::attemptIncStrong(const void* id) { incWeak(id); weakref_impl* const impl = static_cast\u0026lt;weakref_impl*\u0026gt;(this); int32_t curCount = impl-\u0026gt;mStrong; LOG_ASSERT(curCount \u0026gt;= 0, \u0026#34;attemptIncStrong called on %p after underflow\u0026#34;, this); while (curCount \u0026gt; 0 \u0026amp;\u0026amp; curCount != INITIAL_STRONG_VALUE) { if (android_atomic_cmpxchg(curCount, curCount\u002b1, \u0026amp;impl-\u0026gt;mStrong) == 0) { break; } curCount = impl-\u0026gt;mStrong; } if (curCount \u0026lt;= 0 || curCount == INITIAL_STRONG_VALUE) { bool allow; if (curCount == INITIAL_STRONG_VALUE)",
       "inLanguage" : "en-US",
       "author" : "Boxcounter",
       "creator" : "Boxcounter",
@@ -27,8 +27,8 @@
       "accountablePerson" : "Boxcounter",
       "copyrightHolder" : "Boxcounter",
       "copyrightYear" : "2015",
-      "datePublished": "2015-09-05 00:00:00 \x2b0000 UTC",
-      "dateModified" : "2015-09-05 00:00:00 \x2b0000 UTC",
+      "datePublished": "2015-09-05 00:00:00 \u002b0000 UTC",
+      "dateModified" : "2015-09-05 00:00:00 \u002b0000 UTC",
       "url" : "http:\/\/boxcounter.com\/posts\/2015-09-05-weakref_type.attemptincstrong\/",
       "keywords" : [ "Android", ]
   }
@@ -95,7 +95,6 @@
 
         <div class="post-content markdown-body">
           <p>见中文注释内容：</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">bool</span> RefBase<span style="color:#f92672">::</span>weakref_type<span style="color:#f92672">::</span>attemptIncStrong(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> id)
 {
     incWeak(id);
@@ -168,7 +167,6 @@
     <span style="color:#66d9ef">return</span> true;
 }
 </code></pre></div>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> RefBase<span style="color:#f92672">::</span>decStrong(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> id) <span style="color:#66d9ef">const</span>
 {
     weakref_impl<span style="color:#f92672">*</span> <span style="color:#66d9ef">const</span> refs <span style="color:#f92672">=</span> mRefs;
@@ -192,11 +190,8 @@
     refs<span style="color:#f92672">-&gt;</span>decWeak(id);
 }
 </code></pre></div>
-
-<hr />
-
+<hr>
 <p>完整代码：</p>
-
 <ul>
 <li><a href="https://android.googlesource.com/platform/frameworks/base/+/gingerbread/include/utils/RefBase.h">RefBase.h</a></li>
 <li><a href="https://android.googlesource.com/platform/frameworks/base/+/gingerbread/libs/utils/RefBase.cpp">RefBase.cpp</a></li>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.59.1" />
+  <meta name="generator" content="Hugo 0.71.1" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,7 +19,7 @@
       "articleSection" : "posts",
       "name" : "灵异现象？",
       "headline" : "灵异现象？",
-      "description" : "前两天遇到一个灵异现象，记录下来。 cchFullHeaderLen \x2b= strlen(\x26#34;Request-Line: \x26#34;) \x2b strlen(pSessionData-\x26gt;HttpOpenReq.lpszVerb) \x2b strlen(\x26#34; \x26#34;) \x2b strlen(pSessionData-\x26gt;HttpOpenReq.lpszObjectName) \x2b (NULL != pSessionData-\x26gt;HttpOpenReq.lpszVersion) ? (strlen(\x26#34; \x26#34;) \x2b strlen(pSessionData-\x26gt;HttpOpenReq.lpszVersion)) : 0 \x2b strlen(\x26#34;\\r\\n\x26#34;); 调试的过程中发现，pSessionData-\x26gt;Htt",
+      "description" : "前两天遇到一个灵异现象，记录下来。 cchFullHeaderLen \u002b= strlen(\u0026#34;Request-Line: \u0026#34;) \u002b strlen(pSessionData-\u0026gt;HttpOpenReq.lpszVerb) \u002b strlen(\u0026#34; \u0026#34;) \u002b strlen(pSessionData-\u0026gt;HttpOpenReq.lpszObjectName) \u002b (NULL != pSessionData-\u0026gt;HttpOpenReq.lpszVersion) ? (strlen(\u0026#34; \u0026#34;) \u002b strlen(pSessionData-\u0026gt;HttpOpenReq.lpszVersion)) : 0 \u002b strlen(\u0026#34;\\r\\n\u0026#34;); 调试的过程中发现，pSessionData-\u0026gt;Htt",
       "inLanguage" : "en-US",
       "author" : "Boxcounter",
       "creator" : "Boxcounter",
@@ -27,8 +27,8 @@
       "accountablePerson" : "Boxcounter",
       "copyrightHolder" : "Boxcounter",
       "copyrightYear" : "2012",
-      "datePublished": "2012-03-04 00:00:00 \x2b0000 UTC",
-      "dateModified" : "2012-03-04 00:00:00 \x2b0000 UTC",
+      "datePublished": "2012-03-04 00:00:00 \u002b0000 UTC",
+      "dateModified" : "2012-03-04 00:00:00 \u002b0000 UTC",
       "url" : "http:\/\/boxcounter.com\/posts\/2012-03-04-%E7%81%B5%E5%BC%82%E7%8E%B0%E8%B1%A1\/",
       "keywords" : [ "故障分析", ]
   }
@@ -95,7 +95,6 @@
 
         <div class="post-content markdown-body">
           <p>前两天遇到一个灵异现象，记录下来。</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">cchFullHeaderLen <span style="color:#f92672">+=</span> strlen(<span style="color:#e6db74">&#34;Request-Line: &#34;</span>) <span style="color:#f92672">+</span>
     strlen(pSessionData<span style="color:#f92672">-&gt;</span>HttpOpenReq.lpszVerb) <span style="color:#f92672">+</span>
     strlen(<span style="color:#e6db74">&#34; &#34;</span>) <span style="color:#f92672">+</span>
@@ -103,11 +102,8 @@
     (NULL <span style="color:#f92672">!=</span> pSessionData<span style="color:#f92672">-&gt;</span>HttpOpenReq.lpszVersion) <span style="color:#f92672">?</span> (strlen(<span style="color:#e6db74">&#34; &#34;</span>) <span style="color:#f92672">+</span> strlen(pSessionData<span style="color:#f92672">-&gt;</span>HttpOpenReq.lpszVersion)) <span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">+</span>
     strlen(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>);
 </code></pre></div>
-
 <p>调试的过程中发现，pSessionData-&gt;HttpOpenReq.lpszVersion为NULL，但是依然会执行“(strlen(&rdquo; &ldquo;) + strlen(pSessionData-&gt;HttpOpenReq.lpszVersion))”。</p>
-
 <p>确认不是编码错误后，反汇编调试：</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nasm" data-lang="nasm"><span style="color:#a6e22e">Boxr</span><span style="color:#960050;background-color:#1e0010">!</span>MyFunction<span style="color:#f92672">+</span><span style="color:#ae81ff">0x2b2</span>
 <span style="color:#960050;background-color:#1e0010">6</span><span style="color:#a6e22e">a515742</span>  xor     edx,edx
 <span style="color:#960050;background-color:#1e0010">6</span><span style="color:#a6e22e">a515744</span>  cmp     <span style="color:#66d9ef">dword</span> ptr [ecx<span style="color:#f92672">+</span><span style="color:#ae81ff">23Ch</span>],<span style="color:#ae81ff">0</span>
@@ -117,16 +113,12 @@
 <span style="color:#960050;background-color:#1e0010">6</span><span style="color:#a6e22e">a515752</span>  push    offset Boxr<span style="color:#960050;background-color:#1e0010">!</span>std::_Arithmetic_traits::_Rank<span style="color:#f92672">+</span><span style="color:#ae81ff">0xc88</span> (<span style="color:#ae81ff">6</span>a5fc0f8)
 <span style="color:#960050;background-color:#1e0010">6</span><span style="color:#a6e22e">a515757</span>  call    Boxr<span style="color:#960050;background-color:#1e0010">!</span>strlen (<span style="color:#ae81ff">6</span>a5b5bd0)
 <span style="color:#960050;background-color:#1e0010">6</span><span style="color:#a6e22e">a51575c</span>  add     esp,<span style="color:#ae81ff">4</span></code></pre></div>
-
 <p>其中ecx+23Ch就是pSessionData-&gt;HttpOpenReq.lpszVersion，查看如下：</p>
-
 <pre><code>0:005&gt; dd ecx+23c
 0a27b18c  00000000 
 </code></pre>
-
-<p>确认pSessionData-&gt;HttpOpenReq.lpszVersion确实为NULL。<br />
+<p>确认pSessionData-&gt;HttpOpenReq.lpszVersion确实为NULL。<br>
 理论上6a515750处的跳转会执行的，但是没有。单步跟踪：</p>
-
 <pre><code>0:005&gt; p
 eax=00000014 ebx=00cc000c ecx=0a27af50 edx=00000000 esi=00000027 edi=0485d5ec
 eip=6a515744 esp=0485d518 ebp=0485d5f8 iopl=0         nv up ei pl zr na pe nc
@@ -164,25 +156,18 @@ Boxr!MyFunction+0x2c0:
 0:005&gt; r zf
 zf=0
 </code></pre>
-
 <p>可以看出，原本是准备要跳转的，但是</p>
-
 <pre><code>6a51574e  add     esi,edx
 </code></pre>
-
 <p>这条指令改变了zf寄存器，于是没有跳转。</p>
-
-<p>那这条指令是干什么的呢？怎么会有这么一条指令？<br />
-最开始怀疑是编译器优化出问题了。<br />
+<p>那这条指令是干什么的呢？怎么会有这么一条指令？<br>
+最开始怀疑是编译器优化出问题了。<br>
 于是准备以发现编译器优化错误为主体写一篇BLOG。</p>
-
-<p>但是在整理本文的过程中，仔细分析了一遍汇编代码，发现，丫是个低级错误 - 运算符优先级错误……<br />
+<p>但是在整理本文的过程中，仔细分析了一遍汇编代码，发现，丫是个低级错误 - 运算符优先级错误……<br>
 实际上，C代码真正的执行逻辑是这样的：</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">cchFullHeaderLen <span style="color:#f92672">+=</span> (strlen(<span style="color:#e6db74">&#34;Request-Line: &#34;</span>) <span style="color:#f92672">+</span> strlen(pSessionData<span style="color:#f92672">-&gt;</span>HttpOpenReq.lpszVerb) <span style="color:#f92672">+</span> strlen(<span style="color:#e6db74">&#34; &#34;</span>) <span style="color:#f92672">+</span> strlen(pSessionData<span style="color:#f92672">-&gt;</span>HttpOpenReq.lpszObjectName) <span style="color:#f92672">+</span> (NULL <span style="color:#f92672">!=</span> pSessionData<span style="color:#f92672">-&gt;</span>HttpOpenReq.lpszVersion) ) 
    <span style="color:#f92672">?</span> (strlen(<span style="color:#e6db74">&#34; &#34;</span>) <span style="color:#f92672">+</span> strlen(pSessionData<span style="color:#f92672">-&gt;</span>HttpOpenReq.lpszVersion)) <span style="color:#f92672">:</span> ( <span style="color:#ae81ff">0</span> <span style="color:#f92672">+</span> strlen(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>) );
 </code></pre></div>
-
 <p>我的编码风格PPT又多了一条素材……</p>
 
         </div>
