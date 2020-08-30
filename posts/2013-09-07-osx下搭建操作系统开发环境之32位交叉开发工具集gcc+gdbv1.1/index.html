@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.71.1" />
+  <meta name="generator" content="Hugo 0.74.3" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -94,14 +94,14 @@
         </header>
 
         <div class="post-content markdown-body">
-          <h1 id="一前言-">一、前言</h1>
+          <h1 id="一前言">一、前言</h1>
 <p>　　《<a href="http://boxcounter.com/2013/11/14/linux%E3%80%81osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83_v1.1">linux、osx下搭建操作系统开发环境的完整步骤</a>》一文中讲解了一些基本的搭建方法，并提供了一个nasm汇编编写的简单的系统内核源码。实际开发过程中更多使用的是C语言，就需要有一个配套的C编译器。因为我使用的可执行文件是elf格式，所以我选择的是GCC。但是osx下安装的GCC生成的是osx的可执行文件格式，并不是elf。所以我需要一个能在osx下生成elf的GCC，俗称的交叉编译器。<br>
 　　我的环境：osx 10.8.4 &amp; 10.9</p>
-<h1 id="二安装osx版的gcc-">二、安装osx版的gcc</h1>
+<h1 id="二安装osx版的gcc">二、安装osx版的gcc</h1>
 <pre><code>brew install gcc48
 </code></pre>
 <p>　　推荐下载最新的稳定版gcc。</p>
-<h1 id="三配置编译环境-">三、配置编译环境</h1>
+<h1 id="三配置编译环境">三、配置编译环境</h1>
 <ol>
 <li>
 <p>下载gcc源码<br>
@@ -149,7 +149,7 @@
 </code></pre>
 </li>
 </ol>
-<h1 id="四编译交叉版的gcc-">四、编译交叉版的gcc</h1>
+<h1 id="四编译交叉版的gcc">四、编译交叉版的gcc</h1>
 <pre><code>cd $gcc-4.8.1
 mkdir build-gcc
 cd build-gcc
@@ -163,7 +163,7 @@ make install-target-libgcc
 　　另外，为了方便使用，可以在.bashrc或者.zshrc中调整环境变量：</p>
 <pre><code>export PATH=&quot;$HOME/opt/cross/bin:$PATH&quot;
 </code></pre>
-<h1 id="五测试源码-">五、测试源码</h1>
+<h1 id="五测试源码">五、测试源码</h1>
 <p>　　现在咱有了交叉编译器了，试试效果吧：
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">// kernel.c
 </span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;multiboot2.h&#34;</span><span style="color:#75715e">
@@ -232,7 +232,7 @@ make install-target-libgcc
 </code></pre>
 <p>　　「-Ttext=0x100000」是为了让代码段加载到0x100000，而不是默认的08048074（我的环境中），后者超出我的bochs虚拟机的物理内存空间。<br>
 　　然后用kernel.bin替换之前的虚拟磁盘中的同名文件，再运行bochs虚拟机就能看到熟悉的magic breakpoint了。</p>
-<h1 id="六编译交叉版的-gdb-">六、编译交叉版的 gdb</h1>
+<h1 id="六编译交叉版的-gdb">六、编译交叉版的 gdb</h1>
 <pre><code>cd $gdb-7.6.1
 mkdir build-$TARGET
 cd build-$TARGET
@@ -241,17 +241,17 @@ make
 sudo make install
 </code></pre>
 <p>　　完成后,在「~/opt/cross/bin」下就能看到编译好的交叉版的i586-elf-gdb 了。</p>
-<h1 id="七参考资料-">七、参考资料</h1>
+<h1 id="七参考资料">七、参考资料</h1>
 <ol>
 <li><a href="http://wiki.osdev.org/GCC_Cross-Compiler">GCC Cross-Compiler</a>
 [1]: <a href="http://wiki.osdev.org/GCC_Cross-Compiler">http://wiki.osdev.org/GCC_Cross-Compiler</a>  &ldquo;「GCC Cross-Compiler」&rdquo;</li>
 </ol>
-<h1 id="八版本记录-">八、版本记录</h1>
+<h1 id="八版本记录">八、版本记录</h1>
 <ul>
 <li>v1.0 - 2013-09-07，初始发布。</li>
 <li>v1.1 - 2013-11-04，增加「编译交叉版的gdb」章节。</li>
 </ul>
-<h1 id="九网友补充-">九、网友补充</h1>
+<h1 id="九网友补充">九、网友补充</h1>
 <p>以下内容为热心网友补充，供同好参考。（我没有验证。暂记录在这里，后续验证过后我再补入正文。感谢这位网友被我之前老博客系统的验证码刁难了N次后，还依然告知我，非常感谢。）</p>
 <blockquote>
 <p>OSX10.9下使用gcc4.8编译binutils-2.24会报错：nm.c:1687:7: error: &lsquo;sbrk&rsquo; is deprecated (declared at /usr/include/unistd.h:582)<br>

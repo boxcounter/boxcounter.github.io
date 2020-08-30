@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.71.1" />
+  <meta name="generator" content="Hugo 0.74.3" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -94,9 +94,9 @@
         </header>
 
         <div class="post-content markdown-body">
-          <h1 id="一前言-">一、前言</h1>
+          <h1 id="一前言">一、前言</h1>
 <p>　　本文的内容最初源自我重温《代码大全》时候读到的一段内容，然后和同事讨论又引发了自己的一些思索。最后觉得这值得写下来，一来我一直很喜欢琢磨编码风格，有一些这方面的​思考，但都是一些存放在脑子里的思维碎片，（部分）整理成文对我自己是件好事。二来抛砖引玉，希望能找到一些同好探讨。</p>
-<h1 id="二常用的断言宏-">二、常用的断言宏</h1>
+<h1 id="二常用的断言宏">二、常用的断言宏</h1>
 <p>　　先贴一段我常用的断言宏，后面讲述的时候所说的ASSERT是通指下面这一组ASSERT*。
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#ifdef DEBUG
 </span><span style="color:#75715e">#define ASSERT(x) assert(x)
@@ -110,7 +110,7 @@
 </span><span style="color:#75715e">#define ASSERT_BREAK(x)             {ASSERT(x); if(!(x)) {break;}}
 </span><span style="color:#75715e">#define ASSERT_CONTINUE(x)          {ASSERT(x); if(!(x)) {continue;}}
 </span></code></pre></div></p>
-<h1 id="三隔栏与断言-">三、隔栏与断言</h1>
+<h1 id="三隔栏与断言">三、隔栏与断言</h1>
 <p>　　《代码大全》里有这么一段“隔栏与断言的关系”：</p>
 <blockquote>
 <p>隔栏外部的程序应使用错误处理技术，在那里对数据做的任何假定都是不安全的。<br>
@@ -129,7 +129,7 @@
 </ol>
 <p>　　又琢磨了琢磨，感觉《代码大全》里说的也有道理。隔栏处确实更适合做过滤，而不是断言。<br>
 　　因为隔栏外部的程序未必需要隔栏内部的反馈。比如单元测试时，测试程序可能会有意的传入非法的参数。</p>
-<h1 id="四一个讨论引发的思索-">四、一个讨论引发的思索</h1>
+<h1 id="四一个讨论引发的思索">四、一个讨论引发的思索</h1>
 <p>　　另外，同事分享了一个讨论贴，主贴里楼主愤怒地吐槽：</p>
 <blockquote>
 <p>昨天线上的一个服务程序问了点问题，程序无限重启。<br>
@@ -160,7 +160,7 @@
 <p>　　举例来说，本文最开始的ASSERT_RETURN宏就是这种方法的一个典型：</p>
 <p>　　在开发版本（#ifdef DEBUG分支）中，启用了assert，一旦不符合研发人员的预期，就会立刻引爆，让研发能够发现问题。而发布版本中则只是做了&quot;if return/break/continue&quot;等，包容了错误。让程序能够正常的运行下去。</p>
 <p>　　另外在发布版本中是包容还是优雅的退出，取决于具体的问题。比如office中发现用户通过剪贴板复制过来的数据不合要求，如果此时“优雅的退出”，用户可能杀人的心都有​了。</p>
-<h1 id="五性能优化相关的一些想法-">五、性能优化相关的一些想法</h1>
+<h1 id="五性能优化相关的一些想法">五、性能优化相关的一些想法</h1>
 <p>　　这个话题也是一个很庞大的话题，我只说说我个人的想法：</p>
 <ol>
 <li>优化的前提是掌握了准确的性能分析数据，明确了性能瓶颈。没有进行科学的性能分析就着手进行的优化都是耍流氓。<br>
@@ -170,7 +170,7 @@
 切莫为“这个密集调用的函数里这条检查语句很复杂，可能会影响整体性能”而“优化”。首先，参考上述的1，别耍流氓。其次，优化也有收益比曲线，先优化收益比最高的那些瓶​颈，那些才是金矿。</li>
 </ol>
 <p>　　最后，广而告之：《代码大全》，你值得拥有。</p>
-<h1 id="六版本记录-">六、版本记录</h1>
+<h1 id="六版本记录">六、版本记录</h1>
 <ul>
 <li>v1.0 - 2014-01-05, 初始发布。</li>
 <li>v1.1 - 2014-01-12, 增加了隔栏处的新思考。</li>

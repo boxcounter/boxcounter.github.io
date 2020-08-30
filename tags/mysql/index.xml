@@ -17,7 +17,7 @@
       <pubDate>Fri, 15 Sep 2017 00:00:00 +0000</pubDate>
       
       <guid>http://boxcounter.com/posts/2017-09-15-read-commited-statement-based-replication/</guid>
-      <description>疑问 在MySQL的[Transaction Isolation Level] (https://dev.mysql.com/doc/refman/5.7/en/innodb</description>
+      <description>疑问 在MySQL的Transaction Isolation Level文档里读到这么一句话： If you use READ COMMITTED, you must use row-based binary logging. 这引发了我的好奇心：为什么呢？READ COM</description>
     </item>
     
   </channel>

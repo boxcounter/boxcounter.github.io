@@ -6,10 +6,28 @@
     <description>Recent content on Boxcounter&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 16 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 30 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://boxcounter.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>《管理学（第 13 版）》读书笔记</title>
+      <link>http://boxcounter.com/posts/2020-08-30-management/</link>
+      <pubDate>Sun, 30 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/posts/2020-08-30-management/</guid>
+      <description>书籍封面 笔记片段 全书一共 18 章，笔记量很大。 这里只展示第 17 章的笔记片段。文末有完整笔记的链接。 完整笔记 图片：管理学（第13版）.png.zip</description>
+    </item>
+    
+    <item>
+      <title>读书记录</title>
+      <link>http://boxcounter.com/posts/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Sun, 30 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/posts/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</guid>
+      <description>.markdown-body table td, .markdown-body table th { padding: 6px 13px; border: 1px solid #dfe2e5; white-space: nowrap; } .col-xs-12, .col-md-8, .col-md-offset-2, .col-md-offset-3, .col-lg-6, .col-xs-12, .col-sm-10, .col-md-8, .col-sm-offset-1, .col-md-offset-2, .col-lg-6, .col-lg-offset-3 { margin-left: 10px; max-width: 100%; flex: 1; } } 记录我读完的书，从2014年开始记录。主要记录有点厚度的，薄手册</description>
+    </item>
     
     <item>
       <title>《How The Economic Machine Works》学习笔记</title>
@@ -18,15 +36,6 @@
       
       <guid>http://boxcounter.com/posts/2020-08-16-how-the-economic-machine-works-study/</guid>
       <description>这两天看了两遍《原则》作者 Ray Dalio 出品的科普视频《How The Economic Machine Works》，有一点思考，记录如下。 基础原则 支出能力的决定因素除了收入能力，还有信</description>
-    </item>
-    
-    <item>
-      <title>读书记录</title>
-      <link>http://boxcounter.com/posts/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</link>
-      <pubDate>Thu, 13 Aug 2020 00:00:00 +0000</pubDate>
-      
-      <guid>http://boxcounter.com/posts/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</guid>
-      <description>.markdown-body table td, .markdown-body table th { padding: 6px 13px; border: 1px solid #dfe2e5; white-space: nowrap; } .col-xs-12, .col-md-8, .col-md-offset-2, .col-md-offset-3, .col-lg-6, .col-xs-12, .col-sm-10, .col-md-8, .col-sm-offset-1, .col-md-offset-2, .col-lg-6, .col-lg-offset-3 { margin-left: 10px; max-width: 100%; flex: 1; } } 记录我读完的书，从2014年开始记录。主要记录有点厚度的，薄手册</description>
     </item>
     
     <item>
@@ -66,12 +75,12 @@
     </item>
     
     <item>
-      <title>《Microservices Pattern》读书笔记</title>
+      <title>《Microservices Patterns》读书笔记</title>
       <link>http://boxcounter.com/posts/2019-11-05-microservices-patterns/</link>
       <pubDate>Tue, 05 Nov 2019 00:00:00 +0000</pubDate>
       
       <guid>http://boxcounter.com/posts/2019-11-05-microservices-patterns/</guid>
-      <description>源图片：MicroservicesPattern.png 源文件：MicroservicesPattern.mindnode</description>
+      <description>书籍封面 笔记片段 完整笔记 图片：MicroservicesPattern.png.zip 思维导图：MicroservicesPattern.m</description>
     </item>
     
     <item>
@@ -134,7 +143,7 @@
       <pubDate>Fri, 15 Sep 2017 00:00:00 +0000</pubDate>
       
       <guid>http://boxcounter.com/posts/2017-09-15-read-commited-statement-based-replication/</guid>
-      <description>疑问 在MySQL的[Transaction Isolation Level] (https://dev.mysql.com/doc/refman/5.7/en/innodb</description>
+      <description>疑问 在MySQL的Transaction Isolation Level文档里读到这么一句话： If you use READ COMMITTED, you must use row-based binary logging. 这引发了我的好奇心：为什么呢？READ COM</description>
     </item>
     
     <item>

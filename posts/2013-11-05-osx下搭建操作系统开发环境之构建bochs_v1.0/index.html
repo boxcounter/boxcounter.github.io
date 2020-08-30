@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.71.1" />
+  <meta name="generator" content="Hugo 0.74.3" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -94,12 +94,12 @@
         </header>
 
         <div class="post-content markdown-body">
-          <h1 id="一前言-">一、前言</h1>
+          <h1 id="一前言">一、前言</h1>
 <p>　　我编译bochs的目的是为了启用gdb调试功能。bochs提供的调试器功能较简单，开发过程中还是gdb更趁手。本文记录的方法是我一点点尝试出来的，参考了网上一些零碎资料。整个过程虽然简单但是整体比较凌乱，特别是需要对bochs的官方源码包做好几处修改。目前不太想再花时间优化过程，能编译出来就好。如果有同好有更简单的方法，有劳和我分享一下吧。<br>
 　　我的环境：osx 10.9，bochs 2.6.2、使用x11作为界面库。</p>
-<h1 id="二安装x11-">二、安装X11</h1>
+<h1 id="二安装x11">二、安装X11</h1>
 <p>　　下载<a href="http://xquartz.macosforge.org/trac">XQuartz</a>安装包，并安装。</p>
-<h1 id="三配置编译环境-">三、配置编译环境</h1>
+<h1 id="三配置编译环境">三、配置编译环境</h1>
 <pre><code>export CC=/usr/bin/gcc
 export CXX=/usr/bin/g++
 export CPP=/usr/bin/cpp
@@ -108,7 +108,7 @@ export CFLAGS=-I/usr/X11/include
 export PREFIX=/Users/boxcounter/opt/bochs-gdb
 </code></pre>
 <p>　　根据我的试验，使用brew安装的gcc编译会报错，使用系统自带的就可以正常编译，所以调整了CC等环境变量。PREFIX宏请根据需要自行修改。</p>
-<h1 id="四编译bochs-">四、编译bochs</h1>
+<h1 id="四编译bochs">四、编译bochs</h1>
 <ul>
 <li>
 <p>下载<a href="http://sourceforge.net/projects/bochs/files/bochs/">源码包</a>并解压，解压出来的目录名称之为“$bochs”。</p>
@@ -165,11 +165,11 @@ export PREFIX=/Users/boxcounter/opt/bochs-gdb
 <p>make &amp;&amp; make install</p>
 </li>
 </ul>
-<h1 id="五参考资料-">五、参考资料</h1>
+<h1 id="五参考资料">五、参考资料</h1>
 <ul>
 <li><a href="http://sourceforge.net/p/bochs/discussion/39592/thread/9c22887c">No rule to make target `-lltdl&rsquo;</a></li>
 </ul>
-<h1 id="六版本记录-">六、版本记录</h1>
+<h1 id="六版本记录">六、版本记录</h1>
 <ul>
 <li>v1.0 - 2013-11-05，初始发布。</li>
 </ul>

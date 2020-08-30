@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.71.1" />
+  <meta name="generator" content="Hugo 0.74.3" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -94,14 +94,14 @@
         </header>
 
         <div class="post-content markdown-body">
-          <h1 id="一前言-">一、前言</h1>
+          <h1 id="一前言">一、前言</h1>
 <p>　　《<a href="http://boxcounter.com/2013/11/04/osx%E4%B8%8B%E6%90%AD%E5%BB%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B9%8B32%E4%BD%8D%E4%BA%A4%E5%8F%89%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E9%9B%86%EF%BC%88gcc+gdb%EF%BC%89v1.1">osx下搭建操作系统开发环境之32位交叉开发工具集(gcc+gdb)</a>》一文中讲解了32位交叉工具的构建。64位（专指x64，非IA64）的构建方法和32位基本相同。看过前文的朋友看本文会发现绝大多数内容都是一样的。没错，之所以不基于前文、只讲差异，是为了独立性，方便只关注x64构建方法的朋友。<br>
 　　我的环境：osx 10.9</p>
-<h1 id="二安装osx版的gcc-">二、安装osx版的gcc</h1>
+<h1 id="二安装osx版的gcc">二、安装osx版的gcc</h1>
 <pre><code>brew install gcc48
 </code></pre>
 <p>　　推荐下载最新的稳定版gcc。</p>
-<h1 id="三配置编译环境-">三、配置编译环境</h1>
+<h1 id="三配置编译环境">三、配置编译环境</h1>
 <ol>
 <li>下载gcc源码<br>
 根据参考资料1的建议，最好使用最新的gcc来进行编译，被编译的源码也推荐使用一样版本的。也就是说，用gcc 4.8.2来编译gcc 4.8.2的源码。<br>
@@ -139,7 +139,7 @@
     make
     make install
 </code></pre>
-<h1 id="四编译交叉版的gcc-">四、编译交叉版的gcc</h1>
+<h1 id="四编译交叉版的gcc">四、编译交叉版的gcc</h1>
 <pre><code>cd $gcc-4.8.2
 mkdir build-gcc
 cd build-gcc
@@ -153,7 +153,7 @@ make install-target-libgcc
 　　另外，为了方便使用，可以在.bashrc或者.zshrc中调整环境变量：</p>
 <pre><code>export PATH=&quot;$HOME/opt/cross/bin:$PATH&quot;
 </code></pre>
-<h1 id="五编译交叉版的gdb-">五、编译交叉版的gdb</h1>
+<h1 id="五编译交叉版的gdb">五、编译交叉版的gdb</h1>
 <pre><code>cd $gdb-7.6.1
 mkdir build-$TARGET
 cd build-$TARGET
@@ -191,14 +191,14 @@ sudo make install
 <p>总结，gdb的TARGET要和bochs（而非被调试OS）的平台一致，即如果使用的是x64的bochs，那么gdb的编译TARGET也需要是x64的。</p>
 </li>
 </ul>
-<h1 id="六参考资料-">六、参考资料</h1>
+<h1 id="六参考资料">六、参考资料</h1>
 <ul>
 <li><a href="http://wiki.osdev.org/GCC_Cross-Compiler">GCC Cross-Compiler</a></li>
 <li><a href="http://wiki.osdev.org/GCC_Cross-Compiler_for_x86_64">GCC Cross-Compiler for x86 64</a></li>
 <li><a href="http://www.cs.utah.edu/~manua/sim_doc/simics-reference-manual-public-all/topic96.html">gdb-remote</a></li>
 <li><a href="http://sourceforge.net/p/bochs/discussion/39592/thread/a489c7f1">bochs + GDB help</a></li>
 </ul>
-<h1 id="七版本记录-">七、版本记录</h1>
+<h1 id="七版本记录">七、版本记录</h1>
 <ul>
 <li>v1.0 - 2013-11-08，初始发布。</li>
 </ul>
