@@ -95,7 +95,11 @@
 
         <div class="post-content markdown-body">
           <p>在使用LinearLayout+TextView的过程中遇到一个看似诡异的问题，显示效果如下：</p>
-<!-- raw HTML omitted -->
+
+
+<img src="/images/2015-09-01/baselineAligned.png" width="300"/>
+
+
 <p>其中两个灰色方块是使用代码动态创建的TextView。它们的父LinearLayout是这样的：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;LinearLayout</span>
     <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/ll_files&#34;</span>

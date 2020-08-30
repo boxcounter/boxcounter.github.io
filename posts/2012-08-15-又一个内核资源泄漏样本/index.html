@@ -183,7 +183,11 @@ C:\WINDOWS\system32\drivers&gt;findstr /m /l otpu *sys
 qutmdrv.sys
 </code></pre>
 <p>　　找到这个驱动，看了下属性，安全卫士的，该驱动的版本是7.2.1.1022。</p>
-<p>　　<!-- raw HTML omitted --></p>
+
+
+　　<img src="/images/2012-08-15/pooltag.jpg"/>
+
+
 <p>　　分析到这里我想起之前看过的<a href="http://www.cnblogs.com/ahuo/archive/2010/09/29/1838439.html">一个类似的样例</a></p>
 <p>　　现在找到了一个嫌疑人，为了确认没有误伤，卸掉我的驱动重启，等了10来分钟，看内存和cpu占用都稳定了，启动纯应用层测试工具做压力测试。<br>
 　　在测试前抓了个dmp，当时状态是这样的：</p>

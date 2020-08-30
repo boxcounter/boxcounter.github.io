@@ -96,7 +96,11 @@
         <div class="post-content markdown-body">
           <h1 id="一简述">一、简述</h1>
 <p>我们的产品中使用<a href="http://www.swoole.com/">Swoole</a>来构建长连接服务，用于C/S之间的实时数据交互。同时也编写了一个监控程序monitor来定时检查长连接服务的可用性。结构是这样的：</p>
-<!-- raw HTML omitted -->
+
+
+<img src="/images/2017-04-24/1.png" width="480"/>
+
+
 <p>不知从什么时候起，每天都会收到几封报警邮件，关键信息是这样的：</p>
 <pre><code>check_websocket: failed... err_code(11)...err_info: Resource temporarily unavailable
 </code></pre><p>因为最近团队忙的很，这个错误也没有影响业务的可用性，所以一直没管。等到前两天我有闲了，就尝试着分析、处理。</p>
@@ -131,7 +135,11 @@
 <h1 id="四报文分析">四、报文分析</h1>
 <p>用<code>tcpdump</code>分别在monitor所在服务器和swoole所在服务器上抓包。发现monitor和swoole之间的『超时』很严重，经常两三次重试才能成功一次，但只有5次重试都失败才会发送报警邮件。所以每天才『只』收到不足十封的报警邮件，要是没有这个重试机制，我们早就被报警邮件淹没了……</p>
 <p>先看看成功的报文序列：</p>
-<!-- raw HTML omitted -->
+
+
+<img src="/images/2017-04-24/2.png" width="600"/>
+
+
 <p>大概的流程是：</p>
 <ol>
 <li>双方三次握手建立起TCP连接 —— 报文118~120。</li>
@@ -141,7 +149,11 @@
 </ol>
 <p>这就是monitor正常的存活检测方法 —— 只要建立WebSocket连接成功，就认为swoole存活、可用，然后断开连接。</p>
 <p>再来看看超时的报文序列：</p>
-<!-- raw HTML omitted -->
+
+
+<img src="/images/2017-04-24/3.png" width="600"/>
+
+
 <p>可以看出和正常报文序列的区别：swoole没有返回「同意建立WebSocket连接」的HTTP响应报文。于是monitor在5秒钟之后超时发送了一段内容后结束了TCP连接。</p>
 <p>monitor发送的那段内容，也就是报文6中的<code>Continuation</code>，的值是88:02:03:e8。查阅<a href="https://tools.ietf.org/html/rfc6455#section-7.4">RFC 6455</a>，得知其含义是「正常关闭」：</p>
 <blockquote>

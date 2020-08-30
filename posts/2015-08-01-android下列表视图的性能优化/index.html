@@ -110,11 +110,20 @@
 <h2 id="二内存优化">二、内存优化</h2>
 <p>优化内存使用也是一种常用的性能优化手段。它的机理是：GC会暂停所有线程，而频繁触发GC会加剧掉帧问题。</p>
 <p>来看一下主题的设计图，其中图片矩阵可以容纳0~9张图片。</p>
-<!-- raw HTML omitted -->
+
+
+<img src="/images/2015-08-01/memorySample.png" width="300"/>
+
+
 <p>优化方法是：尽量缓存、重用ImageView。比如：在<code>onBindViewHolder()</code>中发现图片矩阵控件中已经包含了7个ImageView（上次该控件显示的主题有7张图片），当前要显示的主题有5张图片，那么直接重用前5个ImageView，隐藏剩下的2个ImageView。</p>
 <h2 id="三精简布局">三、精简布局</h2>
 <p>来看一下主题的赞和评论区域。其中赞区域会有两种展现形式（针对不同的应用场景）。想想如果是你来实现，会怎么布局。</p>
-<!-- raw HTML omitted -->
+
+
+<img src="/images/2015-08-01/hierachySample1.png" width="300"/>
+<img src="/images/2015-08-01/hierachySample2.png" width="300"/>
+
+
 <p>布局方式可能会是这样：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;LinearLayout</span> <span style="color:#a6e22e">android:orientation=</span><span style="color:#e6db74">&#34;vertical&#34;</span> <span style="color:#f92672">&gt;</span>
 
