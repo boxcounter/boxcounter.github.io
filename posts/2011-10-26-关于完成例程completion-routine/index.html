@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.76.5" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -120,12 +120,12 @@
 </li>
 <li>
 <p>返回值：<br>
-过滤驱动的完成例程只能有两种返回值：&lsquo;STATUS_SUCCESS&rsquo;，或者&rsquo;STATUS_MORE_PROCESSING_REQUIRED&rsquo;。其他任何的返回值都会被IO manager重置为&rsquo;STATUS_SUCCESS&rsquo;。</p>
+过滤驱动的完成例程只能有两种返回值：&lsquo;STATUS_SUCCESS&rsquo;，或者&rsquo;STATUS_MORE_PROCESSING_REQUIRED'。其他任何的返回值都会被IO manager重置为&rsquo;STATUS_SUCCESS'。</p>
 </li>
 <li>
 <p>把IRP包放到work queue中应注意的：<br>
 先调用IoMarkIrpPending(&hellip;)，再把IRP包放到queue中。如果顺序反了，则在两者调用的之间的那段时间，该IRP包可能已经被其他驱动处理函数从queue中拿出，处理完毕，并且释放掉了该IRP包。这种情况下，可能导致系统崩溃。
-还有一些关于完成例程在哪些情况下，应该返回&rsquo;STATUS_MORE_PROCESSING_REQUIRED&rsquo;。这里就不罗嗦了，具体看DDK中“Constraints on Completion Routines”这一节。</p>
+还有一些关于完成例程在哪些情况下，应该返回&rsquo;STATUS_MORE_PROCESSING_REQUIRED'。这里就不罗嗦了，具体看DDK中“Constraints on Completion Routines”这一节。</p>
 </li>
 </ol>
 

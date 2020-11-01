@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.76.5" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -106,15 +106,15 @@
 </code></pre><p>因为最近团队忙的很，这个错误也没有影响业务的可用性，所以一直没管。等到前两天我有闲了，就尝试着分析、处理。</p>
 <h1 id="二无脑排查">二、无脑排查</h1>
 <p>先瞅了一眼monitor的代码，这个错误是在swoole的<code>WebSocketClient:connect()</code>失败时输出的，该方法的实现是这样的：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php">public function connect($timeout = 1)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">connect</span>($timeout <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
 {
-    $this-&gt;socket = new \swoole_client(SWOOLE_SOCK_TCP);
-    if (!$this-&gt;socket-&gt;connect($this-&gt;host, $this-&gt;port, $timeout))
+    $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">socket</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">\swoole_client</span>(<span style="color:#a6e22e">SWOOLE_SOCK_TCP</span>);
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>$this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">socket</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">connect</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">host</span>, $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">port</span>, $timeout))
     {
-        return false;
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
     }
-    $this-&gt;socket-&gt;send($this-&gt;createHeader());
-    return $this-&gt;recv();
+    $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">socket</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">send</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">createHeader</span>());
+    <span style="color:#66d9ef">return</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">recv</span>();
 }
 </code></pre></div><p>根据报警邮件里的信息，判断失败应该出现在其中的<code>socket.connect()</code>调用。</p>
 <p>第一反应是服务器或者swoole进程的配置或者资源不够。登入服务器简单查看了下资源占用和内核参数，资源占用正常，内核参数设低了，于是根据<a href="https://wiki.swoole.com/wiki/page/p-server/sysctl.html">Swoole官方的建议</a>做了调整。观察了一会，还是收到了相同的报警邮件。</p>

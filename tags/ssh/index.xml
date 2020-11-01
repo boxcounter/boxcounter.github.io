@@ -6,11 +6,7 @@
     <description>Recent content in SSH on Boxcounter&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 26 Nov 2016 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://boxcounter.com/tags/ssh/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 26 Nov 2016 00:00:00 +0000</lastBuildDate><atom:link href="http://boxcounter.com/tags/ssh/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Host key verification failed的另类触发</title>
       <link>http://boxcounter.com/posts/2016-11-26-host-key-verification-failed/</link>
