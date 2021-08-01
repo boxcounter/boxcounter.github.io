@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.82.0" />
+  <meta name="generator" content="Hugo 0.83.1" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -101,8 +101,7 @@
         IN  PDRIVER_OBJECT  <span style="color:#f92672">*</span>DriverObjectList,
         IN  ULONG  DriverObjectListSize,
         OUT PULONG  ActualNumberDriverObjects
-    );
-</code></pre></div>
+    );</code></pre></div>
 <p>其中对DriverObjectList参数的解释，在WDK 7600.16385.1 的文档中是这样：</p>
 <blockquote>
 <p>“The filter drivers are enumerated in order of decreasing distance from the base file system. The first element (index zero) in the DriverObjectList array represents the filter that is attached farthest from the file system. The second entry is for the next-farthest filter, and so on. The last entry in the array is for the filter that is closest to the base file system. ”</p>
@@ -134,8 +133,7 @@
     }
  
     <span style="color:#75715e">// ...... 无关代码，略
-</span><span style="color:#75715e"></span>}
-</code></pre></div>
+</span><span style="color:#75715e"></span>}</code></pre></div>
 <p>可以看出，返回的DriverObjectList中的DrvObj都是从IopFsNotifyChangeQueueHead链表中取出的，而且两个链表中的元素摆放顺序是一致的。</p>
 <p>那再来看看IopFsNotifyChangeQueueHead中的元素是按什么顺序摆放的：
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">NTSTATUS
@@ -152,8 +150,7 @@
     InsertTailList( <span style="color:#f92672">&amp;</span>IopFsNotifyChangeQueueHead, <span style="color:#f92672">&amp;</span>nPacket<span style="color:#f92672">-&gt;</span>ListEntry );
  
     <span style="color:#75715e">// ...... 无关代码，略
-</span><span style="color:#75715e"></span>}
-</code></pre></div>
+</span><span style="color:#75715e"></span>}</code></pre></div>
 可以看出，顺序是先来后到，也就是先调用IoRegisterFsRegistrationChange的DrvObj被插在链表的前面。而一般来说，先Attach到FSD的Driver，先调用IoRegisterFsRegistrationChange（一般驱动逻辑如此，你要硬写个驱动挂上去后死活非要在10分钟后Register，我这没辙）。</p>
 <p>半路总结下：实际的逻辑和WDK文档上说的不一致。<br>
 为了再次确认，我再瞅瞅我实际调试的环境（Win 7），wrk毕竟是2003版本的。</p>

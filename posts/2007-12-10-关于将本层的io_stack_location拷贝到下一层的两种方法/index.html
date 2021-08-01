@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.82.0" />
+  <meta name="generator" content="Hugo 0.83.1" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -106,8 +106,7 @@ NextIrpSp <span style="color:#f92672">=</span> IoGetNextIrpStackLocation(Irp);
   
 <span style="color:#f92672">*</span>NextIrpSp <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>IrpSp;   
   
-<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">IoCallDriver</span>(NextDeviceObject, Irp);
-</code></pre></div></li>
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">IoCallDriver</span>(NextDeviceObject, Irp);</code></pre></div></li>
 </ol>
 <p>两种方法都挺常用。但是今天再看DDK中一篇OSR的分析文章里提到一个采用方法二可能会导致的一个很隐蔽的BUG：</p>
 <p>方法二把本层（La）的整个IO_STACK_LOCATION都拷贝到了下一层(Lb)，而IO_STACK_LOCATION中有两个成员CompletionRoutine、Context，即完成例程和完成例程的上下文参数。也就是说方法二会让Lb层拥有这两个原本不一定会属于它的成员。如果这两个成员都是NULL，那还好。一旦这两个成员有有效的内容，那么就会导致&quot;an eventual blue screen&quot;。</p>
@@ -118,8 +117,7 @@ PIO_STACK_LOCATION __nextIrpSp;    <span style="color:#960050;background-color:#
 __irpSp <span style="color:#f92672">=</span> IoGetCurrentIrpStackLocation( (Irp) );     <span style="color:#960050;background-color:#1e0010">\</span>   
 __nextIrpSp <span style="color:#f92672">=</span> IoGetNextIrpStackLocation( (Irp) );    <span style="color:#960050;background-color:#1e0010">\</span>   
 RtlCopyMemory(__nextIrpSp, __irpSp, FIELD_OFFSET(IO_STACK_LOCATION, CompletionRoutine)); <span style="color:#960050;background-color:#1e0010">\</span>     
-__nextIrpSp<span style="color:#f92672">-&gt;</span>Control <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; }
-</code></pre></div>
+__nextIrpSp<span style="color:#f92672">-&gt;</span>Control <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; }</code></pre></div>
 <p>原来这是个宏，重点看RtlCopyMemory调用的最后一个参数：这个宏只拷贝了CompletionRoutine成员之前的部分。方法一、方法二的区别就在这里。而实际上后者相对于前者，并没有什么优点，所以还是尽量使用方法一比较好。</p>
 
         </div>

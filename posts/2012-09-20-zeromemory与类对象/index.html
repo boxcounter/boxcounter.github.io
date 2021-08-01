@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.82.0" />
+  <meta name="generator" content="Hugo 0.83.1" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -104,8 +104,7 @@
 </span><span style="color:#75715e"></span>    string m_strClientHostIP;           <span style="color:#75715e">//客户端IP
 </span><span style="color:#75715e"></span>    string m_strClientHostPort;         <span style="color:#75715e">//客户端端口
 </span><span style="color:#75715e"></span>    ...
-};
-</code></pre></div>
+};</code></pre></div>
 <p>按照我的经验，这种对类对象进行ZeroMemory或者memset的代码会导致程序崩掉。因为会覆盖掉类对象中的关键域，比如虚表。但是同事在vs2005中这样做却很正常。让我很奇怪，于是花了点时间分析了下。</p>
 <p>首先，std::string的vc实现并没有虚表，如下：</p>
 <pre><code>0:000&gt; dt string
@@ -150,8 +149,7 @@ QueueTest!string
     son.Show();
 
     ...
-}
-</code></pre></div>
+}</code></pre></div>
 <p>我对这段代码的预期是，因为有继承以及虚函数，所以会有虚表。ZeroMemory会导致虚表被破坏，然后在第二次Show的时候非法访问。但实际运行效果依然正常。</p>
 <p>于是检查了一下man的反汇编代码：</p>
 <pre><code>0:000:x86&gt; uf main
@@ -195,8 +193,7 @@ QueueTest!main:
     ZeroMemory(<span style="color:#f92672">&amp;</span>son, <span style="color:#66d9ef">sizeof</span>(Son));
     pson<span style="color:#f92672">-&gt;</span>Show();
     ...
-}
-</code></pre></div>
+}</code></pre></div>
 <p>　　看看反汇编码：</p>
 <pre><code>0:000:x86&gt; uf main
 QueueTest!main:

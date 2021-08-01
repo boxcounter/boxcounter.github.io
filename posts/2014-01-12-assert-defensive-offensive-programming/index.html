@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.82.0" />
+  <meta name="generator" content="Hugo 0.83.1" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -108,8 +108,7 @@
 </span><span style="color:#75715e">#define ASSERT_RETURN_VAL(x, ret)   {ASSERT(x); if(!(x)) {return ret;}}
 </span><span style="color:#75715e">#define ASSERT_GOTO(x, label)       {ASSERT(x); if(!(x)) {goto label;}}
 </span><span style="color:#75715e">#define ASSERT_BREAK(x)             {ASSERT(x); if(!(x)) {break;}}
-</span><span style="color:#75715e">#define ASSERT_CONTINUE(x)          {ASSERT(x); if(!(x)) {continue;}}
-</span></code></pre></div></p>
+</span><span style="color:#75715e">#define ASSERT_CONTINUE(x)          {ASSERT(x); if(!(x)) {continue;}}</span></code></pre></div></p>
 <h1 id="三隔栏与断言">三、隔栏与断言</h1>
 <p>　　《代码大全》里有这么一段“隔栏与断言的关系”：</p>
 <blockquote>

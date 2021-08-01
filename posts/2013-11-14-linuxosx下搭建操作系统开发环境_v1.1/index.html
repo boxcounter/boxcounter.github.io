@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.82.0" />
+  <meta name="generator" content="Hugo 0.83.1" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -138,16 +138,16 @@
  Building a new DOS disklabel with disk identifier 0x136d49ee.
  Changes will remain in memory only, until you decide to write them.
  After that, of course, the previous content won't be recoverable.
-    
+
  Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)
-    
+
  Command (m for help): o &lt;&lt;&lt;=== Create a new empty DOS partition table
  Building a new DOS disklabel with disk identifier 0x5bd665d5.
  Changes will remain in memory only, until you decide to write them.
  After that, of course, the previous content won't be recoverable.
-    
+
  Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)
-    
+
  Command (m for help): n &lt;&lt;&lt;=== Create a new partition
  Partition type:
  p   primary (0 primary, 0 extended, 4 free)
@@ -158,28 +158,28 @@
  Using default value 2048
  Last sector, +sectors or +size{K,M,G} (2048-20159, default 20159): &lt;&lt;&lt;=== 回车
  Using default value 20159
-    
+
  Command (m for help): a &lt;&lt;&lt;=== Toggle the bootable flag (Optional)
  Partition number (1-4): 1 &lt;&lt;&lt;=== 分区1
-    
+
  Command (m for help): p &lt;&lt;&lt;=== Print the partition table.
-    
+
  Disk /dev/loop0: 10 MB, 10321920 bytes
  16 heads, 63 sectors/track, 20 cylinders, total 20160 sectors
  Units = sectors of 1 * 512 = 512 bytes
  Sector size (logical/physical): 512 bytes / 512 bytes
  I/O size (minimum/optimal): 512 bytes / 512 bytes
  Disk identifier: 0x5bd665d5
-    
+
  Device Boot      Start         End      Blocks   Id  System
  /dev/loop0p1   *        2048       20159        9056   83  Linux
  &lt;&lt;&lt;=== 如果使用附录2记录的方法，需要记录Start和Blocks的值，本例子中分别是2048和9056。
-    
+
  Command (m for help): w &lt;&lt;&lt;=== Write partition table to our 'disk' and exit
  The partition table has been altered!
-    
+
  Calling ioctl() to re-read partition table.
-    
+
  WARNING: Re-reading the partition table failed with error 22: Invalid argument.
  The kernel still uses the old table. The new table will be used at
  the next reboot or after you run partprobe(8) or kpartx(8)

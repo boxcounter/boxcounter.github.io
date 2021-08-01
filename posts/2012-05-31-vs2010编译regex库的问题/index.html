@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.82.0" />
+  <meta name="generator" content="Hugo 0.83.1" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -107,8 +107,7 @@ error C2059: syntax error : ';'
 <span style="color:#75715e">// For compile-time assertions that generate
 </span><span style="color:#75715e">// no run-time overhead.
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">bool</span> f <span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">static_assert</span>;
-<span style="color:#66d9ef">template</span>   <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">static_assert</span> { <span style="color:#66d9ef">static_assert</span>() {} };
-</code></pre></div>
+<span style="color:#66d9ef">template</span>   <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">static_assert</span> { <span style="color:#66d9ef">static_assert</span>() {} };</code></pre></div>
 <p>　　该问题的原因是regex定义的static_assert模板与VS 2010的关键字冲突，将regex中的改名，比如改成_static_assert后就正常了。</p>
 <p>　　参考资料：</p>
 <ul>
