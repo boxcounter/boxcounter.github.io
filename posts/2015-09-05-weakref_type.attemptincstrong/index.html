@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.83.1" />
+  <meta name="generator" content="Hugo 0.88.0" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -95,7 +95,7 @@
 
         <div class="post-content markdown-body">
           <p>见中文注释内容：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">bool</span> RefBase<span style="color:#f92672">::</span>weakref_type<span style="color:#f92672">::</span>attemptIncStrong(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> id)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">bool</span> RefBase<span style="color:#f92672">::</span>weakref_type<span style="color:#f92672">::</span>attemptIncStrong(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> id)
 {
     incWeak(id);
     
@@ -166,7 +166,7 @@
     
     <span style="color:#66d9ef">return</span> true;
 }</code></pre></div>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> RefBase<span style="color:#f92672">::</span>decStrong(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> id) <span style="color:#66d9ef">const</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> RefBase<span style="color:#f92672">::</span>decStrong(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> id) <span style="color:#66d9ef">const</span>
 {
     weakref_impl<span style="color:#f92672">*</span> <span style="color:#66d9ef">const</span> refs <span style="color:#f92672">=</span> mRefs;
     refs<span style="color:#f92672">-&gt;</span>removeStrongRef(id);

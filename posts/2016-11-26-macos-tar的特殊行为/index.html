@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.83.1" />
+  <meta name="generator" content="Hugo 0.88.0" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -95,7 +95,7 @@
 
         <div class="post-content markdown-body">
           <p>这周在编写自动部署脚本的过程遇到一个有趣的问题 —— 我把脚本打包成tgz文件，然后scp到被部署服务器上。解压之后发现多出来好些隐藏文件。比如下面的行1和行3：</p>
-<pre><code>$ ls ./init/letsencrypt/keys/
+<pre tabindex="0"><code>$ ls ./init/letsencrypt/keys/
 ._0000_key-certbot.pem
 0000_key-certbot.pem
 ._0000_key-letsencrypt.pem
@@ -104,7 +104,7 @@
 <p>一头雾水。于是google「tar dot file」，找到了答案：</p>
 <p>macOS自带的tar在打包过程中创建了这些隐藏文件，用于保存被打包文件的扩展属性，解包时会用隐藏文件中的数据重建扩展属性。ubuntu下的tar则不具备这个特性，会将隐藏文件原样解包出来。</p>
 <p>可以通过<code>ls -le@ *</code>来查看扩展属性：</p>
-<pre><code>$ /bin/ls -le@ ./init/letsencrypt/keys/
+<pre tabindex="0"><code>$ /bin/ls -le@ ./init/letsencrypt/keys/
 total 56
 -rw-------@ 1 Boxcounter  staff  1708 Nov 16 12:26 0000_key-certbot.pem
 	com.apple.quarantine	  17

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.83.1" />
+  <meta name="generator" content="Hugo 0.88.0" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -125,7 +125,7 @@
 
 
 <p>布局方式可能会是这样：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;LinearLayout</span> <span style="color:#a6e22e">android:orientation=</span><span style="color:#e6db74">&#34;vertical&#34;</span> <span style="color:#f92672">&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;LinearLayout</span> <span style="color:#a6e22e">android:orientation=</span><span style="color:#e6db74">&#34;vertical&#34;</span> <span style="color:#f92672">&gt;</span>
 
     <span style="color:#75715e">&lt;!-- 赞区域 --&gt;</span>
     <span style="color:#f92672">&lt;LinearLayout</span> <span style="color:#a6e22e">android:orientation=</span><span style="color:#e6db74">&#34;horizontal&#34;</span> <span style="color:#f92672">&gt;</span>
@@ -145,7 +145,7 @@
 <span style="color:#f92672">&lt;/LinearLayout&gt;</span></code></pre></div>
 <p>根据赞的显示方式来设置<code>GridLayout</code>和<code>TextView</code>的Visibility。</p>
 <p>我的方法是：根据需要动态改变布局结构、保正显示效果的同时精简数量和层级。优化后是这样：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;LinearLayout</span> <span style="color:#a6e22e">android:orientation=</span><span style="color:#e6db74">&#34;vertical&#34;</span> <span style="color:#f92672">&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;LinearLayout</span> <span style="color:#a6e22e">android:orientation=</span><span style="color:#e6db74">&#34;vertical&#34;</span> <span style="color:#f92672">&gt;</span>
 
     <span style="color:#75715e">&lt;!-- 赞区域 --&gt;</span>
     <span style="color:#f92672">&lt;ViewStub</span> <span style="color:#a6e22e">android:background=</span><span style="color:#e6db74">&#34;heart.9.png&#34;</span> <span style="color:#f92672">/&gt;</span>
@@ -173,7 +173,7 @@
 </ul>
 <h2 id="五预处理">五、预处理</h2>
 <p>需要引入一点业务数据结构来辅助说明。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// 约定：为了行文简洁，本文中所有代码都隐藏了诸如public关键字、构造函数等非核心内容。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// 约定：为了行文简洁，本文中所有代码都隐藏了诸如public关键字、构造函数等非核心内容。
 </span><span style="color:#75715e"></span>
 <span style="color:#75715e">// 主题
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Topic</span> <span style="color:#f92672">{</span>
@@ -197,7 +197,7 @@
 </span><span style="color:#75715e"></span>    String mAvatarUrl<span style="color:#f92672">;</span>  <span style="color:#75715e">// 头像的下载地址。
 </span><span style="color:#75715e"></span><span style="color:#f92672">}</span></code></pre></div>
 <p>这其中有部分数据是可以预处理的，得到的数据结构如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PreprocessResult</span> <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PreprocessResult</span> <span style="color:#f92672">{</span>
     CharSequence mText<span style="color:#f92672">;</span>             <span style="color:#75715e">// 包含Spannable（比如超链接）的正文。
 </span><span style="color:#75715e"></span>    String mLikes<span style="color:#f92672">;</span>                  <span style="color:#75715e">// 用逗号分隔的文字形式的点赞用户的名称。
 </span><span style="color:#75715e"></span>    List<span style="color:#f92672">&lt;</span>CharSequence<span style="color:#f92672">&gt;</span> mComments<span style="color:#f92672">;</span>   <span style="color:#75715e">// 包含Spannable的评论列表。
@@ -210,7 +210,7 @@
 <h2 id="七优化textview">七、优化TextView</h2>
 <p>经过上述这几步优化之后，流畅度提升了很多，但偶尔还是会出现较明显的卡顿现象。分析发现是<code>TextView.setText()</code>耗时过长导致的，在高强度测试下（长文主题，并且有很多评论），平均一次长文的调用就可能耗时22ms，已经超过了保证帧率的16ms上限。</p>
 <p>因为这个项目的业务逻辑决定了主题、评论的文字内容不会被修改，只有增删。于是采用的优化方法是：对于主题正文和评论，用<code>StaticLayout</code>配合自定义View展示文字。自定义View代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StaticLayoutView</span> <span style="color:#66d9ef">extends</span> View <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StaticLayoutView</span> <span style="color:#66d9ef">extends</span> View <span style="color:#f92672">{</span>
     <span style="color:#66d9ef">private</span> StaticLayout mLayout<span style="color:#f92672">;</span>
 
     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setLayout</span><span style="color:#f92672">(</span>StaticLayout layout<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
@@ -247,7 +247,7 @@
     <span style="color:#f92672">}</span>
 <span style="color:#f92672">}</span></code></pre></div>
 <p>StaticLayoutView相比TextView简单、高效很多，更重要的是<code>StaticLayout</code>可以在非UI线程创建、初始化。于是前述「预处理」过程中的数据结构变为：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PreprocessResult</span> <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PreprocessResult</span> <span style="color:#f92672">{</span>
     StaticLayout mText<span style="color:#f92672">;</span>             <span style="color:#75715e">// &lt;= 之前是CharSequence
 </span><span style="color:#75715e"></span>    String mLikes<span style="color:#f92672">;</span>
     List<span style="color:#f92672">&lt;</span>StaticLayout<span style="color:#f92672">&gt;</span> mComments<span style="color:#f92672">;</span>   <span style="color:#75715e">// &lt;= 之前是List&lt;CharSequence&gt;

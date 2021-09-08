@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.83.1" />
+  <meta name="generator" content="Hugo 0.88.0" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -98,7 +98,7 @@
 <ol>
 <li>调用MS提供的标准方法IoCopyCurrentIrpStackLocationToNext(&hellip;)</li>
 <li>方法二：
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">PIO_STACK_LOCATION IrpSp;   
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">PIO_STACK_LOCATION IrpSp;   
 PIO_STACK_LOCATION NextIrpSp;   
   
 IrpSp <span style="color:#f92672">=</span> IoGetCurrentIrpStackLocation(Irp);   
@@ -111,7 +111,7 @@ NextIrpSp <span style="color:#f92672">=</span> IoGetNextIrpStackLocation(Irp);
 <p>两种方法都挺常用。但是今天再看DDK中一篇OSR的分析文章里提到一个采用方法二可能会导致的一个很隐蔽的BUG：</p>
 <p>方法二把本层（La）的整个IO_STACK_LOCATION都拷贝到了下一层(Lb)，而IO_STACK_LOCATION中有两个成员CompletionRoutine、Context，即完成例程和完成例程的上下文参数。也就是说方法二会让Lb层拥有这两个原本不一定会属于它的成员。如果这两个成员都是NULL，那还好。一旦这两个成员有有效的内容，那么就会导致&quot;an eventual blue screen&quot;。</p>
 <p>再反观方法一IoCopyCurrentIrpStackLocationToNext(&hellip;)，在Ntddk.h有，有这个“函数”的定义：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#define IoCopyCurrentIrpStackLocationToNext( Irp ) { \   
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#define IoCopyCurrentIrpStackLocationToNext( Irp ) { \   
 </span><span style="color:#75715e"></span>PIO_STACK_LOCATION __irpSp;        <span style="color:#960050;background-color:#1e0010">\</span>   
 PIO_STACK_LOCATION __nextIrpSp;    <span style="color:#960050;background-color:#1e0010">\</span>   
 __irpSp <span style="color:#f92672">=</span> IoGetCurrentIrpStackLocation( (Irp) );     <span style="color:#960050;background-color:#1e0010">\</span>   

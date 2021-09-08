@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.83.1" />
+  <meta name="generator" content="Hugo 0.88.0" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -96,7 +96,7 @@
         <div class="post-content markdown-body">
           <p>有关于IoEnumerateRegisteredFiltersList
 昨天逆一个驱动的时候发现静态分析出来的逻辑跟动态调试的逻辑不一致，继续跟下去，发现分歧处在IoEnumerateRegisteredFiltersList函数，原型如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">NTSTATUS
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">NTSTATUS
     <span style="color:#a6e22e">IoEnumerateRegisteredFiltersList</span>(
         IN  PDRIVER_OBJECT  <span style="color:#f92672">*</span>DriverObjectList,
         IN  ULONG  DriverObjectListSize,
@@ -108,7 +108,7 @@
 </blockquote>
 <p>WDK是说，DriverObjectList中的DrvObj是按照顺序排列的，离FSD最远的排最头（第一个元素），反之则排在最末尾。<br>
 可实际调试的结果正好相反，查看了下wrk代码，</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">NTSTATUS
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">NTSTATUS
     <span style="color:#a6e22e">IoEnumerateRegisteredFiltersList</span>(
         IN  PDRIVER_OBJECT  <span style="color:#f92672">*</span>DriverObjectList,
         IN  ULONG           DriverObjectListSize,
@@ -136,7 +136,7 @@
 </span><span style="color:#75715e"></span>}</code></pre></div>
 <p>可以看出，返回的DriverObjectList中的DrvObj都是从IopFsNotifyChangeQueueHead链表中取出的，而且两个链表中的元素摆放顺序是一致的。</p>
 <p>那再来看看IopFsNotifyChangeQueueHead中的元素是按什么顺序摆放的：
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">NTSTATUS
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">NTSTATUS
     <span style="color:#a6e22e">IoRegisterFsRegistrationChange</span>(
         IN PDRIVER_OBJECT DriverObject,
         IN PDRIVER_FS_NOTIFICATION DriverNotificationRoutine

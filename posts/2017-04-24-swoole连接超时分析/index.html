@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.83.1" />
+  <meta name="generator" content="Hugo 0.88.0" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -102,11 +102,11 @@
 
 
 <p>不知从什么时候起，每天都会收到几封报警邮件，关键信息是这样的：</p>
-<pre><code>check_websocket: failed... err_code(11)...err_info: Resource temporarily unavailable
+<pre tabindex="0"><code>check_websocket: failed... err_code(11)...err_info: Resource temporarily unavailable
 </code></pre><p>因为最近团队忙的很，这个错误也没有影响业务的可用性，所以一直没管。等到前两天我有闲了，就尝试着分析、处理。</p>
 <h1 id="二无脑排查">二、无脑排查</h1>
 <p>先瞅了一眼monitor的代码，这个错误是在swoole的<code>WebSocketClient:connect()</code>失败时输出的，该方法的实现是这样的：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">connect</span>($timeout <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">connect</span>($timeout <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
 {
     $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">socket</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">\swoole_client</span>(<span style="color:#a6e22e">SWOOLE_SOCK_TCP</span>);
     <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>$this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">socket</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">connect</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">host</span>, $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">port</span>, $timeout))
@@ -124,7 +124,7 @@
 <li><code>net.core.somaxconn</code>是默认的128 —— 低了。</li>
 </ul>
 <p>动手改吧：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo sysctl -w net.core.somaxconn<span style="color:#f92672">=</span><span style="color:#ae81ff">8192</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo sysctl -w net.core.somaxconn<span style="color:#f92672">=</span><span style="color:#ae81ff">8192</span>
 </code></pre></div><p>顺便也调整了monitor中设定swoole配置的代码，显式把backlog设为8192，通过<code>ss -ltn</code>确认生效后继续观察，过了一阵还是收到了报警邮件。看样子没这么简单，无脑调优失败。</p>
 <p>那就摆正态度、认真分析吧~</p>
 <h1 id="三数据采集">三、数据采集</h1>
@@ -177,7 +177,7 @@ the connection was established has been fulfilled.</p>
 <p>那么接下来应该怎么继续分析呢？</p>
 <h1 id="五strace分析">五、strace分析</h1>
 <p>先找到swoole的master进程ID，然后<code>sudo strace -p 25289 -f -F</code>，对输出进行定位、裁剪后，得到以下的调用序列：</p>
-<pre><code> 1 accept4(4, {sa_family=AF_INET, sin_port=htons(46407), sin_addr=inet_addr(&quot;X.X.X.X&quot;)}, [16], SOCK_CLOEXEC|SOCK_NONBLOCK) = 2032
+<pre tabindex="0"><code> 1 accept4(4, {sa_family=AF_INET, sin_port=htons(46407), sin_addr=inet_addr(&quot;X.X.X.X&quot;)}, [16], SOCK_CLOEXEC|SOCK_NONBLOCK) = 2032
  2 epoll_ctl(204, EPOLL_CTL_ADD, 2032, {EPOLLOUT, {u32=2032, u64=2032}} &lt;unfinished ...&gt;
  3 &lt;... epoll_wait resumed&gt; {{EPOLLOUT, {u32=2032, u64=2032}}}, 4096, -1) = 1
  4 epoll_ctl(204, EPOLL_CTL_MOD, 2032, {EPOLLIN, {u32=2032, u64=2032}} &lt;unfinished ...&gt;
@@ -199,13 +199,13 @@ the connection was established has been fulfilled.</p>
 <li><a href="https://tools.ietf.org/html/rfc6455#section-7.4">RFC 6455 - The WebSocket Protocol</a></li>
 </ul>
 <h1 id="七附录">七、附录</h1>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 使用netstat查看系统的TCP连接情况</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 使用netstat查看系统的TCP连接情况</span>
 OUTPUT<span style="color:#f92672">=</span>/tmp/nst.log
 echo -n <span style="color:#66d9ef">$(</span> date <span style="color:#e6db74">&#34;+%Y-%m-%d_%H:%M:%S&#34;</span> <span style="color:#66d9ef">)</span> &gt;&gt; $OUTPUT
 echo -n <span style="color:#e6db74">&#34; &#34;</span> &gt;&gt; $OUTPUT
 netstat -n | awk <span style="color:#e6db74">&#39;BEGIN { OFS = &#34; &#34;; ORS = &#34; &#34; } /^tcp/ {++y[$NF]} END {for(w in y) print w, y[w]}&#39;</span> &gt;&gt; $OUTPUT
 echo <span style="color:#e6db74">&#34;&#34;</span> &gt;&gt; $OUTPUT
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 使用netstat查看指定进程的TCP连接情况（记得要把第四行中的{keyword}换成进程的关键字）</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 使用netstat查看指定进程的TCP连接情况（记得要把第四行中的{keyword}换成进程的关键字）</span>
 OUTPUT<span style="color:#f92672">=</span>/tmp/swcc.log
 echo -n <span style="color:#66d9ef">$(</span> date <span style="color:#e6db74">&#34;+%Y-%m-%d_%H:%M:%S&#34;</span> <span style="color:#66d9ef">)</span> &gt;&gt; $OUTPUT
 echo -n <span style="color:#e6db74">&#34; &#34;</span> &gt;&gt; $OUTPUT

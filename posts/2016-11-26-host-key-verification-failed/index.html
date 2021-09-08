@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.83.1" />
+  <meta name="generator" content="Hugo 0.88.0" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -104,7 +104,7 @@ Are you sure you want to continue connecting (yes/no)?</p>
 </blockquote>
 <p>通常大家手输yes就可以继续clone代码了。而静默执行的脚本通常会在建立连接之前将目标站点保存到<code>known_hosts</code>，以跳过询问。</p>
 <p>在我的脚本里是这样的：</p>
-<pre><code>ssh_dir=&quot;${HOME}/.ssh&quot;
+<pre tabindex="0"><code>ssh_dir=&quot;${HOME}/.ssh&quot;
 ...
 ssh-keyscan -v -t rsa ssh.github.com &gt; ${ssh_dir}/known_hosts
 git clone git@github.com:...
@@ -119,7 +119,7 @@ git clone git@github.com:...
 <p>搜遍资料、试遍方法，几个小时过去了，依然没有进展。眼瞅着就没法轻松过周末了……</p>
 <h1 id="新思路">新思路</h1>
 <p>于是换了个思路，跳过Jenkins、直接SSH到被部署服务器上，手动执行脚本：</p>
-<pre><code>chmod u+x ./init.sh
+<pre tabindex="0"><code>chmod u+x ./init.sh
 sudo ./init.sh
 </code></pre><p>又看到了熟悉的询问，悬着手腕琢磨接下来该怎么办，转念一想「要不yes了看看它自己能不能保存到known_hosts、保存的格式是怎样的」。动手之前先<code>mv known_hosts known_hosts.old</code>待会好diff。</p>
 <h1 id="峰回路转">峰回路转</h1>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.83.1" />
+  <meta name="generator" content="Hugo 0.88.0" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,7 +19,7 @@
       "articleSection" : "posts",
       "name" : "依赖倒置原则（Dependency inversion principle）",
       "headline" : "依赖倒置原则（Dependency inversion principle）",
-      "description" : "依赖倒置原则（Dependency Inversion Principle）是 Uncle Bob 提出的一个 OOP 的原则。维基百科上对它的说明是这样的： 该原则规定： 高层次的模块不应",
+      "description" : "依赖倒置原则（Dependency Inversion Principle）是 Uncle Bob 提出的一个 OOP 的原则。维基百科上对它的说明是这样的： 该原则规定： 高层模块不应依赖",
       "inLanguage" : "en-US",
       "author" : "Boxcounter",
       "creator" : "Boxcounter",
@@ -36,7 +36,7 @@
 <title>依赖倒置原则（Dependency inversion principle） - Boxcounter&#39;s blog</title>
   <meta property="og:title" content="依赖倒置原则（Dependency inversion principle） - Boxcounter&#39;s blog" />
   <meta property="og:type" content="article" />
-  <meta name="description" content="依赖倒置原则（Dependency Inversion Principle）是 Uncle Bob 提出的一个 OOP 的原则。维基百科上对它的说明是这样的： 该原则规定： 高层次的模块不应" />
+  <meta name="description" content="依赖倒置原则（Dependency Inversion Principle）是 Uncle Bob 提出的一个 OOP 的原则。维基百科上对它的说明是这样的： 该原则规定： 高层模块不应依赖" />
 
   <link rel="stylesheet" href="/css/flexboxgrid-6.3.1.min.css" />
   <link rel="stylesheet"
@@ -98,20 +98,27 @@
 <blockquote>
 <p>该原则规定：</p>
 <ol>
-<li>高层次的模块不应该依赖于低层次的模块，两者都应该依赖于抽象接口。</li>
-<li>抽象接口不应该依赖于具体实现，而具体实现则应该依赖于抽象接口。</li>
+<li>高层模块不应依赖低层模块，两者都应该依赖抽象接口。</li>
+<li>抽象接口不应依赖具体实现，恰恰相反，后者应该依赖前者。</li>
 </ol>
 </blockquote>
+
+
+<br>
+
+
 <p>与上述文字相比，我更喜欢用的图和伪码来描述。来看一下最常见的依赖关系：直接依赖 —— 依赖于具体实现。如下图一：</p>
 
 
 <img src="/images/2019-06-02/01.png"/>
+<br>
 
 
 <p>而 DIP 更推荐下图二这种结构：间接依赖 —— 依赖于抽象接口。</p>
 
 
 <img src="/images/2019-06-02/02.png"/>
+<br>
 
 
 <p>伪码和之前几乎一样，但依赖关系发生了变化：Foo 依赖于同包的接口 Bar，而不是另一个包的实现类。这样做的实质是分离了依赖关系和调用关系：</p>
@@ -119,11 +126,14 @@
 <li>图一中，Foo 既依赖了 Bar，又调用了 Bar。</li>
 <li>图二中，Foo 仍依赖了 Bar，但调用的是 ConcreteBar（Foo 所需的功能由 ConcreteBar 实际提供）</li>
 </ul>
-<p>那我们为什么需要将依赖关系和调用关系分离呢？为了降低耦合。</p>
+<p>那我们为什么需要将依赖关系和调用关系分离呢？</p>
+<p>为了降低耦合。</p>
+<h2 id="典型场景">典型场景</h2>
 <p>我们来看一个常见的业务场景：后端响应用户的登录请求。结构如下图三：</p>
 
 
 <img src="/images/2019-06-02/03.png"/>
+<br>
 
 
 <p>在实现时，我们将结构分为两层：</p>
@@ -134,15 +144,18 @@
 <p>此外，还用到了 Repository 设计模式：图中的 UserRepository 负责从 MySQL 中读取用户信息。</p>
 <p>图中的结构和伪码简单明了，而且很符合一些开发者的编写习惯。但它有一些缺陷。</p>
 <p>假设现在需要把一部分热数据缓存在 Redis 中以降低 MySQL 的查询压力。你会怎么做？</p>
-<p>常见的可能有这么两种：</p>
-<p>方案一：修改 UserRepository 类，让它在负责操作 MySQL 之外也负责操作 Redis。如图四：</p>
+<h2 id="三种不同的方案">三种不同的方案</h2>
+<h3 id="方案一扩充-userrepository">方案一、扩充 UserRepository</h3>
+<p>这种做法最常见：修改 UserRepository 类，让它在负责操作 MySQL 之外也负责操作 Redis。如图四：</p>
 
 
 <img src="/images/2019-06-02/04.png"/>
+<br>
 
 
-<p>这样的好处是应用层代码不需要修改，技术变更被控制在负责技术实现的基础设施层。</p>
-<p>那么它有缺点吗？有的，比如让 UserRepository 的职责变多、且（操作 MySQL 和 操作 Redis）耦合在一起。</p>
+<p>这样的好处是应用层代码不需要修改，技术变更被控制在基础设施层。</p>
+<p>那么它有缺点吗？</p>
+<p>有的，比如让 UserRepository 的职责变多、且（操作 MySQL 和 操作 Redis）耦合在一起。</p>
 <p>那么这个会有副作用吗？是的，会让我们很难对它的某个职责进行针对性处理。</p>
 <p>比如，现在我们需要单独对 MySQL 进行压力测试。那么为了屏蔽 Redis 功能，我们不得不在 UserRepository 中增加大量的 <code>if (redisEnabled) {...</code> 这样的判断语句，这会让 UserRepository 的代码结构格外的庞杂和凌乱，因为它承担了三个截然不同的职责：</p>
 <ol>
@@ -151,10 +164,12 @@
 <li>指挥 Redis 和 MySQL 之间的协同（比如处理 Redis 未命中数据请求时的逻辑）。</li>
 </ol>
 <p>让我来看看另一种常见做法。</p>
-<p>方案二：增加 UserCache 类，专门负责操作 Redis。如下图五：</p>
+<h3 id="方案二增加-usercache-类">方案二：增加 UserCache 类</h3>
+<p>新增的 UserCache 专门负责操作 Redis。如下图五：</p>
 
 
 <img src="/images/2019-06-02/05.png"/>
+<br>
 
 
 <p>这样的解决了方案一的缺点：他将方案一中提到的三种职责分到了三个不同的地方：</p>
@@ -165,11 +180,12 @@
 </ol>
 <p>但这个方案的缺点是让技术变更渗透到了应用层：UserApplicationService 的诉求是获得 User 数据，至于这个数据来自 Redis 还是 MySQL，它并不关心。毕竟它的职责是处理业务逻辑，而非技术细节。</p>
 <p>到这里我们会发现，上述两种方案的优缺点正好是相反的。我们是否只能在这两者中做“两害相权取其轻”的抉择呢？当然不是，我们来看看第三种方案。</p>
-<p>方案三：使用 DIP 原则分离业务逻辑和技术实现。</p>
+<h3 id="方案三使用-dip-原则分离业务逻辑和技术实现">方案三：使用 DIP 原则分离业务逻辑和技术实现。</h3>
 <p>我们先看看引入 Redis 前的结构，如图六。</p>
 
 
 <img src="/images/2019-06-02/06.png"/>
+<br>
 
 
 <p>此时 UserApplicationService 依赖的是 UserRepository 这个抽象接口（而非具体实现类），而 MySQLUserRepository 则实现了这个抽象接口。</p>
@@ -177,6 +193,7 @@
 
 
 <img src="/images/2019-06-02/07.png"/>
+<br>
 
 
 <p>这个结构同时囊括了前述两个方案的优点：</p>
@@ -192,10 +209,11 @@
 </ol>
 <p>而能够同时做到这些的原因就是我们应用了 DIP 原则：</p>
 <ol>
-<li>高层次的模块（UserApplicationService）不应该依赖于低层次的模块（XXXUserRepository），两者都应该依赖于抽象接口（UserRepository）。</li>
-<li>抽象接口（UserRepository）不应该依赖于具体实现（XXXUserRepository），而具体实现则应该依赖于抽象接口。</li>
+<li>高层模块（UserApplicationService）不应依赖低层模块（XXXUserRepository），两者都应该依赖抽象接口（UserRepository）。</li>
+<li>抽象接口（UserRepository）不应依赖具体实现（XXXUserRepository），恰恰相反，后者应该依赖前者。</li>
 </ol>
 <p>从本质上讲，DIP 分离了依赖关系和调用关系、并改变了依赖方向。从而通过实现“调用但不依赖”的关系结构，来降低层与层、模块与模块、类与类之间的耦合。</p>
+<h2 id="总结">总结</h2>
 <p>到这里，DIP 原则的主要内容就讲解完毕，但 DIP 的作用并不仅限于此。使用 DIP 原则降低耦合之后会让开发者做很多事情都如虎添翼，比如单元测试。如果感兴趣，可以思考一下如何为图一和图六中的 UserApplicationService 编写单元测试，相信会体会到更多低耦合带来的畅快感受。</p>
 <p>另外，除了 DIP，Uncle Bob 提出的其他几个原则对作出优雅的设计也很有益处。如果你对这篇文章感兴趣，也许你也会喜欢 Uncle Bob 的著作《敏捷软件开发：原则、模式与实践》。</p>
 

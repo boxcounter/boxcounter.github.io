@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.83.1" />
+  <meta name="generator" content="Hugo 0.88.0" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -97,7 +97,7 @@
           <p>　　今天在技术群里有位童鞋问了一个问题：</p>
 <blockquote>
 <p>On 64-bit Windows, if a data structure is misaligned, routines that manipulate the structure, such as RtlCopyMemory and memcpy, will not fault. Instead, they will raise an exception. For example:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#f92672">&gt;</span>  <span style="color:#960050;background-color:#1e0010">#</span>pragma pack (<span style="color:#ae81ff">1</span>) <span style="color:#75715e">// also set by /Zp switch 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#f92672">&gt;</span>  <span style="color:#960050;background-color:#1e0010">#</span>pragma pack (<span style="color:#ae81ff">1</span>) <span style="color:#75715e">// also set by /Zp switch 
 </span><span style="color:#75715e"></span><span style="color:#f92672">&gt;</span>  <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Buffer</span> {
 <span style="color:#f92672">&gt;</span>      ULONG size;
 <span style="color:#f92672">&gt;</span>      <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>ptr;
@@ -111,7 +111,7 @@
 <span style="color:#f92672">&gt;</span> 
 </code></pre></div>
 <p>You could use the UNALIGNED macro to fix this:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#f92672">&gt;</span>  <span style="color:#66d9ef">void</span> SetPointer(<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>p) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#f92672">&gt;</span>  <span style="color:#66d9ef">void</span> SetPointer(<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>p) {
 <span style="color:#f92672">&gt;</span>      <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Buffer</span> s;
 <span style="color:#f92672">&gt;</span>      <span style="color:#f92672">*</span>(UNALIGNED <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>s.ptr <span style="color:#f92672">=</span> p;
 <span style="color:#f92672">&gt;</span>  }

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.83.1" />
+  <meta name="generator" content="Hugo 0.88.0" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -97,7 +97,7 @@
           <p>这两天遇到一个问题，记录在这里。
 我有两个FS过滤驱动，这里称它们为 A 和 B，A 在 B 之上，其中 B 是个重定向驱动。下面是问题描述：
 A 调用 FltCreateFile 打开 C: 中的某个文件，B收到这个请求后，指定这个请求重定向到 D:，结果 A收到了错误码 STATUS_INVALID_DEVICE_OBJECT_PARAMETER。 挂上 WRK 调试，发现整个调用栈是这样：</p>
-<pre><code>kd&gt; kv
+<pre tabindex="0"><code>kd&gt; kv
 ChildEBP RetAddr Args to Child
 b8d9b330 808ee689 b8d9b3fc 846639c8 00000000 nt!IopCheckTopDeviceHint+0x56
 b8d9b424 809241d1 84b2d2c8 00000000 84747a18 nt!IopParseDevice+0x417
@@ -127,7 +127,7 @@ b8d9ba50 8081f881 808eeca7 b8d9bb44 808eeca7 nt!IovCallDriver+0x110
 <p>FltCreateFile 在我的虚拟机中是调用 FltCreateFileEx 来完成的，而后者又是由 IoCreateFileSpecifyDeviceObjectHint 来实现，来看看 FltCreateFile 的函数原型：</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
 </span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
@@ -146,7 +146,7 @@ b8d9ba50 8081f881 808eeca7 b8d9bb44 808eeca7 nt!IovCallDriver+0x110
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">NTSTATUS
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">NTSTATUS
 <span style="color:#a6e22e">FltCreateFile</span>(
 __in PFLT_FILTER Filter,
 <span style="display:block;width:100%;background-color:#3c3d38">__in_opt PFLT_INSTANCE Instance,
@@ -166,7 +166,7 @@ __in ULONG Flags
 </div>
 </div>
 <p>注意参数 Instance，类型为 PFLT_INSTANCE，看下这个结构：</p>
-<pre><code>kd&gt; dt _FLT_INSTANCE
+<pre tabindex="0"><code>kd&gt; dt _FLT_INSTANCE
 fltMgr!_FLT_INSTANCE
 +0x000 Base : _FLT_OBJECT
 +0x014 OperationRundownRef : Ptr32 _EX_RUNDOWN_REF_CACHE_AWARE
@@ -181,7 +181,7 @@ fltMgr!_FLT_INSTANCE
 +0x078 TrackCompletionNodes : Ptr32 _TRACK_COMPLETION_NODES
 +0x07c CallbackNodes : [50] Ptr32 _CALLBACK_NODE
 </code></pre><p>注意其中 0x18 偏移处的 Volume，类型为 _FLT_VOLUME，看下这个结构：</p>
-<pre><code>kd&gt; dt fltMgr!_FLT_VOLUME
+<pre tabindex="0"><code>kd&gt; dt fltMgr!_FLT_VOLUME
 +0x000 Base : _FLT_OBJECT
 +0x014 Flags : _FLT_VOLUME_FLAGS
 +0x018 FileSystemType : _FLT_FILESYSTEM_TYPE
@@ -204,7 +204,7 @@ fltMgr!_FLT_INSTANCE
 </code></pre><p>注意其中 0x1c 偏移处的 DeviceObject，这个就是传递给 IoCreateFileSpecifyDeviceObjectHint 的 DOHint，来看下这个函数的原型：
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
@@ -224,7 +224,7 @@ fltMgr!_FLT_INSTANCE
 </span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">NTSTATUS
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">NTSTATUS
 <span style="color:#a6e22e">IoCreateFileSpecifyDeviceObjectHint</span>(
 __out PHANDLE FileHandle,
 __in ACCESS_MASK DesiredAccess,
