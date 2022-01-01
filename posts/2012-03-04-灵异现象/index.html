@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.88.1" />
+  <meta name="generator" content="Hugo 0.91.2" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -95,23 +95,23 @@
 
         <div class="post-content markdown-body">
           <p>前两天遇到一个灵异现象，记录下来。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">cchFullHeaderLen <span style="color:#f92672">+=</span> strlen(<span style="color:#e6db74">&#34;Request-Line: &#34;</span>) <span style="color:#f92672">+</span>
-    strlen(pSessionData<span style="color:#f92672">-&gt;</span>HttpOpenReq.lpszVerb) <span style="color:#f92672">+</span>
-    strlen(<span style="color:#e6db74">&#34; &#34;</span>) <span style="color:#f92672">+</span>
-    strlen(pSessionData<span style="color:#f92672">-&gt;</span>HttpOpenReq.lpszObjectName) <span style="color:#f92672">+</span>
-    (NULL <span style="color:#f92672">!=</span> pSessionData<span style="color:#f92672">-&gt;</span>HttpOpenReq.lpszVersion) <span style="color:#f92672">?</span> (strlen(<span style="color:#e6db74">&#34; &#34;</span>) <span style="color:#f92672">+</span> strlen(pSessionData<span style="color:#f92672">-&gt;</span>HttpOpenReq.lpszVersion)) <span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">+</span>
-    strlen(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>);</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">cchFullHeaderLen <span style="color:#555">+=</span> strlen(<span style="color:#c30">&#34;Request-Line: &#34;</span>) <span style="color:#555">+</span>
+    strlen(pSessionData<span style="color:#555">-&gt;</span>HttpOpenReq.lpszVerb) <span style="color:#555">+</span>
+    strlen(<span style="color:#c30">&#34; &#34;</span>) <span style="color:#555">+</span>
+    strlen(pSessionData<span style="color:#555">-&gt;</span>HttpOpenReq.lpszObjectName) <span style="color:#555">+</span>
+    (<span style="color:#366">NULL</span> <span style="color:#555">!=</span> pSessionData<span style="color:#555">-&gt;</span>HttpOpenReq.lpszVersion) <span style="color:#555">?</span> (strlen(<span style="color:#c30">&#34; &#34;</span>) <span style="color:#555">+</span> strlen(pSessionData<span style="color:#555">-&gt;</span>HttpOpenReq.lpszVersion)) <span style="color:#555">:</span> <span style="color:#f60">0</span> <span style="color:#555">+</span>
+    strlen(<span style="color:#c30">&#34;</span><span style="color:#c30;font-weight:bold">\r\n</span><span style="color:#c30">&#34;</span>);</code></pre></div>
 <p>调试的过程中发现，pSessionData-&gt;HttpOpenReq.lpszVersion为NULL，但是依然会执行“(strlen(&quot; &ldquo;) + strlen(pSessionData-&gt;HttpOpenReq.lpszVersion))”。</p>
 <p>确认不是编码错误后，反汇编调试：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nasm" data-lang="nasm"><span style="color:#a6e22e">Boxr</span><span style="color:#960050;background-color:#1e0010">!</span>MyFunction<span style="color:#f92672">+</span><span style="color:#ae81ff">0x2b2</span>
-<span style="color:#960050;background-color:#1e0010">6</span><span style="color:#a6e22e">a515742</span>  xor     edx,edx
-<span style="color:#960050;background-color:#1e0010">6</span><span style="color:#a6e22e">a515744</span>  cmp     <span style="color:#66d9ef">dword</span> ptr [ecx<span style="color:#f92672">+</span><span style="color:#ae81ff">23Ch</span>],<span style="color:#ae81ff">0</span>
-<span style="color:#960050;background-color:#1e0010">6</span><span style="color:#a6e22e">a51574b</span>  setne   dl
-<span style="color:#960050;background-color:#1e0010">6</span><span style="color:#a6e22e">a51574e</span>  add     esi,edx
-<span style="color:#960050;background-color:#1e0010">6</span><span style="color:#a6e22e">a515750</span>  je      Boxr<span style="color:#960050;background-color:#1e0010">!</span>MyFunction<span style="color:#f92672">+</span><span style="color:#ae81ff">0x2ed</span> (<span style="color:#ae81ff">6</span>a51577d)
-<span style="color:#960050;background-color:#1e0010">6</span><span style="color:#a6e22e">a515752</span>  push    offset Boxr<span style="color:#960050;background-color:#1e0010">!</span>std::_Arithmetic_traits::_Rank<span style="color:#f92672">+</span><span style="color:#ae81ff">0xc88</span> (<span style="color:#ae81ff">6</span>a5fc0f8)
-<span style="color:#960050;background-color:#1e0010">6</span><span style="color:#a6e22e">a515757</span>  call    Boxr<span style="color:#960050;background-color:#1e0010">!</span>strlen (<span style="color:#ae81ff">6</span>a5b5bd0)
-<span style="color:#960050;background-color:#1e0010">6</span><span style="color:#a6e22e">a51575c</span>  add     esp,<span style="color:#ae81ff">4</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nasm" data-lang="nasm"><span style="color:#c0f">Boxr</span><span style="color:#a00;background-color:#faa">!</span><span style="color:#033">MyFunction</span><span style="color:#555">+</span><span style="color:#f60">0x2b2</span>
+<span style="color:#a00;background-color:#faa">6</span><span style="color:#c0f">a515742</span>  <span style="color:#033">xor</span>     <span style="color:#366">edx</span>,<span style="color:#366">edx</span>
+<span style="color:#a00;background-color:#faa">6</span><span style="color:#c0f">a515744</span>  <span style="color:#033">cmp</span>     <span style="color:#078;font-weight:bold">dword</span> <span style="color:#033">ptr</span> [<span style="color:#366">ecx</span><span style="color:#555">+</span><span style="color:#f60">23Ch</span>],<span style="color:#f60">0</span>
+<span style="color:#a00;background-color:#faa">6</span><span style="color:#c0f">a51574b</span>  <span style="color:#033">setne</span>   <span style="color:#366">dl</span>
+<span style="color:#a00;background-color:#faa">6</span><span style="color:#c0f">a51574e</span>  <span style="color:#033">add</span>     <span style="color:#366">esi</span>,<span style="color:#366">edx</span>
+<span style="color:#a00;background-color:#faa">6</span><span style="color:#c0f">a515750</span>  <span style="color:#033">je</span>      <span style="color:#033">Boxr</span><span style="color:#a00;background-color:#faa">!</span><span style="color:#033">MyFunction</span><span style="color:#555">+</span><span style="color:#f60">0x2ed</span> (<span style="color:#f60">6</span><span style="color:#033">a51577d</span>)
+<span style="color:#a00;background-color:#faa">6</span><span style="color:#c0f">a515752</span>  <span style="color:#033">push</span>    <span style="color:#033">offset</span> <span style="color:#033">Boxr</span><span style="color:#a00;background-color:#faa">!</span><span style="color:#033">std</span>::<span style="color:#033">_Arithmetic_traits</span>::<span style="color:#033">_Rank</span><span style="color:#555">+</span><span style="color:#f60">0xc88</span> (<span style="color:#f60">6</span><span style="color:#033">a5fc0f8</span>)
+<span style="color:#a00;background-color:#faa">6</span><span style="color:#c0f">a515757</span>  <span style="color:#033">call</span>    <span style="color:#033">Boxr</span><span style="color:#a00;background-color:#faa">!</span><span style="color:#033">strlen</span> (<span style="color:#f60">6</span><span style="color:#033">a5b5bd0</span>)
+<span style="color:#a00;background-color:#faa">6</span><span style="color:#c0f">a51575c</span>  <span style="color:#033">add</span>     <span style="color:#366">esp</span>,<span style="color:#f60">4</span></code></pre></div>
 <p>其中ecx+23Ch就是pSessionData-&gt;HttpOpenReq.lpszVersion，查看如下：</p>
 <pre><code>0:005&gt; dd ecx+23c
 0a27b18c  00000000 
@@ -164,8 +164,8 @@ zf=0
 于是准备以发现编译器优化错误为主体写一篇BLOG。</p>
 <p>但是在整理本文的过程中，仔细分析了一遍汇编代码，发现，丫是个低级错误 - 运算符优先级错误……<br>
 实际上，C代码真正的执行逻辑是这样的：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">cchFullHeaderLen <span style="color:#f92672">+=</span> (strlen(<span style="color:#e6db74">&#34;Request-Line: &#34;</span>) <span style="color:#f92672">+</span> strlen(pSessionData<span style="color:#f92672">-&gt;</span>HttpOpenReq.lpszVerb) <span style="color:#f92672">+</span> strlen(<span style="color:#e6db74">&#34; &#34;</span>) <span style="color:#f92672">+</span> strlen(pSessionData<span style="color:#f92672">-&gt;</span>HttpOpenReq.lpszObjectName) <span style="color:#f92672">+</span> (NULL <span style="color:#f92672">!=</span> pSessionData<span style="color:#f92672">-&gt;</span>HttpOpenReq.lpszVersion) ) 
-   <span style="color:#f92672">?</span> (strlen(<span style="color:#e6db74">&#34; &#34;</span>) <span style="color:#f92672">+</span> strlen(pSessionData<span style="color:#f92672">-&gt;</span>HttpOpenReq.lpszVersion)) <span style="color:#f92672">:</span> ( <span style="color:#ae81ff">0</span> <span style="color:#f92672">+</span> strlen(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#34;</span>) );</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">cchFullHeaderLen <span style="color:#555">+=</span> (strlen(<span style="color:#c30">&#34;Request-Line: &#34;</span>) <span style="color:#555">+</span> strlen(pSessionData<span style="color:#555">-&gt;</span>HttpOpenReq.lpszVerb) <span style="color:#555">+</span> strlen(<span style="color:#c30">&#34; &#34;</span>) <span style="color:#555">+</span> strlen(pSessionData<span style="color:#555">-&gt;</span>HttpOpenReq.lpszObjectName) <span style="color:#555">+</span> (<span style="color:#366">NULL</span> <span style="color:#555">!=</span> pSessionData<span style="color:#555">-&gt;</span>HttpOpenReq.lpszVersion) ) 
+   <span style="color:#555">?</span> (strlen(<span style="color:#c30">&#34; &#34;</span>) <span style="color:#555">+</span> strlen(pSessionData<span style="color:#555">-&gt;</span>HttpOpenReq.lpszVersion)) <span style="color:#555">:</span> ( <span style="color:#f60">0</span> <span style="color:#555">+</span> strlen(<span style="color:#c30">&#34;</span><span style="color:#c30;font-weight:bold">\r\n</span><span style="color:#c30">&#34;</span>) );</code></pre></div>
 <p>我的编码风格PPT又多了一条素材……</p>
 
         </div>

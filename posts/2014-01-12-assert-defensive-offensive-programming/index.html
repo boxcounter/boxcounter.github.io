@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.88.1" />
+  <meta name="generator" content="Hugo 0.91.2" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -98,17 +98,17 @@
 <p>　　本文的内容最初源自我重温《代码大全》时候读到的一段内容，然后和同事讨论又引发了自己的一些思索。最后觉得这值得写下来，一来我一直很喜欢琢磨编码风格，有一些这方面的​思考，但都是一些存放在脑子里的思维碎片，（部分）整理成文对我自己是件好事。二来抛砖引玉，希望能找到一些同好探讨。</p>
 <h1 id="二常用的断言宏">二、常用的断言宏</h1>
 <p>　　先贴一段我常用的断言宏，后面讲述的时候所说的ASSERT是通指下面这一组ASSERT*。
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#ifdef DEBUG
-</span><span style="color:#75715e">#define ASSERT(x) assert(x)
-</span><span style="color:#75715e">#else
-</span><span style="color:#75715e">#define ASSERT(x)
-</span><span style="color:#75715e">#endif
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e">#define ASSERT_RETURN(x)            {ASSERT(x); if(!(x)) {return;}}
-</span><span style="color:#75715e">#define ASSERT_RETURN_VAL(x, ret)   {ASSERT(x); if(!(x)) {return ret;}}
-</span><span style="color:#75715e">#define ASSERT_GOTO(x, label)       {ASSERT(x); if(!(x)) {goto label;}}
-</span><span style="color:#75715e">#define ASSERT_BREAK(x)             {ASSERT(x); if(!(x)) {break;}}
-</span><span style="color:#75715e">#define ASSERT_CONTINUE(x)          {ASSERT(x); if(!(x)) {continue;}}</span></code></pre></div></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#099">#ifdef DEBUG
+</span><span style="color:#099">#define ASSERT(x) assert(x)
+</span><span style="color:#099">#else
+</span><span style="color:#099">#define ASSERT(x)
+</span><span style="color:#099">#endif
+</span><span style="color:#099"></span>
+<span style="color:#099">#define ASSERT_RETURN(x)            {ASSERT(x); if(!(x)) {return;}}
+</span><span style="color:#099">#define ASSERT_RETURN_VAL(x, ret)   {ASSERT(x); if(!(x)) {return ret;}}
+</span><span style="color:#099">#define ASSERT_GOTO(x, label)       {ASSERT(x); if(!(x)) {goto label;}}
+</span><span style="color:#099">#define ASSERT_BREAK(x)             {ASSERT(x); if(!(x)) {break;}}
+</span><span style="color:#099">#define ASSERT_CONTINUE(x)          {ASSERT(x); if(!(x)) {continue;}}</span></code></pre></div></p>
 <h1 id="三隔栏与断言">三、隔栏与断言</h1>
 <p>　　《代码大全》里有这么一段“隔栏与断言的关系”：</p>
 <blockquote>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.88.1" />
+  <meta name="generator" content="Hugo 0.91.2" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -139,7 +139,7 @@
  1: kd&gt; !pool fffffa80`0d168b60  2 
  Pool page fffffa800d168b60 region is Nonpaged pool
  *fffffa800d168b00 size:  500 previous size:  280  (Allocated) *Thre (Protected)
-             Pooltag Thre : Thread objects, Binary : nt!ps
+ 	    	Pooltag Thre : Thread objects, Binary : nt!ps
 </code></pre>
 <p>看来这个地址是个线程结构体。
 为了确认这个地址就是线程结构体的开头，再找个线程相关函数来看看吧：</p>

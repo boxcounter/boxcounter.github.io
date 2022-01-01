@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.88.1" />
+  <meta name="generator" content="Hugo 0.91.2" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -101,13 +101,13 @@ error C2143: syntax error : missing ';' before 'static_assert'
 error C2059: syntax error : ';'
 </code></pre>
 <p>　　出现该错误的代码来自restack.h，如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">namespace</span> detail
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#069;font-weight:bold">namespace</span> detail
 {
 
-<span style="color:#75715e">// For compile-time assertions that generate
-</span><span style="color:#75715e">// no run-time overhead.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">bool</span> f <span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">static_assert</span>;
-<span style="color:#66d9ef">template</span>   <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">static_assert</span> { <span style="color:#66d9ef">static_assert</span>() {} };</code></pre></div>
+<span style="color:#09f;font-style:italic">// For compile-time assertions that generate
+</span><span style="color:#09f;font-style:italic">// no run-time overhead.
+</span><span style="color:#09f;font-style:italic"></span><span style="color:#069;font-weight:bold">template</span><span style="color:#555">&lt;</span> <span style="color:#078;font-weight:bold">bool</span> f <span style="color:#555">&gt;</span> <span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">static_assert</span>;
+<span style="color:#069;font-weight:bold">template</span>   <span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">static_assert</span> { <span style="color:#069;font-weight:bold">static_assert</span>() {} };</code></pre></div>
 <p>　　该问题的原因是regex定义的static_assert模板与VS 2010的关键字冲突，将regex中的改名，比如改成_static_assert后就正常了。</p>
 <p>　　参考资料：</p>
 <ul>

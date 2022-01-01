@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.88.1" />
+  <meta name="generator" content="Hugo 0.91.2" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -125,12 +125,12 @@ b8d9ba50 8081f881 808eeca7 b8d9bb44 808eeca7 nt!IovCallDriver+0x110
 <p>OK，问题的原因总体描述完毕，继续来描述细节：
 关于 DOHint，</p>
 <p>FltCreateFile 在我的虚拟机中是调用 FltCreateFileEx 来完成的，而后者又是由 IoCreateFileSpecifyDeviceObjectHint 来实现，来看看 FltCreateFile 的函数原型：</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<div class="highlight"><div style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+<pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="display:block;width:100%;background-color:#d8dada"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
 </span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
@@ -146,10 +146,10 @@ b8d9ba50 8081f881 808eeca7 b8d9bb44 808eeca7 nt!IovCallDriver+0x110
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">NTSTATUS
-<span style="color:#a6e22e">FltCreateFile</span>(
+<pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">NTSTATUS
+<span style="color:#c0f">FltCreateFile</span>(
 __in PFLT_FILTER Filter,
-<span style="display:block;width:100%;background-color:#3c3d38">__in_opt PFLT_INSTANCE Instance,
+<span style="display:block;width:100%;background-color:#d8dada">__in_opt PFLT_INSTANCE Instance,
 </span>__out PHANDLE FileHandle,
 __in ACCESS_MASK DesiredAccess,
 __in POBJECT_ATTRIBUTES ObjectAttributes,
@@ -202,9 +202,9 @@ fltMgr!_FLT_INSTANCE
 +0x2d0 MountNotifyLock : _ERESOURCE
 +0x308 HiddenOperationState : [4] _FLTP_TRACK_WHEN_TO_HIDE
 </code></pre><p>注意其中 0x1c 偏移处的 DeviceObject，这个就是传递给 IoCreateFileSpecifyDeviceObjectHint 的 DOHint，来看下这个函数的原型：
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<div class="highlight"><div style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+<pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
@@ -220,12 +220,12 @@ fltMgr!_FLT_INSTANCE
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="display:block;width:100%;background-color:#d8dada"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
 </span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">NTSTATUS
-<span style="color:#a6e22e">IoCreateFileSpecifyDeviceObjectHint</span>(
+<pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">NTSTATUS
+<span style="color:#c0f">IoCreateFileSpecifyDeviceObjectHint</span>(
 __out PHANDLE FileHandle,
 __in ACCESS_MASK DesiredAccess,
 __in POBJECT_ATTRIBUTES ObjectAttributes,
@@ -240,7 +240,7 @@ __in ULONG EaLength,
 __in CREATE_FILE_TYPE CreateFileType,
 __in_opt PVOID InternalParameters,
 __in ULONG Options,
-<span style="display:block;width:100%;background-color:#3c3d38">__in PVOID DeviceObject
+<span style="display:block;width:100%;background-color:#d8dada">__in PVOID DeviceObject
 </span>);</code></pre></td></tr></table>
 </div>
 </div></p>

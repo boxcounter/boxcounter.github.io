@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.88.1" />
+  <meta name="generator" content="Hugo 0.91.2" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -106,15 +106,15 @@
 </code></pre><p>因为最近团队忙的很，这个错误也没有影响业务的可用性，所以一直没管。等到前两天我有闲了，就尝试着分析、处理。</p>
 <h1 id="二无脑排查">二、无脑排查</h1>
 <p>先瞅了一眼monitor的代码，这个错误是在swoole的<code>WebSocketClient:connect()</code>失败时输出的，该方法的实现是这样的：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">connect</span>($timeout <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#069;font-weight:bold">public</span> <span style="color:#069;font-weight:bold">function</span> <span style="color:#c0f">connect</span>(<span style="color:#033">$timeout</span> <span style="color:#555">=</span> <span style="color:#f60">1</span>)
 {
-    $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">socket</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">\swoole_client</span>(<span style="color:#a6e22e">SWOOLE_SOCK_TCP</span>);
-    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>$this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">socket</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">connect</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">host</span>, $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">port</span>, $timeout))
+    <span style="color:#033">$this</span><span style="color:#555">-&gt;</span><span style="color:#309">socket</span> <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">new</span> \swoole_client(SWOOLE_SOCK_TCP);
+    <span style="color:#069;font-weight:bold">if</span> (<span style="color:#555">!</span><span style="color:#033">$this</span><span style="color:#555">-&gt;</span><span style="color:#309">socket</span><span style="color:#555">-&gt;</span><span style="color:#309">connect</span>(<span style="color:#033">$this</span><span style="color:#555">-&gt;</span><span style="color:#309">host</span>, <span style="color:#033">$this</span><span style="color:#555">-&gt;</span><span style="color:#309">port</span>, <span style="color:#033">$timeout</span>))
     {
-        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+        <span style="color:#069;font-weight:bold">return</span> <span style="color:#069;font-weight:bold">false</span>;
     }
-    $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">socket</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">send</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">createHeader</span>());
-    <span style="color:#66d9ef">return</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">recv</span>();
+    <span style="color:#033">$this</span><span style="color:#555">-&gt;</span><span style="color:#309">socket</span><span style="color:#555">-&gt;</span><span style="color:#309">send</span>(<span style="color:#033">$this</span><span style="color:#555">-&gt;</span><span style="color:#309">createHeader</span>());
+    <span style="color:#069;font-weight:bold">return</span> <span style="color:#033">$this</span><span style="color:#555">-&gt;</span><span style="color:#309">recv</span>();
 }
 </code></pre></div><p>根据报警邮件里的信息，判断失败应该出现在其中的<code>socket.connect()</code>调用。</p>
 <p>第一反应是服务器或者swoole进程的配置或者资源不够。登入服务器简单查看了下资源占用和内核参数，资源占用正常，内核参数设低了，于是根据<a href="https://wiki.swoole.com/wiki/page/p-server/sysctl.html">Swoole官方的建议</a>做了调整。观察了一会，还是收到了相同的报警邮件。</p>
@@ -124,7 +124,7 @@
 <li><code>net.core.somaxconn</code>是默认的128 —— 低了。</li>
 </ul>
 <p>动手改吧：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo sysctl -w net.core.somaxconn<span style="color:#f92672">=</span><span style="color:#ae81ff">8192</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo sysctl -w net.core.somaxconn<span style="color:#555">=</span><span style="color:#f60">8192</span>
 </code></pre></div><p>顺便也调整了monitor中设定swoole配置的代码，显式把backlog设为8192，通过<code>ss -ltn</code>确认生效后继续观察，过了一阵还是收到了报警邮件。看样子没这么简单，无脑调优失败。</p>
 <p>那就摆正态度、认真分析吧~</p>
 <h1 id="三数据采集">三、数据采集</h1>
@@ -199,18 +199,18 @@ the connection was established has been fulfilled.</p>
 <li><a href="https://tools.ietf.org/html/rfc6455#section-7.4">RFC 6455 - The WebSocket Protocol</a></li>
 </ul>
 <h1 id="七附录">七、附录</h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 使用netstat查看系统的TCP连接情况</span>
-OUTPUT<span style="color:#f92672">=</span>/tmp/nst.log
-echo -n <span style="color:#66d9ef">$(</span> date <span style="color:#e6db74">&#34;+%Y-%m-%d_%H:%M:%S&#34;</span> <span style="color:#66d9ef">)</span> &gt;&gt; $OUTPUT
-echo -n <span style="color:#e6db74">&#34; &#34;</span> &gt;&gt; $OUTPUT
-netstat -n | awk <span style="color:#e6db74">&#39;BEGIN { OFS = &#34; &#34;; ORS = &#34; &#34; } /^tcp/ {++y[$NF]} END {for(w in y) print w, y[w]}&#39;</span> &gt;&gt; $OUTPUT
-echo <span style="color:#e6db74">&#34;&#34;</span> &gt;&gt; $OUTPUT
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 使用netstat查看指定进程的TCP连接情况（记得要把第四行中的{keyword}换成进程的关键字）</span>
-OUTPUT<span style="color:#f92672">=</span>/tmp/swcc.log
-echo -n <span style="color:#66d9ef">$(</span> date <span style="color:#e6db74">&#34;+%Y-%m-%d_%H:%M:%S&#34;</span> <span style="color:#66d9ef">)</span> &gt;&gt; $OUTPUT
-echo -n <span style="color:#e6db74">&#34; &#34;</span> &gt;&gt; $OUTPUT
-echo -n <span style="color:#66d9ef">$(</span> netstat -nutp | grep <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">{</span>keyword<span style="color:#f92672">}</span> | wc -l <span style="color:#66d9ef">)</span> &gt;&gt; $OUTPUT
-echo <span style="color:#e6db74">&#34;&#34;</span> &gt;&gt; $OUTPUT
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#09f;font-style:italic"># 使用netstat查看系统的TCP连接情况</span>
+<span style="color:#033">OUTPUT</span><span style="color:#555">=</span>/tmp/nst.log
+<span style="color:#366">echo</span> -n <span style="color:#069;font-weight:bold">$(</span> date <span style="color:#c30">&#34;+%Y-%m-%d_%H:%M:%S&#34;</span> <span style="color:#069;font-weight:bold">)</span> &gt;&gt; <span style="color:#033">$OUTPUT</span>
+<span style="color:#366">echo</span> -n <span style="color:#c30">&#34; &#34;</span> &gt;&gt; <span style="color:#033">$OUTPUT</span>
+netstat -n | awk <span style="color:#c30">&#39;BEGIN { OFS = &#34; &#34;; ORS = &#34; &#34; } /^tcp/ {++y[$NF]} END {for(w in y) print w, y[w]}&#39;</span> &gt;&gt; <span style="color:#033">$OUTPUT</span>
+<span style="color:#366">echo</span> <span style="color:#c30">&#34;&#34;</span> &gt;&gt; <span style="color:#033">$OUTPUT</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#09f;font-style:italic"># 使用netstat查看指定进程的TCP连接情况（记得要把第四行中的{keyword}换成进程的关键字）</span>
+<span style="color:#033">OUTPUT</span><span style="color:#555">=</span>/tmp/swcc.log
+<span style="color:#366">echo</span> -n <span style="color:#069;font-weight:bold">$(</span> date <span style="color:#c30">&#34;+%Y-%m-%d_%H:%M:%S&#34;</span> <span style="color:#069;font-weight:bold">)</span> &gt;&gt; <span style="color:#033">$OUTPUT</span>
+<span style="color:#366">echo</span> -n <span style="color:#c30">&#34; &#34;</span> &gt;&gt; <span style="color:#033">$OUTPUT</span>
+<span style="color:#366">echo</span> -n <span style="color:#069;font-weight:bold">$(</span> netstat -nutp | grep <span style="color:#a00;background-color:#faa">&#39;</span><span style="color:#555">{</span>keyword<span style="color:#555">}</span> | wc -l <span style="color:#069;font-weight:bold">)</span> &gt;&gt; <span style="color:#033">$OUTPUT</span>
+<span style="color:#366">echo</span> <span style="color:#c30">&#34;&#34;</span> &gt;&gt; <span style="color:#033">$OUTPUT</span>
 </code></pre></div>
         </div>
         

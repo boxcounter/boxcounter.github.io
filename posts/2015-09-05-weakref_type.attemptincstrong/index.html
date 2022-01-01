@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.88.1" />
+  <meta name="generator" content="Hugo 0.91.2" />
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -95,98 +95,98 @@
 
         <div class="post-content markdown-body">
           <p>见中文注释内容：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">bool</span> RefBase<span style="color:#f92672">::</span>weakref_type<span style="color:#f92672">::</span>attemptIncStrong(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> id)
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#078;font-weight:bold">bool</span> RefBase<span style="color:#555">::</span>weakref_type<span style="color:#555">::</span>attemptIncStrong(<span style="color:#069;font-weight:bold">const</span> <span style="color:#078;font-weight:bold">void</span><span style="color:#555">*</span> id)
 {
     incWeak(id);
     
-    weakref_impl<span style="color:#f92672">*</span> <span style="color:#66d9ef">const</span> impl <span style="color:#f92672">=</span> <span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>weakref_impl<span style="color:#f92672">*&gt;</span>(<span style="color:#66d9ef">this</span>);
+    weakref_impl<span style="color:#555">*</span> <span style="color:#069;font-weight:bold">const</span> impl <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">static_cast</span><span style="color:#555">&lt;</span>weakref_impl<span style="color:#555">*&gt;</span>(<span style="color:#069;font-weight:bold">this</span>);
     
-    <span style="color:#66d9ef">int32_t</span> curCount <span style="color:#f92672">=</span> impl<span style="color:#f92672">-&gt;</span>mStrong;
-    LOG_ASSERT(curCount <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;attemptIncStrong called on %p after underflow&#34;</span>,
-               <span style="color:#66d9ef">this</span>);
-    <span style="color:#66d9ef">while</span> (curCount <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> curCount <span style="color:#f92672">!=</span> INITIAL_STRONG_VALUE) {
-        <span style="color:#66d9ef">if</span> (android_atomic_cmpxchg(curCount, curCount<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">&amp;</span>impl<span style="color:#f92672">-&gt;</span>mStrong) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
-            <span style="color:#66d9ef">break</span>;
+    <span style="color:#078;font-weight:bold">int32_t</span> curCount <span style="color:#555">=</span> impl<span style="color:#555">-&gt;</span>mStrong;
+    LOG_ASSERT(curCount <span style="color:#555">&gt;=</span> <span style="color:#f60">0</span>, <span style="color:#c30">&#34;attemptIncStrong called on %p after underflow&#34;</span>,
+               <span style="color:#069;font-weight:bold">this</span>);
+    <span style="color:#069;font-weight:bold">while</span> (curCount <span style="color:#555">&gt;</span> <span style="color:#f60">0</span> <span style="color:#555">&amp;&amp;</span> curCount <span style="color:#555">!=</span> INITIAL_STRONG_VALUE) {
+        <span style="color:#069;font-weight:bold">if</span> (android_atomic_cmpxchg(curCount, curCount<span style="color:#555">+</span><span style="color:#f60">1</span>, <span style="color:#555">&amp;</span>impl<span style="color:#555">-&gt;</span>mStrong) <span style="color:#555">==</span> <span style="color:#f60">0</span>) {
+            <span style="color:#069;font-weight:bold">break</span>;
         }
-        curCount <span style="color:#f92672">=</span> impl<span style="color:#f92672">-&gt;</span>mStrong;
+        curCount <span style="color:#555">=</span> impl<span style="color:#555">-&gt;</span>mStrong;
     }
     
-    <span style="color:#66d9ef">if</span> (curCount <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> curCount <span style="color:#f92672">==</span> INITIAL_STRONG_VALUE) {
-        <span style="color:#66d9ef">bool</span> allow;
-        <span style="color:#66d9ef">if</span> (curCount <span style="color:#f92672">==</span> INITIAL_STRONG_VALUE) {
-            <span style="color:#75715e">// Attempting to acquire first strong reference...  this is allowed
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// if the object does NOT have a longer lifetime (meaning the
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// implementation doesn&#39;t need to see this), or if the implementation
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// allows it to happen.
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">//
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// ====&gt;
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// 未曾被强引用过，如果也不受弱引用影响，那肯定还未被销毁。
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// &lt;====
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">//
-</span><span style="color:#75715e"></span>            allow <span style="color:#f92672">=</span> (impl<span style="color:#f92672">-&gt;</span>mFlags<span style="color:#f92672">&amp;</span>OBJECT_LIFETIME_WEAK) <span style="color:#f92672">!=</span> OBJECT_LIFETIME_WEAK
-                  <span style="color:#f92672">||</span> impl<span style="color:#f92672">-&gt;</span>mBase<span style="color:#f92672">-&gt;</span>onIncStrongAttempted(FIRST_INC_STRONG, id);
-        } <span style="color:#66d9ef">else</span> {
-            <span style="color:#75715e">// Attempting to revive the object...  this is allowed
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// if the object DOES have a longer lifetime (so we can safely
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// call the object with only a weak ref) and the implementation
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// allows it to happen.
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">//
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// ====&gt;
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// 曾经被强引用过，如果不受弱引用影响，那么在RefBase.decStrong()中已经被销毁了，无法revive。
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// 所以，一定要受弱引用影响。
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// &lt;====
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">//
-</span><span style="color:#75715e"></span>            allow <span style="color:#f92672">=</span> (impl<span style="color:#f92672">-&gt;</span>mFlags<span style="color:#f92672">&amp;</span>OBJECT_LIFETIME_WEAK) <span style="color:#f92672">==</span> OBJECT_LIFETIME_WEAK
-                  <span style="color:#f92672">&amp;&amp;</span> impl<span style="color:#f92672">-&gt;</span>mBase<span style="color:#f92672">-&gt;</span>onIncStrongAttempted(FIRST_INC_STRONG, id);
+    <span style="color:#069;font-weight:bold">if</span> (curCount <span style="color:#555">&lt;=</span> <span style="color:#f60">0</span> <span style="color:#555">||</span> curCount <span style="color:#555">==</span> INITIAL_STRONG_VALUE) {
+        <span style="color:#078;font-weight:bold">bool</span> allow;
+        <span style="color:#069;font-weight:bold">if</span> (curCount <span style="color:#555">==</span> INITIAL_STRONG_VALUE) {
+            <span style="color:#09f;font-style:italic">// Attempting to acquire first strong reference...  this is allowed
+</span><span style="color:#09f;font-style:italic"></span>            <span style="color:#09f;font-style:italic">// if the object does NOT have a longer lifetime (meaning the
+</span><span style="color:#09f;font-style:italic"></span>            <span style="color:#09f;font-style:italic">// implementation doesn&#39;t need to see this), or if the implementation
+</span><span style="color:#09f;font-style:italic"></span>            <span style="color:#09f;font-style:italic">// allows it to happen.
+</span><span style="color:#09f;font-style:italic"></span>            <span style="color:#09f;font-style:italic">//
+</span><span style="color:#09f;font-style:italic"></span>            <span style="color:#09f;font-style:italic">// ====&gt;
+</span><span style="color:#09f;font-style:italic"></span>            <span style="color:#09f;font-style:italic">// 未曾被强引用过，如果也不受弱引用影响，那肯定还未被销毁。
+</span><span style="color:#09f;font-style:italic"></span>            <span style="color:#09f;font-style:italic">// &lt;====
+</span><span style="color:#09f;font-style:italic"></span>            <span style="color:#09f;font-style:italic">//
+</span><span style="color:#09f;font-style:italic"></span>            allow <span style="color:#555">=</span> (impl<span style="color:#555">-&gt;</span>mFlags<span style="color:#555">&amp;</span>OBJECT_LIFETIME_WEAK) <span style="color:#555">!=</span> OBJECT_LIFETIME_WEAK
+                  <span style="color:#555">||</span> impl<span style="color:#555">-&gt;</span>mBase<span style="color:#555">-&gt;</span>onIncStrongAttempted(FIRST_INC_STRONG, id);
+        } <span style="color:#069;font-weight:bold">else</span> {
+            <span style="color:#09f;font-style:italic">// Attempting to revive the object...  this is allowed
+</span><span style="color:#09f;font-style:italic"></span>            <span style="color:#09f;font-style:italic">// if the object DOES have a longer lifetime (so we can safely
+</span><span style="color:#09f;font-style:italic"></span>            <span style="color:#09f;font-style:italic">// call the object with only a weak ref) and the implementation
+</span><span style="color:#09f;font-style:italic"></span>            <span style="color:#09f;font-style:italic">// allows it to happen.
+</span><span style="color:#09f;font-style:italic"></span>            <span style="color:#09f;font-style:italic">//
+</span><span style="color:#09f;font-style:italic"></span>            <span style="color:#09f;font-style:italic">// ====&gt;
+</span><span style="color:#09f;font-style:italic"></span>            <span style="color:#09f;font-style:italic">// 曾经被强引用过，如果不受弱引用影响，那么在RefBase.decStrong()中已经被销毁了，无法revive。
+</span><span style="color:#09f;font-style:italic"></span>            <span style="color:#09f;font-style:italic">// 所以，一定要受弱引用影响。
+</span><span style="color:#09f;font-style:italic"></span>            <span style="color:#09f;font-style:italic">// &lt;====
+</span><span style="color:#09f;font-style:italic"></span>            <span style="color:#09f;font-style:italic">//
+</span><span style="color:#09f;font-style:italic"></span>            allow <span style="color:#555">=</span> (impl<span style="color:#555">-&gt;</span>mFlags<span style="color:#555">&amp;</span>OBJECT_LIFETIME_WEAK) <span style="color:#555">==</span> OBJECT_LIFETIME_WEAK
+                  <span style="color:#555">&amp;&amp;</span> impl<span style="color:#555">-&gt;</span>mBase<span style="color:#555">-&gt;</span>onIncStrongAttempted(FIRST_INC_STRONG, id);
         }
-        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>allow) {
+        <span style="color:#069;font-weight:bold">if</span> (<span style="color:#555">!</span>allow) {
             decWeak(id);
-            <span style="color:#66d9ef">return</span> false;
+            <span style="color:#069;font-weight:bold">return</span> <span style="color:#366">false</span>;
         }
-        curCount <span style="color:#f92672">=</span> android_atomic_inc(<span style="color:#f92672">&amp;</span>impl<span style="color:#f92672">-&gt;</span>mStrong);
-        <span style="color:#75715e">// If the strong reference count has already been incremented by
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// someone else, the implementor of onIncStrongAttempted() is holding
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// an unneeded reference.  So call onLastStrongRef() here to remove it.
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// (No, this is not pretty.)  Note that we MUST NOT do this if we
-</span><span style="color:#75715e"></span>        <span style="color:#75715e">// are in fact acquiring the first reference.
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (curCount <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> curCount <span style="color:#f92672">&lt;</span> INITIAL_STRONG_VALUE) {
-            impl<span style="color:#f92672">-&gt;</span>mBase<span style="color:#f92672">-&gt;</span>onLastStrongRef(id);
+        curCount <span style="color:#555">=</span> android_atomic_inc(<span style="color:#555">&amp;</span>impl<span style="color:#555">-&gt;</span>mStrong);
+        <span style="color:#09f;font-style:italic">// If the strong reference count has already been incremented by
+</span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">// someone else, the implementor of onIncStrongAttempted() is holding
+</span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">// an unneeded reference.  So call onLastStrongRef() here to remove it.
+</span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">// (No, this is not pretty.)  Note that we MUST NOT do this if we
+</span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">// are in fact acquiring the first reference.
+</span><span style="color:#09f;font-style:italic"></span>        <span style="color:#069;font-weight:bold">if</span> (curCount <span style="color:#555">&gt;</span> <span style="color:#f60">0</span> <span style="color:#555">&amp;&amp;</span> curCount <span style="color:#555">&lt;</span> INITIAL_STRONG_VALUE) {
+            impl<span style="color:#555">-&gt;</span>mBase<span style="color:#555">-&gt;</span>onLastStrongRef(id);
         }
     }
     
-    impl<span style="color:#f92672">-&gt;</span>addWeakRef(id);
-    impl<span style="color:#f92672">-&gt;</span>addStrongRef(id);
-<span style="color:#75715e">#if PRINT_REFS
-</span><span style="color:#75715e"></span>    LOGD(<span style="color:#e6db74">&#34;attemptIncStrong of %p from %p: cnt=%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#66d9ef">this</span>, id, curCount);
-<span style="color:#75715e">#endif
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (curCount <span style="color:#f92672">==</span> INITIAL_STRONG_VALUE) {
-        android_atomic_add(<span style="color:#f92672">-</span>INITIAL_STRONG_VALUE, <span style="color:#f92672">&amp;</span>impl<span style="color:#f92672">-&gt;</span>mStrong);
-        impl<span style="color:#f92672">-&gt;</span>mBase<span style="color:#f92672">-&gt;</span>onFirstRef();
+    impl<span style="color:#555">-&gt;</span>addWeakRef(id);
+    impl<span style="color:#555">-&gt;</span>addStrongRef(id);
+<span style="color:#099">#if PRINT_REFS
+</span><span style="color:#099"></span>    LOGD(<span style="color:#c30">&#34;attemptIncStrong of %p from %p: cnt=%d</span><span style="color:#c30;font-weight:bold">\n</span><span style="color:#c30">&#34;</span>, <span style="color:#069;font-weight:bold">this</span>, id, curCount);
+<span style="color:#099">#endif
+</span><span style="color:#099"></span>    <span style="color:#069;font-weight:bold">if</span> (curCount <span style="color:#555">==</span> INITIAL_STRONG_VALUE) {
+        android_atomic_add(<span style="color:#555">-</span>INITIAL_STRONG_VALUE, <span style="color:#555">&amp;</span>impl<span style="color:#555">-&gt;</span>mStrong);
+        impl<span style="color:#555">-&gt;</span>mBase<span style="color:#555">-&gt;</span>onFirstRef();
     }
     
-    <span style="color:#66d9ef">return</span> true;
+    <span style="color:#069;font-weight:bold">return</span> <span style="color:#366">true</span>;
 }</code></pre></div>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> RefBase<span style="color:#f92672">::</span>decStrong(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span><span style="color:#f92672">*</span> id) <span style="color:#66d9ef">const</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#078;font-weight:bold">void</span> RefBase<span style="color:#555">::</span>decStrong(<span style="color:#069;font-weight:bold">const</span> <span style="color:#078;font-weight:bold">void</span><span style="color:#555">*</span> id) <span style="color:#069;font-weight:bold">const</span>
 {
-    weakref_impl<span style="color:#f92672">*</span> <span style="color:#66d9ef">const</span> refs <span style="color:#f92672">=</span> mRefs;
-    refs<span style="color:#f92672">-&gt;</span>removeStrongRef(id);
-    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int32_t</span> c <span style="color:#f92672">=</span> android_atomic_dec(<span style="color:#f92672">&amp;</span>refs<span style="color:#f92672">-&gt;</span>mStrong);
-<span style="color:#75715e">#if PRINT_REFS
-</span><span style="color:#75715e"></span>    LOGD(<span style="color:#e6db74">&#34;decStrong of %p from %p: cnt=%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#66d9ef">this</span>, id, c);
-<span style="color:#75715e">#endif
-</span><span style="color:#75715e"></span>    LOG_ASSERT(c <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;decStrong() called on %p too many times&#34;</span>, refs);
-    <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
-        <span style="color:#66d9ef">const_cast</span><span style="color:#f92672">&lt;</span>RefBase<span style="color:#f92672">*&gt;</span>(<span style="color:#66d9ef">this</span>)<span style="color:#f92672">-&gt;</span>onLastStrongRef(id);
-        <span style="color:#66d9ef">if</span> ((refs<span style="color:#f92672">-&gt;</span>mFlags<span style="color:#f92672">&amp;</span>OBJECT_LIFETIME_WEAK) <span style="color:#f92672">!=</span> OBJECT_LIFETIME_WEAK) {
-            <span style="color:#66d9ef">if</span> (refs<span style="color:#f92672">-&gt;</span>mDestroyer) {
-                refs<span style="color:#f92672">-&gt;</span>mDestroyer<span style="color:#f92672">-&gt;</span>destroy(<span style="color:#66d9ef">this</span>);
-            } <span style="color:#66d9ef">else</span> {
-                <span style="color:#66d9ef">delete</span> <span style="color:#66d9ef">this</span>;
+    weakref_impl<span style="color:#555">*</span> <span style="color:#069;font-weight:bold">const</span> refs <span style="color:#555">=</span> mRefs;
+    refs<span style="color:#555">-&gt;</span>removeStrongRef(id);
+    <span style="color:#069;font-weight:bold">const</span> <span style="color:#078;font-weight:bold">int32_t</span> c <span style="color:#555">=</span> android_atomic_dec(<span style="color:#555">&amp;</span>refs<span style="color:#555">-&gt;</span>mStrong);
+<span style="color:#099">#if PRINT_REFS
+</span><span style="color:#099"></span>    LOGD(<span style="color:#c30">&#34;decStrong of %p from %p: cnt=%d</span><span style="color:#c30;font-weight:bold">\n</span><span style="color:#c30">&#34;</span>, <span style="color:#069;font-weight:bold">this</span>, id, c);
+<span style="color:#099">#endif
+</span><span style="color:#099"></span>    LOG_ASSERT(c <span style="color:#555">&gt;=</span> <span style="color:#f60">1</span>, <span style="color:#c30">&#34;decStrong() called on %p too many times&#34;</span>, refs);
+    <span style="color:#069;font-weight:bold">if</span> (c <span style="color:#555">==</span> <span style="color:#f60">1</span>) {
+        <span style="color:#069;font-weight:bold">const_cast</span><span style="color:#555">&lt;</span>RefBase<span style="color:#555">*&gt;</span>(<span style="color:#069;font-weight:bold">this</span>)<span style="color:#555">-&gt;</span>onLastStrongRef(id);
+        <span style="color:#069;font-weight:bold">if</span> ((refs<span style="color:#555">-&gt;</span>mFlags<span style="color:#555">&amp;</span>OBJECT_LIFETIME_WEAK) <span style="color:#555">!=</span> OBJECT_LIFETIME_WEAK) {
+            <span style="color:#069;font-weight:bold">if</span> (refs<span style="color:#555">-&gt;</span>mDestroyer) {
+                refs<span style="color:#555">-&gt;</span>mDestroyer<span style="color:#555">-&gt;</span>destroy(<span style="color:#069;font-weight:bold">this</span>);
+            } <span style="color:#069;font-weight:bold">else</span> {
+                <span style="color:#069;font-weight:bold">delete</span> <span style="color:#069;font-weight:bold">this</span>;
             }
         }
     }
-    refs<span style="color:#f92672">-&gt;</span>removeWeakRef(id);
-    refs<span style="color:#f92672">-&gt;</span>decWeak(id);
+    refs<span style="color:#555">-&gt;</span>removeWeakRef(id);
+    refs<span style="color:#555">-&gt;</span>decWeak(id);
 }</code></pre></div>
 <hr>
 <p>完整代码：</p>
