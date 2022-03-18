@@ -6,7 +6,16 @@
     <description>Recent content on Boxcounter&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 03 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://boxcounter.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 02 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://boxcounter.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>读书记录</title>
+      <link>http://boxcounter.com/posts/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Wed, 02 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/posts/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</guid>
+      <description>.markdown-body table td, .markdown-body table th { padding: 6px 13px; border: 1px solid #dfe2e5; white-space: nowrap; } .col-xs-12, .col-md-8, .col-md-offset-2, .col-md-offset-3, .col-lg-6, .col-xs-12, .col-sm-10, .col-md-8, .col-sm-offset-1, .col-md-offset-2, .col-lg-6, .col-lg-offset-3 { margin-left: 10px; max-width: 100%; flex: 1; } } 记录我读完的书，从 2014 年开始记录。主要记录有点厚度的，薄手册和零散</description>
+    </item>
+    
     <item>
       <title>推荐三本讲敏捷软件开发的书</title>
       <link>http://boxcounter.com/posts/2022-01-03-three-agile-books/</link>
@@ -23,15 +32,6 @@
       
       <guid>http://boxcounter.com/posts/2021-12-26-user-stories-applied/</guid>
       <description>图书封面 笔记片段 完整笔记 图片：User-Stories-Applied.png.zip 思维导图：User-Stories-Applied.m</description>
-    </item>
-    
-    <item>
-      <title>读书记录</title>
-      <link>http://boxcounter.com/posts/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</link>
-      <pubDate>Sun, 26 Dec 2021 00:00:00 +0000</pubDate>
-      
-      <guid>http://boxcounter.com/posts/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</guid>
-      <description>.markdown-body table td, .markdown-body table th { padding: 6px 13px; border: 1px solid #dfe2e5; white-space: nowrap; } .col-xs-12, .col-md-8, .col-md-offset-2, .col-md-offset-3, .col-lg-6, .col-xs-12, .col-sm-10, .col-md-8, .col-sm-offset-1, .col-md-offset-2, .col-lg-6, .col-lg-offset-3 { margin-left: 10px; max-width: 100%; flex: 1; } } 记录我读完的书，从 2014 年开始记录。主要记录有点厚度的，薄手册和零散</description>
     </item>
     
     <item>
