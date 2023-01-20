@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.92.2" />
+  <meta name="generator" content="Hugo 0.107.0">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -295,62 +295,62 @@
 
 
 <h1 id="五编写最简单的系统内核">五、编写最简单的系统内核</h1>
-<p><div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nasm" data-lang="nasm"><span style="color:#a00;background-color:#faa">//</span> <span style="color:#c0f">kernel.asm源码</span>
-<span style="color:#a00;background-color:#faa">[</span><span style="color:#069;font-weight:bold">section</span> <span style="color:#033">.kernel</span>]
-<span style="color:#a00;background-color:#faa">[</span><span style="color:#069;font-weight:bold">bits</span> <span style="color:#f60">32</span>]
-
-<span style="color:#360">load_base</span><span style="color:#069;font-weight:bold"> equ</span> <span style="color:#f60">0x100000</span>
-
-<span style="color:#09f;font-style:italic">;</span>
-<span style="color:#09f;font-style:italic">; multiboot header</span>
-<span style="color:#09f;font-style:italic">;</span>
-<span style="color:#069;font-weight:bold">align</span> <span style="color:#f60">8</span>
-<span style="color:#99f">multiboot_header:</span>
-<span style="color:#360">MBH_magic</span><span style="color:#069;font-weight:bold">            equ</span> <span style="color:#f60">0xE85250D6</span>
-<span style="color:#360">MBH_architecture</span><span style="color:#069;font-weight:bold">     equ</span> <span style="color:#f60">0</span>            <span style="color:#09f;font-style:italic">; 32-bit protected mode</span>
-<span style="color:#360">MBH_header_length</span><span style="color:#069;font-weight:bold">    equ</span> <span style="color:#033">multiboot_header_end</span> <span style="color:#555">-</span> <span style="color:#033">multiboot_header</span>
-<span style="color:#360">MBH_checksum</span><span style="color:#069;font-weight:bold">         equ</span> <span style="color:#555">-</span>(<span style="color:#033">MBH_header_length</span> <span style="color:#555">+</span> <span style="color:#033">MBH_magic</span> <span style="color:#555">+</span> <span style="color:#033">MBH_architecture</span>)
-
-<span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">MBH_magic</span>
-<span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">MBH_architecture</span>
-<span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">MBH_header_length</span>
-<span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">MBH_checksum</span>
-
-<span style="color:#09f;font-style:italic">; tags</span>
-<span style="color:#99f">info_request_tag:</span>
-<span style="color:#069;font-weight:bold">dw</span> <span style="color:#f60">1</span>
-<span style="color:#069;font-weight:bold">dw</span> <span style="color:#f60">0</span>
-<span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">info_request_tag_end</span> <span style="color:#555">-</span> <span style="color:#033">info_request_tag</span>
-<span style="color:#069;font-weight:bold">dd</span> <span style="color:#f60">5</span>
-<span style="color:#069;font-weight:bold">dd</span> <span style="color:#f60">6</span>
-<span style="color:#99f">info_request_tag_end:</span>
-<span style="color:#069;font-weight:bold">align</span> <span style="color:#f60">8</span>
-<span style="color:#99f">address_tag:</span>
-<span style="color:#069;font-weight:bold">dw</span> <span style="color:#f60">2</span>
-<span style="color:#069;font-weight:bold">dw</span> <span style="color:#f60">0</span>
-<span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">address_tag_end</span> <span style="color:#555">-</span> <span style="color:#033">address_tag</span>
-<span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">load_base</span>                 <span style="color:#09f;font-style:italic">; header_addr</span>
-<span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">load_base</span>                 <span style="color:#09f;font-style:italic">; load_addr</span>
-<span style="color:#069;font-weight:bold">dd</span> <span style="color:#f60">0</span>                         <span style="color:#09f;font-style:italic">; load_end_addr</span>
-<span style="color:#069;font-weight:bold">dd</span> <span style="color:#f60">0</span>                         <span style="color:#09f;font-style:italic">; bss_end_addr</span>
-<span style="color:#99f">address_tag_end:</span>
-<span style="color:#069;font-weight:bold">align</span> <span style="color:#f60">8</span>
-<span style="color:#99f">entry_address_tag:</span>
-<span style="color:#069;font-weight:bold">dw</span> <span style="color:#f60">3</span>
-<span style="color:#069;font-weight:bold">dw</span> <span style="color:#f60">0</span>
-<span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">entry_address_tag_end</span> <span style="color:#555">-</span> <span style="color:#033">entry_address_tag</span>
-<span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">load_base</span> <span style="color:#555">+</span> <span style="color:#033">kernel_entry</span>
-<span style="color:#99f">entry_address_tag_end:</span>
-<span style="color:#069;font-weight:bold">align</span> <span style="color:#f60">8</span>
-<span style="color:#09f;font-style:italic">; end tag</span>
-<span style="color:#069;font-weight:bold">dw</span> <span style="color:#f60">0</span>
-<span style="color:#069;font-weight:bold">dw</span> <span style="color:#f60">0</span>
-<span style="color:#069;font-weight:bold">dd</span> <span style="color:#f60">8</span>
-<span style="color:#99f">multiboot_header_end:</span>
-
-<span style="color:#99f">kernel_entry:</span>
-<span style="color:#c0f">xchg</span> <span style="color:#366">bx</span>, <span style="color:#366">bx</span>                 <span style="color:#09f;font-style:italic">; magic breakpoint</span>
-<span style="color:#c0f">jmp</span> <span style="color:#069;font-weight:bold">$</span></code></pre></div><br>
+<p><div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#a00;background-color:#faa">//</span> <span style="color:#c0f">kernel.asm</span><span style="color:#a00;background-color:#faa">源码</span>
+</span></span><span style="display:flex;"><span><span style="color:#a00;background-color:#faa">[</span><span style="color:#069;font-weight:bold">section</span> <span style="color:#033">.kernel</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a00;background-color:#faa">[</span><span style="color:#069;font-weight:bold">bits</span> <span style="color:#f60">32</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#360">load_base</span><span style="color:#069;font-weight:bold"> equ</span> <span style="color:#f60">0x100000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic">; multiboot header</span>
+</span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">align</span> <span style="color:#f60">8</span>
+</span></span><span style="display:flex;"><span><span style="color:#99f">multiboot_header:</span>
+</span></span><span style="display:flex;"><span><span style="color:#360">MBH_magic</span><span style="color:#069;font-weight:bold">            equ</span> <span style="color:#f60">0xE85250D6</span>
+</span></span><span style="display:flex;"><span><span style="color:#360">MBH_architecture</span><span style="color:#069;font-weight:bold">     equ</span> <span style="color:#f60">0</span>            <span style="color:#09f;font-style:italic">; 32-bit protected mode</span>
+</span></span><span style="display:flex;"><span><span style="color:#360">MBH_header_length</span><span style="color:#069;font-weight:bold">    equ</span> <span style="color:#033">multiboot_header_end</span> <span style="color:#555">-</span> <span style="color:#033">multiboot_header</span>
+</span></span><span style="display:flex;"><span><span style="color:#360">MBH_checksum</span><span style="color:#069;font-weight:bold">         equ</span> <span style="color:#555">-</span>(<span style="color:#033">MBH_header_length</span> <span style="color:#555">+</span> <span style="color:#033">MBH_magic</span> <span style="color:#555">+</span> <span style="color:#033">MBH_architecture</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">MBH_magic</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">MBH_architecture</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">MBH_header_length</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">MBH_checksum</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic">; tags</span>
+</span></span><span style="display:flex;"><span><span style="color:#99f">info_request_tag:</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dw</span> <span style="color:#f60">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dw</span> <span style="color:#f60">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">info_request_tag_end</span> <span style="color:#555">-</span> <span style="color:#033">info_request_tag</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dd</span> <span style="color:#f60">5</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dd</span> <span style="color:#f60">6</span>
+</span></span><span style="display:flex;"><span><span style="color:#99f">info_request_tag_end:</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">align</span> <span style="color:#f60">8</span>
+</span></span><span style="display:flex;"><span><span style="color:#99f">address_tag:</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dw</span> <span style="color:#f60">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dw</span> <span style="color:#f60">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">address_tag_end</span> <span style="color:#555">-</span> <span style="color:#033">address_tag</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">load_base</span>                 <span style="color:#09f;font-style:italic">; header_addr</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">load_base</span>                 <span style="color:#09f;font-style:italic">; load_addr</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dd</span> <span style="color:#f60">0</span>                         <span style="color:#09f;font-style:italic">; load_end_addr</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dd</span> <span style="color:#f60">0</span>                         <span style="color:#09f;font-style:italic">; bss_end_addr</span>
+</span></span><span style="display:flex;"><span><span style="color:#99f">address_tag_end:</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">align</span> <span style="color:#f60">8</span>
+</span></span><span style="display:flex;"><span><span style="color:#99f">entry_address_tag:</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dw</span> <span style="color:#f60">3</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dw</span> <span style="color:#f60">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">entry_address_tag_end</span> <span style="color:#555">-</span> <span style="color:#033">entry_address_tag</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dd</span> <span style="color:#033">load_base</span> <span style="color:#555">+</span> <span style="color:#033">kernel_entry</span>
+</span></span><span style="display:flex;"><span><span style="color:#99f">entry_address_tag_end:</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">align</span> <span style="color:#f60">8</span>
+</span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic">; end tag</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dw</span> <span style="color:#f60">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dw</span> <span style="color:#f60">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">dd</span> <span style="color:#f60">8</span>
+</span></span><span style="display:flex;"><span><span style="color:#99f">multiboot_header_end:</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#99f">kernel_entry:</span>
+</span></span><span style="display:flex;"><span><span style="color:#c0f">xchg</span> <span style="color:#366">bx</span>, <span style="color:#366">bx</span>                 <span style="color:#09f;font-style:italic">; magic breakpoint</span>
+</span></span><span style="display:flex;"><span><span style="color:#c0f">jmp</span> <span style="color:#069;font-weight:bold">$</span></span></span></code></pre></div><br>
 　　编译</p>
 <pre><code>nasm kernel.asm -o kernel.bin
 </code></pre>

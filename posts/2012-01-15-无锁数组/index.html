@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.92.2" />
+  <meta name="generator" content="Hugo 0.107.0">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -96,58 +96,58 @@
         <div class="post-content markdown-body">
           <p>项目里有一个地方可能要去掉用于链表的锁，但是又得保证读写互斥。于是琢磨了一个土办法：
 （琢磨时的目标是用于异步发送日志，即多个日志存储者，一个发送者，接收者在另一个进程不用管它）</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#099">#define N 200
-</span><span style="color:#099"></span>PVOID g_Buffer[N] <span style="color:#555">=</span> {<span style="color:#f60">0</span>};
-UINT  g_uSaveIndex <span style="color:#555">=</span> <span style="color:#f60">0</span>;
-
-VOID 
-    <span style="color:#c0f">Save</span>(
-        PVOID pLog
-    )
-{
-    UINT uMySaveIndex <span style="color:#555">=</span> <span style="color:#f60">0</span>;
-    PVOID pOldLog <span style="color:#555">=</span> <span style="color:#366">NULL</span>;
-
-    <span style="color:#09f;font-style:italic">//
-</span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// 获取目前可以操作的数组下标
-</span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">//
-</span><span style="color:#09f;font-style:italic"></span>    uMySaveIndex <span style="color:#555">=</span> InterlockedIncrement(<span style="color:#555">&amp;</span>g_uSaveIndex) <span style="color:#555">%</span> N;
-
-    <span style="color:#09f;font-style:italic">//
-</span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// 存储日志
-</span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">//
-</span><span style="color:#09f;font-style:italic"></span>    pOldLog <span style="color:#555">=</span> InterlockedExchangePointer(g_Buffer[uMySaveIndex], pLog);
-    <span style="color:#069;font-weight:bold">if</span> (<span style="color:#366">NULL</span> <span style="color:#555">!=</span> pOldLog)
-    {
-        <span style="color:#09f;font-style:italic">//
-</span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">//     这个数组单元有老日志，释放这条老日志。
-</span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">//     （这条老日志距离本条日志中间已经有2000条日志了，
-</span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">// 这么久都没有发送出去，说明日志存储速度可能远大于发送速度，
-</span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">// 只能抛弃一部分日志了。
-</span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">//     如果不希望抛弃任何日志，那可以考虑使用链表，而不是用数组。
-</span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">//
-</span><span style="color:#09f;font-style:italic"></span>    }
-
-    <span style="color:#069;font-weight:bold">return</span>;
-}
-
-VOID 
-    <span style="color:#c0f">Send</span>(
-        VOID
-    )
-{
-    <span style="color:#069;font-weight:bold">static</span> UINT uSendIndex <span style="color:#555">=</span> <span style="color:#f60">0</span>;
-    PVOID pLogToSend <span style="color:#555">=</span> <span style="color:#366">NULL</span>;
-
-    pLogToSend <span style="color:#555">=</span> InterlockedExchangePointer(g_Buffer[uSendIndex<span style="color:#555">++</span> <span style="color:#555">%</span> N], <span style="color:#366">NULL</span>);
-
-    <span style="color:#09f;font-style:italic">//
-</span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// 发送并清理日志
-</span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// ...
-</span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">//
-</span><span style="color:#09f;font-style:italic"></span>
-    <span style="color:#069;font-weight:bold">return</span>;
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#099">#define N 200
+</span></span></span><span style="display:flex;"><span><span style="color:#099"></span>PVOID g_Buffer[N] <span style="color:#555">=</span> {<span style="color:#f60">0</span>};
+</span></span><span style="display:flex;"><span>UINT  g_uSaveIndex <span style="color:#555">=</span> <span style="color:#f60">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>VOID 
+</span></span><span style="display:flex;"><span>    <span style="color:#c0f">Save</span>(
+</span></span><span style="display:flex;"><span>        PVOID pLog
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    UINT uMySaveIndex <span style="color:#555">=</span> <span style="color:#f60">0</span>;
+</span></span><span style="display:flex;"><span>    PVOID pOldLog <span style="color:#555">=</span> <span style="color:#366">NULL</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// 获取目前可以操作的数组下标
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    uMySaveIndex <span style="color:#555">=</span> InterlockedIncrement(<span style="color:#555">&amp;</span>g_uSaveIndex) <span style="color:#555">%</span> N;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// 存储日志
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    pOldLog <span style="color:#555">=</span> InterlockedExchangePointer(g_Buffer[uMySaveIndex], pLog);
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">if</span> (<span style="color:#366">NULL</span> <span style="color:#555">!=</span> pOldLog)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">//     这个数组单元有老日志，释放这条老日志。
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">//     （这条老日志距离本条日志中间已经有2000条日志了，
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">// 这么久都没有发送出去，说明日志存储速度可能远大于发送速度，
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">// 只能抛弃一部分日志了。
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">//     如果不希望抛弃任何日志，那可以考虑使用链表，而不是用数组。
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">return</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>VOID 
+</span></span><span style="display:flex;"><span>    <span style="color:#c0f">Send</span>(
+</span></span><span style="display:flex;"><span>        VOID
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">static</span> UINT uSendIndex <span style="color:#555">=</span> <span style="color:#f60">0</span>;
+</span></span><span style="display:flex;"><span>    PVOID pLogToSend <span style="color:#555">=</span> <span style="color:#366">NULL</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    pLogToSend <span style="color:#555">=</span> InterlockedExchangePointer(g_Buffer[uSendIndex<span style="color:#555">++</span> <span style="color:#555">%</span> N], <span style="color:#366">NULL</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// 发送并清理日志
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">return</span>;
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 
         </div>
         

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.92.2" />
+  <meta name="generator" content="Hugo 0.107.0">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -95,16 +95,16 @@
 
         <div class="post-content markdown-body">
           <p>今天看到一段同事的代码：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">ZeroMemory(<span style="color:#555">&amp;</span>m_PacketInfo, <span style="color:#069;font-weight:bold">sizeof</span>(packet_info));
-
-<span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">packet_info</span>
-{
-    string m_strModule;                 <span style="color:#09f;font-style:italic">//模块
-</span><span style="color:#09f;font-style:italic"></span>    string m_strProtocol;               <span style="color:#09f;font-style:italic">//协议
-</span><span style="color:#09f;font-style:italic"></span>    string m_strClientHostIP;           <span style="color:#09f;font-style:italic">//客户端IP
-</span><span style="color:#09f;font-style:italic"></span>    string m_strClientHostPort;         <span style="color:#09f;font-style:italic">//客户端端口
-</span><span style="color:#09f;font-style:italic"></span>    ...
-};</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>ZeroMemory(<span style="color:#555">&amp;</span>m_PacketInfo, <span style="color:#069;font-weight:bold">sizeof</span>(packet_info));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">packet_info</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    string m_strModule;                 <span style="color:#09f;font-style:italic">//模块
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    string m_strProtocol;               <span style="color:#09f;font-style:italic">//协议
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    string m_strClientHostIP;           <span style="color:#09f;font-style:italic">//客户端IP
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    string m_strClientHostPort;         <span style="color:#09f;font-style:italic">//客户端端口
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    ...
+</span></span><span style="display:flex;"><span>};</span></span></code></pre></div>
 <p>按照我的经验，这种对类对象进行ZeroMemory或者memset的代码会导致程序崩掉。因为会覆盖掉类对象中的关键域，比如虚表。但是同事在vs2005中这样做却很正常。让我很奇怪，于是花了点时间分析了下。</p>
 <p>首先，std::string的vc实现并没有虚表，如下：</p>
 <pre tabindex="0"><code>0:000&gt; dt string
@@ -119,37 +119,37 @@ QueueTest!string
 </code></pre><p>所以ZeroMemory后不会导致非法访问。</p>
 <p>翻了一下std::string的实现，发现就是一普通的模板类，没有用到继承等OO特性。跟一普通的结构体和一系列配套函数的简单组合没太大区别。</p>
 <p>于是写了一小段测试代码</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">Father</span>
-{
-<span style="color:#069;font-weight:bold">public</span><span style="color:#555">:</span>
-    Father() {}
-    <span style="color:#555">~</span>Father(){}
-
-    <span style="color:#069;font-weight:bold">virtual</span> <span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">Show</span>()
-    {
-        printf(<span style="color:#c30">&#34;Father</span><span style="color:#c30;font-weight:bold">\n</span><span style="color:#c30">&#34;</span>);
-    }
-};
-
-<span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">Son</span><span style="color:#555">:</span> <span style="color:#069;font-weight:bold">public</span> Father
-{
-<span style="color:#069;font-weight:bold">public</span><span style="color:#555">:</span>
-    <span style="color:#078;font-weight:bold">void</span> Show()
-    {
-        printf(<span style="color:#c30">&#34;Son</span><span style="color:#c30;font-weight:bold">\n</span><span style="color:#c30">&#34;</span>);
-    }
-};
-
-<span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">main</span>()
-{
-    Son son;
-
-    son.Show();
-    ZeroMemory(<span style="color:#555">&amp;</span>son, <span style="color:#069;font-weight:bold">sizeof</span>(Son));
-    son.Show();
-
-    ...
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">Father</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">public</span><span style="color:#555">:</span>
+</span></span><span style="display:flex;"><span>    Father() {}
+</span></span><span style="display:flex;"><span>    <span style="color:#555">~</span>Father(){}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">virtual</span> <span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">Show</span>()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        printf(<span style="color:#c30">&#34;Father</span><span style="color:#c30;font-weight:bold">\n</span><span style="color:#c30">&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">Son</span><span style="color:#555">:</span> <span style="color:#069;font-weight:bold">public</span> Father
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">public</span><span style="color:#555">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#078;font-weight:bold">void</span> Show()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        printf(<span style="color:#c30">&#34;Son</span><span style="color:#c30;font-weight:bold">\n</span><span style="color:#c30">&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    Son son;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    son.Show();
+</span></span><span style="display:flex;"><span>    ZeroMemory(<span style="color:#555">&amp;</span>son, <span style="color:#069;font-weight:bold">sizeof</span>(Son));
+</span></span><span style="display:flex;"><span>    son.Show();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ...
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <p>我对这段代码的预期是，因为有继承以及虚函数，所以会有虚表。ZeroMemory会导致虚表被破坏，然后在第二次Show的时候非法访问。但实际运行效果依然正常。</p>
 <p>于是检查了一下man的反汇编代码：</p>
 <pre tabindex="0"><code>0:000:x86&gt; uf main
@@ -184,16 +184,16 @@ QueueTest!main:
 </ol>
 <p>再想想什么时候才需要虚表呢？动态绑定。<br>
 于是改了改测试代码，如下（Father和Son的定义不变）：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">main</span>()
-{
-    Son son;
-    Father <span style="color:#555">*</span>pson <span style="color:#555">=</span> (Father<span style="color:#555">*</span>)<span style="color:#555">&amp;</span>son;
-
-    pson<span style="color:#555">-&gt;</span>Show();
-    ZeroMemory(<span style="color:#555">&amp;</span>son, <span style="color:#069;font-weight:bold">sizeof</span>(Son));
-    pson<span style="color:#555">-&gt;</span>Show();
-    ...
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    Son son;
+</span></span><span style="display:flex;"><span>    Father <span style="color:#555">*</span>pson <span style="color:#555">=</span> (Father<span style="color:#555">*</span>)<span style="color:#555">&amp;</span>son;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    pson<span style="color:#555">-&gt;</span>Show();
+</span></span><span style="display:flex;"><span>    ZeroMemory(<span style="color:#555">&amp;</span>son, <span style="color:#069;font-weight:bold">sizeof</span>(Son));
+</span></span><span style="display:flex;"><span>    pson<span style="color:#555">-&gt;</span>Show();
+</span></span><span style="display:flex;"><span>    ...
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <p>　　看看反汇编码：</p>
 <pre tabindex="0"><code>0:000:x86&gt; uf main
 QueueTest!main:

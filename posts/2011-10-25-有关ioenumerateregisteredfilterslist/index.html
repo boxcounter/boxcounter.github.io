@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.92.2" />
+  <meta name="generator" content="Hugo 0.107.0">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -96,61 +96,61 @@
         <div class="post-content markdown-body">
           <p>有关于IoEnumerateRegisteredFiltersList
 昨天逆一个驱动的时候发现静态分析出来的逻辑跟动态调试的逻辑不一致，继续跟下去，发现分歧处在IoEnumerateRegisteredFiltersList函数，原型如下：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">NTSTATUS
-    <span style="color:#c0f">IoEnumerateRegisteredFiltersList</span>(
-        IN  PDRIVER_OBJECT  <span style="color:#555">*</span>DriverObjectList,
-        IN  ULONG  DriverObjectListSize,
-        OUT PULONG  ActualNumberDriverObjects
-    );</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>NTSTATUS
+</span></span><span style="display:flex;"><span>    <span style="color:#c0f">IoEnumerateRegisteredFiltersList</span>(
+</span></span><span style="display:flex;"><span>        IN  PDRIVER_OBJECT  <span style="color:#555">*</span>DriverObjectList,
+</span></span><span style="display:flex;"><span>        IN  ULONG  DriverObjectListSize,
+</span></span><span style="display:flex;"><span>        OUT PULONG  ActualNumberDriverObjects
+</span></span><span style="display:flex;"><span>    );</span></span></code></pre></div>
 <p>其中对DriverObjectList参数的解释，在WDK 7600.16385.1 的文档中是这样：</p>
 <blockquote>
 <p>“The filter drivers are enumerated in order of decreasing distance from the base file system. The first element (index zero) in the DriverObjectList array represents the filter that is attached farthest from the file system. The second entry is for the next-farthest filter, and so on. The last entry in the array is for the filter that is closest to the base file system. ”</p>
 </blockquote>
 <p>WDK是说，DriverObjectList中的DrvObj是按照顺序排列的，离FSD最远的排最头（第一个元素），反之则排在最末尾。<br>
 可实际调试的结果正好相反，查看了下wrk代码，</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">NTSTATUS
-    <span style="color:#c0f">IoEnumerateRegisteredFiltersList</span>(
-        IN  PDRIVER_OBJECT  <span style="color:#555">*</span>DriverObjectList,
-        IN  ULONG           DriverObjectListSize,
-        OUT PULONG          ActualNumberDriverObjects
-    )
-{
-    <span style="color:#09f;font-style:italic">// ...... 无关代码，略
-</span><span style="color:#09f;font-style:italic"></span> 
-    entry <span style="color:#555">=</span> IopFsNotifyChangeQueueHead.Flink;
- 
-    <span style="color:#069;font-weight:bold">while</span> ((numListEntries <span style="color:#555">&gt;</span> <span style="color:#f60">0</span>) <span style="color:#555">&amp;&amp;</span> (entry <span style="color:#555">!=</span> <span style="color:#555">&amp;</span>IopFsNotifyChangeQueueHead)) {
- 
-        nPacket <span style="color:#555">=</span> CONTAINING_RECORD( entry, NOTIFICATION_PACKET, ListEntry );
- 
-        ObReferenceObject(nPacket<span style="color:#555">-&gt;</span>DriverObject);
- 
-        <span style="color:#555">*</span>DriverObjectList <span style="color:#555">=</span> nPacket<span style="color:#555">-&gt;</span>DriverObject;
-        DriverObjectList<span style="color:#555">++</span>;
- 
-        entry <span style="color:#555">=</span> entry<span style="color:#555">-&gt;</span>Flink;
-        numListEntries<span style="color:#555">--</span>;
-    }
- 
-    <span style="color:#09f;font-style:italic">// ...... 无关代码，略
-</span><span style="color:#09f;font-style:italic"></span>}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>NTSTATUS
+</span></span><span style="display:flex;"><span>    <span style="color:#c0f">IoEnumerateRegisteredFiltersList</span>(
+</span></span><span style="display:flex;"><span>        IN  PDRIVER_OBJECT  <span style="color:#555">*</span>DriverObjectList,
+</span></span><span style="display:flex;"><span>        IN  ULONG           DriverObjectListSize,
+</span></span><span style="display:flex;"><span>        OUT PULONG          ActualNumberDriverObjects
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// ...... 无关代码，略
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span> 
+</span></span><span style="display:flex;"><span>    entry <span style="color:#555">=</span> IopFsNotifyChangeQueueHead.Flink;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">while</span> ((numListEntries <span style="color:#555">&gt;</span> <span style="color:#f60">0</span>) <span style="color:#555">&amp;&amp;</span> (entry <span style="color:#555">!=</span> <span style="color:#555">&amp;</span>IopFsNotifyChangeQueueHead)) {
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>        nPacket <span style="color:#555">=</span> CONTAINING_RECORD( entry, NOTIFICATION_PACKET, ListEntry );
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>        ObReferenceObject(nPacket<span style="color:#555">-&gt;</span>DriverObject);
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>        <span style="color:#555">*</span>DriverObjectList <span style="color:#555">=</span> nPacket<span style="color:#555">-&gt;</span>DriverObject;
+</span></span><span style="display:flex;"><span>        DriverObjectList<span style="color:#555">++</span>;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>        entry <span style="color:#555">=</span> entry<span style="color:#555">-&gt;</span>Flink;
+</span></span><span style="display:flex;"><span>        numListEntries<span style="color:#555">--</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// ...... 无关代码，略
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>}</span></span></code></pre></div>
 <p>可以看出，返回的DriverObjectList中的DrvObj都是从IopFsNotifyChangeQueueHead链表中取出的，而且两个链表中的元素摆放顺序是一致的。</p>
 <p>那再来看看IopFsNotifyChangeQueueHead中的元素是按什么顺序摆放的：
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">NTSTATUS
-    <span style="color:#c0f">IoRegisterFsRegistrationChange</span>(
-        IN PDRIVER_OBJECT DriverObject,
-        IN PDRIVER_FS_NOTIFICATION DriverNotificationRoutine
-    )
-{
-    <span style="color:#09f;font-style:italic">// ...... 无关代码，略
-</span><span style="color:#09f;font-style:italic"></span> 
-    nPacket<span style="color:#555">-&gt;</span>DriverObject <span style="color:#555">=</span> DriverObject;
-    nPacket<span style="color:#555">-&gt;</span>NotificationRoutine <span style="color:#555">=</span> DriverNotificationRoutine;
- 
-    InsertTailList( <span style="color:#555">&amp;</span>IopFsNotifyChangeQueueHead, <span style="color:#555">&amp;</span>nPacket<span style="color:#555">-&gt;</span>ListEntry );
- 
-    <span style="color:#09f;font-style:italic">// ...... 无关代码，略
-</span><span style="color:#09f;font-style:italic"></span>}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>NTSTATUS
+</span></span><span style="display:flex;"><span>    <span style="color:#c0f">IoRegisterFsRegistrationChange</span>(
+</span></span><span style="display:flex;"><span>        IN PDRIVER_OBJECT DriverObject,
+</span></span><span style="display:flex;"><span>        IN PDRIVER_FS_NOTIFICATION DriverNotificationRoutine
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// ...... 无关代码，略
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span> 
+</span></span><span style="display:flex;"><span>    nPacket<span style="color:#555">-&gt;</span>DriverObject <span style="color:#555">=</span> DriverObject;
+</span></span><span style="display:flex;"><span>    nPacket<span style="color:#555">-&gt;</span>NotificationRoutine <span style="color:#555">=</span> DriverNotificationRoutine;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>    InsertTailList( <span style="color:#555">&amp;</span>IopFsNotifyChangeQueueHead, <span style="color:#555">&amp;</span>nPacket<span style="color:#555">-&gt;</span>ListEntry );
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// ...... 无关代码，略
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>}</span></span></code></pre></div>
 可以看出，顺序是先来后到，也就是先调用IoRegisterFsRegistrationChange的DrvObj被插在链表的前面。而一般来说，先Attach到FSD的Driver，先调用IoRegisterFsRegistrationChange（一般驱动逻辑如此，你要硬写个驱动挂上去后死活非要在10分钟后Register，我这没辙）。</p>
 <p>半路总结下：实际的逻辑和WDK文档上说的不一致。<br>
 为了再次确认，我再瞅瞅我实际调试的环境（Win 7），wrk毕竟是2003版本的。</p>

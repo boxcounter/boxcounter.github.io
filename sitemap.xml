@@ -2,14 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://boxcounter.com/posts/2023-01-20-the-innovators-dilemma/</loc>
+    <lastmod>2023-01-20T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>http://boxcounter.com/</loc>
-    <lastmod>2022-03-02T00:00:00+00:00</lastmod>
+    <lastmod>2023-01-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://boxcounter.com/posts/</loc>
-    <lastmod>2022-03-02T00:00:00+00:00</lastmod>
+    <lastmod>2023-01-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://boxcounter.com/posts/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</loc>
-    <lastmod>2022-03-02T00:00:00+00:00</lastmod>
+    <lastmod>2023-01-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://boxcounter.com/posts/2022-01-03-three-agile-books/</loc>
     <lastmod>2022-01-03T00:00:00+00:00</lastmod>
@@ -74,10 +77,10 @@
     <loc>http://boxcounter.com/posts/2019-01-24-measure-what-matters/</loc>
     <lastmod>2019-01-24T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://boxcounter.com/tags/</loc>
+    <loc>http://boxcounter.com/posts/2017-10-21-%E7%BB%8F%E6%B5%8E%E6%80%9D%E6%83%B3%E5%8F%B2/</loc>
     <lastmod>2017-10-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://boxcounter.com/posts/2017-10-21-%E7%BB%8F%E6%B5%8E%E6%80%9D%E6%83%B3%E5%8F%B2/</loc>
+    <loc>http://boxcounter.com/tags/</loc>
     <lastmod>2017-10-21T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://boxcounter.com/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/</loc>

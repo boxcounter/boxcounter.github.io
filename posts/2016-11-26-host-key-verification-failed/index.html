@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.92.2" />
+  <meta name="generator" content="Hugo 0.107.0">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -104,7 +104,7 @@ Are you sure you want to continue connecting (yes/no)?</p>
 </blockquote>
 <p>通常大家手输yes就可以继续clone代码了。而静默执行的脚本通常会在建立连接之前将目标站点保存到<code>known_hosts</code>，以跳过询问。</p>
 <p>在我的脚本里是这样的：</p>
-<pre tabindex="0"><code>ssh_dir=&quot;${HOME}/.ssh&quot;
+<pre tabindex="0"><code>ssh_dir=&#34;${HOME}/.ssh&#34;
 ...
 ssh-keyscan -v -t rsa ssh.github.com &gt; ${ssh_dir}/known_hosts
 git clone git@github.com:...

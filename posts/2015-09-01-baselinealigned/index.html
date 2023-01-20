@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.92.2" />
+  <meta name="generator" content="Hugo 0.107.0">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -101,40 +101,40 @@
 
 
 <p>其中两个灰色方块是使用代码动态创建的TextView。它们的父LinearLayout是这样的：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#309;font-weight:bold">&lt;LinearLayout</span>
-    <span style="color:#309">android:id=</span><span style="color:#c30">&#34;@+id/ll_files&#34;</span>
-    <span style="color:#309">android:layout_width=</span><span style="color:#c30">&#34;wrap_content&#34;</span>
-    <span style="color:#309">android:layout_height=</span><span style="color:#c30">&#34;100dp&#34;</span>
-    <span style="color:#309">android:layout_marginTop=</span><span style="color:#c30">&#34;7.5dp&#34;</span>
-    <span style="color:#309">android:orientation=</span><span style="color:#c30">&#34;horizontal&#34;</span>
-    <span style="color:#309;font-weight:bold">/&gt;</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#309;font-weight:bold">&lt;LinearLayout</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#309">android:id=</span><span style="color:#c30">&#34;@+id/ll_files&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#309">android:layout_width=</span><span style="color:#c30">&#34;wrap_content&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#309">android:layout_height=</span><span style="color:#c30">&#34;100dp&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#309">android:layout_marginTop=</span><span style="color:#c30">&#34;7.5dp&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#309">android:orientation=</span><span style="color:#c30">&#34;horizontal&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#309;font-weight:bold">/&gt;</span></span></span></code></pre></div>
 <p>不知道是什么原因，导致第一个TextView「下挫」了一些。仔细检查了它的margin和padding都是0、符合预期，但top是29。</p>
 <p>仔细阅读了一遍代码和布局文件，确定我并没有误调整top，那么问题应该出现在动态layout过程中。那就开始调试分析吧。</p>
 <p>顺着LinearLayout.onLayout()追踪到了LinearLayout.layoutHorizontal()，发现了这样一段代码：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">layoutHorizontal</span><span style="color:#555">(</span><span style="color:#078;font-weight:bold">int</span> left<span style="color:#555">,</span> <span style="color:#078;font-weight:bold">int</span> top<span style="color:#555">,</span> <span style="color:#078;font-weight:bold">int</span> right<span style="color:#555">,</span> <span style="color:#078;font-weight:bold">int</span> bottom<span style="color:#555">)</span> <span style="color:#555">{</span>
-    <span style="color:#09f;font-style:italic">// 若干无关代码，略
-</span><span style="color:#09f;font-style:italic"></span>    
-    <span style="color:#078;font-weight:bold">int</span> childBaseline <span style="color:#555">=</span> <span style="color:#555">-</span>1<span style="color:#555">;</span>
-    
-    <span style="color:#069;font-weight:bold">final</span> LinearLayout<span style="color:#555">.</span><span style="color:#309">LayoutParams</span> lp <span style="color:#555">=</span>
-            <span style="color:#555">(</span>LinearLayout<span style="color:#555">.</span><span style="color:#309">LayoutParams</span><span style="color:#555">)</span> child<span style="color:#555">.</span><span style="color:#309">getLayoutParams</span><span style="color:#555">();</span>
-    
-    <span style="color:#069;font-weight:bold">if</span> <span style="color:#555">(</span>baselineAligned <span style="color:#555">&amp;&amp;</span> lp<span style="color:#555">.</span><span style="color:#309">height</span> <span style="color:#555">!=</span> LayoutParams<span style="color:#555">.</span><span style="color:#309">MATCH_PARENT</span><span style="color:#555">)</span> <span style="color:#555">{</span>
-        childBaseline <span style="color:#555">=</span> child<span style="color:#555">.</span><span style="color:#309">getBaseline</span><span style="color:#555">();</span>
-    <span style="color:#555">}</span>
-    
-    <span style="color:#09f;font-style:italic">// 若干无关代码，略
-</span><span style="color:#09f;font-style:italic"></span>    
-    <span style="color:#069;font-weight:bold">switch</span> <span style="color:#555">(</span>gravity <span style="color:#555">&amp;</span> Gravity<span style="color:#555">.</span><span style="color:#309">VERTICAL_GRAVITY_MASK</span><span style="color:#555">)</span> <span style="color:#555">{</span>
-        <span style="color:#069;font-weight:bold">case</span> Gravity<span style="color:#555">.</span><span style="color:#309">TOP</span><span style="color:#555">:</span>
-            childTop <span style="color:#555">=</span> paddingTop <span style="color:#555">+</span> lp<span style="color:#555">.</span><span style="color:#309">topMargin</span><span style="color:#555">;</span>
-            <span style="color:#069;font-weight:bold">if</span> <span style="color:#555">(</span>childBaseline <span style="color:#555">!=</span> <span style="color:#555">-</span>1<span style="color:#555">)</span> <span style="color:#555">{</span>
-                childTop <span style="color:#555">+=</span> maxAscent<span style="color:#555">[</span>INDEX_TOP<span style="color:#555">]</span> <span style="color:#555">-</span> childBaseline<span style="color:#555">;</span>  <span style="color:#09f;font-style:italic">// &lt;==== A
-</span><span style="color:#09f;font-style:italic"></span>            <span style="color:#555">}</span>
-            <span style="color:#069;font-weight:bold">break</span><span style="color:#555">;</span>
-    
-    <span style="color:#09f;font-style:italic">// 若干无关代码，略
-</span><span style="color:#09f;font-style:italic"></span><span style="color:#555">}</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">layoutHorizontal</span><span style="color:#555">(</span><span style="color:#078;font-weight:bold">int</span> left<span style="color:#555">,</span> <span style="color:#078;font-weight:bold">int</span> top<span style="color:#555">,</span> <span style="color:#078;font-weight:bold">int</span> right<span style="color:#555">,</span> <span style="color:#078;font-weight:bold">int</span> bottom<span style="color:#555">)</span> <span style="color:#555">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// 若干无关代码，略
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#078;font-weight:bold">int</span> childBaseline <span style="color:#555">=</span> <span style="color:#555">-</span><span style="color:#f60">1</span><span style="color:#555">;</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">final</span> LinearLayout<span style="color:#555">.</span><span style="color:#309">LayoutParams</span> lp <span style="color:#555">=</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#555">(</span>LinearLayout<span style="color:#555">.</span><span style="color:#309">LayoutParams</span><span style="color:#555">)</span> child<span style="color:#555">.</span><span style="color:#309">getLayoutParams</span><span style="color:#555">();</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">if</span> <span style="color:#555">(</span>baselineAligned <span style="color:#555">&amp;&amp;</span> lp<span style="color:#555">.</span><span style="color:#309">height</span> <span style="color:#555">!=</span> LayoutParams<span style="color:#555">.</span><span style="color:#309">MATCH_PARENT</span><span style="color:#555">)</span> <span style="color:#555">{</span>
+</span></span><span style="display:flex;"><span>        childBaseline <span style="color:#555">=</span> child<span style="color:#555">.</span><span style="color:#309">getBaseline</span><span style="color:#555">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#555">}</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// 若干无关代码，略
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">switch</span> <span style="color:#555">(</span>gravity <span style="color:#555">&amp;</span> Gravity<span style="color:#555">.</span><span style="color:#309">VERTICAL_GRAVITY_MASK</span><span style="color:#555">)</span> <span style="color:#555">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#069;font-weight:bold">case</span> Gravity<span style="color:#555">.</span><span style="color:#309">TOP</span><span style="color:#555">:</span>
+</span></span><span style="display:flex;"><span>            childTop <span style="color:#555">=</span> paddingTop <span style="color:#555">+</span> lp<span style="color:#555">.</span><span style="color:#309">topMargin</span><span style="color:#555">;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#069;font-weight:bold">if</span> <span style="color:#555">(</span>childBaseline <span style="color:#555">!=</span> <span style="color:#555">-</span><span style="color:#f60">1</span><span style="color:#555">)</span> <span style="color:#555">{</span>
+</span></span><span style="display:flex;"><span>                childTop <span style="color:#555">+=</span> maxAscent<span style="color:#555">[</span>INDEX_TOP<span style="color:#555">]</span> <span style="color:#555">-</span> childBaseline<span style="color:#555">;</span>  <span style="color:#09f;font-style:italic">// &lt;==== A
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>            <span style="color:#555">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#069;font-weight:bold">break</span><span style="color:#555">;</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// 若干无关代码，略
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span><span style="color:#555">}</span></span></span></code></pre></div>
 <p>当执行完A行时，childTop等于29。问题出在这里，再反向阅读代码，跟踪到了两个关键变量：</p>
 <ol>
 <li>baselineAligned为true；</li>

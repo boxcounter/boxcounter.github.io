@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.92.2" />
+  <meta name="generator" content="Hugo 0.107.0">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -165,65 +165,65 @@ make install-target-libgcc
 </code></pre>
 <h1 id="五测试源码">五、测试源码</h1>
 <p>　　现在咱有了交叉编译器了，试试效果吧：
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#09f;font-style:italic">// kernel.c
-</span><span style="color:#09f;font-style:italic"></span><span style="color:#099">#include</span> <span style="color:#099">&#34;multiboot2.h&#34;</span><span style="color:#099">
-</span><span style="color:#099"></span>
-
-<span style="color:#099">#define INFO_REQ_COUNT  2
-</span><span style="color:#099"></span>
-<span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">antos_multiboot_header_tag_information_request</span>
-{
-    <span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">multiboot_header_tag_information_request</span> info_req <span style="color:#c0f">__attribute__</span>((aligned(MULTIBOOT_TAG_ALIGN)));
-    multiboot_uint32_t req[INFO_REQ_COUNT];
-} __attribute__((packed));
-
-
-<span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">antos_multiboot_header</span>
-{
-    <span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">multiboot_header</span> header <span style="color:#c0f">__attribute__</span>((aligned(MULTIBOOT_TAG_ALIGN)));
-    <span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">antos_multiboot_header_tag_information_request</span> info_req <span style="color:#c0f">__attribute__</span>((aligned(MULTIBOOT_TAG_ALIGN)));
-    <span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">multiboot_header_tag</span> end <span style="color:#c0f">__attribute__</span>((aligned(MULTIBOOT_TAG_ALIGN)));
-} __attribute__((packed));
-
-
-<span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">antos_multiboot_header</span> amb <span style="color:#555">=</span>
-{
-    {
-        MULTIBOOT2_HEADER_MAGIC,
-        MULTIBOOT_ARCHITECTURE_I386,
-        <span style="color:#069;font-weight:bold">sizeof</span>(<span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">antos_multiboot_header</span>),
-        <span style="color:#555">-</span>(MULTIBOOT2_HEADER_MAGIC <span style="color:#555">+</span> MULTIBOOT_ARCHITECTURE_I386 <span style="color:#555">+</span> <span style="color:#069;font-weight:bold">sizeof</span>(<span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">antos_multiboot_header</span>))
-    },
-
-    {
-        {
-            MULTIBOOT_HEADER_TAG_INFORMATION_REQUEST,
-            MULTIBOOT_HEADER_TAG_OPTIONAL,
-            <span style="color:#069;font-weight:bold">sizeof</span>(<span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">antos_multiboot_header_tag_information_request</span>)
-        },
-        MULTIBOOT_TAG_TYPE_BASIC_MEMINFO,
-        MULTIBOOT_TAG_TYPE_FRAMEBUFFER
-    },
-
-    {
-        MULTIBOOT_HEADER_TAG_END,
-        MULTIBOOT_HEADER_TAG_OPTIONAL,
-        <span style="color:#069;font-weight:bold">sizeof</span>(<span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">multiboot_header_tag</span>)
-    }
-};
-
-
-<span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">breakpoint</span>()
-{
-    <span style="color:#069;font-weight:bold">asm</span>(<span style="color:#c30">&#34;xchg %bx, %bx&#34;</span>);
-}
-
-
-<span style="color:#078;font-weight:bold">int</span> <span style="color:#c0f">_start</span>()
-{
-    breakpoint();
-    <span style="color:#069;font-weight:bold">return</span> <span style="color:#f60">0</span>;
-}</code></pre></div></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#09f;font-style:italic">// kernel.c
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span><span style="color:#099">#include</span> <span style="color:#099">&#34;multiboot2.h&#34;</span><span style="color:#099">
+</span></span></span><span style="display:flex;"><span><span style="color:#099"></span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#099">#define INFO_REQ_COUNT  2
+</span></span></span><span style="display:flex;"><span><span style="color:#099"></span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">antos_multiboot_header_tag_information_request</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">multiboot_header_tag_information_request</span> info_req <span style="color:#c0f">__attribute__</span>((aligned(MULTIBOOT_TAG_ALIGN)));
+</span></span><span style="display:flex;"><span>    multiboot_uint32_t req[INFO_REQ_COUNT];
+</span></span><span style="display:flex;"><span>} __attribute__((packed));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">antos_multiboot_header</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">multiboot_header</span> header <span style="color:#c0f">__attribute__</span>((aligned(MULTIBOOT_TAG_ALIGN)));
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">antos_multiboot_header_tag_information_request</span> info_req <span style="color:#c0f">__attribute__</span>((aligned(MULTIBOOT_TAG_ALIGN)));
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">multiboot_header_tag</span> end <span style="color:#c0f">__attribute__</span>((aligned(MULTIBOOT_TAG_ALIGN)));
+</span></span><span style="display:flex;"><span>} __attribute__((packed));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">antos_multiboot_header</span> amb <span style="color:#555">=</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        MULTIBOOT2_HEADER_MAGIC,
+</span></span><span style="display:flex;"><span>        MULTIBOOT_ARCHITECTURE_I386,
+</span></span><span style="display:flex;"><span>        <span style="color:#069;font-weight:bold">sizeof</span>(<span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">antos_multiboot_header</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#555">-</span>(MULTIBOOT2_HEADER_MAGIC <span style="color:#555">+</span> MULTIBOOT_ARCHITECTURE_I386 <span style="color:#555">+</span> <span style="color:#069;font-weight:bold">sizeof</span>(<span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">antos_multiboot_header</span>))
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            MULTIBOOT_HEADER_TAG_INFORMATION_REQUEST,
+</span></span><span style="display:flex;"><span>            MULTIBOOT_HEADER_TAG_OPTIONAL,
+</span></span><span style="display:flex;"><span>            <span style="color:#069;font-weight:bold">sizeof</span>(<span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">antos_multiboot_header_tag_information_request</span>)
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        MULTIBOOT_TAG_TYPE_BASIC_MEMINFO,
+</span></span><span style="display:flex;"><span>        MULTIBOOT_TAG_TYPE_FRAMEBUFFER
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        MULTIBOOT_HEADER_TAG_END,
+</span></span><span style="display:flex;"><span>        MULTIBOOT_HEADER_TAG_OPTIONAL,
+</span></span><span style="display:flex;"><span>        <span style="color:#069;font-weight:bold">sizeof</span>(<span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">multiboot_header_tag</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">breakpoint</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">asm</span>(<span style="color:#c30">&#34;xchg %bx, %bx&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#078;font-weight:bold">int</span> <span style="color:#c0f">_start</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    breakpoint();
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">return</span> <span style="color:#f60">0</span>;
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div></p>
 <p>　　multiboot2.h头文件是从grub2.0.0的源码里拷贝过来的，主要定义了符合multiboot2规范的数据结构。<br>
 　　编译方法：</p>
 <pre><code>~/opt/cross/bin/i586-elf-gcc -c -o kernel.o kernel.c
