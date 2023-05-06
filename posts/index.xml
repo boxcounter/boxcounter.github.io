@@ -6,7 +6,34 @@
     <description>Recent content in Posts on Boxcounter&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 20 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="http://boxcounter.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 06 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="http://boxcounter.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>3Blue1Brown《线性代数的本质》学习笔记</title>
+      <link>http://boxcounter.com/posts/2023-05-06-essence-of-linear-algebra-notes/</link>
+      <pubDate>Sat, 06 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/posts/2023-05-06-essence-of-linear-algebra-notes/</guid>
+      <description>还没有学完，这条笔记会持续更新。 B 站视频：线性代数的本质。 一、Matrix Multiplication（矩阵乘法） 几何意义：线性变换（lin</description>
+    </item>
+    
+    <item>
+      <title>我们是在用敏捷方法实现一个糟糕的瀑布吗？</title>
+      <link>http://boxcounter.com/posts/2023-05-04-question-about-agile-and-waterfall/</link>
+      <pubDate>Thu, 04 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/posts/2023-05-04-question-about-agile-and-waterfall/</guid>
+      <description>我们是在用敏捷方法实现一个糟糕的瀑布吗？ 前些天和同事聊天，他问我“我们现在做的是敏捷吗？是不是只是把瀑布拆成了小迭代、而且还做得挺不理想的？</description>
+    </item>
+    
+    <item>
+      <title>读书记录</title>
+      <link>http://boxcounter.com/posts/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Sun, 22 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>http://boxcounter.com/posts/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</guid>
+      <description>记录我读完的书，从 2014 年开始记录。主要记录有点厚度的，薄手册和零散资料不记。 评分标准 评分 简述 举例 9~10 经典，值得反阅读 《史记》(10)、《TCP/</description>
+    </item>
+    
     <item>
       <title>《创新者的窘境》读书小记</title>
       <link>http://boxcounter.com/posts/2023-01-20-the-innovators-dilemma/</link>
@@ -14,15 +41,6 @@
       
       <guid>http://boxcounter.com/posts/2023-01-20-the-innovators-dilemma/</guid>
       <description>成熟企业被创新企业掀翻是因为它不思进取、贪婪、官僚、老化或自大吗？如果我是成熟企业的领导者，我该做什么来避免遭遇失败？ 在《创新者的窘境》这部</description>
-    </item>
-    
-    <item>
-      <title>读书记录</title>
-      <link>http://boxcounter.com/posts/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</link>
-      <pubDate>Fri, 20 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>http://boxcounter.com/posts/2017-10-21-%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/</guid>
-      <description>记录我读完的书，从 2014 年开始记录。主要记录有点厚度的，薄手册和零散资料不记。 评分标准 评分 简述 举例 9~10 经典，值得反阅读 《史记》(10)、《TCP/</description>
     </item>
     
     <item>

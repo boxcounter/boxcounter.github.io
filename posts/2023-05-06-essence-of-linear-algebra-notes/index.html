@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.111.3">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Boxcounter" />
+  <meta property="og:url" content="http://boxcounter.com/posts/2023-05-06-essence-of-linear-algebra-notes/" />
+  <link rel="canonical" href="http://boxcounter.com/posts/2023-05-06-essence-of-linear-algebra-notes/" /><script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "http:\/\/boxcounter.com\/"
+      },
+      "articleSection" : "posts",
+      "name" : "3Blue1Brown《线性代数的本质》学习笔记",
+      "headline" : "3Blue1Brown《线性代数的本质》学习笔记",
+      "description" : "还没有学完，这条笔记会持续更新。 B 站视频：线性代数的本质。 一、Matrix Multiplication（矩阵乘法） 几何意义：线性变换（lin",
+      "inLanguage" : "en-US",
+      "author" : "Boxcounter",
+      "creator" : "Boxcounter",
+      "publisher": "Boxcounter",
+      "accountablePerson" : "Boxcounter",
+      "copyrightHolder" : "Boxcounter",
+      "copyrightYear" : "2023",
+      "datePublished": "2023-05-06 00:00:00 \u002b0000 UTC",
+      "dateModified" : "2023-05-06 00:00:00 \u002b0000 UTC",
+      "url" : "http:\/\/boxcounter.com\/posts\/2023-05-06-essence-of-linear-algebra-notes\/",
+      "keywords" : [  ]
+  }
+</script>
+<title>3Blue1Brown《线性代数的本质》学习笔记 - Boxcounter&#39;s blog</title>
+  <meta property="og:title" content="3Blue1Brown《线性代数的本质》学习笔记 - Boxcounter&#39;s blog" />
+  <meta property="og:type" content="article" />
+  <meta name="description" content="还没有学完，这条笔记会持续更新。 B 站视频：线性代数的本质。 一、Matrix Multiplication（矩阵乘法） 几何意义：线性变换（lin" />
+
+  <link rel="stylesheet" href="/css/flexboxgrid-6.3.1.min.css" />
+  <link rel="stylesheet"
+    href="/css/github-markdown.min.css" />
+  <link rel="stylesheet" href="/css/highlight/tomorrow.min.css" />
+  <link rel="stylesheet" href="/css/index.css">
+  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="Boxcounter&#39;s blog">
+  
+  <link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker" rel="stylesheet">
+  
+  
+
+  
+</head>
+
+
+<body>
+  <article class="post " id="article">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="site-header">
+          
+<header>
+  <div class="signatures site-title">
+    <a href="/">Boxcounter</a>
+  </div>
+</header>
+<div class="row end-xs">
+  
+  
+</div>
+<div class="header-line"></div>
+
+        </div>
+        <header class="post-header">
+          <h1 class="post-title">3Blue1Brown《线性代数的本质》学习笔记</h1>
+          
+          <div class="row post-desc">
+            <div class="col-xs-6">
+              
+              <time class="post-date" datetime="2023-05-06 00:00:00 UTC">
+                06 May 2023
+              </time>
+              
+            </div>
+            <div class="col-xs-6">
+              
+              <div class="post-author">
+                <a target="_blank" href="http://boxcounter.com/">@Boxcounter</a>
+              </div>
+              
+            </div>
+          </div>
+          
+        </header>
+
+        <div class="post-content markdown-body">
+          <p>还没有学完，这条笔记会持续更新。</p>
+<p>B 站视频：<a href="https://www.bilibili.com/video/BV1ys411472E">线性代数的本质</a>。</p>
+<h2 id="一matrix-multiplication矩阵乘法">一、Matrix Multiplication（矩阵乘法）</h2>
+<p>几何意义：线性变换（linear transformation）。</p>
+<p>例如 $\vec{v}$ = $A\vec{x}$ 表示把向量 $\vec{x}$ 经过一个矩阵 $A$ 代表的线性变换后得到向量 $\vec{v}$。举例如下：</p>
+<h3 id="关于向量-vecx">关于向量 $\vec{x}$</h3>
+<p>有一个二维向量 $\vec{x} = \begin{bmatrix}2\\1\end{bmatrix}$，它的原点当然是座标原点，端点是横轴值为 2，纵轴值为 1 的点。</p>
+<p>我们把这个二维空间的基向量定义为：</p>
+<ul>
+<li>横轴基向量 $i = \begin{bmatrix}1\\0\end{bmatrix}$。(横轴上的一个与原点距离是 1 的点)</li>
+<li>纵轴基向量 $j = \begin{bmatrix}0\\1\end{bmatrix}$。(纵轴上的一个与原点距离是 1 的点)</li>
+</ul>
+<p>注：2 维空间的轴既可以被称为 $x$ 轴和 $y$ 轴，也可以称为 $i$ 轴和 $j$ 轴。这里选择的称呼方法是后者，但和前者意思一样，只是叫法不同。</p>
+<p>如果用基向量来表示 $\vec{x}$，就是：$\vec{x} = 2 * i + 1 * j$ 。</p>
+<h3 id="关于矩阵-a">关于矩阵 $A$</h3>
+<p>有一个矩阵 $A = \begin{bmatrix}3 &amp; 0 \\ 0 &amp; 4\end{bmatrix}$，表示一个线性变换（把横轴拉长成原始的 3 倍，把纵轴拉长成原始的 4 倍）。</p>
+<p>那么经过 $A$ 代表的线性变换后，新的基向量 $\hat{i}$ 和 $\hat{j}$ （注意带了帽子）在原空间里的位置变成了：</p>
+<ul>
+<li>$\hat{i} = \begin{bmatrix} 3 \\ 0 \end{bmatrix}$</li>
+<li>$\hat{j} = \begin{bmatrix} 0 \\ 4 \end{bmatrix}$</li>
+</ul>
+<h3 id="关于结果向量-vecv">关于结果向量 $\vec{v}$</h3>
+<p>$\vec{v} = 2 * \hat{i} + 1 * \hat{j}= 2 * \begin{bmatrix}3\\0\end{bmatrix} + 1 * \begin{bmatrix}0\\4\end{bmatrix} = \begin{bmatrix}6\\4\end{bmatrix}$</p>
+<h2 id="二column-space矩阵的列空间">二、Column Space（（矩阵的）列空间）</h2>
+<p>几何意义：</p>
+<p>矩阵 $A$ 的列空间是指任一向量 $\vec{x}$ 经过 $A$ 线性变换之后的结果向量的集合。换句话说：矩阵 $A$ 的列空间是 $A\vec{x}$ 产生的所有向量张成（span）的空间。</p>
+<h2 id="三determinant行列式">三、Determinant（行列式）</h2>
+<p>几何意义：</p>
+<ul>
+<li>用来测量线性变换对空间的伸缩程度。比如：在 2 维空间里测量面积变化，在 3 维空间里测量体积变化。</li>
+<li>Determinant = 0 表示线性变换会降维。比如 $\vec{x}$ 是一个 3 维向量（张量）, $\vec{v} = A\vec{x}$ 是一个 2 维向量或 1 维点。此时 $\vec{x}$ 没有逆矩阵，即 $\vec{x}^{-1}$ 不存在。</li>
+</ul>
+<p>举例（2 维空间）：</p>
+<p>有一个向量 $\vec{x} = \begin{bmatrix}1\\1\end{bmatrix}$，它的端点、座标原点和横纵两轴合围而成的矩形的面积是 1。</p>
+<p>有一个矩阵 $A = \begin{bmatrix}3 &amp; 0 \\ 0 &amp; 4\end{bmatrix}$ 代表线性变换。</p>
+<p>线性变换之后的结果向量 $\vec{v} = A\vec{x} = \begin{bmatrix}3 &amp; 0 \\ 0 &amp; 4\end{bmatrix} \odot \begin{bmatrix}1\\1\end{bmatrix} = \begin{bmatrix}3 \\ 4\end{bmatrix}$。它围起来的矩形的面积是 12。</p>
+<p>那么 determinant($A$) = $12 \div 1 = 12$。表示经过线性变换 $A$ 之后，空间大小是原空间的 12 倍。</p>
+<h2 id="四rank秩">四、Rank（秩）</h2>
+<p>代表经过线性变换之后空间（列空间）的维数。用来形容线性变换的维数变化。举例来说：</p>
+<ul>
+<li>
+<p>当 Determinant($A$) = 0。如果一个向量经过 $A$ 线性变换后，维数变为 2，那么我们就称矩阵 $A$ 的秩是 2。</p>
+</li>
+<li>
+<p>如果线性变换前后的秩相同，也就是维数相同，则称 $A$ 是满秩的。而非满秩则代表线性变换 $A$ 会降维。</p>
+</li>
+</ul>
+
+        </div>
+        
+
+        
+
+
+        
+        
+        <div style="height: 50px;"></div>
+        
+        
+
+        <div class="site-footer">
+  
+  
+</div>
+
+      </div>
+    </div>
+  </article>
+
+  <script src="/js/highlight.pack.js"></script>
+
+
+<script>
+  hljs.initHighlightingOnLoad();
+  
+  
+  
+    
+    
+  
+</script>
+
+
+
+
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+
+  
+
+</body>
+
+</html>
