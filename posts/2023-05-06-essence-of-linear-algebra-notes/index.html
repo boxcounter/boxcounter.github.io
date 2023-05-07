@@ -19,7 +19,7 @@
       "articleSection" : "posts",
       "name" : "《线性代数的本质》学习笔记",
       "headline" : "《线性代数的本质》学习笔记",
-      "description" : "还没有学完，这条笔记会持续更新。 B 站视频：线性代数的本质（3Blue1Brown）。 基向量 一个空间的基础构成元素，该空间中的任意元素都可以用",
+      "description" : "课程还没有学完，这条笔记会持续更新。 声明：不保证正确。仅作为我学习过程中的思考记录，供日后温习之用。 B 站视频：线性代数的本质（3Blue1B",
       "inLanguage" : "en-US",
       "author" : "Boxcounter",
       "creator" : "Boxcounter",
@@ -36,7 +36,7 @@
 <title>《线性代数的本质》学习笔记 - Boxcounter&#39;s blog</title>
   <meta property="og:title" content="《线性代数的本质》学习笔记 - Boxcounter&#39;s blog" />
   <meta property="og:type" content="article" />
-  <meta name="description" content="还没有学完，这条笔记会持续更新。 B 站视频：线性代数的本质（3Blue1Brown）。 基向量 一个空间的基础构成元素，该空间中的任意元素都可以用" />
+  <meta name="description" content="课程还没有学完，这条笔记会持续更新。 声明：不保证正确。仅作为我学习过程中的思考记录，供日后温习之用。 B 站视频：线性代数的本质（3Blue1B" />
 
   <link rel="stylesheet" href="/css/flexboxgrid-6.3.1.min.css" />
   <link rel="stylesheet"
@@ -94,8 +94,9 @@
         </header>
 
         <div class="post-content markdown-body">
-          <p>还没有学完，这条笔记会持续更新。</p>
-<p>B 站视频：<a href="https://www.bilibili.com/video/BV1ys411472E">线性代数的本质（3Blue1Brown）</a>。</p>
+          <p>课程还没有学完，这条笔记会持续更新。</p>
+<p>声明：不保证正确。仅作为我学习过程中的思考记录，供日后温习之用。</p>
+<p>B 站视频：<a href="https://www.bilibili.com/video/BV1ys411472E">线性代数的本质（3Blue1Brown）</a></p>
 <h2 id="基向量">基向量</h2>
 <p>一个空间的基础构成元素，该空间中的任意元素都可以用基向量来表达。倒过来说，空间的基向量张成（span）了整个空间。</p>
 <p>举例：<br>
@@ -131,7 +132,7 @@
 <p>总结一下就是，线性变换前后的基向量不同，但向量用基向量描述的表达式是不变的：</p>
 <ul>
 <li>线性变换之前的向量 $\vec{x}$ 用原基向量 $i$ 和 $j$ 描述： $\vec{x} = 2i + 3j$</li>
-<li>线性变换之后的向量 $\vec{x}$ 用新基向量 $\hat{i}$ 和 $\hat{j}$ 描述： $\vec{v} = 2\hat{i} + 3\hat{j}$。</li>
+<li>线性变换之后的向量 $\vec{v}$ 用新基向量 $\hat{i}$ 和 $\hat{j}$ 描述： $\vec{v} = 2\hat{i} + 3\hat{j}$。</li>
 </ul>
 <h2 id="matrix-multiplication矩阵乘法">Matrix Multiplication（矩阵乘法）</h2>
 <p>几何意义：
@@ -162,7 +163,7 @@
 <p>❖  如果 $A$ 是一个 1×2 的矩阵，表示什么样的线性变换？</p>
 <p>答案是将一个 2 维面映射到一个 1 维数轴上。举个例子：</p>
 <p>矩阵 $\begin{bmatrix} 1 &amp;&amp; 3 \end{bmatrix}$ 表示这样一个线性变换：把一个在 2 维面上的向量映射到 1 维数轴上，这个 2 维面的基向量在 1 维数轴上的坐标分别是 $\begin{bmatrix} 1 \end{bmatrix}$ 和 $\begin{bmatrix} 3 \end{bmatrix}$。</p>
-<p>总结成一句话就是：和一个 m×n 的矩阵相乘代表从 n 维空间到 m 维空间的线性变换。或者说是 n 维原空间在 m 维空间的表达。</p>
+<p>总结成一句话就是：和一个 m×n 的矩阵相乘代表从 n 维空间到 m 维空间的线性变换。或者说是 n 维原空间在 m 维空间的表达。m &gt; n 则升维，m &lt; n 则降维。</p>
 <h2 id="column-space矩阵的列空间">Column Space（（矩阵的）列空间）</h2>
 <p>几何意义：</p>
 <p>矩阵 $A$ 的列空间是指任一向量 $\vec{x}$ 经过 $A$ 线性变换之后的结果向量的集合。换句话说：矩阵 $A$ 的列空间是 $A\vec{x}$ 产生的所有向量张成（span）的空间。</p>
@@ -187,7 +188,12 @@
 </ul>
 <h2 id="dot-product2-维向量的点积">Dot Product（（2 维向量的）点积）</h2>
 <h3 id="第一种几何意义">第一种几何意义</h3>
-<p>两个向量 $\vec{v}$ 和 $\vec{w}$ 的点积结果是一个标量，</p>
+<p>两个向量 $\vec{v}$ 和 $\vec{w}$ 的点积结果是其一在其二上的投影长度与其二长度的积，是一个标量。也就是说有这么两种计算点积的方法：</p>
+<ul>
+<li>将 $\vec{v}$ 投影到 $\vec{w}$ 上的向量称为 $\vec{vp}$，那么 $\vec{v} \cdot \vec{w} = |vp| \times |w|$ 。</li>
+<li>将 $\vec{w}$ 投影到 $\vec{v}$ 上的向量称为 $\vec{wp}$，那么 $\vec{v} \cdot \vec{w} = |v| \times |wp|$ 。</li>
+</ul>
+<p>其结果可以有多种含义：</p>
 <ul>
 <li>如果值是一个正数，表示 $\vec{v}$ 和 $\vec{w}$ 方向大致相同（夹角 &lt; 90º）。
 <ul>
@@ -222,7 +228,7 @@
 </ul>
 <p>两者点积 $\vec{v}\vec{w} = \begin{bmatrix} 1 \\ 2 \end{bmatrix} \cdot \begin{bmatrix} -3 \\ -4 \end{bmatrix} = 1 \times -3 + 2 \times -4 = -11$，说明两者方向大致相反。</p>
 <h3 id="第二种几何意义">第二种几何意义</h3>
-<p>是对其中一个向量进行了从 2 维到 1 维的线性变换，结果是一个 1 维数轴上的点，用一个标量表示。</p>
+<p>是对其中一个向量进行了从 2 维面到和另一个向量重叠的 1 维数轴的线性变换，结果是这个数轴上的点，用一个标量表示。</p>
 <p>举例：</p>
 <ul>
 <li>$\vec{v} = \begin{bmatrix} 1 \\ 2 \end{bmatrix}$</li>
