@@ -6,150 +6,119 @@
     <description>Recent content in 技术研究 on Boxcounter&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 15 Sep 2017 00:00:00 +0000</lastBuildDate><atom:link href="http://boxcounter.com/tags/%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 15 Sep 2017 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://boxcounter.com/tags/%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>read committed与statement-based replication</title>
       <link>http://boxcounter.com/posts/2017-09-15-read-commited-statement-based-replication/</link>
       <pubDate>Fri, 15 Sep 2017 00:00:00 +0000</pubDate>
-      
       <guid>http://boxcounter.com/posts/2017-09-15-read-commited-statement-based-replication/</guid>
       <description>疑问 在MySQL的Transaction Isolation Level文档里读到这么一句话： If you use READ COMMITTED, you must use row-based binary logging. 这引发了我的好奇心：为什么呢？READ COM</description>
     </item>
-    
     <item>
       <title>Swoole连接超时分析</title>
       <link>http://boxcounter.com/posts/2017-04-24-swoole%E8%BF%9E%E6%8E%A5%E8%B6%85%E6%97%B6%E5%88%86%E6%9E%90/</link>
       <pubDate>Mon, 24 Apr 2017 00:00:00 +0000</pubDate>
-      
       <guid>http://boxcounter.com/posts/2017-04-24-swoole%E8%BF%9E%E6%8E%A5%E8%B6%85%E6%97%B6%E5%88%86%E6%9E%90/</guid>
       <description>一、简述 我们的产品中使用Swoole来构建长连接服务，用于C/S之间的实时数据交互。同时也编写了一个监控程序monitor来定时检查长连接服</description>
     </item>
-    
     <item>
       <title>64位系统的对齐问题</title>
       <link>http://boxcounter.com/posts/2012-10-25-64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/</link>
       <pubDate>Thu, 25 Oct 2012 00:00:00 +0000</pubDate>
-      
       <guid>http://boxcounter.com/posts/2012-10-25-64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/</guid>
       <description>今天在技术群里有位童鞋问了一个问题： On 64-bit Windows, if a data structure is misaligned, routines that manipulate the structure, such as RtlCopyMemory and memcpy, will not fault. Instead, they will raise an exception. For example: &amp;gt; #pragma pack (1) // also set by /Zp switch &amp;gt; struct Buffer { &amp;gt; ULONG size; &amp;gt; void *ptr; &amp;gt; };</description>
     </item>
-    
     <item>
       <title>ZeroMemory与类对象</title>
       <link>http://boxcounter.com/posts/2012-09-20-zeromemory%E4%B8%8E%E7%B1%BB%E5%AF%B9%E8%B1%A1/</link>
       <pubDate>Thu, 20 Sep 2012 00:00:00 +0000</pubDate>
-      
       <guid>http://boxcounter.com/posts/2012-09-20-zeromemory%E4%B8%8E%E7%B1%BB%E5%AF%B9%E8%B1%A1/</guid>
       <description>今天看到一段同事的代码： ZeroMemory(&amp;amp;m_PacketInfo, sizeof(packet_info)); struct packet_info { string m_strModule; //模块 string m_strProtocol; //协议 string m_strClientHostIP; //客户端IP string m_strClientHostPort; //客户端端口 ... }; 按照我的经验，这种对类对象进行ZeroMe</description>
     </item>
-    
     <item>
       <title>关于STATUS_INVALID_DEVICE_OBJECT_PARAMETER和STATUS_MOUNT_POINT_NOT_RESOLVED</title>
       <link>http://boxcounter.com/posts/2012-05-20-%E5%85%B3%E4%BA%8Estatus_invalid_device_object_parameter%E5%92%8Cstatus_mount_point_not_resolved/</link>
       <pubDate>Sun, 20 May 2012 00:00:00 +0000</pubDate>
-      
       <guid>http://boxcounter.com/posts/2012-05-20-%E5%85%B3%E4%BA%8Estatus_invalid_device_object_parameter%E5%92%8Cstatus_mount_point_not_resolved/</guid>
       <description>很久之前，我写了篇关于STATUS_INVALID_DEVICE_OBJECT_PARAMETER的blog，里面提到使用STATUS_RE</description>
     </item>
-    
     <item>
       <title>有关STATUS_INVALID_DEVICE_OBJECT_PARAMETER</title>
       <link>http://boxcounter.com/posts/2012-05-19-status_invalid_device_object_parameter/</link>
       <pubDate>Sat, 19 May 2012 00:00:00 +0000</pubDate>
-      
       <guid>http://boxcounter.com/posts/2012-05-19-status_invalid_device_object_parameter/</guid>
       <description>这两天遇到一个问题，记录在这里。 我有两个FS过滤驱动，这里称它们为 A 和 B，A 在 B 之上，其中 B 是个重定向驱动。下面是问题描述： A 调用 FltCreateFile 打开 C: 中</description>
     </item>
-    
     <item>
       <title>TEB KPCR GS in x64</title>
       <link>http://boxcounter.com/posts/2012-02-08-teb-kpcr-gs-in-x64/</link>
       <pubDate>Wed, 08 Feb 2012 00:00:00 +0000</pubDate>
-      
       <guid>http://boxcounter.com/posts/2012-02-08-teb-kpcr-gs-in-x64/</guid>
       <description>在x86中，如果折腾TEB或者KPCR，可能需要处理fs:[0x???]这样的地址，在x86中，咱们可以通过dg命令来手动查看： kd&amp;gt; dg @fs P Si Gr</description>
     </item>
-    
     <item>
       <title>无锁数组</title>
       <link>http://boxcounter.com/posts/2012-01-15-%E6%97%A0%E9%94%81%E6%95%B0%E7%BB%84/</link>
       <pubDate>Sun, 15 Jan 2012 00:00:00 +0000</pubDate>
-      
       <guid>http://boxcounter.com/posts/2012-01-15-%E6%97%A0%E9%94%81%E6%95%B0%E7%BB%84/</guid>
       <description>项目里有一个地方可能要去掉用于链表的锁，但是又得保证读写互斥。于是琢磨了一个土办法： （琢磨时的目标是用于异步发送日志，即多个日志存储者，一个</description>
     </item>
-    
     <item>
       <title>SEH分析笔记（X64篇）</title>
       <link>http://boxcounter.com/posts/2011-11-04-seh-x64/</link>
       <pubDate>Fri, 04 Nov 2011 00:00:00 +0000</pubDate>
-      
       <guid>http://boxcounter.com/posts/2011-11-04-seh-x64/</guid>
       <description>2015-07-25，注：因为排版过于复杂繁琐，目前仅提供html文件，请谅解。 SEH分析笔记（x64篇）_v1.0.0.zip</description>
     </item>
-    
     <item>
       <title>关于完成例程（Completion Routine）</title>
       <link>http://boxcounter.com/posts/2011-10-26-%E5%85%B3%E4%BA%8E%E5%AE%8C%E6%88%90%E4%BE%8B%E7%A8%8Bcompletion-routine/</link>
       <pubDate>Wed, 26 Oct 2011 00:00:00 +0000</pubDate>
-      
       <guid>http://boxcounter.com/posts/2011-10-26-%E5%85%B3%E4%BA%8E%E5%AE%8C%E6%88%90%E4%BE%8B%E7%A8%8Bcompletion-routine/</guid>
       <description>通常使用完成例程有这么三步： 调用IoCopyCurrentIrpStackLocationToNext(&amp;hellip;)函数，把当前的IR</description>
     </item>
-    
     <item>
       <title>卷的文件系统识别、卷的挂载以及路径解析</title>
       <link>http://boxcounter.com/posts/2011-10-25-%E5%8D%B7%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AF%86%E5%88%AB%E5%8D%B7%E7%9A%84%E6%8C%82%E8%BD%BD%E4%BB%A5%E5%8F%8A%E8%B7%AF%E5%BE%84%E8%A7%A3%E6%9E%90/</link>
       <pubDate>Tue, 25 Oct 2011 00:00:00 +0000</pubDate>
-      
       <guid>http://boxcounter.com/posts/2011-10-25-%E5%8D%B7%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E8%AF%86%E5%88%AB%E5%8D%B7%E7%9A%84%E6%8C%82%E8%BD%BD%E4%BB%A5%E5%8F%8A%E8%B7%AF%E5%BE%84%E8%A7%A3%E6%9E%90/</guid>
       <description>前段时间琢磨文件过滤驱动的时候碰到一个棘手的问题，当时挂上wrk内核分析，发现了问题的关键点。分析的过程中明显感觉自己对IoMgr、ObjM</description>
     </item>
-    
     <item>
       <title>有关IoEnumerateRegisteredFiltersList</title>
       <link>http://boxcounter.com/posts/2011-10-25-%E6%9C%89%E5%85%B3ioenumerateregisteredfilterslist/</link>
       <pubDate>Tue, 25 Oct 2011 00:00:00 +0000</pubDate>
-      
       <guid>http://boxcounter.com/posts/2011-10-25-%E6%9C%89%E5%85%B3ioenumerateregisteredfilterslist/</guid>
       <description>有关于IoEnumerateRegisteredFiltersList 昨天逆一个驱动的时候发现静态分析出来的逻辑跟动态调试的逻辑不一致，继续</description>
     </item>
-    
     <item>
       <title>SEH分析笔记（X86篇）</title>
       <link>http://boxcounter.com/posts/2011-10-19-seh-x86/</link>
       <pubDate>Wed, 19 Oct 2011 00:00:00 +0000</pubDate>
-      
       <guid>http://boxcounter.com/posts/2011-10-19-seh-x86/</guid>
       <description>v1.0.2 2015-07-25，注：因为排版过于复杂繁琐，目前仅提供html文件，请谅解。 SEH分析笔记（x86篇）_v1.0.2.zip</description>
     </item>
-    
     <item>
       <title>驱动中获取进程完整路径名</title>
       <link>http://boxcounter.com/posts/2009-07-23-%E9%A9%B1%E5%8A%A8%E4%B8%AD%E8%8E%B7%E5%8F%96%E8%BF%9B%E7%A8%8B%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%E5%90%8D/</link>
       <pubDate>Thu, 23 Jul 2009 00:00:00 +0000</pubDate>
-      
       <guid>http://boxcounter.com/posts/2009-07-23-%E9%A9%B1%E5%8A%A8%E4%B8%AD%E8%8E%B7%E5%8F%96%E8%BF%9B%E7%A8%8B%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%E5%90%8D/</guid>
       <description>在OSR上无意中看到一篇文章，关于获取进程完整路径的。贴过来，最后有一点小调整。 原文地址：http://www.osronline.com/</description>
     </item>
-    
     <item>
       <title>关于将本层的IO_STACK_LOCATION拷贝到下一层的两种方法</title>
       <link>http://boxcounter.com/posts/2007-12-10-%E5%85%B3%E4%BA%8E%E5%B0%86%E6%9C%AC%E5%B1%82%E7%9A%84io_stack_location%E6%8B%B7%E8%B4%9D%E5%88%B0%E4%B8%8B%E4%B8%80%E5%B1%82%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/</link>
       <pubDate>Mon, 10 Dec 2007 00:00:00 +0000</pubDate>
-      
       <guid>http://boxcounter.com/posts/2007-12-10-%E5%85%B3%E4%BA%8E%E5%B0%86%E6%9C%AC%E5%B1%82%E7%9A%84io_stack_location%E6%8B%B7%E8%B4%9D%E5%88%B0%E4%B8%8B%E4%B8%80%E5%B1%82%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/</guid>
       <description>两种方法： 调用MS提供的标准方法IoCopyCurrentIrpStackLocationToNext(&amp;hellip;) 方法二： PIO_STACK_LOCATION IrpSp; PIO_STACK_LOCATION NextIrpSp; IrpSp</description>
     </item>
-    
     <item>
       <title>对&#39;CDO&#39;和&#39;FiDO&#39;的理解</title>
       <link>http://boxcounter.com/posts/2007-12-08-%E5%AF%B9cdo%E5%92%8Cfido%E7%9A%84%E7%90%86%E8%A7%A3/</link>
       <pubDate>Sat, 08 Dec 2007 00:00:00 +0000</pubDate>
-      
       <guid>http://boxcounter.com/posts/2007-12-08-%E5%AF%B9cdo%E5%92%8Cfido%E7%9A%84%E7%90%86%E8%A7%A3/</guid>
       <description>下面是我对于CDO、FiDO的理解，不一定正确，但是还是记录下来，以后学习清楚来再来修正。 &amp;lsquo;CDO&amp;rsquo;是提供给R3级进</description>
     </item>
-    
   </channel>
 </rss>
