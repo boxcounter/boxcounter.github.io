@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.122.0">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Boxcounter" />
+  <meta property="og:url" content="http://boxcounter.com/posts/2024-04-06-weight-decay/" />
+  <link rel="canonical" href="http://boxcounter.com/posts/2024-04-06-weight-decay/" /><script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "http:\/\/boxcounter.com\/"
+      },
+      "articleSection" : "posts",
+      "name" : "对线性回归中 Weight Decay 的理解",
+      "headline" : "对线性回归中 Weight Decay 的理解",
+      "description" : "在读《Dive into Deep Learning》关于 Weight Decay 的章节时，我有很多疑问，思索查询后整理成了这篇博文。希望能帮助到有同样疑问的人。 原文在这里：We",
+      "inLanguage" : "en-US",
+      "author" : "Boxcounter",
+      "creator" : "Boxcounter",
+      "publisher": "Boxcounter",
+      "accountablePerson" : "Boxcounter",
+      "copyrightHolder" : "Boxcounter",
+      "copyrightYear" : "2024",
+      "datePublished": "2024-04-06 00:00:00 \u002b0000 UTC",
+      "dateModified" : "2024-04-06 00:00:00 \u002b0000 UTC",
+      "url" : "http:\/\/boxcounter.com\/posts\/2024-04-06-weight-decay\/",
+      "keywords" : [  ]
+  }
+</script>
+<title>对线性回归中 Weight Decay 的理解 - Boxcounter&#39;s blog</title>
+  <meta property="og:title" content="对线性回归中 Weight Decay 的理解 - Boxcounter&#39;s blog" />
+  <meta property="og:type" content="article" />
+  <meta name="description" content="在读《Dive into Deep Learning》关于 Weight Decay 的章节时，我有很多疑问，思索查询后整理成了这篇博文。希望能帮助到有同样疑问的人。 原文在这里：We" />
+
+  <link rel="stylesheet" href="/css/flexboxgrid-6.3.1.min.css" />
+  <link rel="stylesheet"
+    href="/css/github-markdown.min.css" />
+  <link rel="stylesheet" href="/css/highlight/tomorrow.min.css" />
+  <link rel="stylesheet" href="/css/index.css">
+  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="Boxcounter&#39;s blog">
+  
+  <link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker" rel="stylesheet">
+  
+  
+
+  
+</head>
+
+
+<body>
+  <article class="post " id="article">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="site-header">
+          
+<header>
+  <div class="signatures site-title">
+    <a href="/">Boxcounter</a>
+  </div>
+</header>
+<div class="row end-xs">
+  
+  
+</div>
+<div class="header-line"></div>
+
+        </div>
+        <header class="post-header">
+          <h1 class="post-title">对线性回归中 Weight Decay 的理解</h1>
+          
+          <div class="row post-desc">
+            <div class="col-xs-6">
+              
+              <time class="post-date" datetime="2024-04-06 00:00:00 UTC">
+                06 Apr 2024
+              </time>
+              
+            </div>
+            <div class="col-xs-6">
+              
+              <div class="post-author">
+                <a target="_blank" href="http://boxcounter.com/">@Boxcounter</a>
+              </div>
+              
+            </div>
+          </div>
+          
+        </header>
+
+        <div class="post-content markdown-body">
+          <p>在读《Dive into Deep Learning》关于 Weight Decay 的章节时，我有很多疑问，思索查询后整理成了这篇博文。希望能帮助到有同样疑问的人。</p>
+<p>原文在这里：<a href="https://d2l.ai/chapter_linear-regression/weight-decay.html">Weight Decay</a></p>
+<p>先摆出一个重要的判断：越复杂的 model 越容易 overfit。</p>
+<p>一个 model，或者说 function，有几个影响复杂度的属性：</p>
+<ol>
+<li>features 数量：即 X 的列数。但这个是 data set 自身的属性，不由 function 决定（当然，我们可以在 function 之外，也就是在数据收集阶段改变它。但这里只聚焦 function）。</li>
+<li>weights：其中每个 weight 的大小会决定 model 对相应 feature 的敏感程度 —— 越大的 weight 会让 model 对相应的 feature 更敏感，因为两者的计算是乘法。越小的 weight 会让 model 对相应的 feature 越迟钝。</li>
+<li>bias：它的影响很小。</li>
+<li>features 形成多项式的方式：指数（degree）的使用，能把多项式玩出花来。即便是只有一个 feature 的 data set 可以形成很多不同的多项式，比如 $wx^2 + wx + b$，或 $wx^{15} + b$。</li>
+</ol>
+<p>到此可以发现，如果从 1 和 3 着手，很难应对 overfit 。于是重点考虑 2 和 4。但 4 很快就被排除了，因为很容易导致变化波动特别大 —— 稍微调整一下指数或多项式的项数，都会让 function 的 output，也就是 y_predict，变化剧烈。</p>
+<p>因此，只剩下 3，也就是从 weights 着手。有两个殊途同归的考虑角度：</p>
+<ol>
+<li>如前所述，如果 weights 中的部份值很大，那么 model 会对那部份对应的 feature 特别敏感，这种敏感会让 model 更容易 overfit。那么我们就让 weights 的值更均衡，避免一部份值很大，另一部份很小。</li>
+<li>越复杂的 model 越容易 overfit。而衡量 model 复杂度的方法之一是 norm。其中 L2 norm 正好能识别上一条所描述的 weights 值不均衡的现象。</li>
+</ol>
+<p>综合一下，就选中了 L2 norm。这也是 Weight Decay 之所以能缓解 overfitting 的大致原理。</p>
+
+        </div>
+        
+
+        
+
+
+        
+        
+        <div style="height: 50px;"></div>
+        
+        
+
+        <div class="site-footer">
+  
+  
+</div>
+
+      </div>
+    </div>
+  </article>
+
+  <script src="/js/highlight.pack.js"></script>
+
+
+<script>
+  hljs.initHighlightingOnLoad();
+  
+  
+  
+    
+    
+  
+</script>
+
+
+
+
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+
+  
+
+</body>
+
+</html>
