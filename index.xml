@@ -6,8 +6,15 @@
     <description>Recent content on Boxcounter&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 06 Apr 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 Apr 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://boxcounter.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>为什么 classification 要用 cross entropy 来表达 loss，而不像 regression 那样用 MSE？</title>
+      <link>http://boxcounter.com/posts/2024-04-08-why-we-use-cross-entropy-in-classification-instead-of-mse/</link>
+      <pubDate>Mon, 08 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>http://boxcounter.com/posts/2024-04-08-why-we-use-cross-entropy-in-classification-instead-of-mse/</guid>
+      <description>在读《Dive into Deep Learning》关于 regression 的章节时，我产生了这个疑问，思索查询后整理成了这篇博文。 原文在这里：Loss Function 原因之一： classification 的 predicted label 和</description>
+    </item>
     <item>
       <title>对线性回归中 Weight Decay 的理解</title>
       <link>http://boxcounter.com/posts/2024-04-06-weight-decay/</link>
