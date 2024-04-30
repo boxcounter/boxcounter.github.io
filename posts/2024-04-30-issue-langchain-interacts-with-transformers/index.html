@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Hugo 0.125.2">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="Boxcounter" />
+  <meta property="og:url" content="http://boxcounter.com/posts/2024-04-30-issue-langchain-interacts-with-transformers/" />
+  <link rel="canonical" href="http://boxcounter.com/posts/2024-04-30-issue-langchain-interacts-with-transformers/" /><script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "http:\/\/boxcounter.com\/"
+      },
+      "articleSection" : "posts",
+      "name" : "LangChain 和 Transformers 搭配使用出现的续写行为",
+      "headline" : "LangChain 和 Transformers 搭配使用出现的续写行为",
+      "description" : "简介 最近测试开源大模型的时候，遇到了一个挺隐蔽的 silent error，值得记录一下。 具体现象是这样： 几个 Chat 大模型的表现像是在做基础模型的续写，不像是",
+      "inLanguage" : "en-US",
+      "author" : "Boxcounter",
+      "creator" : "Boxcounter",
+      "publisher": "Boxcounter",
+      "accountablePerson" : "Boxcounter",
+      "copyrightHolder" : "Boxcounter",
+      "copyrightYear" : "2024",
+      "datePublished": "2024-04-30 00:00:00 \u002b0000 UTC",
+      "dateModified" : "2024-04-30 00:00:00 \u002b0000 UTC",
+      "url" : "http:\/\/boxcounter.com\/posts\/2024-04-30-issue-langchain-interacts-with-transformers\/",
+      "keywords" : [  ]
+  }
+</script>
+<title>LangChain 和 Transformers 搭配使用出现的续写行为 - Boxcounter&#39;s blog</title>
+  <meta property="og:title" content="LangChain 和 Transformers 搭配使用出现的续写行为 - Boxcounter&#39;s blog" />
+  <meta property="og:type" content="article" />
+  <meta name="description" content="简介 最近测试开源大模型的时候，遇到了一个挺隐蔽的 silent error，值得记录一下。 具体现象是这样： 几个 Chat 大模型的表现像是在做基础模型的续写，不像是" />
+
+  <link rel="stylesheet" href="/css/flexboxgrid-6.3.1.min.css" />
+  <link rel="stylesheet"
+    href="/css/github-markdown.min.css" />
+  <link rel="stylesheet" href="/css/highlight/tomorrow.min.css" />
+  <link rel="stylesheet" href="/css/index.css">
+  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="Boxcounter&#39;s blog">
+  
+  <link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker" rel="stylesheet">
+  
+  
+
+  
+</head>
+
+
+<body>
+  <article class="post " id="article">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="site-header">
+          
+<header>
+  <div class="signatures site-title">
+    <a href="/">Boxcounter</a>
+  </div>
+</header>
+<div class="row end-xs">
+  
+  
+</div>
+<div class="header-line"></div>
+
+        </div>
+        <header class="post-header">
+          <h1 class="post-title">LangChain 和 Transformers 搭配使用出现的续写行为</h1>
+          
+          <div class="row post-desc">
+            <div class="col-xs-6">
+              
+              <time class="post-date" datetime="2024-04-30 00:00:00 UTC">
+                30 Apr 2024
+              </time>
+              
+            </div>
+            <div class="col-xs-6">
+              
+              <div class="post-author">
+                <a target="_blank" href="http://boxcounter.com/">@Boxcounter</a>
+              </div>
+              
+            </div>
+          </div>
+          
+        </header>
+
+        <div class="post-content markdown-body">
+          <h2 id="简介">简介</h2>
+<p>最近测试开源大模型的时候，遇到了一个挺隐蔽的 silent error，值得记录一下。</p>
+<p>具体现象是这样：</p>
+<ol>
+<li>几个 Chat 大模型的表现像是在做基础模型的续写，不像是对话。</li>
+<li>但他们在 MaaS 或 HuggingFace Space 上的表现却明显是对话。</li>
+</ol>
+<p>其中一个模型是阿里开源的 Qwen/Qwen1.5-14B-Chat。在阿里云的灵积 MaaS 上它的表现很符合预期，就是对话。而我们自己跑起来测试的时候就是续写。</p>
+<h2 id="项目">项目</h2>
+<p>我们的项目使用了 LangChain v0.1.16 和 Transformers v4.40.1。代码大致是这样：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">transformers</span> <span style="color:#069;font-weight:bold">import</span> AutoModelForCausalLM, AutoTokenizer, pipeline
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tokenizer <span style="color:#555">=</span> AutoTokenizer<span style="color:#555">.</span>from_pretrained(<span style="color:#555">...</span>)
+</span></span><span style="display:flex;"><span>model <span style="color:#555">=</span> AutoModelForCausalLM<span style="color:#555">.</span>from_pretrained(<span style="color:#555">...</span>)
+</span></span><span style="display:flex;"><span>pipe <span style="color:#555">=</span> pipeline(<span style="color:#c30">&#34;text-generation&#34;</span>, model, tokenizer)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">langchain_core.prompts</span> <span style="color:#069;font-weight:bold">import</span> ChatPromptTemplate
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">langchain_community.llms.huggingface_pipeline</span> <span style="color:#069;font-weight:bold">import</span> HuggingFacePipeline
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>prompt <span style="color:#555">=</span> ChatPromptTemplate<span style="color:#555">.</span>from_messages([
+</span></span><span style="display:flex;"><span>    (<span style="color:#c30">&#39;system&#39;</span>, <span style="color:#c30">&#39;You’re a chatbot&#39;</span>),
+</span></span><span style="display:flex;"><span>    (<span style="color:#c30">&#39;user&#39;</span>, <span style="color:#c30">&#39;Hey&#39;</span>)
+</span></span><span style="display:flex;"><span>])
+</span></span><span style="display:flex;"><span>llm <span style="color:#555">=</span> HuggingFacePipeline(pipeline<span style="color:#555">=</span>pipe)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>chain <span style="color:#555">=</span> prompt <span style="color:#555">|</span> llm <span style="color:#555">|</span> <span style="color:#555">...</span>
+</span></span></code></pre></div><h2 id="解决">解决</h2>
+<p>仔细检查代码和下载的模型，我们并没有发现问题。我的同事国杰参考官方 demo 写了一个测试脚本来执行我们的任务，表现符合预期，是对话。</p>
+<p>于是就在我们的项目里自定义了一个<code>CustomPromptTemplate</code>，替换掉 LangChain 的<code>ChatPromptTemplate</code>，大致是：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">langchain_core.prompts</span> <span style="color:#069;font-weight:bold">import</span> StringPromptTemplate
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">transformers</span> <span style="color:#069;font-weight:bold">import</span> PreTrainedTokenizer, PreTrainedTokenizerFast
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">CustomPromptTemplate</span>(StringPromptTemplate):
+</span></span><span style="display:flex;"><span>    tokenizer: PreTrainedTokenizer <span style="color:#555">|</span> PreTrainedTokenizerFast
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">format</span>(self, <span style="color:#555">**</span>kwargs):
+</span></span><span style="display:flex;"><span>        messages <span style="color:#555">=</span> [
+</span></span><span style="display:flex;"><span>            {<span style="color:#c30">&#34;role&#34;</span>: <span style="color:#c30">&#34;system&#34;</span>, <span style="color:#c30">&#34;content&#34;</span>: <span style="color:#c30">&#34;You’re a chatbot&#34;</span>},
+</span></span><span style="display:flex;"><span>            {<span style="color:#c30">&#34;role&#34;</span>: <span style="color:#c30">&#34;user&#34;</span>, <span style="color:#c30">&#34;content&#34;</span>: <span style="color:#c30">&#34;Hey&#34;</span>}
+</span></span><span style="display:flex;"><span>        ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>tokenizer<span style="color:#555">.</span>apply_chat_template(
+</span></span><span style="display:flex;"><span>            messages,
+</span></span><span style="display:flex;"><span>            tokenize<span style="color:#555">=</span><span style="color:#069;font-weight:bold">False</span>,
+</span></span><span style="display:flex;"><span>            add_generation_prompt<span style="color:#555">=</span><span style="color:#069;font-weight:bold">True</span>
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tokenizer <span style="color:#555">=</span> AutoTokenizer<span style="color:#555">.</span>from_pretrained(<span style="color:#555">...</span>)
+</span></span><span style="display:flex;"><span><span style="color:#555">...</span>
+</span></span><span style="display:flex;"><span>prompt <span style="color:#555">=</span> CustomPromptTemplate(tokenizer)
+</span></span><span style="display:flex;"><span>chain <span style="color:#555">=</span> prompt <span style="color:#555">|</span> llm <span style="color:#555">|</span> <span style="color:#555">...</span>
+</span></span></code></pre></div><p>再测试，发现我们的项目里开源大模型的输出也是对话了。</p>
+<p>到此，问题已经解决了。我对其中的症结产生了兴趣，也想排查是否会引入其他潜在问题。所以顺着解决方案继续分析。</p>
+<h2 id="分析">分析</h2>
+<p>首先来看 LangChain 和 Transformers 搭配使用时的关键调用链路：</p>
+<p><img src="images/Call-Sequence.png" alt="Call Sequence"></p>
+<p>关键点是右下角的<code>__call__</code>和<code>preprocess</code>两个方法，来看看 Transformers 的关键代码（完整代码见 <a href="https://github.com/huggingface/Transformers/blob/c712d05aa8fc8ba3ebe465079bd377d2dc9c2e07/src/Transformers/pipelines/text_generation.py#L246">text_generation.py</a>）：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">TextGenerationPipeline</span>(Pipeline):
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">def</span> __call__(self, text_inputs, <span style="color:#555">**</span>kwargs):
+</span></span><span style="display:flex;"><span>        <span style="color:#069;font-weight:bold">if</span> <span style="color:#366">isinstance</span>(text_inputs, (<span style="color:#366">list</span>, <span style="color:#366">tuple</span>)) <span style="color:#000;font-weight:bold">and</span> <span style="color:#366">isinstance</span>(text_inputs[<span style="color:#f60">0</span>], (<span style="color:#366">list</span>, <span style="color:#366">tuple</span>, <span style="color:#366">dict</span>)):
+</span></span><span style="display:flex;"><span>            <span style="color:#09f;font-style:italic"># We have one or more prompts in list-of-dicts format, so this is chat mode</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#069;font-weight:bold">if</span> <span style="color:#366">isinstance</span>(text_inputs[<span style="color:#f60">0</span>], <span style="color:#366">dict</span>):
+</span></span><span style="display:flex;"><span>                <span style="color:#069;font-weight:bold">return</span> <span style="color:#366">super</span>()<span style="color:#555">.</span>__call__(Chat(text_inputs), <span style="color:#555">**</span>kwargs)
+</span></span><span style="display:flex;"><span>            <span style="color:#069;font-weight:bold">else</span>:
+</span></span><span style="display:flex;"><span>                chats <span style="color:#555">=</span> [Chat(chat) <span style="color:#069;font-weight:bold">for</span> chat <span style="color:#000;font-weight:bold">in</span> text_inputs]  <span style="color:#09f;font-style:italic"># 🐈 🐈 🐈</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#069;font-weight:bold">return</span> <span style="color:#366">super</span>()<span style="color:#555">.</span>__call__(chats, <span style="color:#555">**</span>kwargs)
+</span></span><span style="display:flex;"><span>        <span style="color:#069;font-weight:bold">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#069;font-weight:bold">return</span> <span style="color:#366">super</span>()<span style="color:#555">.</span>__call__(text_inputs, <span style="color:#555">**</span>kwargs)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">preprocess</span>(
+</span></span><span style="display:flex;"><span>        self,
+</span></span><span style="display:flex;"><span>        prompt_text,
+</span></span><span style="display:flex;"><span>		<span style="color:#555">...</span>
+</span></span><span style="display:flex;"><span>    ):
+</span></span><span style="display:flex;"><span>        <span style="color:#069;font-weight:bold">if</span> <span style="color:#366">isinstance</span>(prompt_text, Chat):
+</span></span><span style="display:flex;"><span>            inputs <span style="color:#555">=</span> self<span style="color:#555">.</span>tokenizer<span style="color:#555">.</span>apply_chat_template(
+</span></span><span style="display:flex;"><span>                prompt_text<span style="color:#555">.</span>messages,
+</span></span><span style="display:flex;"><span>				<span style="color:#555">...</span>
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>        <span style="color:#069;font-weight:bold">else</span>:
+</span></span><span style="display:flex;"><span>            inputs <span style="color:#555">=</span> self<span style="color:#555">.</span>tokenizer(
+</span></span><span style="display:flex;"><span>                prefix <span style="color:#555">+</span> prompt_text,
+</span></span><span style="display:flex;"><span>                <span style="color:#555">...</span>
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>        	<span style="color:#555">...</span>
+</span></span></code></pre></div><p>从<code>__call__</code>的代码中可以看出，参数<code>text_inputs</code>必须符合一些类型要求，才会被 Transformers 当作对话处理，后续执行到<code>preprocess</code>方法时才会调用<code>tokenizer.apply_chat_template</code>。</p>
+<p>什么类型才符合要求呢？Transformers 最常规的用法就符合，比如：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>messages <span style="color:#555">=</span> [
+</span></span><span style="display:flex;"><span>    {<span style="color:#c30">&#34;role&#34;</span>: <span style="color:#c30">&#34;system&#34;</span>, <span style="color:#c30">&#34;content&#34;</span>: <span style="color:#c30">&#34;You’re a chatbot&#34;</span>},
+</span></span><span style="display:flex;"><span>    {<span style="color:#c30">&#34;role&#34;</span>: <span style="color:#c30">&#34;user&#34;</span>, <span style="color:#c30">&#34;content&#34;</span>: <span style="color:#c30">&#34;Hey&#34;</span>}
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><p>它的类型是<code>list[dict]</code>。</p>
+<p>而 LangChain 提供的 text_inputs 不符合这些要求，就走到了 else 分支，后续在<code>preprocess</code>方法里没有调用<code>tokenizer.apply_chat_template</code>，被当作非对话处理了。</p>
+<p>具体来说是这样，以 LangChain 常见的 prompt template 用法为例：</p>
+<pre tabindex="0"><code>prompt = ChatPromptTemplate.from_messages([
+    (&#39;system&#39;, &#39;You’re a chatbot&#39;),
+    (&#39;user&#39;, &#39;Hey&#39;)
+])
+</code></pre><p>LangChain 提供给 Transformers 的 text_inputs 是这样的：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>[
+</span></span><span style="display:flex;"><span>	<span style="color:#c30">&#34;System: </span><span style="color:#c30;font-weight:bold">\n</span><span style="color:#c30">You’re a chatbot</span><span style="color:#c30;font-weight:bold">\n\n</span><span style="color:#c30">Human:Hey&#34;</span>
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><p>它的类型是<code>list[str]</code>。</p>
+<p>到这里，分析结束。我们有两种解决方案：</p>
+<ol>
+<li>在调用 Transformers 之前对 prompt 调用<code>tokenizer.apply_chat_template</code>。这也是前述我同事国杰采用的方法。</li>
+<li>提供符合 Transformers 需要的 prompt 格式，比如上面提到的<code>list[dict]</code>，由 Transformers 在其内部调用<code>tokenizer.apply_chat_template</code>。</li>
+</ol>
+<p>如果你对为什么<code>tokenizer.apply_chat_template</code>这么关键感到好奇，可以阅读这两篇文章：</p>
+<ol>
+<li><a href="https://huggingface.co/docs/Transformers/chat_templating">https://huggingface.co/docs/Transformers/chat_templating</a></li>
+<li><a href="https://huggingface.co/blog/chat-templates">https://huggingface.co/blog/chat-templates</a></li>
+</ol>
+
+        </div>
+        
+
+        
+
+
+        
+        
+        <div style="height: 50px;"></div>
+        
+        
+
+        <div class="site-footer">
+  
+  
+</div>
+
+      </div>
+    </div>
+  </article>
+
+  <script src="/js/highlight.pack.js"></script>
+
+
+<script>
+  hljs.initHighlightingOnLoad();
+  
+  
+  
+    
+    
+  
+</script>
+
+
+
+
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+</script>
+
+  
+
+</body>
+
+</html>

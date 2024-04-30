@@ -4,10 +4,17 @@
     <title>Boxcounter&#39;s blog</title>
     <link>http://boxcounter.com/</link>
     <description>Recent content on Boxcounter&#39;s blog</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo 0.125.2</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 08 Apr 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 30 Apr 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://boxcounter.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LangChain 和 Transformers 搭配使用出现的续写行为</title>
+      <link>http://boxcounter.com/posts/2024-04-30-issue-langchain-interacts-with-transformers/</link>
+      <pubDate>Tue, 30 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>http://boxcounter.com/posts/2024-04-30-issue-langchain-interacts-with-transformers/</guid>
+      <description>简介 最近测试开源大模型的时候，遇到了一个挺隐蔽的 silent error，值得记录一下。 具体现象是这样： 几个 Chat 大模型的表现像是在做基础模型的续写，不像是</description>
+    </item>
     <item>
       <title>为什么 classification 要用 cross entropy 来表达 loss，而不像 regression 那样用 MSE？</title>
       <link>http://boxcounter.com/posts/2024-04-08-why-we-use-cross-entropy-in-classification-instead-of-mse/</link>
