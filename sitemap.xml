@@ -3,12 +3,15 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>http://boxcounter.com/</loc>
-    <lastmod>2024-04-30T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://boxcounter.com/posts/2024-04-30-issue-langchain-interacts-with-transformers/</loc>
-    <lastmod>2024-04-30T00:00:00+00:00</lastmod>
+    <lastmod>2024-05-31T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://boxcounter.com/posts/</loc>
+    <lastmod>2024-05-31T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://boxcounter.com/posts/2024-05-31-how-does-sample-ratio-affects-precision-recall-and-conversion/</loc>
+    <lastmod>2024-05-31T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://boxcounter.com/posts/2024-04-30-issue-langchain-interacts-with-transformers/</loc>
     <lastmod>2024-04-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://boxcounter.com/posts/2024-04-08-why-we-use-cross-entropy-in-classification-instead-of-mse/</loc>
