@@ -13,7 +13,7 @@
       <link>http://boxcounter.com/posts/2024-05-31-how-does-sample-ratio-affects-precision-recall-and-conversion/</link>
       <pubDate>Fri, 31 May 2024 00:00:00 +0000</pubDate>
       <guid>http://boxcounter.com/posts/2024-05-31-how-does-sample-ratio-affects-precision-recall-and-conversion/</guid>
-      <description>一、不同的样本配比对数据指标的影响 常见数据指标有： $Recall$ $Precision$ $Accuracy$ $F\ score$ $TPR: True\ Positive\ Rate$ $FPR: False\ Positive\ Rate$ 如果改变样本配比，上述指标中的 1、5、6 不会改变，而 2、3、4 会</description>
+      <description>一、摘要 此文主要讨论了衡量二元分类算法效果的常见数据指标中， 哪些指标会随样本配比改变而变化，哪些不会。样本配比是指测试样本中阴阳两性样本的比</description>
     </item>
     <item>
       <title>LangChain 和 Transformers 搭配使用出现的续写行为</title>
