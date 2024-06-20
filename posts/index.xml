@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Boxcounter&#39;s blog</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 31 May 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 20 Jun 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://boxcounter.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Residual block 的直观理解</title>
+      <link>http://boxcounter.com/posts/2024-06-20-residual-block-intuitive-understanding/</link>
+      <pubDate>Thu, 20 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>http://boxcounter.com/posts/2024-06-20-residual-block-intuitive-understanding/</guid>
+      <description>这两天在学习残差网络（ResNet），其中的核心组件 —— 残差块（Residual block）的设计原理让我困惑了好久。在查阅了不少资料、向 ChatGPT</description>
+    </item>
     <item>
       <title>样本配比对 Precision 和 Recall 等数据指标的影响与换算</title>
       <link>http://boxcounter.com/posts/2024-05-31-how-does-sample-ratio-affects-precision-recall-and-conversion/</link>

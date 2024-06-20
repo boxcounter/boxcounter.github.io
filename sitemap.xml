@@ -3,10 +3,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>http://boxcounter.com/</loc>
-    <lastmod>2024-05-31T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://boxcounter.com/posts/</loc>
-    <lastmod>2024-05-31T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://boxcounter.com/posts/2024-06-20-residual-block-intuitive-understanding/</loc>
+    <lastmod>2024-06-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://boxcounter.com/posts/2024-05-31-how-does-sample-ratio-affects-precision-recall-and-conversion/</loc>
     <lastmod>2024-05-31T00:00:00+00:00</lastmod>
