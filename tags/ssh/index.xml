@@ -13,7 +13,7 @@
       <link>http://boxcounter.com/posts/2016-11-26-host-key-verification-failed/</link>
       <pubDate>Sat, 26 Nov 2016 00:00:00 +0000</pubDate>
       <guid>http://boxcounter.com/posts/2016-11-26-host-key-verification-failed/</guid>
-      <description>最近几天在编写、测试部署脚本，准备配合Jenkins进行自动化的持续集成，因此需要全程静默执行，未想触发了一个SSH key问题，卡了我好几个</description>
+      <description>&lt;p&gt;最近几天在编写、测试部署脚本，准备配合Jenkins进行自动化的持续集成，因此需要全程静默执行，未想触发了一个SSH key问题，卡了我好几个小时……&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

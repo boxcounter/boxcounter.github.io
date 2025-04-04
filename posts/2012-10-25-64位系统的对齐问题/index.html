@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.126.1">
+  <meta name="generator" content="Hugo 0.145.0">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="author" content="Boxcounter" />
+  <meta name="author" content="" />
   <meta property="og:url" content="http://boxcounter.com/posts/2012-10-25-64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/" />
-  <link rel="canonical" href="http://boxcounter.com/posts/2012-10-25-64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/" /><script type="application/ld+json">
+  <link rel="canonical" href="http://boxcounter.com/posts/2012-10-25-64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/" /><link rel="alternate" type="application/atom+xml" href="http://boxcounter.com/index.xml" title="Boxcounter&#39;s blog">
+
+  <script type="application/ld+json">
   {
       "@context" : "http://schema.org",
       "@type" : "BlogPosting",
@@ -19,13 +21,13 @@
       "articleSection" : "posts",
       "name" : "64位系统的对齐问题",
       "headline" : "64位系统的对齐问题",
-      "description" : "今天在技术群里有位童鞋问了一个问题： On 64-bit Windows, if a data structure is misaligned, routines that manipulate the structure, such as RtlCopyMemory and memcpy, will not fault. Instead, they will raise an exception. For example: \u0026gt; #pragma pack (1) \/\/ also set by \/Zp switch \u0026gt; struct Buffer { \u0026gt; ULONG size; \u0026gt; void *ptr; \u0026gt; };",
+      "description" : "今天在技术群里有位童鞋问了一个问题：\nOn 64-bit Windows, if a data structure is misaligned, routines that manipulate the structure, such as RtlCopyMemory and memcpy, will not fault. Instead, they will raise an exception. For example:\n#pragma pack (1) \/\/ also set by \/Zp switch struct Buffer { ULONG size; void *ptr; }; void SetPointer(void *p) { struct Buffer s; s.ptr = p; \/* will cause alignment fault *\/ ... } You could use the UNALIGNED macro to fix this:\n",
       "inLanguage" : "en-US",
-      "author" : "Boxcounter",
-      "creator" : "Boxcounter",
-      "publisher": "Boxcounter",
-      "accountablePerson" : "Boxcounter",
-      "copyrightHolder" : "Boxcounter",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
       "copyrightYear" : "2012",
       "datePublished": "2012-10-25 00:00:00 \u002b0000 UTC",
       "dateModified" : "2012-10-25 00:00:00 \u002b0000 UTC",
@@ -33,22 +35,55 @@
       "keywords" : [ "技术研究", ]
   }
 </script>
-<title>64位系统的对齐问题 - Boxcounter&#39;s blog</title>
-  <meta property="og:title" content="64位系统的对齐问题 - Boxcounter&#39;s blog" />
+<title>64位系统的对齐问题</title>
+  <meta property="og:title" content="64位系统的对齐问题" />
   <meta property="og:type" content="article" />
-  <meta name="description" content="今天在技术群里有位童鞋问了一个问题： On 64-bit Windows, if a data structure is misaligned, routines that manipulate the structure, such as RtlCopyMemory and memcpy, will not fault. Instead, they will raise an exception. For example: &gt; #pragma pack (1) // also set by /Zp switch &gt; struct Buffer { &gt; ULONG size; &gt; void *ptr; &gt; };" />
-
-  <link rel="stylesheet" href="/css/flexboxgrid-6.3.1.min.css" />
-  <link rel="stylesheet"
-    href="/css/github-markdown.min.css" />
-  <link rel="stylesheet" href="/css/highlight/tomorrow.min.css" />
-  <link rel="stylesheet" href="/css/index.css">
-  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="Boxcounter&#39;s blog">
-  
-  <link href="https://fonts.googleapis.com/css?family=Arvo|Permanent+Marker" rel="stylesheet">
-  
+  <meta property="og:description" content="今天在技术群里有位童鞋问了一个问题：
+On 64-bit Windows, if a data structure is misaligned, routines that manipulate the structure, such as RtlCopyMemory and memcpy, will not fault. Instead, they will raise an exception. For example:
+#pragma pack (1) // also set by /Zp switch struct Buffer { ULONG size; void *ptr; }; void SetPointer(void *p) { struct Buffer s; s.ptr = p; /* will cause alignment fault */ ... } You could use the UNALIGNED macro to fix this:
+" />
+  <meta name="description" content="今天在技术群里有位童鞋问了一个问题：
+On 64-bit Windows, if a data structure is misaligned, routines that manipulate the structure, such as RtlCopyMemory and memcpy, will not fault. Instead, they will raise an exception. For example:
+#pragma pack (1) // also set by /Zp switch struct Buffer { ULONG size; void *ptr; }; void SetPointer(void *p) { struct Buffer s; s.ptr = p; /* will cause alignment fault */ ... } You could use the UNALIGNED macro to fix this:
+" />
+  <meta property="og:locale" content="zh-cn" /><meta property="og:image" content="" />
   
 
+  
+    <style>body{font-family:bree serif,sans-serif;-webkit-font-smoothing:antialiased;margin:0 20px}article{max-width:800px;margin-left:auto;margin-right:auto}a{color:#000;text-decoration:none}a:hover{font-weight:600;text-decoration:underline}.post-ads{margin:50px 0}.markdown-body{font-size:18px;max-width:100%}.markdown-body a{text-decoration:underline;text-decoration-color:#000}.markdown-body blockquote{margin:0;padding:0 1em;color:#57606a;border-left:.25em solid #d0d7de}.markdown-body pre{padding:16px;overflow:auto;border-radius:10px}.markdown-body code{padding:.2em .4em;font-size:85%;background-color:#f6f8fa;border-radius:6px}.markdown-body pre>code{padding:0;font-size:100%;background-color:inherit;border:0}.Chinese .markdown-body{line-height:200%}.site-date-catalog{font-size:2rem}.header-title{font-size:2rem;font-weight:700;margin-top:32px;font-family:bungee shade,sans-serif}.header-title a{text-decoration:none}.header-subtitle{color:#666}.header-items{margin:10px 0}.header-item{margin:0 5px}.header-line{width:100%;border-width:2px;border-color:#482936;border-style:solid none none none}.lang-switch{font-weight:600}#posts-list{min-height:600px}.posts-line{font-size:1.2rem;margin:12px 0}.posts-categories{font-size:.8rem;margin:auto;text-align:center}.posts-category{padding:3px 0;border:#000 2px solid;border-radius:5px}.site-footer{margin-top:50px}.site-footer-item{margin-right:12px}.post-header{margin-bottom:50px}.post-title{font-size:2rem;font-weight:600}.post-tags{display:inline;font-weight:600;padding:2px 5px;margin-right:6px;border:#000 2px solid;border-radius:5px}.post-date{font-weight:800;font-style:italic}.post-author{float:right;font-weight:600}.page-content{min-height:60%}.post-content{margin-bottom:50px}.post-content p{hyphens:auto;line-height:1.8;text-justify:ideographic;margin-bottom:1em}.post-content img{max-width:100%;display:block;margin-right:auto;margin-top:6px}.post-content .post-gallery{display:flex;flex-wrap:wrap;gap:6px}.post-content .post-gallery img{margin-right:auto;margin-top:auto;width:calc(50% - 3px)}.related-content{border-width:3px;border-style:solid;border-color:#000;padding:0 10px;margin-bottom:50px;margin-top:100px}.related-content li{margin:5px 0}.taxonomy-term{font-size:3rem}.gallery-img{text-align:center}.gallery-img span{text-align:center}.gallery-img-desc{font-size:.8em;font-weight:800}#disqus_thread{position:relative}#disqus_thread:after{content:"";display:block;height:55px;width:100%;position:absolute;bottom:0;background:#fff}@media screen and (max-width:600px){.header-title,.header-subtitle,.header-items{}.posts-line{font-size:16px}.markdown-body{font-size:16px}.post-title{font-size:2rem}.post-content p{letter-spacing:.05em}.post-content .post-gallery img{width:100%}}@media screen and (max-width:48em){.posts-category{display:none}}</style>
+  
+  
+    <style>.container,.container-fluid{margin-right:auto;margin-left:auto}.container-fluid{padding-right:2rem;padding-left:2rem}.row{box-sizing:border-box;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-flex:0;-ms-flex:0 1 auto;flex:initial;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-right:-.5rem;margin-left:-.5rem}.row.reverse{-webkit-box-orient:horizontal;-webkit-box-direction:reverse;-ms-flex-direction:row-reverse;flex-direction:row-reverse}.col.reverse{-webkit-box-orient:vertical;-webkit-box-direction:reverse;-ms-flex-direction:column-reverse;flex-direction:column-reverse}.col-xs,.col-xs-1,.col-xs-10,.col-xs-11,.col-xs-12,.col-xs-2,.col-xs-3,.col-xs-4,.col-xs-5,.col-xs-6,.col-xs-7,.col-xs-8,.col-xs-9,.col-xs-offset-0,.col-xs-offset-1,.col-xs-offset-10,.col-xs-offset-11,.col-xs-offset-12,.col-xs-offset-2,.col-xs-offset-3,.col-xs-offset-4,.col-xs-offset-5,.col-xs-offset-6,.col-xs-offset-7,.col-xs-offset-8,.col-xs-offset-9{box-sizing:border-box;-webkit-box-flex:0;-ms-flex:0 0 auto;flex:none;padding-right:.5rem;padding-left:.5rem}.col-xs{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;-ms-flex-preferred-size:0;flex-basis:0;max-width:100%}.col-xs-1{-ms-flex-preferred-size:8.33333333%;flex-basis:8.33333333%;max-width:8.33333333%}.col-xs-2{-ms-flex-preferred-size:16.66666667%;flex-basis:16.66666667%;max-width:16.66666667%}.col-xs-3{-ms-flex-preferred-size:25%;flex-basis:25%;max-width:25%}.col-xs-4{-ms-flex-preferred-size:33.33333333%;flex-basis:33.33333333%;max-width:33.33333333%}.col-xs-5{-ms-flex-preferred-size:41.66666667%;flex-basis:41.66666667%;max-width:41.66666667%}.col-xs-6{-ms-flex-preferred-size:50%;flex-basis:50%;max-width:50%}.col-xs-7{-ms-flex-preferred-size:58.33333333%;flex-basis:58.33333333%;max-width:58.33333333%}.col-xs-8{-ms-flex-preferred-size:66.66666667%;flex-basis:66.66666667%;max-width:66.66666667%}.col-xs-9{-ms-flex-preferred-size:75%;flex-basis:75%;max-width:75%}.col-xs-10{-ms-flex-preferred-size:83.33333333%;flex-basis:83.33333333%;max-width:83.33333333%}.col-xs-11{-ms-flex-preferred-size:91.66666667%;flex-basis:91.66666667%;max-width:91.66666667%}.col-xs-12{-ms-flex-preferred-size:100%;flex-basis:100%;max-width:100%}.col-xs-offset-0{margin-left:0}.col-xs-offset-1{margin-left:8.33333333%}.col-xs-offset-2{margin-left:16.66666667%}.col-xs-offset-3{margin-left:25%}.col-xs-offset-4{margin-left:33.33333333%}.col-xs-offset-5{margin-left:41.66666667%}.col-xs-offset-6{margin-left:50%}.col-xs-offset-7{margin-left:58.33333333%}.col-xs-offset-8{margin-left:66.66666667%}.col-xs-offset-9{margin-left:75%}.col-xs-offset-10{margin-left:83.33333333%}.col-xs-offset-11{margin-left:91.66666667%}.start-xs{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;text-align:start}.center-xs{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;text-align:center}.end-xs{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;text-align:end}.top-xs{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}.middle-xs{-webkit-box-align:center;-ms-flex-align:center;align-items:center}.bottom-xs{-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end}.around-xs{-ms-flex-pack:distribute;justify-content:space-around}.between-xs{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.first-xs{-webkit-box-ordinal-group:0;-ms-flex-order:-1;order:-1}.last-xs{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}@media only screen and (min-width:48em){.container{width:49rem}.col-sm,.col-sm-1,.col-sm-10,.col-sm-11,.col-sm-12,.col-sm-2,.col-sm-3,.col-sm-4,.col-sm-5,.col-sm-6,.col-sm-7,.col-sm-8,.col-sm-9,.col-sm-offset-0,.col-sm-offset-1,.col-sm-offset-10,.col-sm-offset-11,.col-sm-offset-12,.col-sm-offset-2,.col-sm-offset-3,.col-sm-offset-4,.col-sm-offset-5,.col-sm-offset-6,.col-sm-offset-7,.col-sm-offset-8,.col-sm-offset-9{box-sizing:border-box;-webkit-box-flex:0;-ms-flex:0 0 auto;flex:none;padding-right:.5rem;padding-left:.5rem}.col-sm{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;-ms-flex-preferred-size:0;flex-basis:0;max-width:100%}.col-sm-1{-ms-flex-preferred-size:8.33333333%;flex-basis:8.33333333%;max-width:8.33333333%}.col-sm-2{-ms-flex-preferred-size:16.66666667%;flex-basis:16.66666667%;max-width:16.66666667%}.col-sm-3{-ms-flex-preferred-size:25%;flex-basis:25%;max-width:25%}.col-sm-4{-ms-flex-preferred-size:33.33333333%;flex-basis:33.33333333%;max-width:33.33333333%}.col-sm-5{-ms-flex-preferred-size:41.66666667%;flex-basis:41.66666667%;max-width:41.66666667%}.col-sm-6{-ms-flex-preferred-size:50%;flex-basis:50%;max-width:50%}.col-sm-7{-ms-flex-preferred-size:58.33333333%;flex-basis:58.33333333%;max-width:58.33333333%}.col-sm-8{-ms-flex-preferred-size:66.66666667%;flex-basis:66.66666667%;max-width:66.66666667%}.col-sm-9{-ms-flex-preferred-size:75%;flex-basis:75%;max-width:75%}.col-sm-10{-ms-flex-preferred-size:83.33333333%;flex-basis:83.33333333%;max-width:83.33333333%}.col-sm-11{-ms-flex-preferred-size:91.66666667%;flex-basis:91.66666667%;max-width:91.66666667%}.col-sm-12{-ms-flex-preferred-size:100%;flex-basis:100%;max-width:100%}.col-sm-offset-0{margin-left:0}.col-sm-offset-1{margin-left:8.33333333%}.col-sm-offset-2{margin-left:16.66666667%}.col-sm-offset-3{margin-left:25%}.col-sm-offset-4{margin-left:33.33333333%}.col-sm-offset-5{margin-left:41.66666667%}.col-sm-offset-6{margin-left:50%}.col-sm-offset-7{margin-left:58.33333333%}.col-sm-offset-8{margin-left:66.66666667%}.col-sm-offset-9{margin-left:75%}.col-sm-offset-10{margin-left:83.33333333%}.col-sm-offset-11{margin-left:91.66666667%}.start-sm{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;text-align:start}.center-sm{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;text-align:center}.end-sm{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;text-align:end}.top-sm{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}.middle-sm{-webkit-box-align:center;-ms-flex-align:center;align-items:center}.bottom-sm{-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end}.around-sm{-ms-flex-pack:distribute;justify-content:space-around}.between-sm{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.first-sm{-webkit-box-ordinal-group:0;-ms-flex-order:-1;order:-1}.last-sm{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}}@media only screen and (min-width:64em){.container{width:65rem}.col-md,.col-md-1,.col-md-10,.col-md-11,.col-md-12,.col-md-2,.col-md-3,.col-md-4,.col-md-5,.col-md-6,.col-md-7,.col-md-8,.col-md-9,.col-md-offset-0,.col-md-offset-1,.col-md-offset-10,.col-md-offset-11,.col-md-offset-12,.col-md-offset-2,.col-md-offset-3,.col-md-offset-4,.col-md-offset-5,.col-md-offset-6,.col-md-offset-7,.col-md-offset-8,.col-md-offset-9{box-sizing:border-box;-webkit-box-flex:0;-ms-flex:0 0 auto;flex:none;padding-right:.5rem;padding-left:.5rem}.col-md{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;-ms-flex-preferred-size:0;flex-basis:0;max-width:100%}.col-md-1{-ms-flex-preferred-size:8.33333333%;flex-basis:8.33333333%;max-width:8.33333333%}.col-md-2{-ms-flex-preferred-size:16.66666667%;flex-basis:16.66666667%;max-width:16.66666667%}.col-md-3{-ms-flex-preferred-size:25%;flex-basis:25%;max-width:25%}.col-md-4{-ms-flex-preferred-size:33.33333333%;flex-basis:33.33333333%;max-width:33.33333333%}.col-md-5{-ms-flex-preferred-size:41.66666667%;flex-basis:41.66666667%;max-width:41.66666667%}.col-md-6{-ms-flex-preferred-size:50%;flex-basis:50%;max-width:50%}.col-md-7{-ms-flex-preferred-size:58.33333333%;flex-basis:58.33333333%;max-width:58.33333333%}.col-md-8{-ms-flex-preferred-size:66.66666667%;flex-basis:66.66666667%;max-width:66.66666667%}.col-md-9{-ms-flex-preferred-size:75%;flex-basis:75%;max-width:75%}.col-md-10{-ms-flex-preferred-size:83.33333333%;flex-basis:83.33333333%;max-width:83.33333333%}.col-md-11{-ms-flex-preferred-size:91.66666667%;flex-basis:91.66666667%;max-width:91.66666667%}.col-md-12{-ms-flex-preferred-size:100%;flex-basis:100%;max-width:100%}.col-md-offset-0{margin-left:0}.col-md-offset-1{margin-left:8.33333333%}.col-md-offset-2{margin-left:16.66666667%}.col-md-offset-3{margin-left:25%}.col-md-offset-4{margin-left:33.33333333%}.col-md-offset-5{margin-left:41.66666667%}.col-md-offset-6{margin-left:50%}.col-md-offset-7{margin-left:58.33333333%}.col-md-offset-8{margin-left:66.66666667%}.col-md-offset-9{margin-left:75%}.col-md-offset-10{margin-left:83.33333333%}.col-md-offset-11{margin-left:91.66666667%}.start-md{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;text-align:start}.center-md{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;text-align:center}.end-md{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;text-align:end}.top-md{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}.middle-md{-webkit-box-align:center;-ms-flex-align:center;align-items:center}.bottom-md{-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end}.around-md{-ms-flex-pack:distribute;justify-content:space-around}.between-md{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.first-md{-webkit-box-ordinal-group:0;-ms-flex-order:-1;order:-1}.last-md{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}}@media only screen and (min-width:75em){.container{width:76rem}.col-lg,.col-lg-1,.col-lg-10,.col-lg-11,.col-lg-12,.col-lg-2,.col-lg-3,.col-lg-4,.col-lg-5,.col-lg-6,.col-lg-7,.col-lg-8,.col-lg-9,.col-lg-offset-0,.col-lg-offset-1,.col-lg-offset-10,.col-lg-offset-11,.col-lg-offset-12,.col-lg-offset-2,.col-lg-offset-3,.col-lg-offset-4,.col-lg-offset-5,.col-lg-offset-6,.col-lg-offset-7,.col-lg-offset-8,.col-lg-offset-9{box-sizing:border-box;-webkit-box-flex:0;-ms-flex:0 0 auto;flex:none;padding-right:.5rem;padding-left:.5rem}.col-lg{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;-ms-flex-preferred-size:0;flex-basis:0;max-width:100%}.col-lg-1{-ms-flex-preferred-size:8.33333333%;flex-basis:8.33333333%;max-width:8.33333333%}.col-lg-2{-ms-flex-preferred-size:16.66666667%;flex-basis:16.66666667%;max-width:16.66666667%}.col-lg-3{-ms-flex-preferred-size:25%;flex-basis:25%;max-width:25%}.col-lg-4{-ms-flex-preferred-size:33.33333333%;flex-basis:33.33333333%;max-width:33.33333333%}.col-lg-5{-ms-flex-preferred-size:41.66666667%;flex-basis:41.66666667%;max-width:41.66666667%}.col-lg-6{-ms-flex-preferred-size:50%;flex-basis:50%;max-width:50%}.col-lg-7{-ms-flex-preferred-size:58.33333333%;flex-basis:58.33333333%;max-width:58.33333333%}.col-lg-8{-ms-flex-preferred-size:66.66666667%;flex-basis:66.66666667%;max-width:66.66666667%}.col-lg-9{-ms-flex-preferred-size:75%;flex-basis:75%;max-width:75%}.col-lg-10{-ms-flex-preferred-size:83.33333333%;flex-basis:83.33333333%;max-width:83.33333333%}.col-lg-11{-ms-flex-preferred-size:91.66666667%;flex-basis:91.66666667%;max-width:91.66666667%}.col-lg-12{-ms-flex-preferred-size:100%;flex-basis:100%;max-width:100%}.col-lg-offset-0{margin-left:0}.col-lg-offset-1{margin-left:8.33333333%}.col-lg-offset-2{margin-left:16.66666667%}.col-lg-offset-3{margin-left:25%}.col-lg-offset-4{margin-left:33.33333333%}.col-lg-offset-5{margin-left:41.66666667%}.col-lg-offset-6{margin-left:50%}.col-lg-offset-7{margin-left:58.33333333%}.col-lg-offset-8{margin-left:66.66666667%}.col-lg-offset-9{margin-left:75%}.col-lg-offset-10{margin-left:83.33333333%}.col-lg-offset-11{margin-left:91.66666667%}.start-lg{-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;text-align:start}.center-lg{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;text-align:center}.end-lg{-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;text-align:end}.top-lg{-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start}.middle-lg{-webkit-box-align:center;-ms-flex-align:center;align-items:center}.bottom-lg{-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end}.around-lg{-ms-flex-pack:distribute;justify-content:space-around}.between-lg{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.first-lg{-webkit-box-ordinal-group:0;-ms-flex-order:-1;order:-1}.last-lg{-webkit-box-ordinal-group:2;-ms-flex-order:1;order:1}}</style>
+  
+
+  
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)']]                  
+    },
+    loader:{
+      load: ['ui/safe']
+    },
+  };
+</script>
+
+
+  
+
+  
+
+  <link href="/index.xml" rel="alternate" type="application/rss+xml"
+    title="Boxcounter&#39;s blog">
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Bungee+Shade" rel="stylesheet">
+  
+  
+
+  
   
 </head>
 
@@ -56,17 +91,22 @@
 <body>
   <article class="post " id="article">
     <div class="row">
-      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2 col-lg-6 col-lg-offset-3">
+      <div class="col-xs-12">
         <div class="site-header">
           
 <header>
-  <div class="signatures site-title">
-    <a href="/">Boxcounter</a>
+  <div class="header-title">
+    <a href="/"
+      >Boxcounter&#39;s blog</a
+    >
   </div>
+  <div class="header-subtitle"></div>
 </header>
-<div class="row end-xs">
+<div class="row end-md header-items">
   
-  
+</div>
+<div class="row">
+   
 </div>
 <div class="header-line"></div>
 
@@ -84,162 +124,167 @@
             </div>
             <div class="col-xs-6">
               
-              <div class="post-author">
-                <a target="_blank" href="http://boxcounter.com/">@Boxcounter</a>
-              </div>
-              
             </div>
           </div>
           
         </header>
 
         <div class="post-content markdown-body">
-          <p>　　今天在技术群里有位童鞋问了一个问题：</p>
+          
+          <p>今天在技术群里有位童鞋问了一个问题：</p>
 <blockquote>
 <p>On 64-bit Windows, if a data structure is misaligned, routines that manipulate the structure, such as RtlCopyMemory and memcpy, will not fault. Instead, they will raise an exception. For example:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#555">&gt;</span>  <span style="color:#a00;background-color:#faa">#</span>pragma pack (<span style="color:#f60">1</span>) <span style="color:#09f;font-style:italic">// also set by /Zp switch 
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span><span style="color:#555">&gt;</span>  <span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">Buffer</span> {
-</span></span><span style="display:flex;"><span><span style="color:#555">&gt;</span>      ULONG size;
-</span></span><span style="display:flex;"><span><span style="color:#555">&gt;</span>      <span style="color:#078;font-weight:bold">void</span> <span style="color:#555">*</span>ptr;
-</span></span><span style="display:flex;"><span><span style="color:#555">&gt;</span>  };
-</span></span><span style="display:flex;"><span><span style="color:#555">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#555">&gt;</span>  <span style="color:#078;font-weight:bold">void</span> SetPointer(<span style="color:#078;font-weight:bold">void</span> <span style="color:#555">*</span>p) {
-</span></span><span style="display:flex;"><span><span style="color:#555">&gt;</span>      <span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">Buffer</span> s;
-</span></span><span style="display:flex;"><span><span style="color:#555">&gt;</span>      s.ptr <span style="color:#555">=</span> p;  <span style="color:#09f;font-style:italic">/* will cause alignment fault */</span>
-</span></span><span style="display:flex;"><span><span style="color:#555">&gt;</span>      ...
-</span></span><span style="display:flex;"><span><span style="color:#555">&gt;</span>  }
-</span></span><span style="display:flex;"><span><span style="color:#555">&gt;</span> 
-</span></span></code></pre></div>
-<p>You could use the UNALIGNED macro to fix this:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#555">&gt;</span>  <span style="color:#078;font-weight:bold">void</span> SetPointer(<span style="color:#078;font-weight:bold">void</span> <span style="color:#555">*</span>p) {
-</span></span><span style="display:flex;"><span><span style="color:#555">&gt;</span>      <span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">Buffer</span> s;
-</span></span><span style="display:flex;"><span><span style="color:#555">&gt;</span>      <span style="color:#555">*</span>(UNALIGNED <span style="color:#078;font-weight:bold">void</span> <span style="color:#555">*</span>)<span style="color:#555">&amp;</span>s.ptr <span style="color:#555">=</span> p;
-</span></span><span style="display:flex;"><span><span style="color:#555">&gt;</span>  }
-</span></span><span style="display:flex;"><span><span style="color:#555">&gt;</span> 
-</span></span></code></pre></div>
-</blockquote>
-<p>　　我搜了一下，这段话来自<a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff559744.aspx">Porting Issues Checklist</a>这篇文章。</p>
-<p>　　他的问题是：「我对这句 s.ptr = p 不太明白。为什么会引发对齐错误，什么意思？」</p>
-<p>　　我的回答（当时的原话，貌似有点凌乱，群里讨论嘛，想一句说一句，见谅）：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span> <span style="color:#099">#pragma pack (1) </span><span style="color:#09f;font-style:italic">// also set by /Zp switch
+</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span> <span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">Buffer</span> {
+</span></span><span style="display:flex;"><span>     ULONG size;
+</span></span><span style="display:flex;"><span>     <span style="color:#078;font-weight:bold">void</span> <span style="color:#555">*</span>ptr;
+</span></span><span style="display:flex;"><span> };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">SetPointer</span>(<span style="color:#078;font-weight:bold">void</span> <span style="color:#555">*</span>p) {
+</span></span><span style="display:flex;"><span>     <span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">Buffer</span> s;
+</span></span><span style="display:flex;"><span>     s.ptr <span style="color:#555">=</span> p;  <span style="color:#09f;font-style:italic">/* will cause alignment fault */</span>
+</span></span><span style="display:flex;"><span>     ...
+</span></span><span style="display:flex;"><span> }
+</span></span></code></pre></div><p>You could use the UNALIGNED macro to fix this:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span> <span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">SetPointer</span>(<span style="color:#078;font-weight:bold">void</span> <span style="color:#555">*</span>p) {
+</span></span><span style="display:flex;"><span>     <span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">Buffer</span> s;
+</span></span><span style="display:flex;"><span>     <span style="color:#555">*</span>(UNALIGNED <span style="color:#078;font-weight:bold">void</span> <span style="color:#555">*</span>)<span style="color:#555">&amp;</span>s.ptr <span style="color:#555">=</span> p;
+</span></span><span style="display:flex;"><span> }
+</span></span></code></pre></div></blockquote>
+<p>我搜了一下，这段话来自<a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff559744.aspx">Porting Issues Checklist</a>这篇文章。</p>
+<p>他的问题是：「我对这句 s.ptr = p 不太明白。为什么会引发对齐错误，什么意思？」</p>
+<p>我的回答（当时的原话，貌似有点凌乱，群里讨论嘛，想一句说一句，见谅）：</p>
 <ol>
 <li>因为s这个结构体的首地址是被编译器默认对齐的。由于「#pragma pack (1)」，s.ptr肯定不在对齐的地址上。所以访问s.ptr时会触犯x64 win的对齐规定，于是抛出异常。</li>
-<li>对于x86架构，对于类似这种没有对齐的地址访问，win内核会自动帮你处理好，用户感觉不到这个问题的存在。但实际上会导致系统性能下降。<br>
+<li>对于x86架构，对于类似这种没有对齐的地址访问，win内核会自动帮你处理好，用户感觉不到这个问题的存在。但实际上会导致系统性能下降。
 到了x64架构，win决定不帮用户擦屁股了。于是就会抛出异常。</li>
 <li>x64是按照8字节对齐，&amp;s是对齐的，那s.ptr是处在 （N*8 + 4）的地址上，于是没有对齐。</li>
 </ol>
-<p>　　这时另一位提了一个问题：「#pragma pack (1) 了，对齐地址是按1的倍数来的，为什么会s.ptr不在对齐的地址上啊？」<br>
-　　我的回答：「pragma pack的对齐只是影响编译器对结构体的padding，这个俗称的对齐，跟硬件手册里的对齐，不是一回事。」</p>
-<p>　　回答完后觉得心理有点不踏实，主要的不确定点是回答3中的「x64是按照8字节对齐」。翻了下手册，果然没这么简单。<br>
-　　（x64架构的）cpu的对齐是根据数据类型的不同而不同的，对于第一个问题，s.ptr是个指针，确实是按照8个字节来对齐的，所以我的回答没有问题。<br>
-　　更具体的对齐在《AMD64 Architecture Programmer&rsquo;s Manual Volume 2: System Programming》的「8.2.17  #AC—Alignment-Check Exception (Vector 17)」，如下图：<br>
-
-
-　　<img src="/images/2012-10-25/Data-Type-Alignment.jpg"/>
-
-</p>
-<p>　　还有个问题，为什么不对齐就会影响性能？<br>
-　　以x64位下的void* 数据类型为例，void<em>是8个字节大小。如果某void</em> p没有按照8字节对齐，比如下图所示：</p>
-<pre><code>addr:      N*8           (N+1)*8
-           |               |
-offset:     0 1 2 3 4 5 6 7
-          +-+-+-+-+-+-+-+-+-+
-          | |X|X|X|X|X|X|X|X|
-          +-----------------+
-            ^
-            |
-            p
-</code></pre>
-<p>　　如果按照8字节对齐，即ptr处在N<em>8的位置，那么当需要访问ptr的时候，把ptr的值从mem读到cpu cache，只需要一次读取操作（从N</em>8到N<em>8+7，正好8个字节）。<br>
-　　但是如果如上图所示，那么就不得不读两次，第一次也是从N</em>8到(N+1)*8，第二次读取(N+1)*8到(N+1)*8+7，然后还要把第一次读的后7个字节和第二次读的第一个字节拼起来。此外，在多核环境下，为了保证对ptr的读取操作的原子性，还必须额外消耗一个bus control。另外，unaligned的ptr还有可能分布在两个cache line中，导致更多额外的处理成本（每次对ptr的修改操作会影响两个cache line，造成更严重的<a href="http://software.intel.com/en-us/articles/avoiding-and-identifying-false-sharing-among-threads/">False Sharing</a>）。</p>
-<p>　　再多想想，有人可能会问：对于WORD类型，只要求2字节对齐，那如果具体的内存是这样呢：</p>
-<pre><code>addr:      N*8
-           |
-offset:     0 1 2 3 4 5 6 7
-          +-+-+-+-+-+-+-+-+
-          | | |X|X| | | | |
-          +---------------+
-</code></pre>
-<p>　　这样虽然是按照2字节对齐，但是并没有在N*8的位置，会不会有性能损耗？</p>
-<p>　　理论上是有的，因为读取到cpu cache后，还有个+2的操作（理论上有，但我不确定到电路那一层，+0和+2的耗时是不是就等价了）。但即便有这个+2的操作，也没太大影响，因为对cpu cache的操作是非常非常快的，而mem-&gt;cpu cache这个操作相对来说就非常耗时了。<br>
-　　总结：性能损耗主要是因为多了一次mem-&gt;cpu cache操作。</p>
-<p>　　注：<br>
-　　在整理这篇文章之前，我不确定多一次读操作是不是导致性能损耗的主要原因，于是请教sinster师傅，对话如下：</p>
+<p>这时另一位提了一个问题：「<code>#pragma pack (1)</code> 了，对齐地址是按1的倍数来的，为什么会s.ptr不在对齐的地址上啊？」</p>
+<p>我的回答：「pragma pack的对齐只是影响编译器对结构体的padding，这个俗称的对齐，跟硬件手册里的对齐，不是一回事。」</p>
+<p>回答完后觉得心理有点不踏实，主要的不确定点是回答3中的「x64是按照8字节对齐」。翻了下手册，果然没这么简单。</p>
+<p>（x64架构的）cpu的对齐是根据数据类型的不同而不同的，对于第一个问题，s.ptr是个指针，确实是按照8个字节来对齐的，所以我的回答没有问题。</p>
+<p>更具体的对齐在《AMD64 Architecture Programmer&rsquo;s Manual Volume 2: System Programming》的「8.2.17  #AC—Alignment-Check Exception (Vector 17)」，如下图：</p>
+<p><img src="/images/2012-10-25/Data-Type-Alignment.jpg" alt="Data-Type-Alignment"></p>
+<p>还有个问题，为什么不对齐就会影响性能？</p>
+<p>以x64位下的<code>void*</code>数据类型为例，<code>void*</code>是8个字节大小。如果某<code>void* p</code>没有按照8字节对齐，比如下图所示：</p>
+<pre tabindex="0"><code>    addr:      N*8           (N+1)*8
+               |               |
+    offset:     0 1 2 3 4 5 6 7
+              +-+-+-+-+-+-+-+-+-+
+              | |X|X|X|X|X|X|X|X|
+              +-----------------+
+                ^
+                |
+                p
+</code></pre><p>如果按照8字节对齐，即ptr处在<code>N*8</code>的位置，那么当需要访问ptr的时候，把ptr的值从mem读到cpu cache，只需要一次读取操作（从<code>N*8</code>到<code>N*8+7</code>，正好8个字节）。
+但是如果如上图所示，那么就不得不读两次，第一次也是从<code>N*8</code>到<code>(N+1)*8</code>，第二次读取<code>(N+1)*8</code>到<code>(N+1)*8+7</code>，然后还要把第一次读的后7个字节和第二次读的第一个字节拼起来。此外，在多核环境下，为了保证对ptr的读取操作的原子性，还必须额外消耗一个bus control。另外，unaligned的ptr还有可能分布在两个cache line中，导致更多额外的处理成本（每次对ptr的修改操作会影响两个cache line，造成更严重的<a href="http://software.intel.com/en-us/articles/avoiding-and-identifying-false-sharing-among-threads/">False Sharing</a>）。</p>
+<p>再多想想，有人可能会问：对于WORD类型，只要求2字节对齐，那如果具体的内存是这样呢：</p>
+<pre tabindex="0"><code>    addr:      N*8
+               |
+    offset:     0 1 2 3 4 5 6 7
+              +-+-+-+-+-+-+-+-+
+              | | |X|X| | | | |
+              +---------------+
+</code></pre><p>这样虽然是按照2字节对齐，但是并没有在N*8的位置，会不会有性能损耗？</p>
+<p>理论上是有的，因为读取到cpu cache后，还有个+2的操作（理论上有，但我不确定到电路那一层，+0和+2的耗时是不是就等价了）。但即便有这个+2的操作，也没太大影响，因为对cpu cache的操作是非常非常快的，而mem-&gt;cpu cache这个操作相对来说就非常耗时了。</p>
+<p>总结：性能损耗主要是因为多了一次mem-&gt;cpu cache操作。</p>
+<p>注：在整理这篇文章之前，我不确定多一次读操作是不是导致性能损耗的主要原因，于是请教sinster师傅，对话如下：</p>
 <blockquote>
-<p>Boxcounter 18:43:11<br>
-贾佳师傅，请教个问题：<br>
+<p>Boxcounter 18:43:11</p>
+<p>贾佳师傅，请教个问题：<br>
 访问unaligned的数据会造成性能下降，比如64位系统，某个void*类型的数据如果是unaligned。那么访问它时会导致2次从内存到cpu cache的读操作，而如果它是aligned，则只需要一次。<br>
 是因为这个原因吗？</p>
-<p>sinister 18:43:55<br>
-是，有些系统直接CORE DUMP了。<br>
-sinister 18:44:44<br>
-一些RISC的，POWER,SPARC,EPIC 都这样</p>
-</blockquote>
-<p>　　后记1：<br>
-　　提问的童鞋说在x64 WinXP系统里，即使不对齐也没有因为异常而中断下来。<br>
-　　我试了下，确实如此，x64 win7系统，挂着windbg内核调试，单步步过unaligned操作，并没有任何提示和中断等异样。恢复到一个没有任何调试设置的快照，也是如此。应用层也是一样。</p>
-<p>　　继续琢磨，在AMD手册里翻到这么几段资料：</p>
+<p>sinister 18:43:55</p>
+<p>是，有些系统直接CORE DUMP了。<br>
+一些RISC的，POWER,SPARC,EPIC 都这样</p></blockquote>
+<p>后记1：</p>
+<p>提问的童鞋说在x64 WinXP系统里，即使不对齐也没有因为异常而中断下来。
+我试了下，确实如此，x64 win7系统，挂着windbg内核调试，单步步过unaligned操作，并没有任何提示和中断等异样。恢复到一个没有任何调试设置的快照，也是如此。应用层也是一样。</p>
+<p>继续琢磨，在AMD手册里翻到这么几段资料：</p>
 <ol>
 <li>还是在「8.2.17  #AC—Alignment-Check Exception (Vector 17)」</li>
 </ol>
-<!-- raw HTML omitted -->
-<pre><code>    0: kd&gt; r efl
-    efl=00000246
-    
-    0: kd&gt; .formats 0x246
-      ......
-      Binary:  00000000 00000000 00000000 00000000 00000000 00000000 00000010 01000110
-      ......
-    
-    
-    0: kd&gt; r cr0
-    cr0=0000000080050031
-    
-    0: kd&gt; .formats 0x0000000080050031 
-      ......
-      Binary:  11111111 11111111 11111111 11111111 10000000 00000101 00000000 00110001
-      ......
-</code></pre>
-<p>可见两个18bit都是0，并没有启用#AC异常。
+<blockquote>
+<p>After a processor reset, #AC exceptions are disabled. Software enables the #AC exception by setting the following register bits:<br>
+• CR0.AM=1.<br>
+• RFLAGS.AC=1.<br>
+When the above register bits are set, an #AC can occur only when CPL=3. #AC never occurs when CPL &lt; 3.</p></blockquote>
+<ol start="2">
+<li>CR0中AM标志在第18bit，RFLAGS的AC标志也是在18bit</li>
+</ol>
+<p>查看了下我的虚拟机：</p>
+<pre tabindex="0"><code>0: kd&gt; r efl
+efl=00000246
+
+0: kd&gt; .formats 0x246
+  ......
+  Binary:  00000000 00000000 00000000 00000000 00000000 00000000 00000010 01000110
+  ......
+
+
+0: kd&gt; r cr0
+cr0=0000000080050031
+
+0: kd&gt; .formats 0x0000000080050031
+  ......
+  Binary:  11111111 11111111 11111111 11111111 10000000 00000101 00000000 00110001
+  ......
+</code></pre><p>可见两个18bit都是0，并没有启用#AC异常。
 为了避免是内核调试器对虚拟系统的干扰造成的，我用livekd抓了个本机系统DMP来分析：</p>
-<pre><code>    0: kd&gt; r cr0
-    cr0=0000000080050033
-    
-    0: kd&gt; .formats 0000000080050033
-      ......
-      Binary:  11111111 11111111 11111111 11111111 10000000 00000101 00000000 00110011
-      ......
-    
-    0: kd&gt; r efl
-    efl=00000286
-    
-    0: kd&gt; .formats 00000286
-      ......
-      Binary:  00000000 00000000 00000000 00000000 00000000 00000000 00000010 10000110
-      ......
-</code></pre>
-<p>结果是一样的，也没有启用#AC异常。</p>
-<p>　　不明白为什么，难道MSDN上那篇文章里的64bit仅指IA64？<br>
-　　目前暂没什么好的思路，先记到这里吧。（如果有朋友知道原因，请不吝赐教。）</p>
-<p>　　后记2：<br>
-　　发现一篇相关的文章：<a href="http://stackoverflow.com/questions/5498102/how-to-debug-unaligned-accesses-on-amd64-using-visual-studio">How to debug unaligned accesses on amd64 using Visual Studio?</a><br>
-　　其中有一条回复是：</p>
+<pre tabindex="0"><code>0: kd&gt; r cr0
+cr0=0000000080050033
+
+0: kd&gt; .formats 0000000080050033
+  ......
+  Binary:  11111111 11111111 11111111 11111111 10000000 00000101 00000000 00110011
+  ......
+
+0: kd&gt; r efl
+efl=00000286
+
+0: kd&gt; .formats 00000286
+  ......
+  Binary:  00000000 00000000 00000000 00000000 00000000 00000000 00000010 10000110
+  ......
+</code></pre><p>结果是一样的，也没有启用#AC异常。</p>
+<p>不明白为什么，难道MSDN上那篇文章里的64bit仅指IA64？
+目前暂没什么好的思路，先记到这里吧。（如果有朋友知道原因，请不吝赐教。）</p>
+<p>后记2：</p>
+<p>发现一篇相关的文章：<a href="http://stackoverflow.com/questions/5498102/how-to-debug-unaligned-accesses-on-amd64-using-visual-studio">How to debug unaligned accesses on amd64 using Visual Studio?</a></p>
+<p>其中有一条回复是：</p>
 <blockquote>
-<p>&ldquo;How do real world Windows developers track unaligned accesses in their code?&rdquo;. Being a primarily Windows developer myself, I think they just never do it, unless the code has to run on Itanium. And if it has to run on Itanium, the exception will tell the places. What is the real overhead of unaligned access on x86? BTW, you can still use assembly on x64, in .asm files, just not inline assembly.</p>
-</blockquote>
-<p>　　后记3（2013-01-06）：<br>
-　　群里的朋友分享了新资料：<a href="http://msdn.microsoft.com/en-us/library/ms177389.aspx">__unaligned</a>，里面有这么一段话：</p>
+<p>&ldquo;How do real world Windows developers track unaligned accesses in their code?&rdquo;. Being a primarily Windows developer myself, I think they just never do it, unless the code has to run on Itanium. And if it has to run on Itanium, the exception will tell the places. What is the real overhead of unaligned access on x86? BTW, you can still use assembly on x64, in .asm files, just not inline assembly.</p></blockquote>
+<p>后记3（2013-01-06）：</p>
+<p>群里的朋友分享了新资料：<a href="http://msdn.microsoft.com/en-us/library/ms177389.aspx">__unaligned</a>，里面有这么一段话：</p>
 <blockquote>
-<p>The __unaligned modifier is valid for the x64 and Itanium compilers but affects only applications that target an IPF computer. This modifier describes the alignment of the addressed data only; the pointer itself is assumed to be aligned.<br>
-The Itanium processor generates an alignment fault when it accesses misaligned data, and the time to process the fault weakens performance. Use the __unaligned modifier to cause the processor to read data one byte at a time and avoid the fault. This modifier is not required for x64 applications because the x64 processor handles misaligned data without faulting.</p>
-</blockquote>
-<p>　　也就是说，确实只有在IA64环境才会凸显出来。</p>
+<p>The __unaligned modifier is valid for the x64 and Itanium compilers but affects only applications that target an IPF computer. This modifier describes the alignment of the addressed data only; the pointer itself is assumed to be aligned.
+The Itanium processor generates an alignment fault when it accesses misaligned data, and the time to process the fault weakens performance. Use the __unaligned modifier to cause the processor to read data one byte at a time and avoid the fault. This modifier is not required for x64 applications because the x64 processor handles misaligned data without faulting.</p></blockquote>
+<p>也就是说，确实只有在IA64环境才会凸显出来。</p>
 
         </div>
-        
 
+        <div class="row middle-xs">
+          <div class="col-xs-12">
+            
+            <div class="post-tags">
+              <a href="/tags/%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/">
+                技术研究
+              </a>
+            </div>
+            
+          </div>
+        </div>
         
+          <div class="row">
+            <div class="col-xs-12">
+              
+            </div>
+          </div>
 
-<div class="releated-content">
+          
+
+<div class="related-content">
   <h3>Related Posts</h3>
   <ul>
     
@@ -253,10 +298,11 @@ The Itanium processor generates an alignment fault when it accesses misaligned d
 </div>
 
 
-        
-        
-        <div style="height: 50px;"></div>
-        
+
+          
+          
+          <div style="height: 50px;"></div>
+          
         
 
         <div class="site-footer">
@@ -268,27 +314,26 @@ The Itanium processor generates an alignment fault when it accesses misaligned d
     </div>
   </article>
 
-  <script src="/js/highlight.pack.js"></script>
-
-
+  
 <script>
-  hljs.initHighlightingOnLoad();
   
-  
-  
-    
-    
-  
-</script>
-
-
-
-
-<script type="text/javascript"
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  </script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({ tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]} })
+  document.addEventListener("DOMContentLoaded", function() {
+    const disqus = document.getElementById('disqus_thread');
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        const iframes = disqus.getElementsByTagName('iframe');
+        if (iframes.length > 1) {
+          const commentsIframe = iframes[1];
+          while (disqus.firstChild) {
+            disqus.removeChild(disqus.firstChild);
+          }
+          disqus.appendChild(commentsIframe);
+          observer.disconnect();
+        }
+      });
+    });
+    observer.observe(disqus, { childList: true, subtree: true });
+  });
 </script>
 
   

@@ -13,49 +13,49 @@
       <link>http://boxcounter.com/posts/2014-01-12-suspected-memory-leak/</link>
       <pubDate>Sun, 12 Jan 2014 00:00:00 +0000</pubDate>
       <guid>http://boxcounter.com/posts/2014-01-12-suspected-memory-leak/</guid>
-      <description>上周遇到一起极其诡异的内存泄漏。现象是： 某种测试方法可以使程序物理内存使用量（top命令的RES列）持续上升。当停止测试之后，程序内存使用量</description>
+      <description>&lt;p&gt;上周遇到一起极其诡异的内存泄漏。现象是：&lt;br&gt;&#xA;某种测试方法可以使程序物理内存使用量（top命令的RES列）持续上升。当停止测试之后，程序内存使用量稳定在测试过程中的最高值不变。从现象上看就是一典型的内存泄漏。&lt;/p&gt;</description>
     </item>
     <item>
       <title>内核资源泄漏样本之一</title>
       <link>http://boxcounter.com/posts/2012-11-02-%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC%E4%B9%8B%E4%B8%80/</link>
       <pubDate>Fri, 02 Nov 2012 00:00:00 +0000</pubDate>
       <guid>http://boxcounter.com/posts/2012-11-02-%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC%E4%B9%8B%E4%B8%80/</guid>
-      <description>又遇到一个很好玩的内核资源泄漏样本，分享一下。 某台WinXP sp3系统出现了死机现象，该现象是在安装了我的驱动后才出现的，第一反应是“MD，</description>
+      <description>&lt;p&gt;又遇到一个很好玩的内核资源泄漏样本，分享一下。&lt;br&gt;&#xA;某台WinXP sp3系统出现了死机现象，该现象是在安装了我的驱动后才出现的，第一反应是“MD，怎么又泄漏了”。&lt;br&gt;&#xA;以下是分析过程：&lt;/p&gt;</description>
     </item>
     <item>
       <title>有关STATUS_THREAD_IS_TERMINATING</title>
       <link>http://boxcounter.com/posts/2012-10-16-%E6%9C%89%E5%85%B3status_thread_is_terminating/</link>
       <pubDate>Tue, 16 Oct 2012 00:00:00 +0000</pubDate>
       <guid>http://boxcounter.com/posts/2012-10-16-%E6%9C%89%E5%85%B3status_thread_is_terminating/</guid>
-      <description>手头有个驱动，因为客户需求的原因，只在x86的2k3和xp系统上做过测试，今天在把它往x64 win7系统移植的时候遇到这么一个问题： 在PsS</description>
+      <description>&lt;p&gt;　　手头有个驱动，因为客户需求的原因，只在x86的2k3和xp系统上做过测试，今天在把它往x64 win7系统移植的时候遇到这么一个问题：&lt;br&gt;&#xA;　　在PsSetCreateProcessNotifyRoutine注册的回调函数中，通过FltSendMessage发通知给应用层接收者。在发送“进程退出”事件时FltSendMessage总是会返回STATUS_THREAD_IS_TERMINATING（0xC000004B）。&lt;/p&gt;</description>
     </item>
     <item>
       <title>又一个内核资源泄漏样本</title>
       <link>http://boxcounter.com/posts/2012-08-15-%E5%8F%88%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</link>
       <pubDate>Wed, 15 Aug 2012 00:00:00 +0000</pubDate>
       <guid>http://boxcounter.com/posts/2012-08-15-%E5%8F%88%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</guid>
-      <description>这两天在处理一个内核资源泄漏的问题，整个分析过程比较典型，记在这里以便以后参考。 这个问题发生在测试部同事的真实机上，于是抓内核DMP用的是s</description>
+      <description>&lt;p&gt;　　这两天在处理一个内核资源泄漏的问题，整个分析过程比较典型，记在这里以便以后参考。&lt;/p&gt;&#xA;&lt;p&gt;　　这个问题发生在测试部同事的真实机上，于是抓内核DMP用的是sysinternals的livekd，命令行很简单：&lt;/p&gt;</description>
     </item>
     <item>
       <title>VS2010编译regex库的问题</title>
       <link>http://boxcounter.com/posts/2012-05-31-vs2010%E7%BC%96%E8%AF%91regex%E5%BA%93%E7%9A%84%E9%97%AE%E9%A2%98/</link>
       <pubDate>Thu, 31 May 2012 00:00:00 +0000</pubDate>
       <guid>http://boxcounter.com/posts/2012-05-31-vs2010%E7%BC%96%E8%AF%91regex%E5%BA%93%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
-      <description>今天把一些VS 2005工程升级到VS 2010，在升级过程中，遇到regex库编译错误。如下： error C2332: &#39;struct&#39; : missing tag name error C3306: &#39;regex::detail::&#39;: unnamed class template is not allowed error C2143: syntax error : missing &#39;;&#39; before</description>
+      <description>&lt;p&gt;　　今天把一些VS 2005工程升级到VS 2010，在升级过程中，遇到regex库编译错误。如下：&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;error C2332: &#39;struct&#39; : missing tag name&#xA;error C3306: &#39;regex::detail::&#39;: unnamed class template is not allowed&#xA;error C2143: syntax error : missing &#39;;&#39; before &#39;static_assert&#39;&#xA;error C2059: syntax error : &#39;;&#39;&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;　　出现该错误的代码来自restack.h，如下：&lt;/p&gt;</description>
     </item>
     <item>
       <title>一个内核资源泄漏样本（待更新文中链接）</title>
       <link>http://boxcounter.com/posts/2012-04-05-%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</link>
       <pubDate>Thu, 05 Apr 2012 00:00:00 +0000</pubDate>
       <guid>http://boxcounter.com/posts/2012-04-05-%E4%B8%80%E4%B8%AA%E5%86%85%E6%A0%B8%E8%B5%84%E6%BA%90%E6%B3%84%E6%BC%8F%E6%A0%B7%E6%9C%AC/</guid>
-      <description>开发过程中，我习惯会一直开着verifier进行测试，绝大部分非逻辑错误都能被揪出来。 这两天测试部的同事反馈说貌似驱动有资源泄漏，我第一反应</description>
+      <description>&lt;p&gt;开发过程中，我习惯会一直开着verifier进行测试，绝大部分非逻辑错误都能被揪出来。&lt;br&gt;&#xA;这两天测试部的同事反馈说貌似驱动有资源泄漏，我第一反应是“不会吧，有资源泄漏verifer早崩了”。&lt;br&gt;&#xA;测试了一下，发现还真是驱动嫌疑最大，于是开启verifer和压力测试工具，跑了一会，停掉驱动。发现没有bsod，一脑子不理解。&lt;br&gt;&#xA;看了下驱动停止后，内核内存情况：&lt;/p&gt;</description>
     </item>
     <item>
       <title>灵异现象？</title>
       <link>http://boxcounter.com/posts/2012-03-04-%E7%81%B5%E5%BC%82%E7%8E%B0%E8%B1%A1/</link>
       <pubDate>Sun, 04 Mar 2012 00:00:00 +0000</pubDate>
       <guid>http://boxcounter.com/posts/2012-03-04-%E7%81%B5%E5%BC%82%E7%8E%B0%E8%B1%A1/</guid>
-      <description>前两天遇到一个灵异现象，记录下来。 cchFullHeaderLen += strlen(&amp;#34;Request-Line: &amp;#34;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszVerb) + strlen(&amp;#34; &amp;#34;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszObjectName) + (NULL != pSessionData-&amp;gt;HttpOpenReq.lpszVersion) ? (strlen(&amp;#34; &amp;#34;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszVersion)) : 0 + strlen(&amp;#34;\r\n&amp;#34;); 调试的过程中发现，pSessionData-&amp;gt;Htt</description>
+      <description>&lt;p&gt;前两天遇到一个灵异现象，记录下来。&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cchFullHeaderLen &lt;span style=&#34;color:#555&#34;&gt;+=&lt;/span&gt; strlen(&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;Request-Line: &amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#555&#34;&gt;+&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    strlen(pSessionData&lt;span style=&#34;color:#555&#34;&gt;-&amp;gt;&lt;/span&gt;HttpOpenReq.lpszVerb) &lt;span style=&#34;color:#555&#34;&gt;+&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    strlen(&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34; &amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#555&#34;&gt;+&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    strlen(pSessionData&lt;span style=&#34;color:#555&#34;&gt;-&amp;gt;&lt;/span&gt;HttpOpenReq.lpszObjectName) &lt;span style=&#34;color:#555&#34;&gt;+&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#366&#34;&gt;NULL&lt;/span&gt; &lt;span style=&#34;color:#555&#34;&gt;!=&lt;/span&gt; pSessionData&lt;span style=&#34;color:#555&#34;&gt;-&amp;gt;&lt;/span&gt;HttpOpenReq.lpszVersion) &lt;span style=&#34;color:#555&#34;&gt;?&lt;/span&gt; (strlen(&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34; &amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#555&#34;&gt;+&lt;/span&gt; strlen(pSessionData&lt;span style=&#34;color:#555&#34;&gt;-&amp;gt;&lt;/span&gt;HttpOpenReq.lpszVersion)) &lt;span style=&#34;color:#555&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#f60&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#555&#34;&gt;+&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    strlen(&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#c30;font-weight:bold&#34;&gt;\r\n&lt;/span&gt;&lt;span style=&#34;color:#c30&#34;&gt;&amp;#34;&lt;/span&gt;);&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&#xA;&lt;p&gt;调试的过程中发现，pSessionData-&amp;gt;HttpOpenReq.lpszVersion为NULL，但是依然会执行“(strlen(&amp;quot; &amp;ldquo;) + strlen(pSessionData-&amp;gt;HttpOpenReq.lpszVersion))”。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
