@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.145.0">
+  <meta name="generator" content="Hugo 0.151.0">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -180,12 +180,16 @@ $$<p>其中 $TP$ 和 $FN$ 是阳性样本数量，$FP$ 是阴性样本数量。<
 <li>只涉及阴阳其中一类样本的指标不受样本配比的影响。</li>
 </ol>
 <h2 id="三不同的样本配比下数据指标的换算方法">三、不同的样本配比下，数据指标的换算方法</h2>
+<p>这里以换算 $Precision$ 举例。回顾前述 $Precision$ 的定义公式，我们需要两个变量参与计算：$TP$ 和 $FP$。我们可以这样获得它们：
+</p>
 $$
 \begin{matrix}
 Recall = \frac{TP}{TP+FN} \implies TP = Recall \cdot (TP + FN)\\
 FPR = \frac{FP}{FP+TN} \implies FP = FPR \cdot (FP + TN) \\
 \end{matrix}
-$$$$
+$$<p>把它们带入 $Precision$ 的定义公式：
+</p>
+$$
 Presicion = \frac{TP}{TP+FP} = \frac{Recall \cdot (TP + FN)}{Recall \cdot (TP + FN) + FPR \cdot (FP + TN)}
 $$<p>
 而其中 $(TP + FN)$ 就是阳性样本的总数量，$(FP + TN)$ 就是阴性样本的总数量。
@@ -196,6 +200,8 @@ $$<p>
 <li>我们根据过往的测试得到了 $Recall = 0.8$ 和 $FPR = 0.2$。</li>
 <li>我们希望计算出 9:1 和 99:1 两种样本配比时的 $Precision$。</li>
 </ol>
+<p>我们把上述值带入公式会得到：
+</p>
 $$
 \begin{matrix}
 Precision(9:1) = \frac{0.8 \cdot 9}{0.8 \cdot 9 + 0.2 \cdot 1} = 0.973 = 97.3\% \\

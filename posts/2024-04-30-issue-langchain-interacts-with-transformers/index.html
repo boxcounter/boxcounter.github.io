@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.145.0">
+  <meta name="generator" content="Hugo 0.151.0">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -166,13 +166,13 @@
 </span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">CustomPromptTemplate</span>(StringPromptTemplate):
 </span></span><span style="display:flex;"><span>    tokenizer: PreTrainedTokenizer <span style="color:#555">|</span> PreTrainedTokenizerFast
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">format</span>(self, <span style="color:#555">**</span>kwargs):
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">format</span>(<span style="color:#366">self</span>, <span style="color:#555">**</span>kwargs):
 </span></span><span style="display:flex;"><span>        messages <span style="color:#555">=</span> [
 </span></span><span style="display:flex;"><span>            {<span style="color:#c30">&#34;role&#34;</span>: <span style="color:#c30">&#34;system&#34;</span>, <span style="color:#c30">&#34;content&#34;</span>: <span style="color:#c30">&#34;You’re a chatbot&#34;</span>},
 </span></span><span style="display:flex;"><span>            {<span style="color:#c30">&#34;role&#34;</span>: <span style="color:#c30">&#34;user&#34;</span>, <span style="color:#c30">&#34;content&#34;</span>: <span style="color:#c30">&#34;Hey&#34;</span>}
 </span></span><span style="display:flex;"><span>        ]
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>tokenizer<span style="color:#555">.</span>apply_chat_template(
+</span></span><span style="display:flex;"><span>        <span style="color:#069;font-weight:bold">return</span> <span style="color:#366">self</span><span style="color:#555">.</span>tokenizer<span style="color:#555">.</span>apply_chat_template(
 </span></span><span style="display:flex;"><span>            messages,
 </span></span><span style="display:flex;"><span>            tokenize<span style="color:#555">=</span><span style="color:#069;font-weight:bold">False</span>,
 </span></span><span style="display:flex;"><span>            add_generation_prompt<span style="color:#555">=</span><span style="color:#069;font-weight:bold">True</span>
@@ -189,29 +189,29 @@
 <p><img src="images/Call-Sequence.png" alt="Call Sequence"></p>
 <p>关键点是右下角的<code>__call__</code>和<code>preprocess</code>两个方法，来看看 Transformers 的关键代码（完整代码见 <a href="https://github.com/huggingface/Transformers/blob/c712d05aa8fc8ba3ebe465079bd377d2dc9c2e07/src/Transformers/pipelines/text_generation.py#L246">text_generation.py</a>）：</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">TextGenerationPipeline</span>(Pipeline):
-</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">def</span> __call__(self, text_inputs, <span style="color:#555">**</span>kwargs):
+</span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">__call__</span>(<span style="color:#366">self</span>, text_inputs, <span style="color:#555">**</span>kwargs):
 </span></span><span style="display:flex;"><span>        <span style="color:#069;font-weight:bold">if</span> <span style="color:#366">isinstance</span>(text_inputs, (<span style="color:#366">list</span>, <span style="color:#366">tuple</span>)) <span style="color:#000;font-weight:bold">and</span> <span style="color:#366">isinstance</span>(text_inputs[<span style="color:#f60">0</span>], (<span style="color:#366">list</span>, <span style="color:#366">tuple</span>, <span style="color:#366">dict</span>)):
 </span></span><span style="display:flex;"><span>            <span style="color:#09f;font-style:italic"># We have one or more prompts in list-of-dicts format, so this is chat mode</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#069;font-weight:bold">if</span> <span style="color:#366">isinstance</span>(text_inputs[<span style="color:#f60">0</span>], <span style="color:#366">dict</span>):
-</span></span><span style="display:flex;"><span>                <span style="color:#069;font-weight:bold">return</span> <span style="color:#366">super</span>()<span style="color:#555">.</span>__call__(Chat(text_inputs), <span style="color:#555">**</span>kwargs)
+</span></span><span style="display:flex;"><span>                <span style="color:#069;font-weight:bold">return</span> <span style="color:#366">super</span>()<span style="color:#555">.</span><span style="color:#c0f">__call__</span>(Chat(text_inputs), <span style="color:#555">**</span>kwargs)
 </span></span><span style="display:flex;"><span>            <span style="color:#069;font-weight:bold">else</span>:
 </span></span><span style="display:flex;"><span>                chats <span style="color:#555">=</span> [Chat(chat) <span style="color:#069;font-weight:bold">for</span> chat <span style="color:#000;font-weight:bold">in</span> text_inputs]  <span style="color:#09f;font-style:italic"># 🐈 🐈 🐈</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#069;font-weight:bold">return</span> <span style="color:#366">super</span>()<span style="color:#555">.</span>__call__(chats, <span style="color:#555">**</span>kwargs)
+</span></span><span style="display:flex;"><span>                <span style="color:#069;font-weight:bold">return</span> <span style="color:#366">super</span>()<span style="color:#555">.</span><span style="color:#c0f">__call__</span>(chats, <span style="color:#555">**</span>kwargs)
 </span></span><span style="display:flex;"><span>        <span style="color:#069;font-weight:bold">else</span>:
-</span></span><span style="display:flex;"><span>            <span style="color:#069;font-weight:bold">return</span> <span style="color:#366">super</span>()<span style="color:#555">.</span>__call__(text_inputs, <span style="color:#555">**</span>kwargs)
+</span></span><span style="display:flex;"><span>            <span style="color:#069;font-weight:bold">return</span> <span style="color:#366">super</span>()<span style="color:#555">.</span><span style="color:#c0f">__call__</span>(text_inputs, <span style="color:#555">**</span>kwargs)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">preprocess</span>(
-</span></span><span style="display:flex;"><span>        self,
+</span></span><span style="display:flex;"><span>        <span style="color:#366">self</span>,
 </span></span><span style="display:flex;"><span>        prompt_text,
 </span></span><span style="display:flex;"><span>		<span style="color:#555">...</span>
 </span></span><span style="display:flex;"><span>    ):
 </span></span><span style="display:flex;"><span>        <span style="color:#069;font-weight:bold">if</span> <span style="color:#366">isinstance</span>(prompt_text, Chat):
-</span></span><span style="display:flex;"><span>            inputs <span style="color:#555">=</span> self<span style="color:#555">.</span>tokenizer<span style="color:#555">.</span>apply_chat_template(
+</span></span><span style="display:flex;"><span>            inputs <span style="color:#555">=</span> <span style="color:#366">self</span><span style="color:#555">.</span>tokenizer<span style="color:#555">.</span>apply_chat_template(
 </span></span><span style="display:flex;"><span>                prompt_text<span style="color:#555">.</span>messages,
 </span></span><span style="display:flex;"><span>				<span style="color:#555">...</span>
 </span></span><span style="display:flex;"><span>            )
 </span></span><span style="display:flex;"><span>        <span style="color:#069;font-weight:bold">else</span>:
-</span></span><span style="display:flex;"><span>            inputs <span style="color:#555">=</span> self<span style="color:#555">.</span>tokenizer(
+</span></span><span style="display:flex;"><span>            inputs <span style="color:#555">=</span> <span style="color:#366">self</span><span style="color:#555">.</span>tokenizer(
 </span></span><span style="display:flex;"><span>                prefix <span style="color:#555">+</span> prompt_text,
 </span></span><span style="display:flex;"><span>                <span style="color:#555">...</span>
 </span></span><span style="display:flex;"><span>            )
