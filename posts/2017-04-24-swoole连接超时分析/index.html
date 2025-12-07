@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.151.0">
+  <meta name="generator" content="Hugo 0.152.2">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -203,10 +203,12 @@ the body MUST be a 2-byte unsigned integer (in network byte order)<br>
 representing a status code with value /code/ defined in Section 7.4.<br>
 Following the 2-byte integer, the body MAY contain UTF-8-encoded data<br>
 with value /reason/, the interpretation of which is not defined by<br>
-this specification.</p></blockquote>
+this specification.</p>
+</blockquote>
 <blockquote>
 <p>1000 indicates a normal closure, meaning that the purpose for which<br>
-the connection was established has been fulfilled.</p></blockquote>
+the connection was established has been fulfilled.</p>
+</blockquote>
 <p>也就是说，这个报文和正常报文序列中的报文124是相同的含义，都是关闭连接。只不过超时情况下，连接没有从HTTP(TCP)升级到WebSocket，所以Wireshark就当做普通的TCP报文显示了。</p>
 <p>到这里，我的结论是：超时问题出在应用层协议，也就是协商HTTP升级为WebSocket的过程中。和内核协议栈没关系，所以之前的无脑调优自然没有效果。</p>
 <p>那么接下来应该怎么继续分析呢？</p>

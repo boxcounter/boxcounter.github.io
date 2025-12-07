@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.151.0">
+  <meta name="generator" content="Hugo 0.152.2">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -197,7 +197,8 @@ On 64-bit Windows, if a data structure is misaligned, routines that manipulate t
 是因为这个原因吗？</p>
 <p>sinister 18:43:55</p>
 <p>是，有些系统直接CORE DUMP了。<br>
-一些RISC的，POWER,SPARC,EPIC 都这样</p></blockquote>
+一些RISC的，POWER,SPARC,EPIC 都这样</p>
+</blockquote>
 <p>后记1：</p>
 <p>提问的童鞋说在x64 WinXP系统里，即使不对齐也没有因为异常而中断下来。
 我试了下，确实如此，x64 win7系统，挂着windbg内核调试，单步步过unaligned操作，并没有任何提示和中断等异样。恢复到一个没有任何调试设置的快照，也是如此。应用层也是一样。</p>
@@ -209,7 +210,8 @@ On 64-bit Windows, if a data structure is misaligned, routines that manipulate t
 <p>After a processor reset, #AC exceptions are disabled. Software enables the #AC exception by setting the following register bits:<br>
 • CR0.AM=1.<br>
 • RFLAGS.AC=1.<br>
-When the above register bits are set, an #AC can occur only when CPL=3. #AC never occurs when CPL &lt; 3.</p></blockquote>
+When the above register bits are set, an #AC can occur only when CPL=3. #AC never occurs when CPL &lt; 3.</p>
+</blockquote>
 <ol start="2">
 <li>CR0中AM标志在第18bit，RFLAGS的AC标志也是在18bit</li>
 </ol>
@@ -254,12 +256,14 @@ efl=00000286
 <p>发现一篇相关的文章：<a href="http://stackoverflow.com/questions/5498102/how-to-debug-unaligned-accesses-on-amd64-using-visual-studio">How to debug unaligned accesses on amd64 using Visual Studio?</a></p>
 <p>其中有一条回复是：</p>
 <blockquote>
-<p>&ldquo;How do real world Windows developers track unaligned accesses in their code?&rdquo;. Being a primarily Windows developer myself, I think they just never do it, unless the code has to run on Itanium. And if it has to run on Itanium, the exception will tell the places. What is the real overhead of unaligned access on x86? BTW, you can still use assembly on x64, in .asm files, just not inline assembly.</p></blockquote>
+<p>&ldquo;How do real world Windows developers track unaligned accesses in their code?&rdquo;. Being a primarily Windows developer myself, I think they just never do it, unless the code has to run on Itanium. And if it has to run on Itanium, the exception will tell the places. What is the real overhead of unaligned access on x86? BTW, you can still use assembly on x64, in .asm files, just not inline assembly.</p>
+</blockquote>
 <p>后记3（2013-01-06）：</p>
 <p>群里的朋友分享了新资料：<a href="http://msdn.microsoft.com/en-us/library/ms177389.aspx">__unaligned</a>，里面有这么一段话：</p>
 <blockquote>
 <p>The __unaligned modifier is valid for the x64 and Itanium compilers but affects only applications that target an IPF computer. This modifier describes the alignment of the addressed data only; the pointer itself is assumed to be aligned.
-The Itanium processor generates an alignment fault when it accesses misaligned data, and the time to process the fault weakens performance. Use the __unaligned modifier to cause the processor to read data one byte at a time and avoid the fault. This modifier is not required for x64 applications because the x64 processor handles misaligned data without faulting.</p></blockquote>
+The Itanium processor generates an alignment fault when it accesses misaligned data, and the time to process the fault weakens performance. Use the __unaligned modifier to cause the processor to read data one byte at a time and avoid the fault. This modifier is not required for x64 applications because the x64 processor handles misaligned data without faulting.</p>
+</blockquote>
 <p>也就是说，确实只有在IA64环境才会凸显出来。</p>
 
         </div>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.151.0">
+  <meta name="generator" content="Hugo 0.152.2">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -137,7 +137,8 @@
 </span></span><span style="display:flex;"><span>    );</span></span></code></pre></div>
 <p>其中对DriverObjectList参数的解释，在WDK 7600.16385.1 的文档中是这样：</p>
 <blockquote>
-<p>“The filter drivers are enumerated in order of decreasing distance from the base file system. The first element (index zero) in the DriverObjectList array represents the filter that is attached farthest from the file system. The second entry is for the next-farthest filter, and so on. The last entry in the array is for the filter that is closest to the base file system. ”</p></blockquote>
+<p>“The filter drivers are enumerated in order of decreasing distance from the base file system. The first element (index zero) in the DriverObjectList array represents the filter that is attached farthest from the file system. The second entry is for the next-farthest filter, and so on. The last entry in the array is for the filter that is closest to the base file system. ”</p>
+</blockquote>
 <p>WDK是说，DriverObjectList中的DrvObj是按照顺序排列的，离FSD最远的排最头（第一个元素），反之则排在最末尾。<br>
 可实际调试的结果正好相反，查看了下wrk代码，</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>NTSTATUS

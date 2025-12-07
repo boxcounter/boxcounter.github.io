@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.151.0">
+  <meta name="generator" content="Hugo 0.152.2">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -213,7 +213,8 @@ Filter List: 8999805c &quot;Frame 1&quot;
 <blockquote>
 <p>2.6.3 数据加密与 Tablet PC 上的 Dell ControlPoint Security Manager 不兼容<br>
 如果将数据加密策略应用到使用 Dell ControlPoint Security Manager 的 Tablet PC，设备将无法重引导到操作系统。<br>
-此问题是因 Dell ControlPoint Security Manager 驱动程序 (WavxDMgr.sys) 过渡使用文件系统堆栈所致。对于任何使用名称解析且晚于该安全管理器驱动程序装载的文件系统过滤器驱动程序，都可能会发生同样的结果。</p></blockquote>
+此问题是因 Dell ControlPoint Security Manager 驱动程序 (WavxDMgr.sys) 过渡使用文件系统堆栈所致。对于任何使用名称解析且晚于该安全管理器驱动程序装载的文件系统过滤器驱动程序，都可能会发生同样的结果。</p>
+</blockquote>
 <p>而我的驱动正好符合“使用名称解析且晚于该安全管理器驱动程序装载的文件系统过滤器驱动程序”，于是触发了WavxDmgr的资源泄漏BUG。</p>
 <h1 id="验证">验证</h1>
 <pre><code>0: kd&gt; !for_each_module s -a @#Base @#End &quot;tsni&quot;

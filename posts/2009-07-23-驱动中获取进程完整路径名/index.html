@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.151.0">
+  <meta name="generator" content="Hugo 0.152.2">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -298,7 +298,8 @@ We suggest a different model for acquiring this information, as shown in Figure 
 <p>PsSetCreateProcessNotifyRoutine has limitations on the number of drivers that can register using this API. Since there is a fixed size table in the Windows OS, it is possible for this call to fail. When this occurs, a driver needs to ensure it can handle such a failure. PsSetLoadImageNotifyRoutine has the same limitation (fixed size table), but is called for all image loads, not just the original process image. Therefore, it includes drivers, DLLs, executables, etc.</p>
 <p>Summary</p>
 <p>The bottom line is that all of these approaches provide a useful name because they include the full path name. This is vastly superior to using the short ASCII eye-catching name that is stored in the EPROCESS structure. A word of caution - if you decide to use the debug level name, use it for nothing more than debugging  since it is not reliable and cannot be relied on for any sort of security check.</p>
-<p>We chose to use the proposed technique because it works in all circumstances and does not rely upon a registration that might potentially fail. In your own driver you might implement both this mechanism and a cache-based mechanism tied to the process creation logic.[/quote]</p></blockquote>
+<p>We chose to use the proposed technique because it works in all circumstances and does not rely upon a registration that might potentially fail. In your own driver you might implement both this mechanism and a cache-based mechanism tied to the process creation logic.[/quote]</p>
+</blockquote>
 <p>文章里对于如何获取其他进程，提供了两种方法，但是都不太方便，在我的驱动里，我是在PsSetCreateProcessNotifyRoutine的回调函数里获取进程路径，能得到的进程信息是PID，于是动手改了下上面的代码，如下：</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>NTSTATUS
 </span></span><span style="display:flex;"><span>    <span style="color:#c0f">GetProcessImagePath</span>(

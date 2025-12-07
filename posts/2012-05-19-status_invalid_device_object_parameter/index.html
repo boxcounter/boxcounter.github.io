@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.151.0">
+  <meta name="generator" content="Hugo 0.152.2">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -281,7 +281,8 @@ fltMgr!_FLT_INSTANCE
 <p>OK，回到问题，A 调用 FltCreateFile 是要打开 c: 中的某个文件，也就是说传入的Instance是属于 C: 的，再说细一点，就是将代表 C: 的一个 DO 作为 DOHint。而经过 B 的重定向后，新的路径是在 D: 中，IopCheckTopDeviceHint 拿代表 C: 的DOHint，和新解析得到的 D: 的 DO 进行了检查，于是就返回了 STATUS_INVALID_DEVICE_OBJECT_PARAMETER。</p>
 <p>到这里问题原因解释完毕了，那么，怎么解决呢？ 答案是：没有解决方案。下面是 MS 文件系统研发人员 Alexandru Carp 的回复：</p>
 <blockquote>
-<p>We are aware of the problem and are working on this. The intention is to make it available to all downlevel supported OSes (even old ones like Win7 :P ) but we&rsquo;ll see how that goes.”</p></blockquote>
+<p>We are aware of the problem and are working on this. The intention is to make it available to all downlevel supported OSes (even old ones like Win7 :P ) but we&rsquo;ll see how that goes.”</p>
+</blockquote>
 <p>于是，我试图尝试绕过这个问题，以下是我的两个尝试：</p>
 <ol>
 <li>壮士断腕：调整 B 的逻辑，不要跨卷重定向。</li>

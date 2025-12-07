@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.151.0">
+  <meta name="generator" content="Hugo 0.152.2">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -148,7 +148,8 @@
 <p>最初，全局链表中只有Fs_rec创建的伪对象，这些伪对象负责把对应的fsd加载到系统，并返回错误，推动整个链表的遍历，直到真正的fsd完成卷的挂载，才会返回成功，结束遍历。
 最初在梳理框架的时候参考的是《windows internals》，里面是这么描述的：</p>
 <blockquote>
-<p>“After loading a file system driver, File System Recognizer forwards the mount IRP to the driver and lets the file system driver claim ownership of the volume.”[/quote]而实际上如我之前的描述，fs_rec只是负责把fsd加载到系统，并没把挂载请求发送给fsd。而是IopMountVolume发送这个请求。我们可以进一步看下调用栈，采用的是win2003的虚拟系统：</p></blockquote>
+<p>“After loading a file system driver, File System Recognizer forwards the mount IRP to the driver and lets the file system driver claim ownership of the volume.”[/quote]而实际上如我之前的描述，fs_rec只是负责把fsd加载到系统，并没把挂载请求发送给fsd。而是IopMountVolume发送这个请求。我们可以进一步看下调用栈，采用的是win2003的虚拟系统：</p>
+</blockquote>
 <pre><code>f78de190 808ed241 84a32340 84db4000 00000000 Fastfat!DriverEntry
 f78de260 808ed355 800002a0 00000001 00000000 nt!IopLoadDriver+0x687
 f78de288 80991a9b 800002a0 f78de310 f78de38c nt!IopLoadUnloadDriver+0x43
@@ -200,7 +201,8 @@ ObjMgr使用IopParseDevice继续对剩余路径\windows\boxcounter.dll进行解�
 贾佳师傅，有个问题请教：<br>
 MS为什么不把FSD和磁盘驱动堆叠成一个设备栈，而要用vpb来链接两者。有什么原因吗？或者说有什么历史原因？</p>
 <p>sinister 9:26:48<br>
-我觉得是设计的考虑，因为FSD层单独出来，也是一个区域的划分，比如网络层的TDI驱动，其实就是个FSD的应用。这种设计符合MS的CLIENT/SERVER 的设计模型，因为封装且又不开源的原因，只要上层要数据下层返回就行。这样不必关心下面的细节。又能留出接口。像LINUX这种开源的设计，这种实现就基本上 FS与BLOCK（磁盘设备）层之间没有什么明显的划分了。都是通过一个结构制过去就行了。连设备栈这种东西都没有。 [/quote]</p></blockquote>
+我觉得是设计的考虑，因为FSD层单独出来，也是一个区域的划分，比如网络层的TDI驱动，其实就是个FSD的应用。这种设计符合MS的CLIENT/SERVER 的设计模型，因为封装且又不开源的原因，只要上层要数据下层返回就行。这样不必关心下面的细节。又能留出接口。像LINUX这种开源的设计，这种实现就基本上 FS与BLOCK（磁盘设备）层之间没有什么明显的划分了。都是通过一个结构制过去就行了。连设备栈这种东西都没有。 [/quote]</p>
+</blockquote>
 <p>参考资料：</p>
 <ol>
 <li>wrk内核</li>

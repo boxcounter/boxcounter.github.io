@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.151.0">
+  <meta name="generator" content="Hugo 0.152.2">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -134,7 +134,8 @@ If you use READ COMMITTED, you must use row-based binary logging.
           <h1 id="疑问">疑问</h1>
 <p>在MySQL的<a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html">Transaction Isolation Level</a>文档里读到这么一句话：</p>
 <blockquote>
-<p>If you use READ COMMITTED, you must use row-based binary logging.</p></blockquote>
+<p>If you use READ COMMITTED, you must use row-based binary logging.</p>
+</blockquote>
 <p>这引发了我的好奇心：为什么呢？READ COMMITTED和statement-based replication会引发数据不一致吗？为什么会不一致呢？</p>
 <h1 id="猜测">猜测</h1>
 <p>根据READ COMMITTED的特征，我的第一猜测是可能是因为multi-threaded replication。但稍微一细想就否了：</p>
