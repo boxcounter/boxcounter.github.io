@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.152.2">
+  <meta name="generator" content="Hugo 0.154.5">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -194,7 +194,7 @@ We suggest a different model for acquiring this information, as shown in Figure 
 </span></span><span style="display:flex;"><span>    PUNICODE_STRING imageName;
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>    <span style="color:#c0f">PAGED_CODE</span>(); <span style="color:#09f;font-style:italic">// this eliminates the possibility of the IDLE Thread/Process
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">if</span> (<span style="color:#366">NULL</span> <span style="color:#555">==</span> ZwQueryInformationProcess) {
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        UNICODE_STRING routineName;
@@ -209,13 +209,13 @@ We suggest a different model for acquiring this information, as shown in Figure 
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// Step one - get the size we need
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    status <span style="color:#555">=</span> <span style="color:#c0f">ZwQueryInformationProcess</span>( <span style="color:#c0f">NtCurrentProcess</span>(), 
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// Step one - get the size we need
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span>    status <span style="color:#555">=</span> <span style="color:#c0f">ZwQueryInformationProcess</span>( <span style="color:#c0f">NtCurrentProcess</span>(), 
 </span></span><span style="display:flex;"><span>                                        ProcessImageFileName,
 </span></span><span style="display:flex;"><span>                                        <span style="color:#366">NULL</span>, <span style="color:#09f;font-style:italic">// buffer
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>                                        <span style="color:#f60">0</span>, <span style="color:#09f;font-style:italic">// buffer size
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>                                        <span style="color:#555">&amp;</span>returnedLength);
+</span></span></span><span style="display:flex;"><span>                                        <span style="color:#f60">0</span>, <span style="color:#09f;font-style:italic">// buffer size
+</span></span></span><span style="display:flex;"><span>                                        <span style="color:#555">&amp;</span>returnedLength);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">if</span> (STATUS_INFO_LENGTH_MISMATCH <span style="color:#555">!=</span> status) {
 </span></span><span style="display:flex;"><span>
@@ -224,10 +224,10 @@ We suggest a different model for acquiring this information, as shown in Figure 
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// Is the passed-in buffer going to be big enough for us?  
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// This function returns a single contguous buffer model...
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    bufferLength <span style="color:#555">=</span> returnedLength <span style="color:#555">-</span> <span style="color:#069;font-weight:bold">sizeof</span>(UNICODE_STRING);
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// Is the passed-in buffer going to be big enough for us?  
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// This function returns a single contguous buffer model...
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span>    bufferLength <span style="color:#555">=</span> returnedLength <span style="color:#555">-</span> <span style="color:#069;font-weight:bold">sizeof</span>(UNICODE_STRING);
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">if</span> (ProcessImageName<span style="color:#555">-&gt;</span>MaximumLength <span style="color:#555">&lt;</span> bufferLength) {
 </span></span><span style="display:flex;"><span>
@@ -238,10 +238,10 @@ We suggest a different model for acquiring this information, as shown in Figure 
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// If we get here, the buffer IS going to be big enough for us, so 
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// let&#39;s allocate some storage.
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    buffer <span style="color:#555">=</span> <span style="color:#c0f">ExAllocatePoolWithTag</span>(PagedPool, returnedLength, <span style="color:#a00;background-color:#faa">&#39;</span>ipgD<span style="color:#a00;background-color:#faa">&#39;</span>);
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// If we get here, the buffer IS going to be big enough for us, so 
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// let&#39;s allocate some storage.
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span>    buffer <span style="color:#555">=</span> <span style="color:#c0f">ExAllocatePoolWithTag</span>(PagedPool, returnedLength, <span style="color:#a00;background-color:#faa">&#39;</span>ipgD<span style="color:#a00;background-color:#faa">&#39;</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">if</span> (<span style="color:#366">NULL</span> <span style="color:#555">==</span> buffer) {
 </span></span><span style="display:flex;"><span>
@@ -250,9 +250,9 @@ We suggest a different model for acquiring this information, as shown in Figure 
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// Now lets go get the data
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    status <span style="color:#555">=</span> <span style="color:#c0f">ZwQueryInformationProcess</span>( <span style="color:#c0f">NtCurrentProcess</span>(), 
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// Now lets go get the data
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span>    status <span style="color:#555">=</span> <span style="color:#c0f">ZwQueryInformationProcess</span>( <span style="color:#c0f">NtCurrentProcess</span>(), 
 </span></span><span style="display:flex;"><span>                                        ProcessImageFileName,
 </span></span><span style="display:flex;"><span>                                        buffer,
 </span></span><span style="display:flex;"><span>                                        returnedLength,
@@ -260,23 +260,23 @@ We suggest a different model for acquiring this information, as shown in Figure 
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">if</span> (<span style="color:#c0f">NT_SUCCESS</span>(status)) {
 </span></span><span style="display:flex;"><span>        <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">// Ah, we got what we needed
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>        imageName <span style="color:#555">=</span> (PUNICODE_STRING) buffer;
+</span></span></span><span style="display:flex;"><span>        <span style="color:#09f;font-style:italic">// Ah, we got what we needed
+</span></span></span><span style="display:flex;"><span>        <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span>        imageName <span style="color:#555">=</span> (PUNICODE_STRING) buffer;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#c0f">RtlCopyUnicodeString</span>(ProcessImageName, imageName);
 </span></span><span style="display:flex;"><span>        
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// free our buffer
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#c0f">ExFreePool</span>(buffer);
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// free our buffer
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span>    <span style="color:#c0f">ExFreePool</span>(buffer);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// And tell the caller what happened.
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">//    
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#069;font-weight:bold">return</span> status;
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// And tell the caller what happened.
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//    
+</span></span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">return</span> status;
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Figure 2 - A New Proposal</p>
@@ -317,7 +317,7 @@ We suggest a different model for acquiring this information, as shown in Figure 
 </span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">static</span> QUERY_INFO_PROCESS ZwQueryInformationProcess <span style="color:#555">=</span> <span style="color:#366">NULL</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//PAGED_CODE; // this eliminates the possibility of the IDLE Thread/Process
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">if</span> (<span style="color:#366">NULL</span> <span style="color:#555">==</span> ZwQueryInformationProcess)
 </span></span><span style="display:flex;"><span>    {
 </span></span><span style="display:flex;"><span>        UNICODE_STRING routineName;
@@ -342,12 +342,12 @@ We suggest a different model for acquiring this information, as shown in Figure 
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    Status <span style="color:#555">=</span> <span style="color:#c0f">ObOpenObjectByPointer</span>(pEprocess,           <span style="color:#09f;font-style:italic">// Object
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>                                   OBJ_KERNEL_HANDLE,   <span style="color:#09f;font-style:italic">//HandleAttributes
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>                                   <span style="color:#366">NULL</span>,                <span style="color:#09f;font-style:italic">// PassedAccessState OPTIONAL
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>                                   GENERIC_READ,        <span style="color:#09f;font-style:italic">// DesiredAccess
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>                                   <span style="color:#555">*</span>PsProcessType,      <span style="color:#09f;font-style:italic">// ObjectType
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>                                   KernelMode,          <span style="color:#09f;font-style:italic">// AccessMode
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>                                   <span style="color:#555">&amp;</span>hProcess);
+</span></span></span><span style="display:flex;"><span>                                   OBJ_KERNEL_HANDLE,   <span style="color:#09f;font-style:italic">//HandleAttributes
+</span></span></span><span style="display:flex;"><span>                                   <span style="color:#366">NULL</span>,                <span style="color:#09f;font-style:italic">// PassedAccessState OPTIONAL
+</span></span></span><span style="display:flex;"><span>                                   GENERIC_READ,        <span style="color:#09f;font-style:italic">// DesiredAccess
+</span></span></span><span style="display:flex;"><span>                                   <span style="color:#555">*</span>PsProcessType,      <span style="color:#09f;font-style:italic">// ObjectType
+</span></span></span><span style="display:flex;"><span>                                   KernelMode,          <span style="color:#09f;font-style:italic">// AccessMode
+</span></span></span><span style="display:flex;"><span>                                   <span style="color:#555">&amp;</span>hProcess);
 </span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">if</span> (<span style="color:#555">!</span><span style="color:#c0f">NT_SUCCESS</span>(Status))
 </span></span><span style="display:flex;"><span>    {
 </span></span><span style="display:flex;"><span>        <span style="color:#c0f">KdPrint</span>((<span style="color:#c30">&#34;[%s?] %4u %s: ObOpenObjectByPointer failed(%s).</span><span style="color:#c30;font-weight:bold">\n</span><span style="color:#c30">&#34;</span>,
@@ -356,13 +356,13 @@ We suggest a different model for acquiring this information, as shown in Figure 
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// Step one - get the size we need
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    Status <span style="color:#555">=</span> <span style="color:#c0f">ZwQueryInformationProcess</span>( hProcess,
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// Step one - get the size we need
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span>    Status <span style="color:#555">=</span> <span style="color:#c0f">ZwQueryInformationProcess</span>( hProcess,
 </span></span><span style="display:flex;"><span>                                        ProcessImageFileName,
 </span></span><span style="display:flex;"><span>                                        <span style="color:#366">NULL</span>, <span style="color:#09f;font-style:italic">// buffer
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>                                        <span style="color:#f60">0</span>, <span style="color:#09f;font-style:italic">// buffer size
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>                                        <span style="color:#555">&amp;</span>returnedLength);
+</span></span></span><span style="display:flex;"><span>                                        <span style="color:#f60">0</span>, <span style="color:#09f;font-style:italic">// buffer size
+</span></span></span><span style="display:flex;"><span>                                        <span style="color:#555">&amp;</span>returnedLength);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">if</span> (STATUS_INFO_LENGTH_MISMATCH <span style="color:#555">!=</span> Status)
@@ -373,24 +373,24 @@ We suggest a different model for acquiring this information, as shown in Figure 
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// Is the passed-in buffer going to be big enough for us?
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// This function returns a single contguous buffer model...
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    bufferLength <span style="color:#555">=</span> returnedLength <span style="color:#555">-</span> <span style="color:#069;font-weight:bold">sizeof</span>(UNICODE_STRING);
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// Is the passed-in buffer going to be big enough for us?
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// This function returns a single contguous buffer model...
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span>    bufferLength <span style="color:#555">=</span> returnedLength <span style="color:#555">-</span> <span style="color:#069;font-weight:bold">sizeof</span>(UNICODE_STRING);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">if</span> (ProcessImagePath<span style="color:#555">-&gt;</span>MaximumLength <span style="color:#555">&lt;</span> bufferLength)
 </span></span><span style="display:flex;"><span>    {
 </span></span><span style="display:flex;"><span>        ProcessImagePath<span style="color:#555">-&gt;</span>Length <span style="color:#555">=</span> (USHORT) bufferLength;
 </span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic">//        KdPrint((&#34;[%s] %4u %s: STATUS_BUFFER_OVERFLOW \n&#34;, CODE_ID));
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>        Status <span style="color:#555">=</span> STATUS_BUFFER_OVERFLOW;
+</span></span></span><span style="display:flex;"><span>        Status <span style="color:#555">=</span> STATUS_BUFFER_OVERFLOW;
 </span></span><span style="display:flex;"><span>        <span style="color:#069;font-weight:bold">goto</span> __FINALLY;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// If we get here, the buffer IS going to be big enough for us, so
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// let&#39;s allocate some storage.
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    buffer <span style="color:#555">=</span> <span style="color:#c0f">ExAllocatePoolWithTag</span>(PagedPool, returnedLength, <span style="color:#a00;background-color:#faa">&#39;</span>ipgD<span style="color:#a00;background-color:#faa">&#39;</span>);
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// If we get here, the buffer IS going to be big enough for us, so
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// let&#39;s allocate some storage.
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span>    buffer <span style="color:#555">=</span> <span style="color:#c0f">ExAllocatePoolWithTag</span>(PagedPool, returnedLength, <span style="color:#a00;background-color:#faa">&#39;</span>ipgD<span style="color:#a00;background-color:#faa">&#39;</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">if</span> (<span style="color:#366">NULL</span> <span style="color:#555">==</span> buffer)
 </span></span><span style="display:flex;"><span>    {
 </span></span><span style="display:flex;"><span>        <span style="color:#c0f">KdPrint</span>((<span style="color:#c30">&#34;[%s?] %4u %s: STATUS_INSUFFICIENT_RESOURCES</span><span style="color:#c30;font-weight:bold">\n</span><span style="color:#c30">&#34;</span>, CODE_ID));
@@ -399,9 +399,9 @@ We suggest a different model for acquiring this information, as shown in Figure 
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// Now lets go get the data
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    Status <span style="color:#555">=</span> <span style="color:#c0f">ZwQueryInformationProcess</span>( hProcess,
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// Now lets go get the data
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span>    Status <span style="color:#555">=</span> <span style="color:#c0f">ZwQueryInformationProcess</span>( hProcess,
 </span></span><span style="display:flex;"><span>                                        ProcessImageFileName,
 </span></span><span style="display:flex;"><span>                                        buffer,
 </span></span><span style="display:flex;"><span>                                        returnedLength,
@@ -409,9 +409,9 @@ We suggest a different model for acquiring this information, as shown in Figure 
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">if</span> (<span style="color:#c0f">NT_SUCCESS</span>(Status)) {
 </span></span><span style="display:flex;"><span>        <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">// Ah, we got what we needed
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>        <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>        imageName <span style="color:#555">=</span> (PUNICODE_STRING) buffer;
+</span></span></span><span style="display:flex;"><span>        <span style="color:#09f;font-style:italic">// Ah, we got what we needed
+</span></span></span><span style="display:flex;"><span>        <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span>        imageName <span style="color:#555">=</span> (PUNICODE_STRING) buffer;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#c0f">RtlCopyUnicodeString</span>(ProcessImagePath, imageName);
 </span></span><span style="display:flex;"><span>
@@ -435,17 +435,17 @@ We suggest a different model for acquiring this information, as shown in Figure 
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// free our buffer
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#069;font-weight:bold">if</span> (<span style="color:#366">NULL</span> <span style="color:#555">!=</span> buffer)
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// free our buffer
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">if</span> (<span style="color:#366">NULL</span> <span style="color:#555">!=</span> buffer)
 </span></span><span style="display:flex;"><span>    {
 </span></span><span style="display:flex;"><span>        <span style="color:#c0f">ExFreePool</span>(buffer);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">// And tell the caller what happened.
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic">//
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>    <span style="color:#069;font-weight:bold">return</span> Status;
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// And tell the caller what happened.
+</span></span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">//
+</span></span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">return</span> Status;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>更新历史：
 2012-4-5，修正错误结束分支中的资源泄漏bug</p>

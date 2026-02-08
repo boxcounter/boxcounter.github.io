@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.152.2">
+  <meta name="generator" content="Hugo 0.154.5">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -149,7 +149,7 @@
 </span></span><span style="display:flex;"><span>    )
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// ...... 无关代码，略
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span> 
+</span></span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span>    entry <span style="color:#555">=</span> IopFsNotifyChangeQueueHead.Flink;
 </span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">while</span> ((numListEntries <span style="color:#555">&gt;</span> <span style="color:#f60">0</span>) <span style="color:#555">&amp;&amp;</span> (entry <span style="color:#555">!=</span> <span style="color:#555">&amp;</span>IopFsNotifyChangeQueueHead)) {
@@ -166,7 +166,7 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// ...... 无关代码，略
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>}</span></span></code></pre></div>
+</span></span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <p>可以看出，返回的DriverObjectList中的DrvObj都是从IopFsNotifyChangeQueueHead链表中取出的，而且两个链表中的元素摆放顺序是一致的。</p>
 <p>那再来看看IopFsNotifyChangeQueueHead中的元素是按什么顺序摆放的：
 <div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>NTSTATUS
@@ -176,14 +176,14 @@
 </span></span><span style="display:flex;"><span>    )
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// ...... 无关代码，略
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span> 
+</span></span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span>    nPacket<span style="color:#555">-&gt;</span>DriverObject <span style="color:#555">=</span> DriverObject;
 </span></span><span style="display:flex;"><span>    nPacket<span style="color:#555">-&gt;</span>NotificationRoutine <span style="color:#555">=</span> DriverNotificationRoutine;
 </span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span>    InsertTailList( <span style="color:#555">&amp;</span>IopFsNotifyChangeQueueHead, <span style="color:#555">&amp;</span>nPacket<span style="color:#555">-&gt;</span>ListEntry );
 </span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span>    <span style="color:#09f;font-style:italic">// ...... 无关代码，略
-</span></span></span><span style="display:flex;"><span><span style="color:#09f;font-style:italic"></span>}</span></span></code></pre></div>
+</span></span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 可以看出，顺序是先来后到，也就是先调用IoRegisterFsRegistrationChange的DrvObj被插在链表的前面。而一般来说，先Attach到FSD的Driver，先调用IoRegisterFsRegistrationChange（一般驱动逻辑如此，你要硬写个驱动挂上去后死活非要在10分钟后Register，我这没辙）。</p>
 <p>半路总结下：实际的逻辑和WDK文档上说的不一致。<br>
 为了再次确认，我再瞅瞅我实际调试的环境（Win 7），wrk毕竟是2003版本的。</p>
