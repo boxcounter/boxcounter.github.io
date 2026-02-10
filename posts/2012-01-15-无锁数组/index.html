@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.154.5">
+  <meta name="generator" content="Hugo 0.155.3">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -129,7 +129,7 @@
           
           <p>项目里有一个地方可能要去掉用于链表的锁，但是又得保证读写互斥。于是琢磨了一个土办法：
 （琢磨时的目标是用于异步发送日志，即多个日志存储者，一个发送者，接收者在另一个进程不用管它）</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#099">#define N 200
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#099">#define N 200
 </span></span></span><span style="display:flex;"><span>PVOID g_Buffer[N] <span style="color:#555">=</span> {<span style="color:#f60">0</span>};
 </span></span><span style="display:flex;"><span>UINT  g_uSaveIndex <span style="color:#555">=</span> <span style="color:#f60">0</span>;
 </span></span><span style="display:flex;"><span>

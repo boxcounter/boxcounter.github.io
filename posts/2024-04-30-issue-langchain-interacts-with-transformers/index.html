@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.154.5">
+  <meta name="generator" content="Hugo 0.155.3">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -141,7 +141,7 @@
 <p>其中一个模型是阿里开源的 Qwen/Qwen1.5-14B-Chat。在阿里云的灵积 MaaS 上它的表现很符合预期，就是对话。而我们自己跑起来测试的时候就是续写。</p>
 <h2 id="项目">项目</h2>
 <p>我们的项目使用了 LangChain v0.1.16 和 Transformers v4.40.1。代码大致是这样：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">transformers</span> <span style="color:#069;font-weight:bold">import</span> AutoModelForCausalLM, AutoTokenizer, pipeline
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">transformers</span> <span style="color:#069;font-weight:bold">import</span> AutoModelForCausalLM, AutoTokenizer, pipeline
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>tokenizer <span style="color:#555">=</span> AutoTokenizer<span style="color:#555">.</span>from_pretrained(<span style="color:#555">...</span>)
 </span></span><span style="display:flex;"><span>model <span style="color:#555">=</span> AutoModelForCausalLM<span style="color:#555">.</span>from_pretrained(<span style="color:#555">...</span>)
@@ -160,7 +160,7 @@
 </span></span></code></pre></div><h2 id="解决">解决</h2>
 <p>仔细检查代码和下载的模型，我们并没有发现问题。我的同事国杰参考官方 demo 写了一个测试脚本来执行我们的任务，表现符合预期，是对话。</p>
 <p>于是就在我们的项目里自定义了一个<code>CustomPromptTemplate</code>，替换掉 LangChain 的<code>ChatPromptTemplate</code>，大致是：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">langchain_core.prompts</span> <span style="color:#069;font-weight:bold">import</span> StringPromptTemplate
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">langchain_core.prompts</span> <span style="color:#069;font-weight:bold">import</span> StringPromptTemplate
 </span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">transformers</span> <span style="color:#069;font-weight:bold">import</span> PreTrainedTokenizer, PreTrainedTokenizerFast
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">CustomPromptTemplate</span>(StringPromptTemplate):
@@ -188,7 +188,7 @@
 <p>首先来看 LangChain 和 Transformers 搭配使用时的关键调用链路：</p>
 <p><img src="images/Call-Sequence.png" alt="Call Sequence"></p>
 <p>关键点是右下角的<code>__call__</code>和<code>preprocess</code>两个方法，来看看 Transformers 的关键代码（完整代码见 <a href="https://github.com/huggingface/Transformers/blob/c712d05aa8fc8ba3ebe465079bd377d2dc9c2e07/src/Transformers/pipelines/text_generation.py#L246">text_generation.py</a>）：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">TextGenerationPipeline</span>(Pipeline):
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">TextGenerationPipeline</span>(Pipeline):
 </span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">__call__</span>(<span style="color:#366">self</span>, text_inputs, <span style="color:#555">**</span>kwargs):
 </span></span><span style="display:flex;"><span>        <span style="color:#069;font-weight:bold">if</span> <span style="color:#366">isinstance</span>(text_inputs, (<span style="color:#366">list</span>, <span style="color:#366">tuple</span>)) <span style="color:#000;font-weight:bold">and</span> <span style="color:#366">isinstance</span>(text_inputs[<span style="color:#f60">0</span>], (<span style="color:#366">list</span>, <span style="color:#366">tuple</span>, <span style="color:#366">dict</span>)):
 </span></span><span style="display:flex;"><span>            <span style="color:#09f;font-style:italic"># We have one or more prompts in list-of-dicts format, so this is chat mode</span>
@@ -218,7 +218,7 @@
 </span></span><span style="display:flex;"><span>        	<span style="color:#555">...</span>
 </span></span></code></pre></div><p>从<code>__call__</code>的代码中可以看出，参数<code>text_inputs</code>必须符合一些类型要求，才会被 Transformers 当作对话处理，后续执行到<code>preprocess</code>方法时才会调用<code>tokenizer.apply_chat_template</code>。</p>
 <p>什么类型才符合要求呢？Transformers 最常规的用法就符合，比如：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>messages <span style="color:#555">=</span> [
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>messages <span style="color:#555">=</span> [
 </span></span><span style="display:flex;"><span>    {<span style="color:#c30">&#34;role&#34;</span>: <span style="color:#c30">&#34;system&#34;</span>, <span style="color:#c30">&#34;content&#34;</span>: <span style="color:#c30">&#34;You’re a chatbot&#34;</span>},
 </span></span><span style="display:flex;"><span>    {<span style="color:#c30">&#34;role&#34;</span>: <span style="color:#c30">&#34;user&#34;</span>, <span style="color:#c30">&#34;content&#34;</span>: <span style="color:#c30">&#34;Hey&#34;</span>}
 </span></span><span style="display:flex;"><span>]
@@ -230,7 +230,7 @@
     (&#39;user&#39;, &#39;Hey&#39;)
 ])
 </code></pre><p>LangChain 提供给 Transformers 的 text_inputs 是这样的：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>[
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>[
 </span></span><span style="display:flex;"><span>	<span style="color:#c30">&#34;System: </span><span style="color:#c30;font-weight:bold">\n</span><span style="color:#c30">You’re a chatbot</span><span style="color:#c30;font-weight:bold">\n\n</span><span style="color:#c30">Human:Hey&#34;</span>
 </span></span><span style="display:flex;"><span>]
 </span></span></code></pre></div><p>它的类型是<code>list[str]</code>。</p>

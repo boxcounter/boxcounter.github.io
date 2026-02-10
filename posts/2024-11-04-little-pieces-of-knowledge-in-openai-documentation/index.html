@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.154.5">
+  <meta name="generator" content="Hugo 0.155.3">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -183,7 +183,7 @@
 <h2 id="debug-手段">Debug 手段</h2>
 <p>一、查看 HTTP request 和 response</p>
 <p>在调用 SDK 时，增加 with_raw_response 方法的调用。注意，同时还需要在返回的结果上调用 parse 方法。如下，留意第 4 和第 13 行：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">openai</span> <span style="color:#069;font-weight:bold">import</span> OpenAI
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">openai</span> <span style="color:#069;font-weight:bold">import</span> OpenAI
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>client <span style="color:#555">=</span> OpenAI()
 </span></span><span style="display:flex;"><span>response <span style="color:#555">=</span> client<span style="color:#555">.</span>chat<span style="color:#555">.</span>completions<span style="color:#555">.</span>with_raw_response<span style="color:#555">.</span>create(
@@ -199,7 +199,7 @@
 </span></span><span style="display:flex;"><span><span style="color:#366">print</span>(completion)
 </span></span></code></pre></div><p>二、输出 SDK 内部日志</p>
 <p>通过设置环境变量 OPENAI_LOG 来输出：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ <span style="color:#366">export</span> <span style="color:#033">OPENAI_LOG</span><span style="color:#555">=</span>info
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ <span style="color:#366">export</span> <span style="color:#033">OPENAI_LOG</span><span style="color:#555">=</span>info
 </span></span></code></pre></div>
         </div>
 

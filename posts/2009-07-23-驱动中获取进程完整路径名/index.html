@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.154.5">
+  <meta name="generator" content="Hugo 0.155.3">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -175,7 +175,7 @@ More seriously, the information contained in this field is severely limited. It 
 It is actually the second issue that often creates problems for programmers because the name of the image file means essentially nothing. For example, we&rsquo;ve seen kernel-mode drivers in the past that validate the name of their service by checking this field. The most egregious case we&rsquo;ve seen is when the service was called svchost.exe, which is a common name that is often spoofed.</p>
 <p>The Proposal
 We suggest a different model for acquiring this information, as shown in Figure 2.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">typedef</span> <span style="color:#c0f">NTSTATUS</span> (<span style="color:#555">*</span>QUERY_INFO_PROCESS) (
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">typedef</span> <span style="color:#c0f">NTSTATUS</span> (<span style="color:#555">*</span>QUERY_INFO_PROCESS) (
 </span></span><span style="display:flex;"><span>    __in HANDLE ProcessHandle,
 </span></span><span style="display:flex;"><span>    __in PROCESSINFOCLASS ProcessInformationClass,
 </span></span><span style="display:flex;"><span>    <span style="color:#c0f">__out_bcount</span>(ProcessInformationLength) PVOID ProcessInformation,
@@ -301,7 +301,7 @@ We suggest a different model for acquiring this information, as shown in Figure 
 <p>We chose to use the proposed technique because it works in all circumstances and does not rely upon a registration that might potentially fail. In your own driver you might implement both this mechanism and a cache-based mechanism tied to the process creation logic.[/quote]</p>
 </blockquote>
 <p>文章里对于如何获取其他进程，提供了两种方法，但是都不太方便，在我的驱动里，我是在PsSetCreateProcessNotifyRoutine的回调函数里获取进程路径，能得到的进程信息是PID，于是动手改了下上面的代码，如下：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>NTSTATUS
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>NTSTATUS
 </span></span><span style="display:flex;"><span>    <span style="color:#c0f">GetProcessImagePath</span>(
 </span></span><span style="display:flex;"><span>        IN  HANDLE   hProcessId,
 </span></span><span style="display:flex;"><span>        OUT PUNICODE_STRING ProcessImagePath

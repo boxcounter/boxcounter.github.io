@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.154.5">
+  <meta name="generator" content="Hugo 0.155.3">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -133,7 +133,7 @@
 <h2 id="prefill预填充">Prefill（预填充）</h2>
 <p>可以使用 prefill 实现格式要求。
 以从一段产品描述中提取关键信息为例，通常代码是这个样子：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#09f;font-style:italic"># 用户任务提示词</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#09f;font-style:italic"># 用户任务提示词</span>
 </span></span><span style="display:flex;"><span>USER_PROMPT <span style="color:#555">=</span> dedent(
 </span></span><span style="display:flex;"><span>    <span style="color:#c30">&#34;&#34;&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#c30">    Read the following product description, make sure you understand it, then
@@ -174,12 +174,12 @@ This JSON object captures the key details from the product description:
 - Price: $49.99
 - Colors: Available in black and white
 </code></pre><p>如果我们只希望输出 JSON 结构的内容，我们可以在请求的 messages 里增加 prefill，见第 3 行：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>messages<span style="color:#555">=</span>[
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>messages<span style="color:#555">=</span>[
 </span></span><span style="display:flex;"><span>    {<span style="color:#c30">&#34;role&#34;</span>: <span style="color:#c30">&#34;user&#34;</span>, <span style="color:#c30">&#34;content&#34;</span>: USER_PROMPT},
 </span></span><span style="display:flex;"><span>    {<span style="color:#c30">&#34;role&#34;</span>: <span style="color:#c30">&#34;assistant&#34;</span>, <span style="color:#c30">&#34;content&#34;</span>: <span style="color:#c30">&#34;{&#34;</span>},  <span style="color:#09f;font-style:italic"># 这一条就是 prefill</span>
 </span></span><span style="display:flex;"><span>],
 </span></span></code></pre></div><p>输出就是 JSON 了（留意它不包含 prefill 里的开括号）：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#c30">&#34;name&#34;</span>: <span style="color:#c30">&#34;SmartHome Mini&#34;</span>,
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#c30">&#34;name&#34;</span>: <span style="color:#c30">&#34;SmartHome Mini&#34;</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#c30">&#34;size&#34;</span>: <span style="color:#c30">&#34;5 inches wide&#34;</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#c30">&#34;price&#34;</span>: <span style="color:#c30">&#34;$49.99&#34;</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#c30">&#34;color&#34;</span>: [<span style="color:#c30">&#34;black&#34;</span>, <span style="color:#c30">&#34;white&#34;</span>]
@@ -199,7 +199,7 @@ This JSON object captures the key details from the product description:
 <h2 id="message-batches">Message Batches</h2>
 <p>Batch 价格是常规调用的 50%。（和 OpenAI Batch 的定价策略一样）</p>
 <p>和 OpenAI Batch 的 JSONL 文件调用方式不同，Claude Batch API 的调用方法和常规调用方法类似，如下（通过 requests 字段进行 batch）：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>client <span style="color:#555">=</span> anthropic<span style="color:#555">.</span>Anthropic()
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>client <span style="color:#555">=</span> anthropic<span style="color:#555">.</span>Anthropic()
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>message_batch <span style="color:#555">=</span> client<span style="color:#555">.</span>beta<span style="color:#555">.</span>messages<span style="color:#555">.</span>batches<span style="color:#555">.</span>create(
 </span></span><span style="display:flex;"><span>    requests<span style="color:#555">=</span>[
@@ -279,7 +279,7 @@ This JSON object captures the key details from the product description:
 <h2 id="prompt-caching">Prompt Caching</h2>
 <p>不同于 OpenAI 默认自动开启的设定，Claude 的 Prompt Caching 需要应用程序手动开启。</p>
 <p>开启的方法是设置 <code>cache_control</code> 参数，代码如下（其中第 16 行是开启参数）：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">anthropic</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">anthropic</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>client <span style="color:#555">=</span> anthropic<span style="color:#555">.</span>Anthropic()
 </span></span><span style="display:flex;"><span>
@@ -317,7 +317,7 @@ This JSON object captures the key details from the product description:
 <h2 id="token-counting">Token counting</h2>
 <p>Claude 提供了一个免费的 API 接口用来计算输入 tokens 的数量。</p>
 <p>举个例子，假设我们正在设计一个总结 PDF 文件内容的任务，我们可以这样来事先计算输入 tokens 的数量：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">base64</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">base64</span>
 </span></span><span style="display:flex;"><span><span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">anthropic</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>client <span style="color:#555">=</span> anthropic<span style="color:#555">.</span>Anthropic()
@@ -431,7 +431,7 @@ This JSON object captures the key details from the product description:
 <li>改进了排版格式，更易于阅读。</li>
 <li>根据实测效果，把末尾指令要求（第 568 行）里的 <code>&lt;Instructions Structure&gt;</code> 标记改为 <code>&lt;Plan&gt;</code>，修改后生成的提示词的结构更完整。</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span>Today you will be writing instructions to an eager, helpful, but inexperienced and unworldly AI assistant who needs careful instruction and examples to understand how best to behave. I will explain a task to you. You will write instructions that will direct the assistant on how best to accomplish the task consistently, accurately, and correctly. Here are some examples of tasks and instructions.
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span>Today you will be writing instructions to an eager, helpful, but inexperienced and unworldly AI assistant who needs careful instruction and examples to understand how best to behave. I will explain a task to you. You will write instructions that will direct the assistant on how best to accomplish the task consistently, accurately, and correctly. Here are some examples of tasks and instructions.
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#309;font-weight:bold">&lt;Task_Instruction_Example&gt;</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#309;font-weight:bold">&lt;Task&gt;</span>

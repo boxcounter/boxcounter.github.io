@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Hugo 0.154.5">
+  <meta name="generator" content="Hugo 0.155.3">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -131,7 +131,7 @@ void foo(...) { if (A &amp;&amp; B) { if (C) { do_1(); } if (D) { do_2(); } do_3
           
           <h1 id="概述">概述</h1>
 <p>我们有时候会把“短的代码”和“易于理解的代码”等价起来，但实际上它俩是有区别的。比如下面的 foo 方法：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">foo</span>(...) 
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">foo</span>(...) 
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>    <span style="color:#069;font-weight:bold">if</span> (A <span style="color:#555">&amp;&amp;</span> B) 
 </span></span><span style="display:flex;"><span>    {
@@ -154,7 +154,7 @@ void foo(...) { if (A &amp;&amp; B) { if (C) { do_1(); } if (D) { do_2(); } do_3
 <p>如果我们的目的是理解 foo 的主要职责，比如我们正在熟悉一个服务的逻辑脉络、foo 是其中一个方法，那么并不困难。</p>
 <p>但如果我们现在是在分析一个棘手的问题，需要全面地掌握其实现逻辑，那可就不简单了。因为我们需要做大量的脑补工作。</p>
 <p>如下，深灰色背景的代码都是我们脑补出来。为了将它们一一脑补出来，并分析其空实现是否符合设计预期，我们必然会消耗不少脑力。</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;"><code class="language-c" data-lang="c"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">foo</span>(...) 
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;display:grid;"><code class="language-c" data-lang="c"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#078;font-weight:bold">void</span> <span style="color:#c0f">foo</span>(...) 
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>{
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>    <span style="color:#069;font-weight:bold">if</span> (A <span style="color:#555">&amp;&amp;</span> B) 
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    {
