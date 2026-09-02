@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>MySQL on Boxcounter&#39;s blog</title>
-    <link>http://boxcounter.com/tags/mysql/</link>
-    <description>Recent content in MySQL on Boxcounter&#39;s blog</description>
-    <generator>Hugo</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Fri, 15 Sep 2017 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://boxcounter.com/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>read committed与statement-based replication</title>
-      <link>http://boxcounter.com/posts/2017-09-15-read-commited-statement-based-replication/</link>
-      <pubDate>Fri, 15 Sep 2017 00:00:00 +0000</pubDate>
-      <guid>http://boxcounter.com/posts/2017-09-15-read-commited-statement-based-replication/</guid>
-      <description>&lt;h1 id=&#34;疑问&#34;&gt;疑问&lt;/h1&gt;&#xA;&lt;p&gt;在MySQL的&lt;a href=&#34;https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html&#34;&gt;Transaction Isolation Level&lt;/a&gt;文档里读到这么一句话：&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;If you use READ COMMITTED, you must use row-based binary logging.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;这引发了我的好奇心：为什么呢？READ COMMITTED和statement-based replication会引发数据不一致吗？为什么会不一致呢？&lt;/p&gt;</description>
-    </item>
-  </channel>
+	<channel>
+		<title>MySQL on Boxcounter&#39;s blog</title>
+		<link>http://boxcounter.com/tags/mysql/</link>
+		<description>Recent content in MySQL on Boxcounter&#39;s blog</description>
+		<generator>Hugo</generator>
+		<language>zh-cn</language>
+		
+		
+		
+		
+			<lastBuildDate>Fri, 15 Sep 2017 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="http://boxcounter.com/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>read committed与statement-based replication</title>
+				<link>http://boxcounter.com/posts/2017-09-15-read-commited-statement-based-replication/</link>
+				<pubDate>Fri, 15 Sep 2017 00:00:00 +0000</pubDate>
+				<guid>http://boxcounter.com/posts/2017-09-15-read-commited-statement-based-replication/</guid>
+				<description>&lt;h1 id=&#34;疑问&#34;&gt;疑问&lt;/h1&gt;&#xA;&lt;p&gt;在MySQL的&lt;a href=&#34;https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html&#34;&gt;Transaction Isolation Level&lt;/a&gt;文档里读到这么一句话：&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;If you use READ COMMITTED, you must use row-based binary logging.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;这引发了我的好奇心：为什么呢？READ COMMITTED和statement-based replication会引发数据不一致吗？为什么会不一致呢？&lt;/p&gt;</description>
+			</item>
+	</channel>
 </rss>
